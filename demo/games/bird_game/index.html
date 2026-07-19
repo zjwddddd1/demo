@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dino Fly - 小恐龙大冒险</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #0f0f23;
+    overflow: hidden;
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  }
+  canvas {
+    border-radius: 16px;
+    box-shadow: 0 0 60px rgba(100, 200, 255, 0.15);
+    cursor: pointer;
+    max-height: 98vh;
+    max-width: 98vw;
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+// =============================================
+// ===          CONFIGURATION                ===
+// =============================================
+const W = 480, H = 720;
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+canvas.width = W;
+canvas.height = H;
+
+const GROUND_H = 65;
+const GRAVITY = 0.28;
+const JUMP_VEL = -6.2;
+const MAX_FALL = 8;
+const BASE_OBS_SPEED = 2.3;
+const BASE_OBS_GAP = 195;
+const OBS_W = 78;
+const BASE_OBS_SPACING = 290;
+const MAP_SWITCH_INTERVAL = 8;
+const GAMEOVER_CLICK_DELAY = 1.2;
+
+// Progressive difficulty
+function getDifficulty() {
+  const t = Math.min(score / 30, 1);
+  return {
+    speed: BASE_OBS_SPEED + t * 1.2,
+    gap: BASE_OBS_GAP - t * 30,
+    spacing: BASE_OBS_SPACING - t * 30,
+  };
+}
+
+// =============================================
+// ===          MAP DEFINITIONS              ===
+// =============================================
+const MAPS = [
+  {
+    name: '沙漠', nameEn: 'Desert',
+    bg: 'assets/bg_desert.png',
+    obs: 'assets/obstacle_desert.png',
+    groundTop: '#E8B84B', groundBot: '#C4913A', groundLine: '#A07030',
+    groundAccent: '#D4A040',
+    accent: '#FFD700', accentDark: '#CC8800',
+    cardBg: 'rgba(255,180,60,0.25)', cardBorder: '#E8A030',
+  },
+  {
+    name: '海洋', nameEn: 'Ocean',
+    bg: 'assets/bg_ocean.png',
+    obs: 'assets/obstacle_ocean.png',
+    groundTop: '#5BBDD5', groundBot: '#3A8BA5', groundLine: '#2A7090',
+    groundAccent: '#4AA8C0',
+    accent: '#00CED1', accentDark: '#0088A0',
+    cardBg: 'rgba(0,180,220,0.25)', cardBorder: '#00A5C0',
+  },
+  {
+    name: '森林', nameEn: 'Forest',
+    bg: 'assets/bg_forest.png',
+    obs: 'assets/obstacle_forest.png',
+    groundTop: '#5CAB5C', groundBot: '#3D7A3D', groundLine: '#2D6A2D',
+    groundAccent: '#4A9A4A',
+    accent: '#90EE90', accentDark: '#338833',
+    cardBg: 'rgba(80,180,80,0.25)', cardBorder: '#50A050',
+  },
+];
+
+// =============================================
+// ===          GAME STATE                   ===
+// =============================================
+let state = 'loading';
+let dino, obstacles, particles;
+let score = 0, bestScore = 0;
+let bgScroll = 0, groundScroll = 0;
+let currentMap = 0, selectedMap = 0;
+let shakeTimer = 0, shakeIntensity = 0;
+let mapTransitionAlpha = 0, mapTransitionDir = 0;
+let lastObstacleX = 0;
+let animTime = 0;
+let menuFloat = 0;
+let flashAlpha = 0;
+let gameoverTimer = 0;
+
+const images = {};
+
+// =============================================
+// ===          SOUND EFFECTS                ===
+// =============================================
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch(e) { return null; }
+  }
+  return audioCtx;
+}
+function playTone(freq, type, dur, vol, freqEnd) {
+  const ac = getAudioCtx();
+  if (!ac) return;
+  try {
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, ac.currentTime);
+    if (freqEnd) o.frequency.exponentialRampToValueAtTime(freqEnd, ac.currentTime + dur);
+    g.gain.setValueAtTime(vol, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+    o.connect(g); g.connect(ac.destination);
+    o.start(); o.stop(ac.currentTime + dur);
+  } catch(e) {}
+}
+function sfxJump() { playTone(420, 'sine', 0.12, 0.18, 620); }
+function sfxScore() { playTone(660, 'sine', 0.08, 0.15); setTimeout(() => playTone(880, 'sine', 0.08, 0.12), 80); }
+function sfxHit() { playTone(160, 'square', 0.25, 0.15, 60); }
+
+// =============================================
+// ===          ASSET LOADING                ===
+// =============================================
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => { console.warn('Failed to load:', src); resolve(null); };
+    img.src = src;
+  });
+}
+
+// Remove white/near-white background from sprite images
+function removeWhiteBG(img) {
+  if (!img) return img;
+  try {
+    const c = document.createElement('canvas');
+    c.width = img.width;
+    c.height = img.height;
+    const cx = c.getContext('2d');
+    cx.drawImage(img, 0, 0);
+    const data = cx.getImageData(0, 0, c.width, c.height);
+    const px = data.data;
+    const threshold = 228;
+    const softZone = 27;
+    for (let i = 0; i < px.length; i += 4) {
+      const minC = Math.min(px[i], px[i + 1], px[i + 2]);
+      if (minC >= threshold) {
+        px[i + 3] = 0;
+      } else if (minC >= threshold - softZone) {
+        const fade = (minC - (threshold - softZone)) / softZone;
+        px[i + 3] = Math.round(px[i + 3] * (1 - fade));
+      }
+    }
+    cx.putImageData(data, 0, 0);
+    return c;
+  } catch (e) {
+    console.warn('removeWhiteBG failed, using original image:', e.message);
+    return img; // fallback to original if canvas tainted (e.g. file:// protocol)
+  }
+}
+
+async function loadAllAssets() {
+  const paths = ['assets/dino.png'];
+  MAPS.forEach(m => { paths.push(m.bg); paths.push(m.obs); });
+  const results = await Promise.all(paths.map(p => loadImage(p)));
+  images.dino = removeWhiteBG(results[0]); // remove white bg from dino
+  for (let i = 0; i < MAPS.length; i++) {
+    images['bg_' + i] = results[1 + i * 2]; // backgrounds keep as-is
+    images['obs_' + i] = removeWhiteBG(results[2 + i * 2]); // remove white bg from obstacles
+  }
+}
+
+// =============================================
+// ===          INPUT HANDLING               ===
+// =============================================
+function getCanvasPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = W / rect.width;
+  const scaleY = H / rect.height;
+  const clientX = e.clientX !== undefined ? e.clientX : e.touches[0].clientX;
+  const clientY = e.clientY !== undefined ? e.clientY : e.touches[0].clientY;
+  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+}
+
+function handleClick(e) {
+  e.preventDefault();
+  const pos = getCanvasPos(e);
+
+  if (state === 'menu') {
+    handleMenuClick(pos);
+  } else if (state === 'playing') {
+    doJump();
+  } else if (state === 'gameover') {
+    if (gameoverTimer > GAMEOVER_CLICK_DELAY) {
+      resetGame();
+      state = 'menu';
+    }
+  }
+}
+
+function handleJumpInput(e) {
+  if (e.type === 'keydown' && (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW')) {
+    e.preventDefault();
+    if (state === 'playing') doJump();
+    else if (state === 'gameover' && gameoverTimer > GAMEOVER_CLICK_DELAY) { resetGame(); state = 'menu'; }
+    else if (state === 'menu') { /* space does nothing on menu */ }
+  }
+}
+
+canvas.addEventListener('click', handleClick);
+canvas.addEventListener('touchstart', handleClick, { passive: false });
+window.addEventListener('keydown', handleJumpInput);
+
+// =============================================
+// ===          MENU LOGIC                   ===
+// =============================================
+function getMenuLayout() {
+  const cardW = 120, cardH = 150, gap = 20;
+  const totalW = cardW * 3 + gap * 2;
+  const startX = (W - totalW) / 2;
+  const cardY = 320;
+  const cards = MAPS.map((m, i) => ({
+    x: startX + i * (cardW + gap),
+    y: cardY, w: cardW, h: cardH,
+    mapIndex: i,
+  }));
+  const startBtn = { x: W / 2 - 90, y: 530, w: 180, h: 55 };
+  return { cards, startBtn };
+}
+
+function handleMenuClick(pos) {
+  const layout = getMenuLayout();
+  for (const card of layout.cards) {
+    if (pos.x >= card.x && pos.x <= card.x + card.w &&
+        pos.y >= card.y && pos.y <= card.y + card.h) {
+      selectedMap = card.mapIndex;
+      return;
+    }
+  }
+  const btn = layout.startBtn;
+  if (pos.x >= btn.x && pos.x <= btn.x + btn.w &&
+      pos.y >= btn.y && pos.y <= btn.y + btn.h) {
+    startGame();
+  }
+}
+
+// =============================================
+// ===          GAME CONTROL                 ===
+// =============================================
+function resetGame() {
+  dino = null;
+  obstacles = [];
+  particles = [];
+  score = 0;
+  bgScroll = 0;
+  groundScroll = 0;
+  shakeTimer = 0;
+  mapTransitionAlpha = 0;
+  mapTransitionDir = 0;
+  flashAlpha = 0;
+  animTime = 0;
+  gameoverTimer = 0;
+}
+
+function startGame() {
+  resetGame();
+  currentMap = selectedMap;
+  dino = {
+    x: 90, y: H / 2 - 30,
+    vel: 0, rotation: 0,
+    w: 48, h: 44,
+    flapPhase: 0,
+  };
+  obstacles = [];
+  particles = [];
+  lastObstacleX = W + 100;
+  state = 'playing';
+  animTime = 0;
+}
+
+function doJump() {
+  if (!dino) return;
+  dino.vel = JUMP_VEL;
+  dino.flapPhase = 0;
+  sfxJump();
+  spawnParticles(dino.x, dino.y + dino.h / 2, 5, MAPS[currentMap].accent);
+}
+
+function triggerGameOver() {
+  state = 'gameover';
+  if (score > bestScore) bestScore = score;
+  shakeTimer = 0.3;
+  shakeIntensity = 8;
+  animTime = 0;
+  gameoverTimer = 0;
+  sfxHit();
+  spawnParticles(dino.x + dino.w / 2, dino.y + dino.h / 2, 20, '#FF4444');
+}
+
+// =============================================
+// ===          PARTICLES                    ===
+// =============================================
+function spawnParticles(x, y, count, color) {
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 6,
+      vy: (Math.random() - 0.5) * 6,
+      life: 0.5 + Math.random() * 0.5,
+      maxLife: 0.5 + Math.random() * 0.5,
+      size: 2 + Math.random() * 4,
+      color: color,
+    });
+  }
+}
+
+function updateParticles(dt) {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.1;
+    p.life -= dt;
+    if (p.life <= 0) particles.splice(i, 1);
+  }
+}
+
+function drawParticles() {
+  for (const p of particles) {
+    const alpha = Math.max(0, p.life / p.maxLife);
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+// =============================================
+// ===          UPDATE LOGIC                 ===
+// =============================================
+function update(dt) {
+  animTime += dt;
+
+  if (state === 'loading') return;
+
+  if (state === 'menu') {
+    menuFloat += dt;
+    bgScroll += 0.5;
+    groundScroll += 0.5;
+    return;
+  }
+
+  if (state === 'gameover') {
+    gameoverTimer += dt;
+    if (dino) {
+      dino.vel += GRAVITY * 1.5;
+      dino.y += dino.vel;
+      dino.rotation = Math.min(dino.rotation + dt * 5, Math.PI / 2);
+      if (dino.y > H + 50) dino.y = H + 50;
+    }
+    if (shakeTimer > 0) shakeTimer -= dt;
+    updateParticles(dt);
+    return;
+  }
+
+  // --- PLAYING state ---
+  const diff = getDifficulty();
+  const curSpeed = diff.speed;
+  const curGap = diff.gap;
+  const curSpacing = diff.spacing;
+
+  // Update shake
+  if (shakeTimer > 0) shakeTimer -= dt;
+
+  // Update dino physics
+  dino.vel += GRAVITY;
+  if (dino.vel > MAX_FALL) dino.vel = MAX_FALL;
+  dino.y += dino.vel;
+
+  // Rotation based on velocity
+  const targetRot = Math.max(-0.5, Math.min(1.2, dino.vel * 0.08));
+  dino.rotation += (targetRot - dino.rotation) * 0.15;
+
+  // Flap animation
+  dino.flapPhase += dt * 12;
+
+  // Ceiling
+  if (dino.y < -20) { dino.y = -20; dino.vel = 0; }
+
+  // Ground collision
+  if (dino.y + dino.h > H - GROUND_H) {
+    dino.y = H - GROUND_H - dino.h;
+    triggerGameOver();
+    return;
+  }
+
+  // Update scrolling
+  bgScroll += curSpeed * 0.4;
+  groundScroll += curSpeed;
+
+  // Move obstacles
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    obstacles[i].x -= curSpeed;
+    if (obstacles[i].x + OBS_W < -10) {
+      obstacles.splice(i, 1);
+    }
+  }
+
+  // Spawn obstacles
+  const rightMost = obstacles.length > 0 ? obstacles[obstacles.length - 1].x : -curSpacing;
+  if (rightMost < W - curSpacing + 50) {
+    spawnObstacle();
+  }
+
+  // Check collisions with obstacles
+  for (const obs of obstacles) {
+    if (checkCollision(dino, obs)) {
+      triggerGameOver();
+      return;
+    }
+  }
+
+  // Score update
+  for (const obs of obstacles) {
+    if (!obs.scored && obs.x + OBS_W < dino.x) {
+      obs.scored = true;
+      score++;
+      flashAlpha = 0.3;
+      sfxScore();
+      spawnParticles(dino.x + dino.w, dino.y, 3, MAPS[currentMap].accent);
+
+      // Map switch check
+      if (score > 0 && score % MAP_SWITCH_INTERVAL === 0) {
+        const nextMap = (currentMap + 1) % MAPS.length;
+        switchMap(nextMap);
+      }
+    }
+  }
+
+  // Flash fade
+  if (flashAlpha > 0) flashAlpha -= dt * 0.8;
+
+  // Map transition
+  if (mapTransitionDir !== 0) {
+    mapTransitionAlpha += mapTransitionDir * dt * 4;
+    if (mapTransitionAlpha >= 1 && mapTransitionDir > 0) {
+      mapTransitionAlpha = 1;
+      mapTransitionDir = -1;
+      currentMap = (currentMap + 1) % MAPS.length;
+      // Clear old obstacles that don't match new map
+      obstacles = obstacles.filter(o => o.mapIndex === currentMap);
+    }
+    if (mapTransitionAlpha <= 0 && mapTransitionDir < 0) {
+      mapTransitionAlpha = 0;
+      mapTransitionDir = 0;
+    }
+  }
+
+  updateParticles(dt);
+}
+
+function spawnObstacle() {
+  const diff = getDifficulty();
+  const curGap = diff.gap;
+  const curSpacing = diff.spacing;
+  const minGapY = 100;
+  const maxGapY = H - GROUND_H - curGap - 100;
+  const gapY = minGapY + Math.random() * (maxGapY - minGapY);
+  const x = obstacles.length > 0 ? obstacles[obstacles.length - 1].x + curSpacing : W + 60;
+  obstacles.push({ x, gapY, gapSize: curGap, scored: false, mapIndex: currentMap });
+}
+
+function checkCollision(d, obs) {
+  // Dino hitbox (smaller than sprite for forgiving feel)
+  const dx = d.x + 8, dy = d.y + 8, dw = d.w - 16, dh = d.h - 16;
+  // Obstacle hitbox (shrink horizontally to avoid "ghost collisions" with transparent areas)
+  const obsShrinkX = 10;
+  const obsLeft = obs.x + obsShrinkX;
+  const obsRight = OBS_W - obsShrinkX * 2;
+  const gap = obs.gapSize || BASE_OBS_GAP;
+  // Top pipe
+  if (rectOverlap(dx, dy, dw, dh, obsLeft, -10, obsRight, obs.gapY + 10)) return true;
+  // Bottom pipe
+  const botY = obs.gapY + gap;
+  if (rectOverlap(dx, dy, dw, dh, obsLeft, botY, obsRight, H - GROUND_H - botY + 10)) return true;
+  return false;
+}
+
+function rectOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
+  return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
+}
+
+function switchMap(nextMap) {
+  mapTransitionDir = 1;
+  mapTransitionAlpha = 0;
+}
+
+// =============================================
+// ===          DRAWING                      ===
+// =============================================
+function drawBackground(mapIdx) {
+  const img = images['bg_' + mapIdx];
+  if (!img) {
+    // Fallback gradient
+    const colors = [['#FFD89B','#C4913A'],['#87CEEB','#1A6B8A'],['#7CB342','#2E7D32']];
+    const [c1,c2] = colors[mapIdx] || colors[0];
+    const grad = ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0, c1); grad.addColorStop(1, c2);
+    ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
+    return;
+  }
+  const imgW = img.width * (H / img.height);
+  const scroll = bgScroll % imgW;
+  for (let x = -scroll; x < W + imgW; x += imgW) {
+    ctx.drawImage(img, x, 0, imgW, H);
+  }
+}
+
+function drawGround(mapIdx) {
+  const m = MAPS[mapIdx];
+  const groundY = H - GROUND_H;
+
+  // Ground gradient
+  const grad = ctx.createLinearGradient(0, groundY, 0, H);
+  grad.addColorStop(0, m.groundTop);
+  grad.addColorStop(1, m.groundBot);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, groundY, W, GROUND_H);
+
+  // Top line
+  ctx.fillStyle = m.groundLine;
+  ctx.fillRect(0, groundY, W, 3);
+
+  // Scrolling ground detail
+  ctx.fillStyle = m.groundAccent;
+  const patternW = 40;
+  const scroll = groundScroll % patternW;
+  for (let x = -scroll; x < W + patternW; x += patternW) {
+    ctx.fillRect(x, groundY + 6, 18, 3);
+    ctx.fillRect(x + 20, groundY + 14, 12, 2);
+  }
+}
+
+function drawObstacle(obs) {
+  const img = images['obs_' + obs.mapIndex];
+  const obsImgW = OBS_W;
+  const gap = obs.gapSize || BASE_OBS_GAP;
+
+  // Bottom pipe (normal orientation - base at bottom, top at gap)
+  const botY = obs.gapY + gap;
+  const botH = H - GROUND_H - botY;
+  if (img) {
+    ctx.drawImage(img, obs.x, botY, obsImgW, botH);
+  } else {
+    ctx.fillStyle = '#666';
+    ctx.fillRect(obs.x, botY, OBS_W, botH);
+  }
+
+  // Top pipe (draw bottom portion of image, flipped to show base at top, opening at gap)
+  const topH = obs.gapY;
+  if (img) {
+    ctx.save();
+    ctx.translate(obs.x, obs.gapY);
+    ctx.scale(1, -1);
+    // Draw only the bottom portion of the image (base part) stretched to fill top pipe
+    const srcRatio = Math.min(topH / 300, 1); // use bottom 300px of source or less
+    const srcH = img.height * srcRatio;
+    ctx.drawImage(img, 0, img.height - srcH, img.width, srcH, 0, 0, obsImgW, topH);
+    ctx.restore();
+  } else {
+    ctx.fillStyle = '#666';
+    ctx.fillRect(obs.x, 0, OBS_W, topH);
+  }
+
+  // Gap edge caps (rounded platforms at the opening)
+  const m = MAPS[obs.mapIndex];
+  const capH = 8;
+  const capExtend = 6;
+
+  // Top cap
+  ctx.fillStyle = m.accent;
+  ctx.globalAlpha = 0.7;
+  roundRect(ctx, obs.x - capExtend, obs.gapY - capH, OBS_W + capExtend * 2, capH, 4);
+  ctx.fill();
+
+  // Bottom cap
+  roundRect(ctx, obs.x - capExtend, obs.gapY + gap, OBS_W + capExtend * 2, capH, 4);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // Cap highlight
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillRect(obs.x - capExtend + 4, obs.gapY - capH + 1, OBS_W + capExtend * 2 - 8, 2);
+  ctx.fillRect(obs.x - capExtend + 4, obs.gapY + gap + 1, OBS_W + capExtend * 2 - 8, 2);
+}
+
+function drawDino() {
+  if (!dino || !images.dino) return;
+  const cx = dino.x + dino.w / 2;
+  const cy = dino.y + dino.h / 2;
+  const bob = Math.sin(dino.flapPhase) * 2.5;
+
+  // Wing flap effect: scaleY based on velocity
+  // Jumping (negative vel) → wings up (taller), Falling (positive vel) → wings down (squished)
+  const wingScale = Math.max(0.75, Math.min(1.2, 1 - dino.vel * 0.025));
+
+  ctx.save();
+  ctx.translate(cx, cy + bob);
+  ctx.rotate(dino.rotation);
+  ctx.scale(1, wingScale);
+
+  // Draw shadow
+  ctx.globalAlpha = 0.12;
+  ctx.fillStyle = '#000';
+  ctx.beginPath();
+  ctx.ellipse(3, dino.h / 2 + 8, dino.w / 2.5, 5, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // Draw dino image
+  ctx.drawImage(images.dino, -dino.w / 2 - 4, -dino.h / 2 - 4, dino.w + 8, dino.h + 8);
+  ctx.restore();
+}
+
+function drawScore() {
+  // Score number
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+
+  // Big score
+  ctx.font = 'bold 52px "Segoe UI", sans-serif';
+  ctx.fillStyle = 'rgba(0,0,0,0.25)';
+  ctx.fillText(score, W / 2 + 2, 42);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+  ctx.lineWidth = 3;
+  ctx.strokeText(score, W / 2, 40);
+  ctx.fillText(score, W / 2, 40);
+
+  // Map indicator
+  const m = MAPS[currentMap];
+  ctx.font = 'bold 14px "Segoe UI", "Microsoft YaHei", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.fillText(m.name + ' ' + m.nameEn, W / 2, 100);
+
+  // Next map progress bar
+  const nextIn = MAP_SWITCH_INTERVAL - (score % MAP_SWITCH_INTERVAL);
+  const progress = 1 - (nextIn / MAP_SWITCH_INTERVAL);
+  if (score > 0) {
+    const barW = 100, barH = 5;
+    const barX = W / 2 - barW / 2, barY = 120;
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.fillRect(barX, barY, barW, barH);
+    ctx.fillStyle = m.accent;
+    ctx.fillRect(barX, barY, barW * progress, barH);
+  }
+
+  ctx.restore();
+}
+
+function drawMenu() {
+  // Background
+  drawBackground(selectedMap);
+  drawGround(selectedMap);
+
+  // Overlay
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.fillRect(0, 0, W, H);
+
+  // Title
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // Title shadow
+  ctx.font = 'bold 56px "Segoe UI", sans-serif';
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.fillText('DINO FLY', W / 2 + 3, 123);
+
+  // Title
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText('DINO FLY', W / 2, 120);
+
+  // Subtitle
+  ctx.font = '20px "Microsoft YaHei", "Segoe UI", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.fillText('小恐龙大冒险', W / 2, 165);
+
+  // Dino character floating
+  if (images.dino) {
+    const floatY = Math.sin(menuFloat * 2) * 10;
+    const dinoSize = 80;
+    ctx.drawImage(images.dino, W / 2 - dinoSize / 2, 200 + floatY, dinoSize, dinoSize);
+  }
+
+  // "Select Map" label
+  ctx.font = 'bold 16px "Microsoft YaHei", "Segoe UI", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fillText('选择地图', W / 2, 305);
+
+  // Map cards
+  const layout = getMenuLayout();
+  for (const card of layout.cards) {
+    const isSelected = card.mapIndex === selectedMap;
+    const m = MAPS[card.mapIndex];
+
+    // Card background
+    ctx.fillStyle = isSelected ? m.cardBg : 'rgba(255,255,255,0.08)';
+    roundRect(ctx, card.x, card.y, card.w, card.h, 12);
+    ctx.fill();
+
+    // Card border
+    ctx.strokeStyle = isSelected ? m.cardBorder : 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = isSelected ? 3 : 1;
+    roundRect(ctx, card.x, card.y, card.w, card.h, 12);
+    ctx.stroke();
+
+    // Map preview (mini background)
+    const previewImg = images['bg_' + card.mapIndex];
+    if (previewImg) {
+      ctx.save();
+      ctx.beginPath();
+      roundRect(ctx, card.x + 8, card.y + 8, card.w - 16, card.h - 55, 8);
+      ctx.clip();
+      ctx.drawImage(previewImg, card.x + 8, card.y + 8, card.w - 16, card.h - 55);
+      ctx.restore();
+    }
+
+    // Map name
+    ctx.fillStyle = isSelected ? '#FFFFFF' : 'rgba(255,255,255,0.6)';
+    ctx.font = 'bold 16px "Microsoft YaHei", sans-serif';
+    ctx.fillText(m.name, card.x + card.w / 2, card.y + card.h - 28);
+
+    ctx.font = '11px "Segoe UI", sans-serif';
+    ctx.fillStyle = isSelected ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.4)';
+    ctx.fillText(m.nameEn, card.x + card.w / 2, card.y + card.h - 12);
+
+    // Selection indicator
+    if (isSelected) {
+      ctx.fillStyle = m.accent;
+      ctx.beginPath();
+      ctx.arc(card.x + card.w / 2, card.y - 8, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Start button
+  const btn = layout.startBtn;
+  const btnM = MAPS[selectedMap];
+  const btnGrad = ctx.createLinearGradient(btn.x, btn.y, btn.x, btn.y + btn.h);
+  btnGrad.addColorStop(0, btnM.accent);
+  btnGrad.addColorStop(1, btnM.accentDark);
+  ctx.fillStyle = btnGrad;
+  roundRect(ctx, btn.x, btn.y, btn.w, btn.h, 28);
+  ctx.fill();
+
+  // Button shadow
+  ctx.shadowColor = 'rgba(0,0,0,0.3)';
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetY = 4;
+  ctx.fillStyle = 'transparent';
+  roundRect(ctx, btn.x, btn.y, btn.w, btn.h, 28);
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 22px "Segoe UI", "Microsoft YaHei", sans-serif';
+  ctx.fillText('开始游戏', W / 2, btn.y + btn.h / 2);
+
+  // Instructions
+  ctx.font = '13px "Segoe UI", "Microsoft YaHei", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.45)';
+  ctx.fillText('点击/空格 控制飞行  |  每 ' + MAP_SWITCH_INTERVAL + ' 分切换地图', W / 2, 620);
+
+  // Best score
+  if (bestScore > 0) {
+    ctx.font = '14px "Segoe UI", sans-serif';
+    ctx.fillStyle = 'rgba(255,215,0,0.7)';
+    ctx.fillText('最佳记录: ' + bestScore, W / 2, 650);
+  }
+
+  ctx.restore();
+}
+
+function drawGameOver() {
+  // Darken overlay
+  const alpha = Math.min(animTime * 2, 0.5);
+  ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+  ctx.fillRect(0, 0, W, H);
+
+  if (animTime < 0.3) return;
+
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // Game over title
+  const titleAlpha = Math.min((animTime - 0.3) * 3, 1);
+  ctx.globalAlpha = titleAlpha;
+
+  ctx.font = 'bold 48px "Segoe UI", sans-serif';
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.fillText('GAME OVER', W / 2 + 2, H / 2 - 82);
+  ctx.fillStyle = '#FF6B6B';
+  ctx.fillText('GAME OVER', W / 2, H / 2 - 85);
+
+  // Score panel
+  const panelW = 240, panelH = 160;
+  const panelX = W / 2 - panelW / 2, panelY = H / 2 - 30;
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  roundRect(ctx, panelX, panelY, panelW, panelH, 16);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+  ctx.lineWidth = 1;
+  roundRect(ctx, panelX, panelY, panelW, panelH, 16);
+  ctx.stroke();
+
+  // Score
+  ctx.font = '16px "Microsoft YaHei", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.fillText('本次得分', W / 2, panelY + 30);
+  ctx.font = 'bold 42px "Segoe UI", sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText(score, W / 2, panelY + 70);
+
+  // Best score
+  ctx.font = '14px "Microsoft YaHei", sans-serif';
+  ctx.fillStyle = 'rgba(255,215,0,0.8)';
+  ctx.fillText('最佳记录: ' + bestScore, W / 2, panelY + 105);
+
+  // New record indicator
+  if (score === bestScore && score > 0) {
+    ctx.font = 'bold 16px "Microsoft YaHei", sans-serif';
+    ctx.fillStyle = '#FFD700';
+    ctx.fillText('新纪录!', W / 2, panelY + 135);
+  }
+
+  // Restart prompt (after delay)
+  if (gameoverTimer > GAMEOVER_CLICK_DELAY) {
+    const pulseAlpha = 0.5 + Math.sin(gameoverTimer * 4) * 0.3;
+    ctx.globalAlpha = pulseAlpha;
+    ctx.font = '16px "Microsoft YaHei", sans-serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText('点击任意位置返回主菜单', W / 2, panelY + panelH + 40);
+  } else {
+    // Show "wait" indicator during protection period
+    ctx.globalAlpha = 0.4;
+    ctx.font = '13px "Microsoft YaHei", sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('...', W / 2, panelY + panelH + 40);
+  }
+
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+function drawLoading() {
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(0, 0, W, H);
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = '20px "Microsoft YaHei", sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  const dots = '.'.repeat(Math.floor(animTime * 3) % 4);
+  ctx.fillText('加载中' + dots, W / 2, H / 2);
+  ctx.restore();
+}
+
+// =============================================
+// ===          HELPERS                       ===
+// =============================================
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+// =============================================
+// ===          RENDER                       ===
+// =============================================
+function render() {
+  ctx.clearRect(0, 0, W, H);
+
+  if (state === 'loading') {
+    drawLoading();
+    return;
+  }
+
+  // Screen shake
+  if (shakeTimer > 0) {
+    const sx = (Math.random() - 0.5) * shakeIntensity * (shakeTimer / 0.3);
+    const sy = (Math.random() - 0.5) * shakeIntensity * (shakeTimer / 0.3);
+    ctx.save();
+    ctx.translate(sx, sy);
+  }
+
+  if (state === 'menu') {
+    drawMenu();
+  } else {
+    // Draw background
+    drawBackground(currentMap);
+
+    // Draw obstacles
+    for (const obs of obstacles) {
+      drawObstacle(obs);
+    }
+
+    // Draw ground
+    drawGround(currentMap);
+
+    // Draw dino
+    drawDino();
+
+    // Draw particles
+    drawParticles();
+
+    // Draw score (playing state)
+    if (state === 'playing') {
+      drawScore();
+
+      // Score flash
+      if (flashAlpha > 0) {
+        ctx.fillStyle = `rgba(255,255,255,${flashAlpha})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+    }
+
+    // Map transition overlay
+    if (mapTransitionAlpha > 0) {
+      ctx.fillStyle = `rgba(255,255,255,${mapTransitionAlpha * 0.6})`;
+      ctx.fillRect(0, 0, W, H);
+
+      // Show map name during transition
+      if (mapTransitionAlpha > 0.4) {
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.globalAlpha = mapTransitionAlpha;
+        ctx.font = 'bold 32px "Microsoft YaHei", sans-serif';
+        ctx.fillStyle = '#FFFFFF';
+        const nextM = MAPS[(currentMap + 1) % MAPS.length];
+        ctx.fillText(nextM.name + ' ' + nextM.nameEn, W / 2, H / 2);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+      }
+    }
+
+    // Game over overlay
+    if (state === 'gameover') {
+      drawGameOver();
+    }
+  }
+
+  if (shakeTimer > 0) {
+    ctx.restore();
+  }
+}
+
+// =============================================
+// ===          MAIN LOOP                    ===
+// =============================================
+let lastTimestamp = 0;
+
+function gameLoop(timestamp) {
+  const dt = Math.min((timestamp - lastTimestamp) / 1000, 0.05);
+  lastTimestamp = timestamp;
+
+  update(dt);
+  render();
+
+  requestAnimationFrame(gameLoop);
+}
+
+// =============================================
+// ===          INITIALIZATION               ===
+// =============================================
+(async function init() {
+  particles = [];
+  await loadAllAssets();
+  state = 'menu';
+  animTime = 0;
+  lastTimestamp = performance.now();
+  requestAnimationFrame(gameLoop);
+})();
+</script>
+</body>
+</html>

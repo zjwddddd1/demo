@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从超级个人到超级团队（可编辑版）</title>
+<style>
+  :root{
+    --bg:#faf9f7;--surface:#ffffff;--ink:#1f2328;--ink-soft:#475569;--ink-mute:#6b7280;
+    --line:#e6e3dc;--line-soft:#efece5;--accent:#c2410c;--accent-soft:#fff1e6;
+    --accent2:#0f766e;--accent2-soft:#e6f4f1;--warn:#b45309;--warn-soft:#fef3c7;
+    --quote-bg:#f5f3ef;--code-bg:#f3f0ea;
+    --shadow:0 1px 3px rgba(31,35,40,.06),0 8px 24px rgba(31,35,40,.04);
+  }
+  *{box-sizing:border-box}html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Source Han Sans SC","Noto Sans CJK SC",system-ui,sans-serif;
+    line-height:1.85;font-size:16px;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 28px 120px}
+
+  /* ===== 顶部工具栏 ===== */
+  .toolbar{position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 12px rgba(0,0,0,.04);
+    display:flex;align-items:center;gap:10px;padding:10px 24px;flex-wrap:wrap}
+  .toolbar .title{font-weight:700;font-size:14px;color:var(--ink);margin-right:auto;
+    display:flex;align-items:center;gap:8px}
+  .toolbar .dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+  .toolbar .dot.dirty{background:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.2)}
+  .tb-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+    padding:7px 14px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;
+    transition:.15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .tb-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .tb-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tb-btn.primary:hover{background:#9a3412}
+  .tb-btn.on{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+  .tb-stat{font-size:12px;color:var(--ink-mute);padding:0 6px}
+  .tb-sep{width:1px;height:22px;background:var(--line);margin:0 2px}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:#1f2328;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;
+    opacity:0;pointer-events:none;transition:.3s;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ===== 编辑态提示 ===== */
+  body.editing [contenteditable="true"]{outline:none;transition:outline .12s, background .12s}
+  body.editing [contenteditable="true"]:hover{background:#fffdf5;box-shadow:0 0 0 2px rgba(194,65,12,.25);border-radius:3px}
+  body.editing [contenteditable="true"]:focus{background:#fff8ec;box-shadow:0 0 0 2px var(--accent);border-radius:3px}
+  body.editing [contenteditable="true"]:empty:before{content:"点这里输入…";color:#cbd5e1;font-style:italic}
+  body:not(.editing) [contenteditable]{outline:none}
+  .edit-hint{position:fixed;bottom:18px;right:24px;background:var(--accent2);color:#fff;
+    padding:8px 16px;border-radius:999px;font-size:12.5px;box-shadow:0 6px 20px rgba(15,118,110,.35);
+    display:none;align-items:center;gap:6px;z-index:90}
+  body.editing .edit-hint{display:flex}
+
+  /* ===== 原文档样式 ===== */
+  .cover{padding:96px 0 56px 0;border-bottom:1px solid var(--line);margin-top:0}
+  .cover .eyebrow{font-size:13px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;font-weight:600;margin-bottom:18px}
+  .cover h1{font-size:42px;line-height:1.25;font-weight:800;letter-spacing:-.01em;margin:0 0 18px;color:var(--ink)}
+  .cover .sub{font-size:19px;color:var(--ink-soft);font-weight:400;max-width:640px;line-height:1.7}
+  .cover .meta{margin-top:36px;display:flex;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--ink-mute)}
+  .cover .meta span{background:var(--surface);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .cover .rev{margin-top:14px;font-size:13px;color:var(--accent)}
+  .toc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin:40px 0;box-shadow:var(--shadow)}
+  .toc h3{margin:0 0 14px;font-size:14px;letter-spacing:.1em;color:var(--ink-mute);text-transform:uppercase;font-weight:600}
+  .toc ol{margin:0;padding-left:22px;columns:2;column-gap:32px}
+  .toc li{margin:7px 0;break-inside:avoid}
+  .toc a{color:var(--ink-soft);text-decoration:none;font-size:14.5px;border-bottom:1px solid transparent;transition:.15s}
+  .toc a:hover{color:var(--accent);border-color:var(--accent)}
+  section{padding:48px 0;border-bottom:1px solid var(--line-soft)}
+  section:last-of-type{border-bottom:none}
+  h2{font-size:28px;font-weight:700;letter-spacing:-.01em;margin:0 0 8px;color:var(--ink)}
+  .sec-num{display:inline-block;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:10px}
+  .sec-lede{font-size:17px;color:var(--ink-soft);margin:0 0 28px;max-width:680px}
+  h3{font-size:19px;font-weight:700;margin:36px 0 12px;color:var(--ink)}
+  h4{font-size:16px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
+  p{margin:0 0 16px}strong{color:var(--ink);font-weight:700}
+  a{color:var(--accent)}ul,ol{padding-left:22px;margin:0 0 16px}li{margin:7px 0}
+  .quote{background:var(--quote-bg);border-left:4px solid var(--accent);padding:16px 22px;border-radius:0 10px 10px 0;margin:24px 0;font-size:15.5px;color:var(--ink-soft)}
+  .quote .src{display:block;margin-top:8px;font-size:13px;color:var(--ink-mute);font-style:italic}
+  .insight{background:var(--accent2-soft);border:1px solid #cde7e1;border-radius:12px;padding:16px 22px;margin:24px 0}
+  .warn{background:var(--warn-soft);border:1px solid #f3d68a;border-radius:12px;padding:16px 20px;margin:24px 0;font-size:15px}
+  .callout{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:20px 0;box-shadow:var(--shadow)}
+  .callout .h{font-weight:700;margin-bottom:8px;color:var(--ink)}
+  table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f7f4ee;font-weight:700;font-size:13.5px;color:var(--ink-soft)}
+  tr:last-child td{border-bottom:none}td:first-child{font-weight:600;color:var(--ink)}
+  .diagram{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px;margin:28px 0;box-shadow:var(--shadow)}
+  .diagram .cap{font-size:13px;color:var(--ink-mute);text-align:center;margin-top:14px;font-style:italic}
+  .layer-stack{display:flex;flex-direction:column;gap:12px;margin:20px 0}
+  .layer{border-radius:12px;padding:18px 22px;border:1px solid}
+  .layer .ltag{font-size:12px;font-weight:700;letter-spacing:.1em;margin-bottom:6px}
+  .layer .lname{font-size:18px;font-weight:700;margin-bottom:4px}
+  .layer .ldesc{font-size:14px;color:var(--ink-soft);margin:0}
+  .layer.l1{background:var(--accent-soft);border-color:#f3c9a8}.layer.l1 .ltag{color:var(--accent)}
+  .layer.l2{background:var(--accent2-soft);border-color:#a7d4cb}.layer.l2 .ltag{color:var(--accent2)}
+  .layer.l3{background:#eef2ff;border-color:#c7d2fe}.layer.l3 .ltag{color:#4338ca}
+  .stage{display:grid;grid-template-columns:90px 1fr;gap:20px;margin:22px 0;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+  .stage:last-child{border-bottom:none}
+  .stage .ph{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.05em;padding-top:4px}
+  .stage .ph .n{display:block;font-size:26px;color:var(--ink);margin-bottom:2px}
+  .stage h4{margin:0 0 6px}.stage p{font-size:14.5px;color:var(--ink-soft);margin:0 0 8px}
+  .action{display:flex;gap:16px;margin:18px 0;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+  .action .n{flex:0 0 36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px}
+  .action .b h4{margin:0 0 6px}.action .b p{margin:0;font-size:14.5px;color:var(--ink-soft)}
+  .action .b .why{display:block;margin-top:6px;font-size:13px;color:var(--accent2)}
+  .fact{background:#fffaf0;border:1px dashed #e0c9a0;border-radius:10px;padding:14px 18px;margin:22px 0;font-size:14.5px;color:#7c5a1e}
+  .fact b{color:#9a3412}
+  footer{padding:40px 0 60px;text-align:center;color:var(--ink-mute);font-size:13.5px}
+  footer .end{font-size:22px;color:var(--accent);letter-spacing:.4em;margin-bottom:10px}
+  .hr-orn{display:flex;align-items:center;justify-content:center;margin:36px 0;color:var(--line)}
+  .hr-orn::before,.hr-orn::after{content:"";height:1px;background:var(--line);flex:1;margin:0 14px;max-width:120px}
+  .hr-orn span{font-size:14px;color:var(--ink-mute)}
+  @media (max-width:640px){.cover h1{font-size:30px}.toc ol{columns:1}.stage{grid-template-columns:1fr}.wrap{padding:0 18px 120px}.toolbar{padding:8px 12px;gap:6px}.tb-btn{padding:6px 10px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<!-- 工具栏 -->
+
+
+
+
+<div class="wrap" id="docBody">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">PRODUCT THINKING · INTERNAL MEMO</div>
+  <h1>从超级个人到超级团队<br>AI时代的协作重构</h1>
+  <p class="sub">当 AI 把单兵生产力推到 10 倍，团队的产出涨幅为什么跟不上？一份从 Pico Park 出发的产品思考，写给 WorkBuddy 产品组。</p>
+  <div class="meta">
+    <span>视角：AI 产品经理</span>
+    <span>主题：协作 / 团队智能 / 产品架构</span>
+    <span>状态：思考草案</span>
+  </div>
+  <div class="rev"><br></div>
+</div>
+
+<!-- TOC -->
+<nav class="toc">
+  <h3>目录</h3>
+  <ol>
+    <li><a href="#intro">引子：Pico Park 教我的事（含查证）</a></li>
+    <li><a href="#redefine">一、重新定义问题：10x 个人 ≠ 10x 团队</a></li>
+    <li><a href="#cracks">二、团队效率塌方的五道裂缝</a></li>
+    <li><a href="#picopark">三、游戏里藏着的产品答案</a></li>
+    <li><a href="#framework">四、解决方案：三层协作架构</a></li>
+    <li><a href="#roadmap">五、产品演进路径</a></li>
+    <li><a href="#metric">六、度量：怎么知道我们做到了</a></li>
+    <li><a href="#risk">七、风险与边界</a></li>
+    <li><a href="#resilience">八、负反馈下的坚持：团队韧性</a></li>
+    <li><a href="#action">九、给 WorkBuddy 的五个行动建议</a></li>
+    <li><a href="#end">结语</a></li>
+  </ol>
+</nav>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="sec-num">00 · 引子</div>
+  <h2>Pico Park 教我的事</h2>
+  <p class="sec-lede"><br></p>
+  <p>今天玩了 Pico Park。这是一款 2-8 人的合作解谜游戏，官方设计就是为多人而生——48 个关卡全部针对协作做了特殊机制。规则很简单：拿到所有钥匙、走到终点。但每一关都得靠队友。</p>
+  <div class="fact">
+    <b>游戏内容相关（来源：Steam 商店页、玩家评测、攻略站 earlyguides）：</b><br>
+    1. 官方正版没有单人模式，至少 2 人才能开局；<br>
+    2. 关卡会根据人数变化——2 人关和 8 人关是不同的谜题，难度随人数提升而上升；<br>
+    3. 有一个"暗黑关卡"（World 4），所有人看的是同一块屏幕，但陷阱是隐形的、不可预知的，要按钮触发或角色触碰才会显现，类似植物大战僵尸的雨天迷雾；<br>
+    4. 所有角色能力完全相同（移动+跳跃），颜色只是区分用——没有"英雄角色"。
+  </div>
+  <p>有一批硬核玩家会<span style="font-weight: 700;">"一个人拿两个手柄同时控制两个角色"</span>硬刚。技术上我们能这么干，但这么做的话，Pico Park就不好玩了——因为这个游戏的目的不是"通关"，而是"协作过程本身"。也让我更深入理解为什么我们团队需要精兵强将，认知在一个层面上可以很好的减少沟通成本。</p>
+  <p>聊回我们产品组在讨论的那个命题——个人用 WorkBuddy 提效 10 倍后，怎么让团队也提效 5～10 倍——本质上和这件事同构：<span style="font-weight: 700;">如果协作只是"能力不够才需要的补丁"，那 AI 强，协作就会消失；但 Pico Park 告诉我们，有些价值就是长在协作里的，不是长在能力里的。</span></p>
+  <div class="quote">
+    当协作是"可选的"，它就会被优化掉；当协作是"强制的"，它才会被设计成能力。<div><span style="color:#7c5a1e">Pico Park 把协作做成了"不可绕过"的机制本身，而不是辅助。</span></div></div>
+  <p>所以这份文档想讲清楚一件事：现在市面上的 AI 工具，包括我们自己的，几乎清一色是"单人可选协作"模型。它默认你一个人能搞定大部分事，协作只是锦上添花。而 Pico Park 给了一个反方向的范本——协作是产品本体。下面是我顺着这个想法往下推的东西。</p>
+</section>
+
+<!-- ONE -->
+<section id="redefine">
+  <div class="sec-num">01 · 重新定义问题</div>
+  <h2>10x 个人 ≠ 10x 团队</h2>
+  <p class="sec-lede">考虑"提升团队效率"之前，先思考一件事：个人提效和团队提效，异同点在哪里？</p>
+  <h3>两条不一样的曲线</h3>
+  <p>AI 对个人的提效是实打实的指数级。一个会用 AI 的产品经理，一天能干完以前一周的活。这种提升来自三件事：信息获取变快、初稿生成变快、重复劳动被吞掉。</p>
+  <p>团队效率是另一条曲线。它卡在最慢的那个环节——协作的摩擦上。10个10x效率提升的个人凑一起，团队产出往往不是 100x，可能 20x、15x，甚至因为对齐成本爆炸效率还不如以前。这不是"人不够努力"，是结构问题。</p>
+  <div class="diagram">
+    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, Microsoft YaHei, sans-serif">
+      <line x1="70" y1="230" x2="720" y2="230" stroke="#cbd5e1" stroke-width="1.5"></line>
+      <line x1="70" y1="230" x2="70" y2="40" stroke="#cbd5e1" stroke-width="1.5"></line>
+      <text x="40" y="135" fill="#6b7280" font-size="12" transform="rotate(-90 40 135)">产出倍数</text>
+      <text x="380" y="265" fill="#6b7280" font-size="12" text-anchor="middle">团队人数 / 协作复杂度</text>
+      <line x1="70" y1="80" x2="720" y2="80" stroke="#eee" stroke-dasharray="3 4"></line>
+      <line x1="70" y1="140" x2="720" y2="140" stroke="#eee" stroke-dasharray="3 4"></line>
+      <text x="62" y="84" fill="#9ca3af" font-size="11" text-anchor="end">10x</text>
+      <text x="62" y="144" fill="#9ca3af" font-size="11" text-anchor="end">5x</text>
+      <text x="62" y="234" fill="#9ca3af" font-size="11" text-anchor="end">1x</text>
+      <path d="M70 230 L720 50" fill="none" stroke="#0f766e" stroke-width="2.5" stroke-dasharray="6 5"></path>
+      <text x="640" y="70" fill="#0f766e" font-size="12" font-weight="700">理想：线性叠加</text>
+      <path d="M70 230 Q200 150 350 95 T680 55" fill="none" stroke="#c2410c" stroke-width="3"></path>
+      <text x="500" y="120" fill="#c2410c" font-size="12" font-weight="700">个人 AI 提效（指数）</text>
+      <path d="M70 230 Q180 195 300 175 Q420 165 520 172 Q620 185 700 205" fill="none" stroke="#b91c1c" stroke-width="3"></path>
+      <text x="430" y="215" fill="#b91c1c" font-size="12" font-weight="700">团队实际（先升后塌）</text>
+      <line x1="600" y1="80" x2="600" y2="195" stroke="#b45309" stroke-width="1" stroke-dasharray="2 3"></line>
+      <text x="608" y="142" fill="#b45309" font-size="11" font-weight="700">协作损耗</text>
+    </svg>
+    <div class="cap">图 1：个人提效是指数曲线，团队实际产出常在某个规模后开始"塌方"。中间的 gap，就是我们要攻克的协作损耗。</div>
+  </div>
+  <h3>所以命题到底该是什么</h3>
+  <p>我一开始想写"让团队效率提升 10 倍"，但写到这发现好像不对。真正的目标不是"让团队里每个人都更快"——那是个人工具的延伸。真正该追求的是：</p>
+  <div class="insight">
+    让团队的集体产出呈现非线性增长——新增第 N+1 个人时，边际产出不是递减，而是递增。换句话说，团队得"越加人越划算"，而不是"越加人越拖累"。
+  </div>
+  <p>这是个完全不同的产品目标。前者做"更快的工具"，后者做"更聪明的协作结构"。Pico Park 走的是后者。</p>
+  <p>这条曲线在 Pico Park 里有现成的印证：游戏里<strong>人越多反而越难</strong>。3-4 人是甜蜜点，到 7-8 人时协调难度指数上升，因为要同步的人变多了。这不就是上面的"塌方"吗？游戏设计师早就把这条曲线测过了。</p>
+</section>
+
+<!-- TWO -->
+<section id="cracks">
+  <div class="sec-num">02 · 根因分析</div>
+  <h2>团队效率塌方的五道裂缝</h2>
+  <p class="sec-lede"><br></p>
+  <table>
+    <thead><tr><th>裂缝</th><th>表现</th><th>本质</th></tr></thead>
+    <tbody>
+      <tr><td>① 上下文私有化</td><td>每个人和 AI 的对话、记忆、知识库都是私有的。A 花 2 小时让 AI 搞懂的项目背景，B 还得重头来一遍。</td><td>AI 的"记忆"是孤岛，团队没有共享上下文层。</td></tr>
+      <tr><td>② 认知不对称</td><td>同样写 PRD，甲的 prompt 让 AI 出 90 分，乙的只有 40 分。差异不在 AI，在用法。</td><td>"用 AI 的能力"没沉淀成团队资产，锁在个人脑子里。</td></tr>
+      <tr><td>③ 协作摩擦不降反升</td><td>AI 让每人产出量×3，于是 review、对齐、合并的活儿也×3，还集中在少数资深成员身上。</td><td>生产端加速了，整合端没加速，瓶颈转移了。</td></tr>
+      <tr><td>④ 工具孤岛</td><td>小张用 ChatGPT，小李用 Claude，小王用 WorkBuddy，产出格式、口径、质量全不一样，拼不起来。</td><td>个人 AI 工具缺"团队层"抽象，没有统一输出契约。</td></tr>
+      <tr><td>⑤ 质量信任缺口</td><td>AI 输出"看起来都对"，团队不敢直接用，得人工逐条核对。核对成本吃掉了提效红利。</td><td>缺团队级的质量基线和自动校验。</td></tr>
+    </tbody>
+  </table>
+  <div class="warn">在AI 工具的协助下，"超级个人"越多，团队协作反而可能越痛。因为产出量爆炸，整合能力却没跟上。我们与其说在解决"怎么让团队更快"，不如说在解决"怎么不让个人速度被团队减缓"。</div>
+</section>
+
+<!-- THREE -->
+<section id="picopark">
+  <div class="sec-num">03 · 类比迁移</div>
+  <h2>游戏里藏着的产品答案</h2>
+  <p class="sec-lede">Pico Park 不仅是"好玩的合作游戏"，还是一套协作机制设计的范本。</p>
+  <div class="callout">
+    <div class="h">机制 1 · 协作是本体，不是补丁</div>
+    <p style="margin:0;color:var(--ink-soft)">游戏里高台必须有队友当垫脚石才能跳上去。通过设计"单人无法闭环"的节点，比如方案生成必须过"团队上下文校验"才能提交；某些决策必须由 AI 跨两个成员的上下文综合后才能输出。让协作从"可选"变"必经"。</p>
+  </div>
+  <div class="callout">
+    <div class="h">机制 2 · 暗黑关：不是信息不对称，是信息根本不存在</div>
+    <p style="margin:0;color:var(--ink-soft)">World 4 的暗黑关，所有人看的是同一块屏幕。</p><div>机制是：陷阱隐形、不可预知，要按钮触发或角色触碰才会显现，有点像植物大战僵尸的雨天迷雾。这其实是比"信息不对称"更严重的事情。</div><div>团队真正的难处，往往不是"有人知道有人不知道"（那只是分发问题），而是"谁都不知道前面有坑，信息根本还不存在"——必须有人先去触发，风险才暴露得出来。</div><div><br></div><div>团队协作产品不可能预知一切风险，而应该做到：</div><div>①把试错成本压到最低，让人敢当探路者先踩；</div><div>②踩到的一刻，全队立刻同步（这正是共享屏幕的优势，也是实时协作该做的）；</div><div>③把踩出来的坑自动沉淀成团队记忆，下次全队绕开。AI 在这里的角色是"探路者助手"——帮人低成本试探，并把试探结果立刻共享给所有人。</div><p></p>
+  </div>
+  <div class="callout">
+    <div class="h">机制 3 · 人越多越难，所以要做协调</div>
+    <p style="margin:0;color:var(--ink-soft)">3-4 人是甜蜜点，7-8 人协调成本指数爆炸。</p><div>团队规模一过临界点，必须引入协调层（我们可能的功能设计方向），否则协作损耗会吃掉新增人力。</div><p></p>
+  </div>
+  <div class="callout">
+    <div class="h">机制 4 · 角色能力完全相等</div>
+    <p style="margin:0;color:var(--ink-soft)">所有角色都会移动+跳跃，颜色只是区分，没有英雄角色。</p><div>团队不是靠一个超级明星扛，而是靠配合。所以与其追求"每个人都变超级个人"，不如把超级个人的高质量用法封装成团队资产，让能力"拉平"——弱项成员能调用强项成员的 prompt、工作流、专家配置。</div><p></p>
+  </div>
+  <div class="callout">
+    <div class="h">机制 5 · 失败共享</div>
+    <p style="margin:0;color:var(--ink-soft)">一个角色死亡，关卡重开。</p><div>协作风险机制。某个成员的 AI 输出质量不达标，不该是"个人背锅"，而是触发团队级的 review 和知识补丁，把一次错误变成全队的能力升级。这是把"踩坑"资产化的关键。</div><p></p>
+  </div>
+  <div class="quote">
+    Pico Park 的天才之处，不在于它"鼓励"协作，而在于它把协作做成了无法绕过的机制本体。这正是现在 AI 协作工具最缺的东西——我们都在鼓励协作，但没人敢让协作变成"必经之路"。
+  </div>
+</section>
+
+<!-- FOUR -->
+<section id="framework">
+  <div class="sec-num">04 · 解决方案</div>
+  <h2>三层协作架构</h2>
+  <p class="sec-lede">把上面的翻译落成架构，我建议 WorkBuddy 做一个"团队协作栈"，自下而上三层，每层堵一类裂缝。</p>
+  <div class="diagram">
+    <div class="layer-stack">
+      <div class="layer l3">
+        <div class="ltag">LAYER 3 · 顶层</div>
+        <div class="lname">质量与对齐层 Quality &amp; Alignment</div>
+        <p class="ldesc">团队级输出契约、自动化交叉 review、知识沉淀闭环。堵裂缝④⑤——让 AI 产出"敢直接用"，至少减少review成本。</p>
+      </div>
+      <div class="layer l2">
+        <div class="ltag">LAYER 2 · 中层</div>
+        <div class="lname">协作编排层 Collaboration Orchestration</div>
+        <p class="ldesc">AI 当团队协调者：跨成员传上下文、实时协作辅助。堵裂缝③——让整合端也加速。</p>
+      </div>
+      <div class="layer l1">
+        <div class="ltag">LAYER 1 · 底座</div>
+        <div class="lname">团队上下文层 Team Context Layer</div>
+        <p class="ldesc">共享记忆、团队知识资产、项目级工作流模板。堵裂缝①②——让"用 AI 的能力"和"项目背景"成为团队公共品。</p><div>考虑到和乐享的联动，这部分还没有想的很清楚。</div><p></p>
+      </div>
+    </div>
+    <div class="cap">图 2：三层架构。底层是"共享大脑"，中层是"协调手"，顶层是"把关眼"。对应暗黑关的机制——底层把踩出的坑记下来，中层让坑的信息全队即时同步，顶层保证下次不再踩同一个坑。</div>
+  </div>
+  <h3>Layer 1 · 团队上下文层</h3>
+  <p>这是底座，也是现在缺口最大的一层。要干三件事：</p>
+  <ul>
+    <li><strong>团队共享记忆：</strong>一个项目级的、所有成员的 AI 都能读写的长期记忆。项目背景、历史决策、术语表、人物关系、踩过的坑都在里头。新人加入直接"继承"全部上下文，不用从零喂 AI。</li>
+    <li><strong>团队知识资产：</strong>把超级个人的高质量 prompt、工作流、专家配置封装成资产，存进团队库，谁都能一键调用。这是把"个人能力"变成"组织能力"的关键一步。<div>结合wb的目前功能，考虑在任务完成后给skill，专家等打分，在skillhub推荐页给出更精准的推荐，团队调用也知道哪个skill更适合什么任务，哪个专家的产出效果好。</div></li>
+    <li><strong>项目级工作流模板：</strong>针对具体任务（复盘、竞品分析、需求评审），预设好"团队该怎么用 AI 协作完成"的模板或sop，包括分工、依赖节点、产出契约。</li>
+  </ul>
+  <h3>Layer 2 · 协作编排层</h3>
+  <p>这层解决"整合端没被加速"的问题。AI 不再只是每个人的私人助理，而是团队的协调者：</p>
+  <ul>
+    <li><strong>任务自动编排：</strong>AI 理解团队目标和成员能力后，自动拆任务、分给最合适的人，并标出依赖（哪些必须串行、哪些能并行）。</li>
+    <li><strong>上下文跨成员传递：</strong>A 完成的中间产物，自动带着"上下文说明"流转给 B 的 AI，B 不用重新理解背景。这就像暗黑关里一个人踩出陷阱、全队立刻知道该绕开——踩坑信息要无损地即时共享。</li>
+    <li><strong>实时协作辅助：</strong>多人同时编辑/讨论时，AI 实时综合各方输入、挑出矛盾点、补全信息。相当于团队里多了一个永远在线的资深 PM。</li>
+  </ul>
+  <h3>Layer 3 · 质量与对齐层</h3>
+  <p>这层解决"AI 产出不敢直接用"的信任问题：</p>
+  <ul>
+    <li><strong>团队级输出契约：</strong>定义每种产出（PRD、周报、代码、方案）的格式、口径、必填字段。AI 产出必须符合契约才能"提交"。</li>
+    <li><strong>自动化交叉 review：</strong>用一个独立 AI 角色去 review 成员的 AI 产出，按团队标准打分、标风险。把人工 review 从"逐条核对"降到"处理异常"。</li>
+    <li><strong>知识沉淀闭环：</strong>每次 review 发现的问题、每次踩的坑，自动回流到 Layer 1 的团队记忆里，形成"越用越强"的飞轮。这部分可能和乐享有重叠，考虑如何联动，更好的调用乐享。</li>
+  </ul>
+</section>
+
+<!-- FIVE -->
+<section id="roadmap">
+  <div class="sec-num">05 · 演进路径</div>
+  <h2>从个人工具到团队操作系统</h2>
+  <p class="sec-lede">一口气建三层不现实。我建议按"上下文 → 编排 → 质量"的顺序走，每个阶段都能独立验证价值。</p>
+  <div class="stage">
+    <div class="ph"><span class="n">0</span><span>现状</span></div>
+    <div class="b"><h4>个人增强期</h4><p>WorkBuddy 作为"超级个人"工具被用。每人一个 AI 助手，提效明显，但协作损耗也在累积。这是今天的起点。</p></div>
+  </div>
+  <div class="stage">
+    <div class="ph"><span class="n">1</span><span>Phase 1</span></div>
+    <div class="b"><h4>上下文共享：让团队的 AI"认识"同一个项目</h4><p>上线团队共享记忆和知识资产库。验证指标：<strong>新人达到团队平均产出的时间缩短 50%</strong>，重复喂 AI 背景的次数下降。风险最低、收益最直观。</p></div>
+  </div>
+  <div class="stage">
+    <div class="ph"><span class="n">2</span><span>Phase 2</span></div>
+    <div class="b"><h4>协作编排：让 AI 当团队的协调者</h4><p>上线任务自动编排和上下文跨成员传递。验证指标：<strong>团队整合端耗时占比下降</strong>（review/对齐/合并从 X% 降到 Y%），瓶颈不再压在资深成员身上。</p></div>
+  </div>
+  <div class="stage">
+    <div class="ph"><span class="n">3</span><span>Phase 3</span></div>
+    <div class="b"><h4>团队智能体：让团队有"集体大脑"</h4><p>三层打通后，团队级 AI Agent 能自主理解目标、协调成员、保质量、沉淀知识。验证指标：<strong>团队边际产出递增</strong>——加人带来线性增长。</p></div>
+  </div>
+  <h3>增长飞轮</h3>
+  <p>这三个阶段不是线性的，它们会转成一个飞轮：</p>
+  <div class="diagram">
+    <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, Microsoft YaHei, sans-serif">
+      <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#c2410c"></path></marker></defs>
+      <g><circle cx="380" cy="130" r="92" fill="#fff7ed" stroke="#f3c9a8" stroke-width="2"></circle><text x="380" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#c2410c">个人能力</text><text x="380" y="142" text-anchor="middle" font-size="13" fill="#9a3412">资产化</text></g>
+      <g font-size="13" font-weight="600">
+        <rect x="80" y="40" width="150" height="48" rx="10" fill="#e6f4f1" stroke="#a7d4cb"></rect><text x="155" y="69" text-anchor="middle" fill="#0f766e">团队复用</text>
+        <rect x="530" y="40" width="150" height="48" rx="10" fill="#eef2ff" stroke="#c7d2fe"></rect><text x="605" y="69" text-anchor="middle" fill="#4338ca">新人快速达峰</text>
+        <rect x="530" y="172" width="150" height="48" rx="10" fill="#fef3c7" stroke="#f3d68a"></rect><text x="605" y="201" text-anchor="middle" fill="#b45309">质量沉淀</text>
+        <rect x="80" y="172" width="150" height="48" rx="10" fill="#f5f3ef" stroke="#d6d0c4"></rect><text x="155" y="201" text-anchor="middle" fill="#475569">团队产出↑</text>
+      </g>
+      <path d="M230 75 Q300 90 300 110" fill="none" stroke="#c2410c" stroke-width="2" marker-end="url(#arr)"></path>
+      <path d="M460 110 Q470 90 530 75" fill="none" stroke="#c2410c" stroke-width="2" marker-end="url(#arr)"></path>
+      <path d="M530 200 Q470 170 460 160" fill="none" stroke="#c2410c" stroke-width="2" marker-end="url(#arr)"></path>
+      <path d="M300 160 Q290 170 230 200" fill="none" stroke="#c2410c" stroke-width="2" marker-end="url(#arr)"></path>
+      <text x="380" y="245" text-anchor="middle" font-size="12" fill="#6b7280" font-style="italic">飞轮越转越快：个人能力→团队资产→新人提速→产出增长→反哺资产</text>
+    </svg>
+    <div class="cap">图 3：协作飞轮。每转一圈，团队的"集体能力"都在变厚，而个人能力的边际重要性在下降——这才是组织韧性的来源。</div>
+  </div>
+</section>
+
+<!-- SIX -->
+<section id="metric">
+  <div class="sec-num">06 · 度量</div>
+  <h2>怎么知道我们做到了</h2>
+  <p class="sec-lede">"团队效率提升 5 倍"是个好口号，但不是好指标。得能被观察、能被归因才行。</p>
+  <table>
+    <thead><tr><th>类型</th><th>指标</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td>反指标</td><td>协作损耗率</td><td>团队总工时里用于"对齐、review、返工、等他人"的占比。这个数不降，一切提效都是假象。</td></tr>
+      <tr><td>北极星</td><td>团队边际产出系数</td><td>新增第 N 个成员时团队产出的边际增量。&gt;1 是递增，&lt;1 是递减。我们追求它持续 &gt;1。</td></tr>
+      <tr><td>正指标</td><td>新人达峰时间</td><td>新成员产出达到团队中位水平要多久。直接反映团队上下文层成熟度。</td></tr>
+      <tr><td>正指标</td><td>知识复用率</td><td>团队资产（prompt/模板/记忆）被调用的频次。反映"个人能力资产化"有没有真发生。</td></tr>
+      <tr><td>正指标</td><td>AI 产出直用率</td><td>AI 产出未经大改直接进下游的占比。反映质量与对齐层成熟度。</td></tr>
+    </tbody>
+  </table>
+  <div class="insight">
+    不拿"人均产出"当主指标——它会鼓励"超级个人"模式，反而加深协作裂缝。我们要的是团队整体曲线变陡，哪怕某些个人的"英雄时刻"变少了。不求产出C罗梅西，追求规模产出能力中上的球员。</div>
+</section>
+
+<!-- SEVEN -->
+<section id="risk">
+  <div class="sec-num">07 · 风险与边界</div>
+  <h2>哪些事可能会搞砸</h2>
+  <p class="sec-lede"><br></p>
+  <h4>1. 隐私与边界</h4>
+  <p>团队上下文层意味着"个人和 AI 的对话"有部分要进共享空间。必须划清私有/共享边界，让人敢在私有区放"不成熟的想法"，又能挑成熟产物贡献给团队。强行全共享，会把人逼回外部工具。</p>
+  <h4>2. 能力空心化</h4>
+  <p>团队资产强到一定程度，成员可能变成"只会调用模板的调用员"，丢掉深度思考。长此以往反噬创新。</p><div><strong>对策：</strong>团队资产要留"为什么这么做"的决策脉络，不只是"怎么做"的步骤，让调用的人也能学到判断力和思考过程。</div><p></p>
+  <h4>3. 度量陷阱</h4>
+  <p>上面这些指标都能被"刷"——知识复用率可以做高，但全是低质量调用。得配质量信号（调用后有没有被采纳、有没有触发后续修改）来防作弊。</p>
+  <h4>4. 协作过载</h4>
+  <p>"强制依赖"做过头，简单的事也变复杂，团队节奏被拖慢。Pico Park 的关是设计师精心调过的，但真实工作里大多数任务本该单人闭环。</p><div><strong>原则：</strong>只在真正需要协作的节点强制，其余地方保留单飞的自由。这点很重要——我们学 Pico Park 学的是"协作是本体"，不是"事事都要协作"。</div><p></p>
+</section>
+
+<!-- RESILIENCE -->
+<section id="resilience">
+  <div class="sec-num">08 · 团队韧性</div>
+  <h2>负反馈下的坚持</h2>
+  <p class="sec-lede">今天玩 Pico Park 卡了很久，操作明明很简单，就是配合对不上。朋友想放弃，我还想再试。回家的路上我一直在想：那股"再试一次"的劲，到底从哪来。</p>
+  <p>其实Pico Park 的操作简单到不能再简单——移动、跳跃。但卡住我们的不是操作，是配合：谁先踩按钮、谁先过门，时机差零点几秒就全队重来。失败了半小时，大家都垂头丧气。</p>
+  <p>明明一直在被负反馈砸（重来、重来、又重来），为什么我没腻、没崩、还想试？而现实里很多团队，挨几次负反馈就散了？我琢磨了一下，Pico Park 偷偷给我们塞了五样东西：</p>
+  <ul>
+    <li><strong>重开几乎零成本。</strong>死了立刻重来，没读条、没惩罚、没"你失败了"的羞辱动画。试错门槛低到地板，"再来一次"不需要下决心。</li>
+    <li><strong>进展是可感知的。</strong>哪怕没通关，你知道"这次比上次多走了一步""刚才就差 0.5 秒"。反馈不是 0/1 的二极管，你能感觉到自己在靠近通关。</li>
+    <li><strong>失败是"我们的"，不是"你的"。</strong>一个人掉下去全队重来，没人会被单独指着骂。失败摊到整个团队身上，羞耻感被稀释了。</li>
+    <li><strong>失败本身很搞笑。</strong>小猫互相撞飞、踩错掉下去，画面滑稽。情绪来不及积成愤怒，就先变成了笑。这是很重要的情绪缓冲。</li>
+    <li><strong>目标清晰且可拆。</strong>钥匙在哪、终点在哪，一眼看见。大目标被拆成"先拿这把钥匙"，每拿到一把就是一次正反馈。</li>
+  </ul>
+  <div class="insight">团队在低谷期能不能坚持，不靠意志力，靠"被设计好的坚持条件"。很多团队不是不想坚持，是所处的环境根本没给他们坚持的条件——反馈只有 0/1、失败要追责、试错成本高、目标笼统看不清进展。</div>
+  <h3>游戏里的条件 → 产品该怎么做</h3>
+  <table>
+    <thead><tr><th>Pico Park 给的</th><th>团队/产品该对应做的</th></tr></thead>
+    <tbody>
+      <tr><td>重开零成本</td><td>降低"再来一次"的门槛：复盘不严肃追责、快速重试、不积压情绪债。</td></tr>
+      <tr><td>进展可感知</td><td>别让反馈只有"成/没成"，设计微小进展信号（完成度、靠近度、比上次好多少）。</td></tr>
+      <tr><td>失败是"我们的"</td><td>复盘对事不对人，把失败归因到机制而非个人，羞耻感不下放。</td></tr>
+      <tr><td>失败很搞笑</td><td>给团队留情绪缓冲空间，别把每次失败都渲染成灾难，允许"笑着复盘"。</td></tr>
+      <tr><td>目标可拆</td><td>大目标拆成可感知的小里程碑，每完成一个就给一次正反馈。</td></tr>
+    </tbody>
+  </table>
+  <p>这对 WorkBuddy 的启示是：团队协作产品不该只优化"高效"，还得优化"扛得住"。一个团队如果一遇到低谷就散伙，再高的效率上限也是空中楼阁。<strong>韧性，是效率的地基。</strong>而我们之前聊的三层架构，基本都在解决"快"，这一节要补上"稳"。</p>
+  <p>说回下午那局。最后我们通了，不是因为我们突然变强，是因为我赌气说"那再来最后一把"，那次刚好对了。坚持到最后一把的人，不是意志最坚强的，是所处条件还允许他"再来一把"。这也是我想给 WorkBuddy 团队产品留下的一个底色——<strong>别让用户在低谷里，只剩意志力可用。</strong></p>
+</section>
+
+<!-- EIGHT -->
+<section id="action">
+  <div class="sec-num">09 · 行动建议</div>
+  <h2>给 WorkBuddy 的五个具体动作</h2>
+  <p class="sec-lede">从思考到行动，建议优先做下面五件，按依赖顺序排。</p>
+  <div class="action"><div class="n">1</div><div class="b"><h4>立项"团队上下文层"作为第一个团队产品线</h4><p>三层架构的底座，Phase 1 MVP 的核心。先做团队共享记忆 + 知识资产库，把"个人能力资产化"跑通。</p><span class="why">为什么先做它：风险最低、价值最直观、是后两层的依赖前置。</span></div></div>
+  <div class="action"><div class="n">2</div><div class="b"><h4>设计一个"协作编排"的最小可用形态</h4><p>并非直接做全自动编排。先做一个"任务依赖标注 + 上下文打包传递"的轻量功能，验证跨成员协作能不能被加速。</p><span class="why">为什么先做轻量版：编排层最容易过度设计，先用最小形态验证假设。</span></div></div>
+  <div class="action"><div class="n">3</div><div class="b"><h4>"个人能力资产化"</h4><p>用户在 WorkBuddy 里调好的 prompt、工作流、专家配置，一键就能"贡献到团队库"被别人调用。让超级个人的天赋自动变成团队资产。这里主要考虑skill、sop、专家的质量评测。</p><span class="why">为什么重要：这是飞轮的起点，没它，前两层都是空壳。</span></div></div>
+  <div class="action"><div class="n">4</div><div class="b"><h4>上线团队 AI 质量基线和自动 review</h4><p>定义几种核心产出的"团队契约"，配一个独立 review Agent 按契约打分。先把最高频、最高价值的 2-3 类产出（周报、PRD、技术方案）跑通。</p><span class="why">为什么不能省：没质量层，团队永远不敢直接用 AI 产出，红利会被核对成本吃掉。</span></div></div>
+  <div class="action"><div class="n">5</div><div class="b"><h4>把"协作损耗率"设成团队产品的核心反指标</h4><p>从 Day 1 就埋点度量它，内部 demo 里公开展示。一个不被盯着的反指标，等于没有反指标。</p><span class="why">为什么是反指标：它防止我们用"个人提效"自我安慰，逼团队产品对"集体产出"负责。</span></div></div>
+</section>
+
+<!-- END -->
+<section id="end">
+  <div class="sec-num">10 · 结语</div>
+  <h2>协作是 AI 时代最深的护城河</h2>
+  <p class="sec-lede">个人提效的红利，任何人换个新工具就能追上。团队协作的红利，一旦建立就很难复制。</p>
+  <p>写完这版我反而更确信一件事：AI 时代真正的产品机会，不在"造更强的个人工具"，而在"造一种新的协作结构"。个人工具会被更强的模型一夜抹平，但一个跑通了"上下文共享 + 协作编排 + 质量闭环"的团队，它的集体智能是累积的、是组织级的、是别人拿不走的东西。</p>
+  <p>Pico Park 告诉我们：好玩的不是"一起玩"，而是"离不开彼此"。哪怕你强到能一人两控通关，那也不是 Pico Park 的制作初衷。WorkBuddy 要做的，是让一个团队用上之后离不开彼此的 AI——不是绑定，是真正的能力共生。</p>
+  <p>等我们做到"加一个人，团队产出超线性增长"那天，才算真的完成了从超级个人到超级团队的过渡。那不是一个功能，是一个时代。</p>
+  <div class="hr-orn"><span>✦</span></div>
+  <p style="text-align:center;color:var(--ink-mute);font-size:14px;margin-top:24px">这版是修订稿，欢迎继续挑战、补充、推翻。<br>真正的好产品，是被一群人讨论出来的。</p>
+</section>
+
+<footer>
+  <div class="end">✦ ✦ ✦</div>
+  <div>从超级个人到超级团队 · 产品思考文档 v2（可编辑版）</div>
+  <div style="margin-top:6px">视角：AI 产品经理 · 灵感来源：Pico Park（含玩法查证）</div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  const KEY='pico_doc_edit_v4_darkfix';
+  const body=document.body;
+  const docBody=document.getElementById('docBody');
+  const toggleBtn=document.getElementById('toggleEdit');
+  const saveBtn=document.getElementById('saveBtn');
+  const exportBtn=document.getElementById('exportBtn');
+  const resetBtn=document.getElementById('resetBtn');
+  const wordEl=document.getElementById('wordCount');
+  const dot=document.getElementById('stateDot');
+  const toast=document.getElementById('toast');
+  let dirty=false;
+  let saveTimer=null;
+
+  function showToast(msg){
+    toast.textContent=msg;
+    toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t=setTimeout(()=>toast.classList.remove('show'),1800);
+  }
+
+  // 字数统计
+  function countWords(){
+    const text=docBody.innerText.replace(/\s+/g,'');
+    wordEl.textContent=text.length+' 字';
+  }
+
+  // 标记脏
+  function markDirty(){
+    dirty=true;
+    dot.classList.add('dirty');
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(autoSave,1500); // 自动暂存
+  }
+  function markClean(){
+    dirty=false;
+    dot.classList.remove('dirty');
+  }
+
+  // 自动暂存到 localStorage
+  function autoSave(){
+    try{
+      localStorage.setItem(KEY,docBody.innerHTML);
+      // 不弹toast，静默
+    }catch(e){}
+  }
+
+  // 手动保存
+  function manualSave(){
+    try{
+      localStorage.setItem(KEY,docBody.innerHTML);
+      markClean();
+      showToast('已保存到浏览器本地');
+    }catch(e){
+      showToast('保存失败：'+e.message);
+    }
+  }
+
+  // 恢复
+  function restore(){
+    const saved=localStorage.getItem(KEY);
+    if(saved){
+      docBody.innerHTML=saved;
+      // 重新绑定事件（因为innerHTML替换了节点）
+      bindEvents();
+      showToast('已恢复上次编辑的内容');
+    }
+  }
+
+  // 导出完整 HTML
+  function exportHTML(){
+    // 先退出编辑态，避免hover样式写进去
+    const wasEditing=body.classList.contains('editing');
+    body.classList.remove('editing');
+    // 克隆当前文档
+    const clone=document.documentElement.cloneNode(true);
+    // 移除工具栏、提示
+    const tb=clone.querySelector('.toolbar');
+    if(tb) tb.remove();
+    const eh=clone.querySelector('.edit-hint');
+    if(eh) eh.remove();
+    const ts=clone.querySelector('.toast');
+    if(ts) ts.remove();
+    // 移除所有 contenteditable 属性（导出干净版）
+    clone.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
+    // 移除 body.editing class
+    const cbody=clone.querySelector('body');
+    if(cbody) cbody.classList.remove('editing');
+    const html='<!DOCTYPE html>\n'+clone.outerHTML;
+    const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='从超级个人到超级团队_思考文档_已编辑.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if(wasEditing) body.classList.add('editing');
+    showToast('已导出 HTML 文件');
+  }
+
+  // 重置
+  function reset(){
+    if(!confirm('确定重置吗？这会清空你所有本地修改，恢复到原始内容。')) return;
+    localStorage.removeItem(KEY);
+    location.reload();
+  }
+
+  // 编辑模式切换
+  function toggleEdit(){
+    body.classList.toggle('editing');
+    const on=body.classList.contains('editing');
+    toggleBtn.textContent=on?'👁️ 退出编辑':'✏️ 进入编辑';
+    toggleBtn.classList.toggle('on',on);
+    if(on){
+      showToast('编辑模式：点击任意文字即可修改');
+    }
+  }
+
+  // 绑定输入事件
+  function bindEvents(){
+    docBody.querySelectorAll('[contenteditable="true"]').forEach(el=>{
+      el.removeEventListener('input',onInput);
+      el.addEventListener('input',onInput);
+    });
+  }
+  function onInput(){ markDirty(); countWords(); }
+
+  // 拦截编辑态下的链接跳转（避免点目录链接时误触）
+  docBody.addEventListener('click',function(e){
+    if(body.classList.contains('editing') && e.target.closest('a[href^="#"]')){
+      e.preventDefault();
+    }
+  });
+
+  // 按钮
+  toggleBtn.addEventListener('click',toggleEdit);
+  saveBtn.addEventListener('click',manualSave);
+  exportBtn.addEventListener('click',exportHTML);
+  resetBtn.addEventListener('click',reset);
+
+  // 快捷键：Ctrl/Cmd+S 保存
+  document.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&e.key==='s'){
+      e.preventDefault();
+      manualSave();
+    }
+  });
+
+  // 离开前提示
+  window.addEventListener('beforeunload',function(e){
+    if(dirty){
+      e.preventDefault();
+      e.returnValue='有未保存的修改';
+    }
+  });
+
+  // 初始化
+  bindEvents();
+  countWords();
+  // 如有本地存档，提示是否恢复
+  if(localStorage.getItem(KEY)){
+    if(confirm('检测到上次编辑的内容，是否恢复？\n（取消则保留当前原始版本）')){
+      restore();
+    }
+  }
+})();
+</script>
+
+
+</body></html>

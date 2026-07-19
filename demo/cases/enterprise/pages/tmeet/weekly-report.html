@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>本周会议盘点 + 客户拜访周报（2026 W23）</title>
+<style>
+  :root{--blue:#006EFF;--blue-deep:#0052D9;--blue-soft:#E6F0FF;--blue-line:#CFE0FF;--cyan:#00C4FF;--bg:#F4F6FA;--card:#fff;--t1:#1D2129;--t2:#4E5969;--t3:#86909C;--line:#E5E6EB;--ok:#00B42A;--warn:#FF7D00;--danger:#F53F3F}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{font-family:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t1);line-height:1.7;font-size:14px}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px}
+  .head{background:linear-gradient(135deg,var(--blue),var(--blue-deep));color:#fff;padding:28px 32px;border-radius:14px;margin-bottom:18px;position:relative;overflow:hidden}
+  .head::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(0,196,255,.4),transparent 70%)}
+  .head h1{font-size:24px;font-weight:700;margin-bottom:6px;position:relative;z-index:1}
+  .head p{font-size:14px;opacity:.92;position:relative;z-index:1}
+  .head .meta{display:flex;gap:24px;margin-top:14px;flex-wrap:wrap;position:relative;z-index:1}
+  .head .meta b{font-size:18px;font-weight:600;display:block;margin-top:2px}
+  .head .meta span{font-size:12px;opacity:.75;letter-spacing:1px}
+  .card{background:var(--card);border-radius:12px;padding:22px 26px;border:1px solid var(--line);margin-bottom:14px;box-shadow:0 1px 6px rgba(15,30,60,.03)}
+  .card h2{font-size:17px;font-weight:600;color:var(--t1);margin-bottom:14px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .card h2::before{content:"";width:4px;height:16px;background:var(--blue);border-radius:2px}
+  .card h3{font-size:14px;font-weight:600;color:var(--blue-deep);margin:14px 0 8px}
+  .kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:6px}
+  .kpi-item{background:var(--blue-soft);border:1px solid var(--blue-line);border-radius:10px;padding:14px;text-align:center}
+  .kpi-item .v{font-size:22px;font-weight:700;color:var(--blue-deep)}
+  .kpi-item .k{font-size:12px;color:var(--t2);margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  thead th{background:var(--blue-soft);color:var(--blue-deep);font-weight:600;text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.5px;border-bottom:2px solid var(--blue-line)}
+  tbody td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--t2)}
+  tbody tr:hover{background:#FAFCFF}
+  .cat-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 10px}
+  .cat-tab{background:#F2F6FF;border:1px solid var(--blue-line);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--t2);text-align:center}
+  .cat-tab b{display:block;font-size:18px;color:var(--blue-deep);font-weight:700}
+  .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+  .b-blue{background:var(--blue-soft);color:var(--blue-deep)}
+  .b-green{background:#E8F8EB;color:var(--ok)}
+  .b-orange{background:#FFF4E6;color:var(--warn)}
+  .b-red{background:#FFECEB;color:var(--danger)}
+  .b-gray{background:#F2F3F5;color:var(--t2)}
+  .insight{background:#FFF8F0;border:1px solid #FFE0B2;border-left:4px solid var(--warn);border-radius:8px;padding:14px 16px;margin-top:10px;font-size:13px;color:var(--t2)}
+  .insight b{color:var(--warn)}
+  .ok-box{background:#F0FAF1;border:1px solid #D4F0D6;border-left:4px solid var(--ok);border-radius:8px;padding:14px 16px;margin-top:10px;font-size:13px;color:var(--t2)}
+  .ok-box b{color:var(--ok)}
+  ul.next{padding-left:20px;color:var(--t2);font-size:13px}
+  ul.next li{margin:5px 0}
+  ul.next li b{color:var(--t1)}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .star{color:var(--warn);font-weight:600}
+  @media(max-width:768px){.kpi{grid-template-columns:repeat(2,1fr)}.cat-tabs{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="head">
+  <h1>本周会议盘点 + 客户拜访周报</h1>
+  <p>2026 W23 · 6/1 周一 ～ 6/7 周日 · 数据源：腾讯会议 list-ended API</p>
+  <div class="meta">
+    <div><span>会议总场次</span><b>21 场</b></div>
+    <div><span>客户会议</span><b>10 场</b></div>
+    <div><span>覆盖客户</span><b>7 家</b></div>
+    <div><span>累计客户时长</span><b>11.5 h</b></div>
+    <div><span>已出纪要</span><b>1 场</b></div>
+  </div>
+</div>
+
+<!-- 一、KPI -->
+<div class="card">
+  <h2>一、核心 KPI</h2>
+  <div class="kpi">
+    <div class="kpi-item"><div class="v">21</div><div class="k">已结束会议</div></div>
+    <div class="kpi-item"><div class="v">10</div><div class="k">客户场次</div></div>
+    <div class="kpi-item"><div class="v">7</div><div class="k">覆盖客户数</div></div>
+    <div class="kpi-item"><div class="v">11.5h</div><div class="k">客户累计时长</div></div>
+    <div class="kpi-item"><div class="v">~30%</div><div class="k">客户场占工时</div></div>
+  </div>
+  <div class="insight"><b>⚠️ ROI 缺口：</b>10 场客户会仅 1 场（名创优品）出了客户级纪要文档，其余 9 场无沉淀。建议把「会后 30min 出极简纪要」纳入强制流程。</div>
+</div>
+
+<!-- 二、会议分类 -->
+<div class="card">
+  <h2>二、本周 21 场会议分类</h2>
+  <div class="cat-tabs">
+    <div class="cat-tab"><b>10</b>客户交流（主线）</div>
+    <div class="cat-tab"><b>3</b>内部协同 / 产品打磨</div>
+    <div class="cat-tab"><b>2</b>团队例会</div>
+    <div class="cat-tab"><b>6</b>快速沟通</div>
+  </div>
+
+  <h3>① 客户交流（10 场，11.5h）⭐ 主线</h3>
+  <table>
+    <thead><tr><th style="width:9%">日期</th><th style="width:14%">时间</th><th>主题</th><th style="width:10%">时长</th></tr></thead>
+    <tbody>
+      <tr><td>6/2 二</td><td>10:00-11:00</td><td>平安财经交流-过材料</td><td>60min</td></tr>
+      <tr><td>6/3 三</td><td>11:00-12:00</td><td>CB/WB 百果园工作坊（线上）</td><td>60min</td></tr>
+      <tr><td>6/3 三</td><td>14:30-15:30</td><td>平安集团 WB 交流</td><td>60min</td></tr>
+      <tr><td>6/3 三</td><td>15:00-17:00</td><td>广东台新闻中心技术交流</td><td>120min</td></tr>
+      <tr><td>6/4 四</td><td>14:00-16:00</td><td>Luna 爸爸交流</td><td>120min</td></tr>
+      <tr><td>6/4 四</td><td>14:00-14:30</td><td>安利 WorkBuddy 讨论</td><td>30min</td></tr>
+      <tr><td>6/4 四</td><td>14:30-15:30</td><td>微众银行-AI 研发提效度量</td><td>60min</td></tr>
+      <tr><td>6/5 五</td><td>15:00-16:00</td><td>【客户】GTMC-WorkBuddy 安全性解答</td><td>60min</td></tr>
+      <tr><td>6/5 五</td><td>16:30-17:30</td><td>名创优品 WorkBuddy 交流 <span class="badge b-green">✅ 已出纪要</span></td><td>60min</td></tr>
+      <tr><td>6/6 六</td><td>15:00-15:30</td><td>国税 WB 分享准备</td><td>30min</td></tr>
+    </tbody>
+  </table>
+
+  <h3>② 内部协同 / 产品打磨（3 场）</h3>
+  <table>
+    <thead><tr><th style="width:9%">日期</th><th style="width:14%">时间</th><th>主题</th></tr></thead>
+    <tbody>
+      <tr><td>6/2 二</td><td>19:30-20:00</td><td>WorkBuddy 安全方案同步和讨论</td></tr>
+      <tr><td>6/5 五</td><td>10:00-12:00</td><td>AI 提效 & 实战</td></tr>
+      <tr><td>6/5 五</td><td>15:00-16:00</td><td>AI 专项双周会（周期会）</td></tr>
+    </tbody>
+  </table>
+
+  <h3>③ 团队例会（2 场）</h3>
+  <table>
+    <thead><tr><th style="width:9%">日期</th><th style="width:14%">时间</th><th>主题</th></tr></thead>
+    <tbody>
+      <tr><td>6/1 一</td><td>19:30-21:00</td><td>商业化售前团队周例会（周期会）</td></tr>
+      <tr><td>6/5 五</td><td>19:00-19:30</td><td>团队站会（远程）</td></tr>
+    </tbody>
+  </table>
+
+  <h3>④ 快速沟通（6 场，多为临时拉群短会）</h3>
+  <table>
+    <thead><tr><th style="width:9%">日期</th><th style="width:14%">时间</th><th>发起人</th></tr></thead>
+    <tbody>
+      <tr><td>6/2 二</td><td>11:00-11:30</td><td>haimihu（胡涵清）</td></tr>
+      <tr><td>6/2 二</td><td>17:43-18:43</td><td>alexhning</td></tr>
+      <tr><td>6/2 二</td><td>18:10-19:10</td><td>anialang（你自己）</td></tr>
+      <tr><td>6/3 三</td><td>10:59-11:59</td><td>SZ-BH-N3312 投屏</td></tr>
+      <tr><td>6/4 四</td><td>14:10-15:10</td><td>tailinye</td></tr>
+      <tr><td>6/4 四</td><td>15:49-16:49</td><td>maggielwang（王璐）</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 三、按客户进展 -->
+<div class="card">
+  <h2>三、按客户分类进展（7 家）</h2>
+  <table>
+    <thead><tr><th style="width:14%">客户</th><th style="width:10%">阶段</th><th>关键结论 & 进展</th><th style="width:18%">下一步动作</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>名创优品</b> <span class="star">⭐</span></td>
+        <td><span class="badge b-green">迁移决策</span></td>
+        <td>客户拟把 CodeBuddy + 知识蒸馏 Demo 整体迁移到 WorkBuddy，构建「Skill - 数字员工 - Teams 工作流」三层方案。<br>📄 纪要：<a href="https://docs.qq.com/aio/DV3ZLR0x0aURWWkRX?_fid=WvKGLtiDVZDW" target="_blank">点击查看腾讯文档</a></td>
+        <td><b>本周内</b>给出 Skill 嵌套（Top/Sub Agent）可演示方案 ⚠️</td>
+      </tr>
+      <tr>
+        <td><b>广东台新闻中心</b></td>
+        <td><span class="badge b-blue">方案设计</span></td>
+        <td>2h 深度沟通，台风融媒直播「策采编审播发」数智化方案，已沉淀单屏 Tab 大屏 + 政务端庄风设计稿</td>
+        <td>等客户反馈是否进入立项；建议出 PDF 版方案给客户带走</td>
+      </tr>
+      <tr>
+        <td><b>平安集团</b></td>
+        <td><span class="badge b-orange">需求摸底</span></td>
+        <td>2 场连开（6/2 过材料 + 6/3 WB 能力解答），第一场定调，第二场 WB 侧解答</td>
+        <td>明确客户决策人 / 下一阶段 PoC 范围</td>
+      </tr>
+      <tr>
+        <td><b>百果园</b></td>
+        <td><span class="badge b-orange">需求摸底</span></td>
+        <td>CB/WB 双产品工作坊，客户对产品形态有了认知</td>
+        <td>跟进客户内部消化反馈</td>
+      </tr>
+      <tr>
+        <td><b>微众银行</b></td>
+        <td><span class="badge b-orange">需求摸底</span></td>
+        <td>主题「AI 研发提效度量」，需要后续给量化指标方案</td>
+        <td>提供量化指标参考方案</td>
+      </tr>
+      <tr>
+        <td><b>安利</b></td>
+        <td><span class="badge b-gray">初次接洽</span></td>
+        <td>30min 短会</td>
+        <td>判断是否值得深度跟进</td>
+      </tr>
+      <tr>
+        <td><b>GTMC</b></td>
+        <td><span class="badge b-blue">安全答疑</span></td>
+        <td>客户安全性解答场，与 WorkBuddy 安全方案文档去术语化工作直接呼应</td>
+        <td>把答疑整理为安全 FAQ</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 四、风险卡点 -->
+<div class="card">
+  <h2>四、关键风险 & 卡点</h2>
+  <table>
+    <thead><tr><th style="width:6%">#</th><th style="width:32%">风险 / 卡点</th><th style="width:30%">影响</th><th>建议动作</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>名创优品 Skill 嵌套方案</b>本周内必须答复</td><td>决定 7 位数客户是否迁移</td><td>立即查 WorkBuddy Sub-Agent 文档</td></tr>
+      <tr><td>2</td><td><b>9 场客户会无纪要沉淀</b>（除名创优品外都没开云录制）</td><td>后续跟进缺乏依据，决策记忆易丢</td><td>下周起所有客户场强制开云录制</td></tr>
+      <tr><td>3</td><td><b>6/4 周四时间冲突</b>：14:00 同时三场（安利/Luna/微众 14:00/14:00/14:30）</td><td>是否有代会 / 重叠解决了？</td><td>自查避免下周再现</td></tr>
+      <tr><td>4</td><td><b>平安/百果园/广东台</b>等大客户没有客户级方案文档</td><td>客户决策周期会拖长</td><td>优先级排序后逐家补</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 五、下周重点 + 效率观察 -->
+<div class="card">
+  <h2>五、下周重点 + 效率观察</h2>
+  <h3>🎯 下周重点</h3>
+  <ul class="next">
+    <li><b>必做①</b> 完成名创优品 Skill 嵌套验证 + 答复客户（最高优）</li>
+    <li><b>必做②</b> 广东台融媒方案落到客户能拿走的 PDF 版本</li>
+    <li><b>建议①</b> 平安/百果园/微众三场会议转写——AI 整理出 3 份简版纪要发给客户保持热度</li>
+    <li><b>建议②</b> 内部召集 Sub-Agent + Skill 嵌套最佳实践对齐会，沉淀成给所有售前的标准答案</li>
+  </ul>
+
+  <h3>📈 效率观察</h3>
+  <div class="ok-box"><b>✓ 客户密度：</b>5 天 10 场 = 高强度，已经接近「行走的售前」状态。</div>
+  <div class="insight"><b>⚠️ 价值产出：</b>仅名创优品 1 场出了可交付物 → 客户场的 ROI 未充分兑现。<br><b>改进点：</b>把「会后 30 分钟出极简纪要」作为强制流程，让每一场客户场都能在客户侧产生回响。</div>
+</div>
+
+<div style="text-align:center;color:var(--t3);font-size:12px;padding:20px 0">
+  数据源：腾讯会议 list-ended API（21 场已结束会议）· 生成时间：2026-06-07 18:23 · 由 WorkBuddy AI 自动整理
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工业制造业典型场景 · WorkBuddy 实现</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F6F9;        /* 纸白底 */
+  --paper-2:#FFFFFF;      /* 卡片白 */
+  --ink:#0E1726;          /* 钢墨字 */
+  --ink-2:#5B6675;        /* 钢灰副字 */
+  --line:#D4DBE4;         /* 蓝图细线 */
+  --blue:#1857A8;         /* 蓝图蓝主色 */
+  --blue-soft:#E7EFFA;    /* 蓝图浅蓝面 */
+  --orange:#FF6A1A;       /* 安全橙 = AI之后 */
+  --orange-soft:#FFEEE3;
+  --green:#1E8E5A;        /* 通过/正确 */
+  --grid:rgba(24,87,168,.055);
+  --shadow:0 1px 2px rgba(14,23,38,.04),0 8px 30px rgba(14,23,38,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.mono{font-family:'IBM Plex Mono',monospace}
+.display{font-family:'Space Grotesk',sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* ============ 顶部 ============ */
+.topbar{
+  border-bottom:1px solid var(--line);
+  background:rgba(244,246,249,.85);
+  backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:50;
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk';font-weight:700;font-size:16px;letter-spacing:.2px}
+.brand .mk{width:30px;height:30px;border:2px solid var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--blue);position:relative}
+.brand .mk::before{content:"";position:absolute;inset:4px;border:1px solid var(--blue);opacity:.35;border-radius:3px}
+.brand .mk svg{width:16px;height:16px}
+.topnav{display:flex;gap:26px;font-size:13.5px;font-weight:500}
+.topnav a{color:var(--ink-2);text-decoration:none;transition:color .15s}
+.topnav a:hover{color:var(--blue)}
+@media(max-width:760px){.topnav{display:none}}
+
+/* ============ HERO ============ */
+.hero{padding:70px 0 50px;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);border:1px solid var(--blue);padding:5px 13px;border-radius:30px;background:var(--blue-soft)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 3px var(--orange-soft)}
+.hero h1{font-family:'Space Grotesk';font-size:clamp(34px,5.4vw,62px);font-weight:700;line-height:1.04;letter-spacing:-1.4px;margin:22px 0 18px}
+.hero h1 .hl{color:var(--blue);position:relative;white-space:nowrap}
+.hero p.lead{font-size:18px;color:var(--ink-2);max-width:680px;line-height:1.65}
+.hero-meta{display:flex;margin-top:40px;flex-wrap:wrap;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--paper-2);box-shadow:var(--shadow)}
+.hero-meta .m{flex:1 1 0;min-width:150px;padding:20px 24px;border-right:1px solid var(--line);white-space:nowrap}
+.hero-meta .m:last-child{border-right:none}
+.hero-meta .m b{font-family:'Space Grotesk';font-size:32px;font-weight:700;color:var(--ink);display:flex;align-items:baseline;gap:5px;line-height:1}
+.hero-meta .m b.sm{font-size:21px;letter-spacing:-.3px}
+.hero-meta .m b .u{font-size:15px;color:var(--blue);font-weight:600}
+.hero-meta .m span{font-size:12.5px;color:var(--ink-2);letter-spacing:.4px;margin-top:9px;display:block}
+@media(max-width:760px){.hero-meta .m{flex:1 1 50%;border-bottom:1px solid var(--line)}.hero-meta .m:nth-child(2n){border-right:none}}
+.corner{position:absolute;width:18px;height:18px;border-color:var(--blue);opacity:.5}
+.hero::before,.hero::after{content:"";position:absolute;width:20px;height:20px;opacity:.45}
+.hero::before{top:30px;right:32px;border-top:2px solid var(--blue);border-right:2px solid var(--blue)}
+.hero::after{bottom:8px;right:32px;border-bottom:2px solid var(--blue);border-right:2px solid var(--blue)}
+
+/* ============ 通用区块 ============ */
+.section{padding:30px 0 20px}
+.sec-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:36px;padding-top:46px;border-top:2px solid var(--ink)}
+.sec-no{font-family:'Space Grotesk';font-size:13px;font-weight:700;color:var(--paper-2);background:var(--ink);padding:6px 12px;border-radius:6px;letter-spacing:1px;white-space:nowrap;margin-top:4px}
+.sec-no.s2{background:var(--blue)}
+.sec-head h2{font-family:'Space Grotesk';font-size:clamp(24px,3.2vw,36px);font-weight:700;letter-spacing:-.6px;line-height:1.12}
+.sec-head .tag{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--ink-2);margin-top:8px;display:block}
+.sec-head .tag .file{color:var(--blue);background:var(--blue-soft);padding:2px 7px;border-radius:4px}
+
+/* ============ 流程卡 ============ */
+.flow{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:30px}
+.card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.card-h{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--line);font-family:'Space Grotesk';font-weight:600;font-size:15px}
+.card-h .ic{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-h .ic svg{width:15px;height:15px}
+.ic.in{background:var(--blue-soft);color:var(--blue)}
+.ic.proc{background:#EDE7FA;color:#6B3FBF}
+.ic.out{background:var(--orange-soft);color:var(--orange)}
+.card-b{padding:20px}
+.badge{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;padding:3px 8px;border-radius:5px;letter-spacing:.5px}
+.badge.b-in{background:var(--blue-soft);color:var(--blue)}
+.badge.b-out{background:var(--orange-soft);color:var(--orange)}
+
+/* 输入输出对照 */
+.io{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;margin-bottom:22px}
+@media(max-width:820px){.io{grid-template-columns:1fr}.io .arrow{transform:rotate(90deg);padding:8px 0}}
+.io .panel{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;box-shadow:var(--shadow)}
+.io .panel .ph{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px;font-family:'Space Grotesk'}
+.io .panel .pb{padding:18px}
+.io .arrow{display:flex;align-items:center;justify-content:center;padding:0 18px;color:var(--blue)}
+.io .arrow svg{width:32px;height:32px}
+
+.filebox{font-family:'IBM Plex Mono';font-size:12.5px;background:#0E1726;color:#C9D6E6;border-radius:9px;padding:14px 16px;line-height:1.7;overflow-x:auto}
+.filebox .k{color:#6FA8E6}
+.filebox .v{color:#FFB07A}
+.filebox .c{color:#5B6675}
+.filebox .fn{color:#7DD9A0}
+
+.proclist{counter-reset:step;list-style:none}
+.proclist li{position:relative;padding:11px 0 11px 42px;border-bottom:1px dashed var(--line);font-size:14.5px}
+.proclist li:last-child{border-bottom:none}
+.proclist li::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-soft);width:28px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:5px}
+.proclist li b{font-weight:600}
+.proclist li .mono{font-size:12.5px;color:var(--ink-2)}
+
+/* SVG 工程示意 */
+.svgbox{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:center}
+.svgbox svg{max-width:100%;height:auto}
+.cap{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--ink-2);text-align:center;margin-top:9px}
+
+/* 数据小表 */
+.dtable{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.dtable th{text-align:left;font-family:'IBM Plex Mono';font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-2);padding:8px 10px;border-bottom:1.5px solid var(--line);font-weight:600}
+.dtable td{padding:8px 10px;border-bottom:1px solid var(--line)}
+.dtable td.mono{font-family:'IBM Plex Mono';font-size:12px}
+.dtable tr:last-child td{border-bottom:none}
+.dtable .num{text-align:right;font-family:'IBM Plex Mono';font-weight:600;color:var(--blue)}
+
+/* ============ 时间对比 ============ */
+.timecmp{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:28px;margin:8px 0 6px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.timecmp::before{content:"TIME · 工时对比";position:absolute;top:14px;right:18px;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:1px;color:var(--line);font-weight:600}
+.tc-row{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;margin-bottom:16px}
+.tc-row:last-child{margin-bottom:0}
+.tc-label{font-family:'Space Grotesk';font-size:14px;font-weight:600}
+.tc-label small{display:block;font-family:'DM Sans';font-weight:400;font-size:11.5px;color:var(--ink-2)}
+.bar{height:38px;border-radius:9px;display:flex;align-items:center;padding:0 16px;color:#fff;font-family:'IBM Plex Mono';font-weight:600;font-size:14px;position:relative;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.bar.before{background:linear-gradient(90deg,#5B6675,#7A8696)}
+.bar.after{background:linear-gradient(90deg,var(--orange),#FF8A4D)}
+.tc-foot{display:flex;align-items:center;gap:10px;margin-top:20px;padding-top:18px;border-top:1px dashed var(--line)}
+.tc-foot .x{font-family:'Space Grotesk';font-size:30px;font-weight:700;color:var(--orange)}
+.tc-foot .desc{font-size:13.5px;color:var(--ink-2)}
+.tc-foot .desc b{color:var(--ink)}
+
+/* ============ 泛化总结 ============ */
+.gengrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;margin-top:8px}
+.gcard{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);transition:transform .18s,border-color .18s;position:relative}
+.gcard:hover{transform:translateY(-3px);border-color:var(--blue)}
+.gcard .gh{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.gcard .gic{width:38px;height:38px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gcard .gic svg{width:20px;height:20px}
+.gcard h4{font-family:'Space Grotesk';font-size:16px;font-weight:600;line-height:1.2}
+.gcard h4 small{display:block;font-family:'IBM Plex Mono';font-size:10.5px;color:var(--ink-2);font-weight:400;margin-top:3px;letter-spacing:.3px}
+.gcard p{font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.gcard .gflow{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--blue);margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.gcard .ready{position:absolute;top:18px;right:18px;font-family:'IBM Plex Mono';font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px}
+.ready.r1{background:var(--orange-soft);color:var(--orange)}
+.ready.r2{background:var(--blue-soft);color:var(--blue)}
+
+/* ===== 八大系统 × WorkBuddy 全价值链 ===== */
+.vc-sec{margin-top:24px}
+.vc-h{font-family:'Space Grotesk';font-size:22px;font-weight:700;color:var(--ink);text-align:center;margin-bottom:12px}
+.vc-h .b{color:var(--blue)}
+.vc-desc{text-align:center;font-size:14px;color:var(--ink-2);max-width:820px;margin:0 auto 18px;line-height:1.7}
+.vc-flowtext{text-align:center;font-family:'IBM Plex Mono';font-size:12px;color:var(--blue);margin:0 auto 34px;max-width:840px;line-height:1.9;background:var(--blue-soft);border:1px solid var(--line);border-radius:10px;padding:12px 18px}
+.vc-flowtext b{color:var(--ink)}
+.vc-wrap{display:grid;grid-template-columns:130px 1fr;gap:30px;align-items:start}
+
+/* 左侧流程推进轴 */
+.vc-axis{position:sticky;top:74px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.vc-axis .at{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--ink-2);letter-spacing:1.5px;margin-bottom:18px}
+.vc-node{font-family:'Space Grotesk';font-weight:700;font-size:13.5px;color:#fff;background:var(--blue);border-radius:9px;padding:10px 0;width:98px;text-align:center;box-shadow:var(--shadow);letter-spacing:.4px}
+.vc-arrow{font-size:17px;color:var(--blue);line-height:1;margin:6px 0;font-weight:400}
+.vc-axis .ae{font-family:'IBM Plex Mono';font-size:9.5px;color:var(--ink-2);margin-top:16px;line-height:1.6;max-width:108px}
+
+/* 右侧八大系统板块 */
+.vc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.syscard{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);transition:transform .18s,border-color .18s}
+.syscard:hover{transform:translateY(-3px);border-color:var(--blue)}
+.syscard .sh{display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap}
+.syscard .sno{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.syscard .st{font-family:'Space Grotesk';font-size:14.5px;font-weight:600;color:var(--ink)}
+.syscard .st b{color:var(--blue);font-size:16px;margin-right:3px}
+.syscard .caps{display:flex;gap:5px;margin-left:auto;flex-wrap:wrap}
+.scap{font-family:'DM Sans';font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.cap-doc{background:var(--blue-soft);color:var(--blue)}
+.cap-chat{background:#E2F5F1;color:#0C8E7C}
+.cap-data{background:var(--orange-soft);color:var(--orange)}
+.syscard .sline{font-size:12.6px;color:var(--ink-2);line-height:1.55;margin-bottom:9px;display:flex;gap:8px}
+.syscard .sline .lb{font-family:'DM Sans';font-size:10px;font-weight:600;color:var(--ink);background:#EEF1F5;border-radius:5px;padding:2px 7px;flex-shrink:0;height:fit-content;margin-top:1px}
+.syscard .sline .lb.wb{background:var(--blue-soft);color:var(--blue)}
+.syscard .sline .fl{font-family:'IBM Plex Mono';font-size:11.8px;color:var(--ink)}
+.syscard .seff{margin-top:12px;padding-top:11px;border-top:1px dashed var(--line);font-size:13px;font-family:'Space Grotesk';font-weight:600;color:var(--ink)}
+.syscard .seff s{color:var(--ink-2);font-weight:400;font-family:'IBM Plex Mono';font-size:12px}
+.syscard .seff b{color:var(--orange);font-size:14.5px}
+.syscard .seff .pct{font-family:'IBM Plex Mono';font-size:11px;color:var(--orange);margin-left:5px}
+.syscard .sext{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+.syscard .sext-t{font-family:'DM Sans';font-size:9.5px;font-weight:700;color:var(--ink-2);letter-spacing:1px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.syscard .sext-t::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--orange)}
+.syscard .xitem{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:9px 12px;margin-top:7px;transition:border-color .15s}
+.syscard .xitem:hover{border-color:var(--blue)}
+.syscard .xitem .xh{display:flex;align-items:center;gap:8px}
+.syscard .xitem .xic{width:24px;height:24px;border-radius:7px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.syscard .xitem .xic svg{width:14px;height:14px}
+.syscard .xitem .xn{font-family:'Space Grotesk';font-size:12.6px;font-weight:600;color:var(--ink)}
+.syscard .xitem .xr{font-family:'IBM Plex Mono';font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;margin-left:auto;flex-shrink:0}
+.syscard .xitem .xr.r1{background:var(--orange-soft);color:var(--orange)}
+.syscard .xitem .xr.r2{background:var(--blue-soft);color:var(--blue)}
+.syscard .xitem .xf{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--blue);margin-top:6px;padding-left:32px}
+@media(max-width:860px){.vc-wrap{grid-template-columns:1fr}.vc-axis{flex-direction:row;flex-wrap:wrap;position:static;justify-content:center;gap:6px}.vc-arrow{transform:rotate(-90deg)}.vc-axis .at,.vc-axis .ae{width:100%}.vc-grid{grid-template-columns:1fr}}
+
+/* ============ 脚注 ============ */
+.foot{margin-top:60px;border-top:2px solid var(--ink);padding:30px 0 60px;color:var(--ink-2);font-size:13px}
+.foot .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot .mono{font-size:12px}
+.disclaimer{background:var(--blue-soft);border:1px solid var(--blue);border-left:4px solid var(--blue);border-radius:10px;padding:16px 20px;margin:30px 0 10px;font-size:13.5px;color:var(--ink);line-height:1.6}
+.disclaimer b{color:var(--blue)}
+
+.intro-line{font-size:15px;color:var(--ink-2);margin-bottom:26px;max-width:760px;line-height:1.65}
+
+/* 下载按钮 */
+.dlrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.dl{display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans';font-size:13px;font-weight:600;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:9px;padding:9px 14px;text-decoration:none;transition:all .16s;cursor:pointer}
+.dl:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px);box-shadow:var(--shadow)}
+.dl svg{width:15px;height:15px;flex-shrink:0}
+.dl .sz{font-family:'IBM Plex Mono';font-size:11px;color:var(--ink-2);font-weight:400}
+.dl.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.dl.primary:hover{background:#13468a;color:#fff}
+.dl.primary .sz{color:#C7D9F0}
+.dl.orange{background:var(--orange);color:#fff;border-color:var(--orange)}
+.dl.orange:hover{background:#e85d12;color:#fff}
+.dl.orange .sz{color:#FFD9C2}
+/* 真实产物预览图 */
+.shot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper-2);box-shadow:var(--shadow)}
+.shot img{display:block;width:100%;height:auto}
+.shot.scroll{max-height:360px;overflow-y:auto}
+.shot.scroll img{width:100%}
+</style>
+</head>
+<body>
+
+<!-- 顶栏 -->
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7" opacity=".5"/></svg></span>
+    WorkBuddy · 工业制造
+  </div>
+  <nav class="topnav">
+    <a href="#s1">场景一 · 图纸</a>
+    <a href="#s2">场景二 · BOM</a>
+    <a href="#gen">泛化能力</a>
+  </nav>
+</div></div>
+
+<!-- HERO -->
+<header class="hero"><div class="wrap">
+  <span class="eyebrow"><span class="dot"></span>INDUSTRIAL AI · 工程文件自动化</span>
+  <h1>工程图纸类工作<span class="hl">交由 AI 自动完成</span></h1>
+  <p class="lead">本文呈现两个来自制造业一线的典型场景：三维模型转加工图纸、电路原理图提取物料清单。此类工作此前需由资深工程师手工耗时数小时完成，现可由 WorkBuddy 读取工程文件并自动生成标准化成果。</p>
+  <div class="hero-meta">
+    <div class="m"><b>2</b><span>典型场景</span></div>
+    <div class="m"><b>30<span class="u">倍</span></b><span>平均效率提升</span></div>
+    <div class="m"><b class="sm">STEP&nbsp;/&nbsp;SchDoc</b><span>原生格式解析</span></div>
+    <div class="m"><b>0<span class="u">插件</span></b><span>纯文件驱动</span></div>
+  </div>
+</div></header>
+
+<main class="wrap">
+
+<!-- ===================== 场景一 ===================== -->
+<section class="section" id="s1">
+  <div class="sec-head">
+    <span class="sec-no">场景 01</span>
+    <div>
+      <h2>三维模型 → 加工图纸</h2>
+      <span class="tag">从 <span class="file">.STP / .STEP</span> 三维实体到可打印的 A3 工程图 &nbsp;·&nbsp; CASE: 4340_CERAMICBODY 陶瓷主体件</span>
+    </div>
+  </div>
+
+  <p class="intro-line">客户通过即时通讯发送一份 STEP 三维模型文件，要求出具加工图纸。传统流程需由工程师在 CAD 软件中逐一建立视图、测量尺寸并标注；WorkBuddy 则直接读取模型的几何数据，自动投影生成三视图并完成标注。</p>
+
+  <!-- 输入输出 -->
+  <div class="io">
+    <div class="panel">
+      <div class="ph"><span class="badge b-in">INPUT</span> 输入 · 客户三维实体文件</div>
+      <div class="pb">
+        <div class="filebox"><span class="c"># 123.stp · ISO-10303-21 (STEP)</span>
+<span class="k">FILE_NAME</span>(<span class="v">'4340_CERAMICBODY'</span>);
+<span class="k">CARTESIAN_POINT</span>  <span class="c">× 230 点</span>
+<span class="k">CIRCLE</span>           <span class="c">× 52 圆</span>
+<span class="k">CYLINDRICAL_SURF</span> <span class="c">× 22 圆柱面</span>
+<span class="k">CONICAL_SURFACE</span>  <span class="c">× 8 锥面</span>
+<span class="c"># 1476 行纯文本几何描述</span></div>
+        <div class="dlrow">
+          <a class="dl primary" href="assets/123.stp" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            123.stp <span class="sz">64 KB</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="panel">
+      <div class="ph"><span class="badge b-out">OUTPUT</span> 输出 · 三视图加工图纸（真实成果）</div>
+      <div class="pb">
+        <div class="shot">
+          <img src="assets/drawing_preview.png" alt="4340_CERAMICBODY 加工图纸真实输出">
+        </div>
+        <div class="cap">三视图 + 尺寸标注 + 技术要求 + 标题栏 · 单页 A3 横向</div>
+        <div class="dlrow">
+          <a class="dl orange" href="assets/4340_CERAMICBODY_drawing.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            加工图纸 PDF <span class="sz">A3 · 244 KB</span>
+          </a>
+          <a class="dl" href="assets/4340_CERAMICBODY_drawing.html" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/></svg>
+            在线查看 HTML
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 实现过程 -->
+  <div class="card">
+    <div class="card-h"><span class="ic proc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3"/></svg></span> WorkBuddy 实现过程</div>
+    <div class="card-b">
+      <ol class="proclist">
+        <li><b>解析几何</b> — 正则读取 ISO-10303-21 结构，提取全部坐标点 / 圆 / 圆柱面 / 锥面 <span class="mono">parse_step.py</span></li>
+        <li><b>识别真实边界</b> — 只用顶点(VERTEX_POINT)算实体包围盒，剔除孔轴参考点干扰，定出 <span class="mono">40×43×43 mm</span></li>
+        <li><b>正交投影</b> — 把 110 条边按真实坐标投影到主视图 / 俯视图 / 左视图三个平面 <span class="mono">project_views.py</span></li>
+        <li><b>组装成图</b> — 套标准 A3 图框、自动缩放居中、加尺寸标注 / 技术要求 / 标题栏 <span class="mono">make_drawing.py</span></li>
+        <li><b>导出 PDF</b> — 无头浏览器打印为单页 A3 横向 (420×297mm) 工程图</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 零件特征小表 -->
+  <div class="card" style="margin-top:18px">
+    <div class="card-h"><span class="ic in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span> 自动识别出的零件特征</div>
+    <div class="card-b" style="padding-top:6px">
+      <table class="dtable">
+        <thead><tr><th>特征</th><th>规格</th><th class="num">数量</th></tr></thead>
+        <tbody>
+          <tr><td>外形主体</td><td class="mono">40(长) × 43 × 43 mm 带倒角方块</td><td class="num">1</td></tr>
+          <tr><td>大端圆柱</td><td class="mono">φ30.6 (R15.3)</td><td class="num">2</td></tr>
+          <tr><td>接管圆柱</td><td class="mono">φ16 (R8)</td><td class="num">1</td></tr>
+          <tr><td>中心锥孔</td><td class="mono">φ15 + 90° 锥</td><td class="num">4</td></tr>
+          <tr><td>安装小孔</td><td class="mono">φ3.5 (R1.75)</td><td class="num">4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 时间对比 -->
+  <h3 style="font-family:'Space Grotesk';font-size:18px;margin:36px 0 14px;font-weight:600">⏱ 工时对比 · 生成单张加工图纸</h3>
+  <div class="timecmp">
+    <div class="tc-row">
+      <div class="tc-label">用 AI 之前<small>资深工程师手工 CAD</small></div>
+      <div class="bar before" style="width:100%">3 ~ 4 小时</div>
+    </div>
+    <div class="tc-row">
+      <div class="tc-label">用 AI 之后<small>WorkBuddy 自动生成</small></div>
+      <div class="bar after" style="width:6%;min-width:118px;white-space:nowrap">~ 5 分钟</div>
+    </div>
+    <div class="tc-foot">
+      <span class="x">≈ 40×</span>
+      <span class="desc">工程师由"绘图执行者"转为"图纸审核者"——<b>AI 生成初稿，人员仅复核公差与粗糙度</b>，单张图纸约节省 3.5 小时。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 场景二 ===================== -->
+<section class="section" id="s2">
+  <div class="sec-head">
+    <span class="sec-no s2">场景 02</span>
+    <div>
+      <h2>电路原理图 → 物料清单 BOM</h2>
+      <span class="tag">从 <span class="file">.SchDoc</span> Altium 原理图自动提取采购级 BOM &nbsp;·&nbsp; CASE: AC-SPS 交流开关电源板</span>
+    </div>
+  </div>
+
+  <p class="intro-line">硬件工程师完成原理图设计后，采购部门需要一份物料清单用于比价下单。传统流程需人工对照图纸逐一清点元件、抄录型号、查询封装；WorkBuddy 则直接解析原理图文件，关联位号与参数，去重统计后生成标准 BOM 表。</p>
+
+  <!-- 输入输出 -->
+  <div class="io">
+    <div class="panel">
+      <div class="ph"><span class="badge b-in">INPUT</span> 输入 · 客户电路原理图</div>
+      <div class="pb">
+        <div class="filebox"><span class="c"># AC-SPS(1).SchDoc</span>
+<span class="c"># OLE 复合文档 (D0CF11E0)</span>
+<span class="k">主数据流</span> = <span class="fn">FileHeader</span> <span class="c">(723 KB)</span>
+<span class="k">RECORD=1</span>  元件本体  <span class="c">× 140</span>
+<span class="k">RECORD=34</span> 位号 Designator
+<span class="k">RECORD=41</span> 参数 Parameter
+<span class="c"># |KEY=VALUE| 文本记录</span></div>
+        <div class="dlrow">
+          <a class="dl primary" href="assets/AC-SPS.SchDoc" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            AC-SPS.SchDoc <span class="sz">715 KB</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="panel">
+      <div class="ph"><span class="badge b-out">OUTPUT</span> 输出 · 采购级 BOM 表（真实成果）</div>
+      <div class="pb">
+        <div class="shot scroll">
+          <img src="assets/bom_preview.png" alt="AC-SPS 真实 BOM 物料清单输出">
+        </div>
+        <div class="cap">140 元件 → 64 种物料 · 含位号/参数/封装/厂家料号/规格</div>
+        <div class="dlrow">
+          <a class="dl orange" href="assets/AC-SPS_BOM.csv" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            BOM 表 CSV <span class="sz">Excel 可用</span>
+          </a>
+          <a class="dl" href="assets/AC-SPS_BOM.html" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/></svg>
+            在线查看 HTML
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 实现过程 -->
+  <div class="card">
+    <div class="card-h"><span class="ic proc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3"/></svg></span> WorkBuddy 实现过程</div>
+    <div class="card-b">
+      <ol class="proclist">
+        <li><b>解析 OLE 文档</b> — 使用 olefile 解析复合文档，定位主数据流 <span class="mono">FileHeader</span></li>
+        <li><b>切分记录</b> — 解码后按 <span class="mono">|RECORD=|</span> 切块，<span class="mono">|KEY=VALUE|</span> 拆字段，识别 140 个元件</li>
+        <li><b>父子关联</b> — 通过 OWNERINDEX 将位号 / 参数 / 封装关联至各自的元件本体</li>
+        <li><b>解码中文</b> — 优先取 %UTF8% 字段，普通文本按 GBK 还原，消除乱码 <span class="mono">build_bom.py</span></li>
+        <li><b>去重统计</b> — 同规格元件归并，140 元件 → 64 种物料，导出 CSV + HTML</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 元件分类小表 -->
+  <div class="card" style="margin-top:18px">
+    <div class="card-h"><span class="ic in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></span> 自动归并的物料分类 (140 元件 → 64 种)</div>
+    <div class="card-b" style="padding-top:6px">
+      <table class="dtable">
+        <thead><tr><th>类别</th><th class="num">数量</th><th>类别</th><th class="num">数量</th></tr></thead>
+        <tbody>
+          <tr><td>电阻 Resistor</td><td class="num">54</td><td>晶体管 Transistor</td><td class="num">6</td></tr>
+          <tr><td>电容 Capacitor</td><td class="num">36</td><td>IC 集成电路</td><td class="num">5</td></tr>
+          <tr><td>二极管 Diode</td><td class="num">25</td><td>电感 Inductor</td><td class="num">2</td></tr>
+          <tr><td>测试点 TestPoint</td><td class="num">11</td><td>变压器 Transformer</td><td class="num">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 时间对比 -->
+  <h3 style="font-family:'Space Grotesk';font-size:18px;margin:36px 0 14px;font-weight:600">⏱ 工时对比 · 整理一份 BOM 清单</h3>
+  <div class="timecmp">
+    <div class="tc-row">
+      <div class="tc-label">用 AI 之前<small>人工抄录核对</small></div>
+      <div class="bar before" style="width:100%">2 ~ 3 小时</div>
+    </div>
+    <div class="tc-row">
+      <div class="tc-label">用 AI 之后<small>WorkBuddy 自动提取</small></div>
+      <div class="bar after" style="width:5%;min-width:118px;white-space:nowrap">~ 3 分钟</div>
+    </div>
+    <div class="tc-foot">
+      <span class="x">≈ 50×</span>
+      <span class="desc">140 个元件无漏抄、中文无乱码、料号与封装完整——<b>采购可直接用于比价</b>，亦避免人工抄录产生的差错。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 泛化总结 ===================== -->
+<section class="section" id="gen">
+  <div class="sec-head">
+    <span class="sec-no s2">泛化 ∞</span>
+    <div>
+      <h2>同一套能力，还能覆盖哪些工业场景</h2>
+      <span class="tag">核心能力 = <span class="file">读取工程文件</span> + <span class="file">结构化提取</span> + <span class="file">自动生成</span>，可平移至制造业全链路</span>
+    </div>
+  </div>
+
+  <p class="intro-line">上述两个场景的本质相同：<b>将人工需耗时数小时完成的"读取文件、抄录数据、排版出图"工作，交由 AI 在数分钟内完成</b>。凡涉及"结构化工程文件 / 数据 → 标准化产出"的需求，WorkBuddy 均可介入。沿制造业核心系统主线，可在每个环节切入并衍生出对应的落地场景：</p>
+
+  <!-- ===== 八大系统 × WorkBuddy 全价值链（融合延伸场景） ===== -->
+  <div class="vc-sec">
+    <div class="vc-h">八大系统 <span class="b">×</span> WorkBuddy：覆盖制造业全价值链</div>
+    <p class="vc-desc">上述能力并非孤立的单点工具。沿制造业的核心信息系统主线，从产品定义到交付履约，WorkBuddy 可在每一个系统环节切入，形成贯通全价值链的智能化闭环。</p>
+    <div class="vc-flowtext"><b>系统主线（按业务流推进）：</b>PLM 产品定义 → CRM/SCM 订单与供应 → ERP 资源计划 → MES 制造执行 → QM 质量管理 → EMS 设备资产 → WMS 仓储交付</div>
+
+    <div class="vc-wrap">
+      <!-- 左侧：流程推进轴 -->
+      <div class="vc-axis">
+        <div class="at">流程推进</div>
+        <div class="vc-node">PLM</div>
+        <div class="vc-arrow">↓</div>
+        <div class="vc-node">CRM<br>SCM</div>
+        <div class="vc-arrow">↓</div>
+        <div class="vc-node">ERP</div>
+        <div class="vc-arrow">↓</div>
+        <div class="vc-node">MES</div>
+        <div class="vc-arrow">↓</div>
+        <div class="vc-node">QM</div>
+        <div class="vc-arrow">↓</div>
+        <div class="vc-node">EMS</div>
+        <div class="vc-arrow">↓</div>
+        <div class="vc-node">WMS</div>
+        <div class="ae">产品定义<br>↓<br>交付履约<br>全链贯通</div>
+      </div>
+
+      <!-- 右侧：八大系统板块 -->
+      <div class="vc-grid">
+        <!-- 1 PLM -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">1</span><span class="st"><b>PLM</b>产品生命周期管理</span><span class="caps"><span class="scap cap-doc">文档写作</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">需求采集 → 研发设计 → 工业设计 → 工艺规划 → 产品发布</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>研发文档智能生成 · BOM 智能核对 · 工艺知识库沉淀</span></div>
+          <div class="seff">提效 · 技术文档 <s>2–3 天</s> → <b>半天</b></div>
+          <div class="sext">
+            <div class="sext-t">可衍生落地场景</div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4M15 3h4a2 2 0 012 2v4M9 21H5a2 2 0 01-2-2v-4M15 21h4a2 2 0 002-2v-4"/></svg></span><span class="xn">工程图纸批量审核</span><span class="xr r1">高可行</span></div>
+              <div class="xf">图纸 → 缺陷清单 + 合规报告</div>
+            </div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 4.9v9.8L12 22l-9-5.3V6.9z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg></span><span class="xn">工艺路线 / 加工工序卡</span><span class="xr r2">可探索</span></div>
+              <div class="xf">3D 模型 → 工序卡 + 刀具表</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 CRM -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">2</span><span class="st"><b>CRM</b>客户关系管理</span><span class="caps"><span class="scap cap-chat">沟通应答</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">市场营销 → 销售漏斗 → 合同签署 → 订单管理 → 售后服务</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>销售合同 AI 审查 · 客户画像分析 · 销售漏斗报表自动化</span></div>
+          <div class="seff">提效 · 合同审查 <s>3–5 天</s> → <b>1 天</b></div>
+          <div class="sext">
+            <div class="sext-t">可衍生落地场景</div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.7l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.7l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg></span><span class="xn">3D 模型转报价参数</span><span class="xr r1">高可行</span></div>
+              <div class="xf">3D 模型 → 材料估算 + 报价</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 SCM -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">3</span><span class="st"><b>SCM</b>供应链管理</span><span class="caps"><span class="scap cap-chat">沟通应答</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">需求预测 → 采购执行 → 供应商管理 → 物流配送 → 库存优化</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>采购智能比价 · 供应商风险预警 · 物流跟踪报告</span></div>
+          <div class="seff">提效 · 比价 <s>2 天</s> → <b>2 小时</b></div>
+          <div class="sext">
+            <div class="sext-t">可衍生落地场景</div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span><span class="xn">多文件 BOM 合并比价</span><span class="xr r1">高可行</span></div>
+              <div class="xf">N 份 BOM → 差异表 + 成本分析</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 ERP -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">4</span><span class="st"><b>ERP</b>企业资源计划</span><span class="caps"><span class="scap cap-data">数据处理</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">财务管理 → 计划与排程 → 人力资源 → 核算统计 → 预算管控</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>成本差异分析 · 财务报表自动生成 · 进销存数据可视化</span></div>
+          <div class="seff">提效 · 成本报告 <s>2 天</s> → <b>2 小时</b><span class="pct">↓ 87.5%</span></div>
+        </div>
+
+        <!-- 5 MES -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">5</span><span class="st"><b>MES</b>制造执行系统</span><span class="caps"><span class="scap cap-data">数据处理</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">工单下发 → 生产排产 → 作业指导 → 数据采集 → 过程监控</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>生产数据汇总 · 产能分析看板 · 工单追溯</span></div>
+          <div class="seff">提效 · 产能通报 <s>3 小时</s> → <b>10 分钟</b><span class="pct">↓ 94.4%</span></div>
+          <div class="sext">
+            <div class="sext-t">可衍生落地场景</div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M19 9l-5 5-4-4-3 3"/></svg></span><span class="xn">生产 / 良率数据看板</span><span class="xr r2">可探索</span></div>
+              <div class="xf">产线数据 → 实时看板 + 日报</div>
+            </div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span><span class="xn">技术文档 / SOP 多语翻译</span><span class="xr r2">可探索</span></div>
+              <div class="xf">中文 SOP → 多语版本</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 QM -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">6</span><span class="st"><b>QM</b>质量管理</span><span class="caps"><span class="scap cap-data">数据处理</span><span class="scap cap-doc">文档写作</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">来料检验 → SPC 统计 → 全程追溯 → 不合格品 → 持续改进</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>品控助手 · 质量数据 AI 分析 · 8D 报告智能生成 · 事前预警</span></div>
+          <div class="seff">提效 · 质量报告 <s>2 天</s> → <b>2 小时</b><span class="pct">+ 事后转事前</span></div>
+          <div class="sext">
+            <div class="sext-t">可衍生落地场景</div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span><span class="xn">检验报告 / 质检单生成</span><span class="xr r1">高可行</span></div>
+              <div class="xf">测量数据 → 质检报告 (PASS/NG)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 EMS -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">7</span><span class="st"><b>EMS</b>设备/资产管理</span><span class="caps"><span class="scap cap-chat">沟通应答</span><span class="scap cap-data">数据处理</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">日常点检 → 预防维护 → 故障维修 → 效率评估 → 资产寿命</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>设备巡检记录归档 · 故障自然语言检索 · 维护报告自动生成</span></div>
+          <div class="seff">提效 · 故障检索 <s>15 分钟</s> → <b>3 秒</b><span class="pct">↓ 99.5%</span></div>
+          <div class="sext">
+            <div class="sext-t">可衍生落地场景</div>
+            <div class="xitem">
+              <div class="xh"><span class="xic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 01-.6 2.8l1.7 1.3-2 3.4-2-.8a7 7 0 01-2.4 1.4l-.3 2.1h-4l-.3-2.1a7 7 0 01-2.4-1.4l-2 .8-2-3.4 1.7-1.3A7 7 0 015 12c0-1 .2-1.9.6-2.8L3.9 7.9l2-3.4 2 .8A7 7 0 0110.3 4l.3-2.1h4l.3 2.1a7 7 0 012.4 1.4l2-.8 2 3.4-1.7 1.3c.4.9.6 1.8.6 2.8z"/></svg></span><span class="xn">设备维护手册问答</span><span class="xr r2">可探索</span></div>
+              <div class="xf">手册 PDF → 智能问答助手</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 WMS -->
+        <div class="syscard">
+          <div class="sh"><span class="sno">8</span><span class="st"><b>WMS</b>仓库管理</span><span class="caps"><span class="scap cap-data">数据处理</span></span></div>
+          <div class="sline"><span class="lb">核心流程</span><span class="fl">入库单 → 资源协同与高效制造 → 拣货打包 → 出库发货</span></div>
+          <div class="sline"><span class="lb wb">WorkBuddy</span><span>库存盘点报告 · 出入库数据分析 · 仓储 KPI 可视化看板</span></div>
+          <div class="seff">提效 · 库存核对 <s>半天</s> → <b>10 分钟</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <b>关于落地的说明：</b>所有"自动生成"的成果均定位为 <b>AI 初稿</b>——可大幅压缩工程师的机械性工作，但关键的公差、安全与合规判定仍建议由专业人员复核。AI 的价值在于将人员从"绘图与抄录"工作中解放出来，专注于审核与决策。标注「高可行」的场景已有同类成功路径，「可探索」的场景需结合具体文件格式进行验证。
+  </div>
+</section>
+
+</main>
+
+<!-- 脚注 -->
+<footer class="foot"><div class="wrap">
+  <div>
+    <div class="display" style="font-weight:700;font-size:15px;color:var(--ink)">WorkBuddy · 工业制造业典型场景</div>
+    <div style="margin-top:6px">读取工程文件 → 结构化提取 → 自动生成</div>
+  </div>
+  <div class="mono" style="text-align:right">
+    CASE 01 · 4340_CERAMICBODY<br>
+    CASE 02 · AC-SPS Power Board<br>
+    <span style="color:var(--blue)">Generated by WorkBuddy</span>
+  </div>
+</div></footer>
+
+<script>
+// 进入视口时条形图动画
+const bars=document.querySelectorAll('.bar');
+bars.forEach(b=>{const w=b.style.width;b.dataset.w=w;b.style.width='0';});
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){const b=e.target;b.style.width=b.dataset.w;io.unobserve(b);}});
+},{threshold:.4});
+bars.forEach(b=>io.observe(b));
+</script>
+</body>
+</html>

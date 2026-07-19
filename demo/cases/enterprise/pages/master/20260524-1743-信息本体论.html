@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专家团评分 · 信息本体论</title>
+<style>
+  :root {
+    --primary: #1E40AF;
+    --primary-soft: #E0E7FF;
+    --ink: #1F2937;
+    --ink-soft: #4B5563;
+    --line: #E5E7EB;
+    --bg: #FFFFFF;
+    --bg-soft: #F9FAFB;
+    --warn: #DC2626;
+    --warn-soft: #FEE2E2;
+    --ok: #059669;
+    --c-feynman: #F59E0B;
+    --c-socrates: #6366F1;
+    --c-zhuangzi: #6B7280;
+    --c-wangyangming: #DB2777;
+    --c-munger: #0EA5E9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-soft);
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--primary-soft);
+    color: var(--primary);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 8px 0 6px;
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    font-size: 18px;
+    color: var(--primary);
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-soft);
+    font-weight: 700;
+  }
+  .card h3 {
+    font-size: 16px;
+    margin: 18px 0 8px;
+    color: var(--ink);
+  }
+  .label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .info-block {
+    padding: 12px 14px;
+    background: var(--bg-soft);
+    border-radius: 4px;
+    border-left: 3px solid var(--primary);
+  }
+  .info-block strong { color: var(--primary); }
+  .conflict-list { padding-left: 20px; }
+  .conflict-list li { margin-bottom: 4px; }
+  .expert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .expert-pill {
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+  }
+  .expert-pill .name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .expert-pill .role {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .expert-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--primary);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .expert-card.feynman { border-left-color: var(--c-feynman); }
+  .expert-card.socrates { border-left-color: var(--c-socrates); }
+  .expert-card.zhuangzi { border-left-color: var(--c-zhuangzi); }
+  .expert-card.wangyangming { border-left-color: var(--c-wangyangming); }
+  .expert-card.munger { border-left-color: var(--c-munger); }
+  .expert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .expert-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .expert-header .stance {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .expert-body p { margin: 8px 0; color: var(--ink-soft); }
+  .expert-body strong { color: var(--ink); }
+  .expert-body blockquote {
+    margin: 12px 0;
+    padding: 10px 16px;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--line);
+    color: var(--ink);
+    font-style: italic;
+  }
+  table.score {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 4px;
+    font-size: 13px;
+  }
+  table.score th, table.score td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+  table.score th {
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  table.score td.num {
+    text-align: center;
+    font-weight: 700;
+    width: 56px;
+  }
+  .score-1 { color: var(--warn); }
+  .score-2 { color: #EA580C; }
+  .score-3 { color: #6B7280; }
+  .score-4 { color: #16A34A; }
+  .score-5 { color: var(--ok); font-weight: 800; }
+  .care-line {
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 8px 12px;
+    background: var(--primary-soft);
+    border-radius: 4px;
+    color: var(--primary);
+  }
+  /* Radar */
+  .radar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0 0;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+  /* Synthesis */
+  .synth-zone {
+    padding: 16px 18px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    border: 1px solid var(--line);
+  }
+  .synth-zone.consensus { border-left: 4px solid var(--ok); background: #F0FDF4; }
+  .synth-zone.divergence { border-left: 4px solid var(--warn); background: var(--warn-soft); }
+  .synth-zone.blind { border-left: 4px solid #F59E0B; background: #FEF3C7; }
+  .synth-zone h3 { margin-top: 0; }
+  /* Decision list */
+  ol.decisions {
+    counter-reset: dec;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  ol.decisions li {
+    counter-increment: dec;
+    position: relative;
+    padding: 14px 16px 14px 56px;
+    margin-bottom: 10px;
+    background: var(--bg-soft);
+    border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+  ol.decisions li::before {
+    content: counter(dec);
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    line-height: 28px;
+    font-size: 14px;
+  }
+  ol.decisions li.priority {
+    border-color: var(--warn);
+    background: var(--warn-soft);
+  }
+  ol.decisions li.priority::before {
+    background: var(--warn);
+  }
+  .pill-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .tag-warn { background: var(--warn-soft); color: var(--warn); }
+  .tag-info { background: var(--primary-soft); color: var(--primary); }
+  .footer {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 12px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .actions {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+  }
+  .actions button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .actions button:hover { background: #1E3A8A; }
+  @media print {
+    .actions { display: none; }
+    body { background: white; }
+    .card, .expert-card { break-inside: avoid; }
+  }
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .container { padding: 20px 14px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+
+<style id="unified-nav-style">
+  .unified-nav {
+    position: sticky; top: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 20px;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+    font-size: 13px; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .unified-nav a {
+    color: #4F46E5; text-decoration: none; padding: 6px 12px;
+    border-radius: 6px; transition: all 0.15s;
+    border: 1px solid transparent; white-space: nowrap;
+  }
+  .unified-nav a:hover { background: #EEF2FF; border-color: #C7D2FE; }
+  .unified-nav a.disabled { color: #9CA3AF; pointer-events: none; opacity: 0.5; }
+  .unified-nav .nav-back { font-weight: 600; }
+  .unified-nav .nav-pages { display: flex; gap: 8px; }
+  .unified-nav .nav-current { color: #6B7280; font-size: 12px; padding: 0 8px; }
+  @media print { .unified-nav { display: none !important; } }
+</style>
+
+</head>
+<body>
+<nav class="unified-nav">
+  <a href="./index.html" class="nav-back">← 大师召唤系统目录</a>
+  <span class="nav-current">信息本体论 v1 · 1 / 3</span>
+  <div class="nav-pages">
+    <a href="#" class="disabled">← 上一份</a>
+    <a href="./20260524-2345-巧合似神迹.html" title="巧合似神迹">下一份 →</a>
+  </div>
+</nav>
+
+
+<div class="container">
+
+  <div class="meta-bar">
+    <span class="badge">专家团评分 · v0.3.1</span>
+    <span>2026-05-24 · 17:43</span>
+  </div>
+  <h1>如何理解，宇宙万物一切皆是信息？</h1>
+  <div class="subtitle">命题域：形而上学 / 认知论 / 本体论 · 复杂度：极高 · 召唤 5 位专家</div>
+
+  <!-- Step 1: 路由分析 -->
+  <div class="card">
+    <h2>① 路由分析</h2>
+    <div class="grid-2">
+      <div class="info-block"><div class="label">问题域</div><strong>形而上学 / 认知论 / 本体论</strong></div>
+      <div class="info-block"><div class="label">复杂度</div><strong>极高（顶配 5 位）</strong></div>
+    </div>
+    <h3>核心冲突轴</h3>
+    <ul class="conflict-list">
+      <li>① 还原主义（信息可拆到比特）↔ 整体观（现象不可还原）</li>
+      <li>② 物质先于信息 ↔ 信息先于物质 ↔ 心先于二者</li>
+      <li>③ 命题作为科学假设（可证伪）↔ 思维工具 ↔ 终极真理</li>
+      <li>④ 解释万物 ↔ 等于什么也没解释（套套逻辑）</li>
+    </ul>
+    <h3>评分模板（自定义 5 维）</h3>
+    <p style="color: var(--ink-soft);">解释力 · 可证伪性 · 实操价值 · 与已有传统兼容 · 终极完备性</p>
+  </div>
+
+  <!-- Step 2: 专家阵容 -->
+  <div class="card">
+    <h2>② 选定 5 位专家</h2>
+    <div class="expert-grid">
+      <div class="expert-pill" style="border-left: 3px solid var(--c-feynman);">
+        <div class="name">费曼</div><div class="role">物理实证派 · 反方</div>
+      </div>
+      <div class="expert-pill" style="border-left: 3px solid var(--c-socrates);">
+        <div class="name">苏格拉底</div><div class="role">反诘派 · 中立追问</div>
+      </div>
+      <div class="expert-pill" style="border-left: 3px solid var(--c-zhuangzi);">
+        <div class="name">庄子</div><div class="role">齐物论 · 外部对立</div>
+      </div>
+      <div class="expert-pill" style="border-left: 3px solid var(--c-wangyangming);">
+        <div class="name">王阳明</div><div class="role">心学 · 正面冲突</div>
+      </div>
+      <div class="expert-pill" style="border-left: 3px solid var(--c-munger);">
+        <div class="name">芒格</div><div class="role">工具派 · 温和肯定</div>
+      </div>
+    </div>
+    <p style="color: var(--ink-soft); font-size: 13px; margin-top: 16px;">
+      <strong>已排除</strong>：马斯克（与费曼第一性原理重叠）、达尔文（生物层覆盖不增量）、纳瓦尔/吴晓波（社会层非主轴）、曾国藩（修身派不在认知论核心）。
+    </p>
+  </div>
+
+  <!-- Step 3: 五位独立分析 -->
+  <h2 style="font-size: 22px; margin: 32px 0 16px; color: var(--primary);">③ 五位独立分析</h2>
+
+  <div class="expert-card feynman">
+    <div class="expert-header">
+      <h3>🧪 费曼 · 物理实证派</h3>
+      <span class="stance">综合分 2.6</span>
+    </div>
+    <div class="expert-body">
+      <p><strong>先把名词变成大白话。</strong>"宇宙万物一切皆是信息"——如果一个高一学生听不懂，那它要么是真理被翻译坏了，要么是装腔作势。</p>
+      <p>我翻译你这个命题的真实含义：<strong>"物理量之间的关系，比物理量本身更基础。"</strong> 这个我同意——黑洞熵公式、量子信息守恒、全息原理这些都是真物理。<strong>但有人把它说成"万物都是 0 和 1"——这是装腔作势。</strong> 0 和 1 是描述系统的工具，不是系统本身。</p>
+      <blockquote>这个命题最大的问题是<strong>说了等于没说</strong>。如果"信息"= 一切关系/区分/状态——那"万物是信息"就退化成"万物是万物"。</blockquote>
+      <p><strong>真正可做的事</strong>：研究具体的"信息物理"——黑洞表面熵、量子纠缠、计算复杂度极限。Real Physics。<strong>形而上学命题用来当海报可以，用来做实验不行。</strong></p>
+    </div>
+    <table class="score">
+      <thead><tr><th>维度</th><th>分</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td>解释力</td><td class="num score-4">4</td><td>物理层确实强，但靠的是具体定理</td></tr>
+        <tr><td>可证伪性</td><td class="num score-1">1</td><td>命题太大，无法证伪——这是它最大的问题</td></tr>
+        <tr><td>实操价值</td><td class="num score-3">3</td><td>海报式哲学，不指导具体研究</td></tr>
+        <tr><td>与传统兼容</td><td class="num score-3">3</td><td>兼容来自"包含一切"的语义稀释</td></tr>
+        <tr><td>终极完备性</td><td class="num score-2">2</td><td>没解释"为什么有比特"——惠勒晚年也承认</td></tr>
+      </tbody>
+    </table>
+    <div class="care-line">📌 我最在乎：<strong>可证伪性</strong> ｜ 我最忽视：直觉体验价值（建议参考庄子）</div>
+  </div>
+
+  <div class="expert-card socrates">
+    <div class="expert-header">
+      <h3>🤔 苏格拉底 · 反诘派</h3>
+      <span class="stance">综合分 2.4</span>
+    </div>
+    <div class="expert-body">
+      <p>我什么都不说，先问你三个问题：</p>
+      <p><strong>1.</strong> 你说"万物是信息"——你能定义"信息"吗？如果信息 = 一切区分，那你只是在重复"凡存在者皆有差异"；如果信息 = 香农比特，那你的痛苦、爱、临终回忆，能用比特描述吗？</p>
+      <p><strong>2.</strong> 你说"皆是"——这个等号是什么意思？是"由信息构成"？是"等价于信息"？是"可以被信息描述"？三种意思天差地别。</p>
+      <p><strong>3.</strong> 你为什么要相信这个命题？是因为它解释了你不懂的事情？（用神秘换神秘）是因为科学家这样说？（哪个科学家？）是因为它和你的佛学直觉吻合？（你是用直觉验证命题，不是用命题理解世界）</p>
+      <blockquote>在你回答这三个问题之前，"宇宙万物皆是信息"对你是一句<strong>美丽的咒语</strong>，不是一个有内容的认识。</blockquote>
+    </div>
+    <table class="score">
+      <thead><tr><th>维度</th><th>分</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td>解释力</td><td class="num score-3">3</td><td>解释力取决于"信息"如何定义——定义清楚前 N/A</td></tr>
+        <tr><td>可证伪性</td><td class="num score-2">2</td><td>无法证伪是因为定义不清，不是因为它深刻</td></tr>
+        <tr><td>实操价值</td><td class="num score-2">2</td><td>没有清晰定义就没有清晰行动</td></tr>
+        <tr><td>与传统兼容</td><td class="num score-4">4</td><td>兼容性强反而可疑——可能是因为它什么都没说</td></tr>
+        <tr><td>终极完备性</td><td class="num score-1">1</td><td>完备性 = 逃避追问——它不能定义自己</td></tr>
+      </tbody>
+    </table>
+    <div class="care-line">📌 我最在乎：<strong>定义的清晰度</strong> ｜ 我最忽视：超越语言的体证（建议参考庄子）</div>
+  </div>
+
+  <div class="expert-card zhuangzi">
+    <div class="expert-header">
+      <h3>🍃 庄子 · 齐物论视角</h3>
+      <span class="stance">综合分 3.0</span>
+    </div>
+    <div class="expert-body">
+      <p>费曼和苏格拉底说"不够清楚"。我反过来——<strong>这命题的问题不是不够清楚，是清楚过头了。</strong></p>
+      <p>"宇宙万物皆是信息"——又造了一个新名相。从"万物皆物质"到"万物皆信息"，<strong>只是换了一个词，没换那个执着。</strong></p>
+      <p>人类对"基础实体"的追求是病。先是水（泰勒斯）、火（赫拉克利特）、原子（德谟克利特）、上帝、物质、能量、现在是信息——<strong>每一代都觉得自己找到了 the one，每一代都被下一代笑话。</strong></p>
+      <blockquote>真正的洞见不在"找到底层是什么"，在<strong>"放下'必须有底层'这个执念"</strong>。万物不是物质、不是信息、不是心、不是空——不是任何"是"。</blockquote>
+      <p>一个三岁小孩看到蚂蚁不会问"这是什么？"他直接和它玩。<strong>"什么"是大人才有的病。</strong> 但是——也不是要你扔掉它。<strong>用着舒服就用，明天发现新词更好就换。不要把工具当成神。</strong></p>
+    </div>
+    <table class="score">
+      <thead><tr><th>维度</th><th>分</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td>解释力</td><td class="num score-2">2</td><td>解释一切等于没解释——这是名相膨胀症</td></tr>
+        <tr><td>可证伪性</td><td class="num score-2">2</td><td>我不在乎可证伪，但同样不在乎"它对"</td></tr>
+        <tr><td>实操价值</td><td class="num score-5">5</td><td>把它当工具用极好——但前提是知道它是工具</td></tr>
+        <tr><td>与传统兼容</td><td class="num score-4">4</td><td>和佛家貌合神离——佛家终极是"无名"</td></tr>
+        <tr><td>终极完备性</td><td class="num score-2">2</td><td>任何"完备"都是幻觉，这条不该追求</td></tr>
+      </tbody>
+    </table>
+    <div class="care-line">📌 我最在乎：<strong>放下对"底层"的执着</strong> ｜ 我最忽视：物理学具体证据（建议参考费曼）</div>
+  </div>
+
+  <div class="expert-card wangyangming">
+    <div class="expert-header">
+      <h3>🪷 王阳明 · 心学视角</h3>
+      <span class="stance">综合分 1.8 · 反方触发</span>
+    </div>
+    <div class="expert-body">
+      <p>我和庄子有一点像，但分野必须说清。<strong>他主张"无相"，我主张"心即理"。</strong></p>
+      <p>"宇宙万物皆是信息"——我问你一句：<strong>当没有任何观察者时，"信息"还存在吗？</strong></p>
+      <ul>
+        <li>一棵树倒在没有人的森林——产生的是"声波"还是"信息"？</li>
+        <li>量子力学告诉你"观察改变结果"——这个"观察者"是什么？</li>
+        <li>一段 DNA 序列对一只死了 1 亿年的恐龙来说——是"信息"还是只是"分子排列"？</li>
+      </ul>
+      <blockquote><strong>信息这个概念本身，就以"心"为前提。</strong>"万物皆是信息"这个命题，<strong>偷偷把'心'藏在了'信息'里面</strong>——它假装在说一个客观本体，实际描述的是"被心识到的关系"。</blockquote>
+      <p><strong>实操建议</strong>：别用这个命题逃避做选择。"万物是信息"听起来很高级，但当你说"我爱一个人"那一刻——爱是信息？信息是 0 和 1？那重组 4 个字节就够了，何必有真实的相遇？<strong>致良知，不靠任何本体论假设。</strong></p>
+    </div>
+    <table class="score">
+      <thead><tr><th>维度</th><th>分</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td>解释力</td><td class="num score-2">2</td><td>解释了"关系"，但漏了"心"这个最重要的</td></tr>
+        <tr><td>可证伪性</td><td class="num score-2">2</td><td>偷换"心"成"信息"，不算客观命题</td></tr>
+        <tr><td>实操价值</td><td class="num score-1">1</td><td>用它做决策反而会让你忘记良知</td></tr>
+        <tr><td>与传统兼容</td><td class="num score-2">2</td><td>和心学正面冲突——它把心还原成信息</td></tr>
+        <tr><td>终极完备性</td><td class="num score-2">2</td><td>不解释"心"的命题不可能完备</td></tr>
+      </tbody>
+    </table>
+    <div class="care-line">📌 我最在乎：<strong>心的优先性</strong> ｜ 我最忽视：物理证据的力量（建议参考费曼）</div>
+  </div>
+
+  <div class="expert-card munger">
+    <div class="expert-header">
+      <h3>🔍 芒格 · 多元思维模型派</h3>
+      <span class="stance">综合分 3.8</span>
+    </div>
+    <div class="expert-body">
+      <p>前面四位都在判断"这命题是不是真理"。<strong>我换个问法——这是不是一个有用的思维工具？</strong></p>
+      <p>我的标准很简单：<strong>"加进我的格栅里，能不能让我看到原本看不到的东西？"</strong></p>
+      <p>✅ <strong>作用 1：跨学科统一性</strong>——同时看到物理、生物、计算的相同模式（守恒、复制、突变）。这是黄金。<br>
+         ✅ <strong>作用 2：识别"载体迷思"</strong>——钱是一种信息模式，载体（黄金/纸币/数字）只是显化。<br>
+         ✅ <strong>作用 3：长期价值识别</strong>——载体会消失，信息模式会保留。</p>
+      <p>❌ <strong>风险 1：滑坡到神秘主义</strong>——"信息有意识""我们活在模拟中"——用一个工具解释一切就不再是工具，是宗教。<br>
+         ❌ <strong>风险 2：忽视实物经济</strong>——用"信息论"思考真实身体的痛苦或物质世界的摩擦时，会忘掉血肉、原子、重力是真实的。</p>
+      <blockquote><strong>反过来想（Inversion）</strong>：什么时候你应该<strong>忘掉</strong>这个命题？做具体决策时（用现金流、人性的具体模型）；面对真实的人和情感时（用感情和直觉）；做手艺活和身体劳作时（用身体）。</blockquote>
+      <p><strong>结论</strong>：把它当成 100 个思维模型中的一个，放进格栅，不要让它当格栅本身。</p>
+    </div>
+    <table class="score">
+      <thead><tr><th>维度</th><th>分</th><th>一句话</th></tr></thead>
+      <tbody>
+        <tr><td>解释力</td><td class="num score-5">5</td><td>跨三大学科统一性极强</td></tr>
+        <tr><td>可证伪性</td><td class="num score-3">3</td><td>不是科学命题但有具体子命题可证伪</td></tr>
+        <tr><td>实操价值</td><td class="num score-4">4</td><td>用对了是黄金，用过头是宗教</td></tr>
+        <tr><td>与传统兼容</td><td class="num score-4">4</td><td>与佛家/演化论形成有效共振</td></tr>
+        <tr><td>终极完备性</td><td class="num score-3">3</td><td>我不追求完备，只追求有用</td></tr>
+      </tbody>
+    </table>
+    <div class="care-line">📌 我最在乎：<strong>作为工具的有效性</strong> ｜ 我最忽视：终极真理追求（建议参考王阳明）</div>
+  </div>
+
+  <!-- Step 4: 蛛网图 -->
+  <div class="card">
+    <h2>④ 蛛网图：5 维评分叠加</h2>
+    <div class="radar-wrap">
+      <svg viewBox="0 0 760 620" width="100%" style="max-width: 720px; overflow: visible;" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <style>
+            .axis-line { stroke: #D1D5DB; stroke-width: 1; }
+            .grid-poly { fill: none; stroke: #E5E7EB; stroke-width: 1; }
+            .axis-label { font: 600 13px -apple-system, sans-serif; fill: #1F2937; }
+            .axis-sub { font: 11px -apple-system, sans-serif; fill: #6B7280; }
+            .center-dot { fill: #1E40AF; }
+          </style>
+        </defs>
+        <g transform="translate(380,310)">
+          <!-- Grid: 5 concentric pentagons -->
+          <polygon class="grid-poly" points="0,-50 47.55,-15.45 29.39,40.45 -29.39,40.45 -47.55,-15.45"/>
+          <polygon class="grid-poly" points="0,-100 95.11,-30.9 58.78,80.9 -58.78,80.9 -95.11,-30.9"/>
+          <polygon class="grid-poly" points="0,-150 142.66,-46.35 88.17,121.35 -88.17,121.35 -142.66,-46.35"/>
+          <polygon class="grid-poly" points="0,-200 190.21,-61.8 117.56,161.8 -117.56,161.8 -190.21,-61.8"/>
+          <polygon class="grid-poly" points="0,-250 237.76,-77.25 146.95,202.25 -146.95,202.25 -237.76,-77.25" stroke="#9CA3AF" stroke-width="1.5"/>
+
+          <!-- 5 axes -->
+          <line class="axis-line" x1="0" y1="0" x2="0" y2="-250"/>
+          <line class="axis-line" x1="0" y1="0" x2="237.76" y2="-77.25"/>
+          <line class="axis-line" x1="0" y1="0" x2="146.95" y2="202.25"/>
+          <line class="axis-line" x1="0" y1="0" x2="-146.95" y2="202.25"/>
+          <line class="axis-line" x1="0" y1="0" x2="-237.76" y2="-77.25"/>
+
+          <!-- Divergence highlight rings (axes 2 & 3 = 可证伪性, 实操价值) -->
+          <line x1="237.76" y1="-77.25" x2="146.95" y2="202.25" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.6"/>
+
+          <!-- Feynman: 解4 / 证1 / 操3 / 兼3 / 完2 -->
+          <polygon points="0,-200 47.55,-15.45 58.78,80.9 -88.17,121.35 -95.11,-30.9"
+                   fill="#F59E0B" fill-opacity="0.18" stroke="#F59E0B" stroke-width="2"/>
+          <!-- Socrates: 解3 / 证2 / 操2 / 兼4 / 完1 -->
+          <polygon points="0,-150 95.11,-30.9 39.18,53.93 -117.56,161.8 -47.55,-15.45"
+                   fill="#6366F1" fill-opacity="0.18" stroke="#6366F1" stroke-width="2"/>
+          <!-- Zhuangzi: 解2 / 证2 / 操5 / 兼4 / 完2 -->
+          <polygon points="0,-100 95.11,-30.9 146.95,202.25 -117.56,161.8 -95.11,-30.9"
+                   fill="#6B7280" fill-opacity="0.18" stroke="#6B7280" stroke-width="2"/>
+          <!-- Wang: 解2 / 证2 / 操1 / 兼2 / 完2 -->
+          <polygon points="0,-100 95.11,-30.9 29.39,40.45 -58.78,80.9 -95.11,-30.9"
+                   fill="#DB2777" fill-opacity="0.20" stroke="#DB2777" stroke-width="2"/>
+          <!-- Munger: 解5 / 证3 / 操4 / 兼4 / 完3 -->
+          <polygon points="0,-250 142.66,-46.35 117.56,161.8 -117.56,161.8 -142.66,-46.35"
+                   fill="#0EA5E9" fill-opacity="0.16" stroke="#0EA5E9" stroke-width="2"/>
+
+          <circle class="center-dot" cx="0" cy="0" r="2.5"/>
+
+          <!-- Labels -->
+          <text class="axis-label" x="0" y="-265" text-anchor="middle">解释力</text>
+          <text class="axis-sub" x="0" y="-280" text-anchor="middle">最高 芒格 5</text>
+
+          <text class="axis-label" x="252" y="-78" text-anchor="start">可证伪性 ⚠</text>
+          <text class="axis-sub" x="252" y="-62" text-anchor="start">分歧 1↔3</text>
+
+          <text class="axis-label" x="156" y="220" text-anchor="start">实操价值 ⚠</text>
+          <text class="axis-sub" x="156" y="236" text-anchor="start">分歧 1↔5</text>
+
+          <text class="axis-label" x="-156" y="220" text-anchor="end">传统兼容</text>
+          <text class="axis-sub" x="-156" y="236" text-anchor="end">最高 苏/庄/芒 4</text>
+
+          <text class="axis-label" x="-252" y="-78" text-anchor="end">终极完备性</text>
+          <text class="axis-sub" x="-252" y="-62" text-anchor="end">最高 芒格 3</text>
+
+          <!-- Scale numbers -->
+          <text class="axis-sub" x="6" y="-50">1</text>
+          <text class="axis-sub" x="6" y="-150">3</text>
+          <text class="axis-sub" x="6" y="-250">5</text>
+        </g>
+      </svg>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#F59E0B;"></span>费曼 (2.6)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#6366F1;"></span>苏格拉底 (2.4)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#6B7280;"></span>庄子 (3.0)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#DB2777;"></span>王阳明 (1.8)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#0EA5E9;"></span>芒格 (3.8)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Synthesis -->
+  <div class="card">
+    <h2>⑤ 合成卡</h2>
+
+    <div class="synth-zone consensus">
+      <h3>✅ 一致区（4 人以上同意）</h3>
+      <p><strong>解释力</strong>：除庄子和王阳明各打 2 外，3 位 ≥3——命题作为"统一不同领域的视角"是有力的。</p>
+      <p><strong>终极完备性</strong>：5 人评分都 ≤3——<strong>没人认为这是终极真理</strong>。</p>
+    </div>
+
+    <div class="synth-zone divergence">
+      <h3>⚠️ 分歧区（重点关注）</h3>
+      <p><strong>1. 实操价值（庄子 5 ↔ 王阳明 1，分差 4，最大分歧）</strong><br>
+        庄子说"当工具用极好"，王阳明说"用它逃避良知"。取决于你<strong>用它思考什么</strong>：思考抽象系统、跨学科现象、模式识别时庄子赢；面对真实情感、伦理选择、身体痛苦时王阳明赢。<strong>同一工具不能用在所有场合。</strong></p>
+      <p><strong>2. 可证伪性（费曼 1 ↔ 芒格 3）</strong><br>
+        作为"宇宙总命题"无法证伪（费曼对），但拆成子命题（黑洞熵/全息/DNA 信息守恒）每条都可证伪（芒格对）。<strong>正确用法：警惕总命题、拥抱子命题。</strong></p>
+    </div>
+
+    <div class="synth-zone blind">
+      <h3>👁 盲点区</h3>
+      <p>无系统盲点——5 位大师的低分都各自有支持者，每个角落都被照到了。</p>
+    </div>
+  </div>
+
+  <!-- Decision list -->
+  <div class="card">
+    <h2>⑥ 决策清单</h2>
+    <ol class="decisions">
+      <li class="priority">
+        <span class="pill-tag tag-warn">你不想听但最该听</span>
+        <strong>来自王阳明 1.8 分</strong>：信息本体论偷偷把"心"藏在了"信息"里。你说"信息独立存在"时，<strong>那个能区分信息的主体是谁？</strong> 这个问题没回答前，<strong>别把它用作生活决策的依据</strong>。具体地说——<strong>不要用"信息交换""模式编码"这类语言去重新命名真实的情感、身体接触和伦理选择。</strong>
+      </li>
+      <li>
+        <span class="pill-tag tag-info">今天就做 · 苏格拉底</span>
+        花 5 分钟自己写下：你说"信息"时究竟指的是什么？如果你写不出超过 30 字的清晰定义，这个命题对你目前还是<strong>美丽的咒语</strong>，不是有内容的认识。
+      </li>
+      <li>
+        <span class="pill-tag tag-info">本周做 · 芒格</span>
+        把它正式加进你的格栅——但<strong>只用在跨学科观察</strong>：分析复杂系统时看"我在哪一层做事"、做战略判断时看"权力如何转移"、做信息洪流应对时判断"哪些是模式哪些是噪声"。<strong>禁用场景</strong>：处理真实情感、做手艺/劳作、面对身体真实痛苦时。
+      </li>
+      <li>
+        <span class="pill-tag tag-info">长期做 · 费曼</span>
+        关心<strong>子命题</strong>而非总命题。读三本真物理学书：Susskind 的 <em>The Black Hole War</em>、Bekenstein 的论文、Lloyd 的 <em>Programming the Universe</em>——比读 100 篇"宇宙是模拟"的网络爆款值钱 1000 倍。
+      </li>
+      <li>
+        <span class="pill-tag tag-info">放下执着 · 庄子</span>
+        享受这个命题，但<strong>记住它会过时</strong>。50 年前是"系统论"，30 年前是"复杂性"，20 年前是"涌现"，现在是"信息"——下一代会有新词。<strong>别让任何一个本体论框架成为你的牢笼。</strong>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Unsolved -->
+  <div class="card">
+    <h2>⑦ 未解之谜</h2>
+    <ul>
+      <li><strong>"为什么会有比特"</strong>——惠勒晚年的认错。这个问题信息本体论自己解决不了，可能需要一个"Pre-Information Ontology"。</li>
+      <li><strong>意识能否被还原成信息</strong>——塞尔/彭罗斯派和强 AI 派的根本分歧，目前没有判定性实验。</li>
+      <li><strong>你信佛和你接受信息论是否冲突</strong>——庄子的判分（4）和王阳明的判分（2）在这个点上分裂——这是<strong>你需要自己回答</strong>的问题，不是任何大师能替你答的。</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    生成于 2026-05-24 17:43 · 大师召唤系统 v0.3.1 · 专家团评分模式<br>
+    可上线大师 10 位 · 待上线 17 位
+  </div>
+</div>
+
+<div class="actions">
+  <button onclick="window.print()">打印 / 存 PDF</button>
+</div>
+
+</body>
+</html>

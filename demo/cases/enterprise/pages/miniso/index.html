@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>某连锁零售品牌 送审材料生成 · 训练过程</title>
+<style>
+  :root{
+    --red:#E60012;          /* 某连锁零售品牌 红 */
+    --red-dark:#C00010;
+    --ink:#1A1A1A;
+    --gray:#6B6B6B;
+    --line:#E8E8E8;
+    --bg:#FFFFFF;
+    --bg-soft:#F6F6F6;
+    --bg-soft2:#FAFAFA;
+    --radius:14px;
+    --shadow:0 4px 24px rgba(0,0,0,.06);
+    --shadow-lg:0 12px 40px rgba(0,0,0,.10);
+    --maxw:1080px;
+    --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+
+  /* ===== 顶部导航 ===== */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;}
+  .logo .mark{background:var(--red);color:#fff;font-size:13px;font-weight:800;padding:5px 9px;border-radius:7px;letter-spacing:.5px;}
+  .logo .txt{font-size:15px;}
+  .logo .txt small{display:block;font-size:10px;color:var(--gray);font-weight:500;letter-spacing:2px;margin-top:-2px;}
+  .nav-links{display:flex;gap:26px;font-size:13.5px;color:var(--gray);font-weight:600;}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--red);}
+  @media(max-width:680px){.nav-links{display:none;}}
+
+  /* ===== Hero ===== */
+  .hero{background:var(--ink);color:#fff;position:relative;overflow:hidden;}
+  .hero::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;background:var(--red);border-radius:50%;opacity:.92;filter:blur(2px);}
+  .hero::after{content:"";position:absolute;left:-80px;bottom:-160px;width:300px;height:300px;border:40px solid var(--red);border-radius:50%;opacity:.18;}
+  .hero-inner{max-width:var(--maxw);margin:0 auto;padding:84px 24px 76px;position:relative;z-index:2;}
+  .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#fff;padding:7px 16px;border-radius:99px;font-size:12.5px;font-weight:600;letter-spacing:.5px;margin-bottom:26px;}
+  .tag .dot{width:7px;height:7px;background:#39D98A;border-radius:50%;box-shadow:0 0 0 3px rgba(57,217,138,.25);}
+  .hero h1{font-size:clamp(30px,5.4vw,54px);line-height:1.12;font-weight:800;letter-spacing:-.5px;margin-bottom:20px;}
+  .hero h1 b{color:var(--red);background:#fff;padding:0 10px;border-radius:8px;}
+  .hero p{font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,.74);max-width:620px;font-weight:400;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;}
+  .hero-meta .chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:12px 18px;font-size:13px;color:rgba(255,255,255,.9);}
+  .hero-meta .chip b{color:#fff;font-size:15px;}
+
+  /* ===== 数据条 ===== */
+  .stats{max-width:var(--maxw);margin:-38px auto 0;padding:0 24px;position:relative;z-index:5;}
+  .stats-grid{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow-lg);display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;}
+  .stat{padding:26px 20px;text-align:center;border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-size:34px;font-weight:800;color:var(--red);line-height:1;}
+  .stat .lbl{font-size:12.5px;color:var(--gray);margin-top:8px;font-weight:600;}
+  @media(max-width:680px){.stats-grid{grid-template-columns:repeat(2,1fr);} .stat:nth-child(2){border-right:none;} .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line);}}
+
+  /* ===== 通用 section ===== */
+  section.block{max-width:var(--maxw);margin:0 auto;padding:72px 24px 8px;}
+  .sec-head{margin-bottom:38px;}
+  .sec-kicker{display:inline-block;font-size:12px;font-weight:800;color:var(--red);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+  .sec-title{font-size:clamp(24px,3.6vw,34px);font-weight:800;letter-spacing:-.5px;line-height:1.2;}
+  .sec-sub{color:var(--gray);font-size:15px;margin-top:12px;max-width:680px;}
+
+  /* ===== 输入卡片 ===== */
+  .input-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:820px){.input-grid{grid-template-columns:1fr;}}
+  .icard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative;overflow:hidden;}
+  .icard:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#dcdcdc;}
+  .icard .ico{width:100%;height:140px;border-radius:10px;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden;border:1px solid var(--line);}
+  .icard .ico img{width:100%;height:100%;object-fit:contain;cursor:zoom-in;}
+  .icard .no{position:absolute;top:18px;right:22px;font-size:40px;font-weight:800;color:#F0F0F0;line-height:1;}
+  .icard h3{font-size:16.5px;font-weight:700;margin-bottom:7px;}
+  .icard .ext{display:inline-block;font-size:11px;font-weight:700;color:var(--red);background:rgba(230,0,18,.07);padding:2px 8px;border-radius:6px;margin-bottom:10px;}
+  .icard p{font-size:13.5px;color:var(--gray);line-height:1.6;}
+
+  /* ===== 产品图带 ===== */
+  .prod-strip{margin-top:22px;background:var(--bg-soft);border-radius:var(--radius);padding:22px;}
+  .prod-strip .cap{font-size:13px;color:var(--gray);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .prod-strip .cap b{color:var(--ink);}
+
+  /* ===== 流程步骤条 ===== */
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:8px;}
+  @media(max-width:820px){.flow{grid-template-columns:1fr 1fr;}}
+  .fstep{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 16px;text-align:center;position:relative;}
+  .fstep .s-no{width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+  .fstep h4{font-size:13.5px;font-weight:700;margin-bottom:5px;}
+  .fstep p{font-size:11.5px;color:var(--gray);line-height:1.5;}
+
+  /* ===== 训练时间线（对话） ===== */
+  .timeline{position:relative;margin-top:10px;}
+  .round{margin-bottom:30px;position:relative;}
+  .round-tag{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .round-tag .rn{background:var(--ink);color:#fff;font-size:12px;font-weight:800;padding:6px 13px;border-radius:99px;letter-spacing:.5px;}
+  .round-tag .rt{font-size:15px;font-weight:700;}
+  .round-tag .rline{flex:1;height:1px;background:var(--line);}
+
+  .msg{display:flex;gap:14px;margin-bottom:14px;}
+  .msg .avatar{flex-shrink:0;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;}
+  .msg.user .avatar{background:linear-gradient(135deg,#444,#1a1a1a);}
+  .msg.ai .avatar{background:var(--red);}
+  .bubble{flex:1;border-radius:14px;padding:16px 20px;font-size:14px;line-height:1.7;}
+  .msg.user .bubble{background:var(--bg-soft);border:1px solid var(--line);}
+  .msg.ai .bubble{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);}
+  .bubble .who{font-size:11.5px;font-weight:800;letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;}
+  .msg.user .bubble .who{color:#555;}
+  .msg.ai .bubble .who{color:var(--red);}
+  .bubble p{margin-bottom:8px;}
+  .bubble p:last-child{margin-bottom:0;}
+  .bubble ul{margin:6px 0 6px 2px;list-style:none;}
+  .bubble ul li{padding-left:18px;position:relative;margin-bottom:5px;color:#333;font-size:13.5px;}
+  .bubble ul li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;background:var(--red);border-radius:2px;}
+  .bubble .quote{font-style:normal;color:#444;}
+  .bubble code{background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;font-family:"SF Mono",Menlo,Consolas,monospace;color:var(--red-dark);}
+  .pill-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+  .pill{font-size:11.5px;font-weight:600;background:var(--bg-soft);border:1px solid var(--line);border-radius:99px;padding:4px 11px;color:#444;}
+  .pill.ok{background:rgba(57,217,138,.1);border-color:rgba(57,217,138,.3);color:#1a9e5e;}
+  .pill.fix{background:rgba(230,0,18,.07);border-color:rgba(230,0,18,.2);color:var(--red);}
+
+  /* 调试洞察小框 */
+  .insight{margin-top:12px;background:#FFF8E6;border:1px solid #F5E2A8;border-left:4px solid #F0B400;border-radius:10px;padding:13px 16px;font-size:13px;color:#7A5C00;}
+  .insight b{color:#5C4500;}
+
+  /* 图片证据 */
+  .evi{margin-top:14px;border-radius:12px;overflow:hidden;border:1px solid var(--line);cursor:zoom-in;}
+  .evi img{width:100%;}
+  .evi-cap{font-size:12px;color:var(--gray);text-align:center;padding:9px;background:var(--bg-soft2);border-top:1px solid var(--line);}
+  .evi-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+  .evi-2 figure{border-radius:12px;overflow:hidden;border:1px solid var(--line);cursor:zoom-in;}
+  .evi-2 figure img{width:100%;height:260px;object-fit:contain;background:#fff;}
+  .evi-2 figcaption{font-size:12px;color:var(--gray);text-align:center;padding:9px;background:var(--bg-soft2);border-top:1px solid var(--line);}
+  .evi-2 figure.before figcaption{background:#FFF0F0;color:var(--red);}
+  .evi-2 figure.after figcaption{background:#F0FBF4;color:#1a9e5e;}
+
+  /* ===== 产出物 ===== */
+  .deliver{background:var(--bg-soft);margin-top:60px;}
+  .deliver-inner{max-width:var(--maxw);margin:0 auto;padding:72px 24px;}
+  .pages{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px;}
+  @media(max-width:820px){.pages{grid-template-columns:1fr;}}
+  .pcard{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;}
+  .pcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
+  .pcard .ph{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+  .pcard .ph .pp{display:flex;align-items:center;gap:9px;}
+  .pcard .ph .pno{background:var(--red);color:#fff;font-size:12px;font-weight:800;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;}
+  .pcard .ph h4{font-size:14.5px;font-weight:700;}
+  .pcard .ph .stat-t{font-size:11px;font-weight:700;color:#1a9e5e;background:#F0FBF4;padding:3px 9px;border-radius:6px;}
+  .pcard .img-wrap{cursor:zoom-in;background:#fff;}
+  .pcard .img-wrap img{width:100%;border-bottom:1px solid var(--line);}
+  .pcard .pdesc{padding:16px 20px;font-size:13px;color:var(--gray);line-height:1.6;}
+
+  .meta-line{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
+  .meta-box{flex:1;min-width:180px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;}
+  .meta-box .k{font-size:11.5px;color:var(--gray);font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+  .meta-box .v{font-size:15px;font-weight:700;margin-top:5px;word-break:break-all;}
+
+  /* ===== Skill 下载区域 ===== */
+  .skill-dl{margin-top:48px;padding:36px 32px;background:linear-gradient(135deg,#fef0f0 0%,#fff5f5 100%);border:2px solid var(--red);border-radius:18px;text-align:center;}
+  .skill-dl .sk-title{font-size:22px;font-weight:800;color:var(--red);margin-bottom:8px;}
+  .skill-dl .sk-desc{font-size:14px;color:#666;margin-bottom:22px;line-height:1.6;}
+  .skill-dl .sk-btn{display:inline-flex;align-items:center;gap:9px;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:700;color:#fff;background:var(--red);text-decoration:none;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 4px 16px rgba(230,0,18,.18);}
+  .skill-dl .sk-btn:hover{background:#cc0010;transform:translateY(-2px);box-shadow:0 8px 24px rgba(230,0,18,.28);}
+  .skill-dl .sk-btn .ico{font-size:20px;}
+  .skill-dl .sk-btn .sz{font-size:12px;opacity:.85;margin-left:4px;}
+  .skill-dl .sk-note{margin-top:14px;font-size:12px;color:#999;}
+
+  /* ===== 下载按钮 ===== */
+  .dl-wrap{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;padding-top:28px;border-top:1px solid var(--line);}
+  .dl-btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:13px 26px;border-radius:11px;text-decoration:none;
+    font-size:14px;font-weight:700;letter-spacing:.3px;
+    transition:transform .18s,box-shadow .18s;
+  }
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(230,0,18,.18);}
+  .dl-btn.pdf{background:var(--red);color:#fff;}
+  .dl-btn.pptx{background:#2B579A;color:#fff;}
+  .dl-btn .ico{font-size:18px;}
+  .dl-btn .sz{font-size:11.5px;font-weight:500;opacity:.78;margin-left:2px;}
+
+  /* ===== 折叠 AI 回复 ===== */
+  .msg.ai .bubble{position:relative;}
+  .msg.ai .bubble-body{
+    transition:max-height .35s cubic-bezier(.4,0,.2,1);
+    overflow:hidden;
+  }
+  .msg.ai .bubble.collapsed .bubble-body{
+    max-height:56px;
+  }
+  .msg.ai .bubble.collapsed::after{
+    content:'';position:absolute;left:0;right:0;bottom:32px;height:24px;
+    background:linear-gradient(to bottom,rgba(255,250,250,0),rgba(255,250,250,.92) 90%);
+    pointer-events:none;border-radius:0 0 14px 14px;z-index:1;
+  }
+  .expand-btn{
+    display:inline-flex;align-items:center;gap:5px;
+    margin-top:6px;padding:4px 13px;border:none;border-radius:7px;
+    background:var(--red);color:#fff;font-size:12px;font-weight:700;
+    cursor:pointer;transition:background .2s,transform .15s;
+    letter-spacing:.3px;position:relative;z-index:2;
+  }
+  .expand-btn:hover{background:#cc0010;transform:scale(1.04);}
+  .expand-btn .arr{transition:transform .3s;}
+  .expand-btn.open .arr{transform:rotate(180deg);}
+  .meta-box .v.green{color:#1a9e5e;}
+
+  /* ===== footer ===== */
+  footer{background:var(--ink);color:rgba(255,255,255,.6);}
+  .foot-inner{max-width:var(--maxw);margin:0 auto;padding:46px 24px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;}
+  .foot-inner .logo .txt{color:#fff;}
+  .foot-inner .logo .txt small{color:rgba(255,255,255,.5);}
+  .foot-inner .fnote{font-size:12.5px;line-height:1.7;}
+
+  /* ===== lightbox ===== */
+  .lb{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;display:none;align-items:center;justify-content:center;padding:30px;cursor:zoom-out;}
+  .lb.on{display:flex;}
+  .lb img{max-width:96%;max-height:96%;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+  .lb .close{position:absolute;top:22px;right:28px;color:#fff;font-size:30px;font-weight:300;cursor:pointer;line-height:1;}
+
+  /* 渐入 */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="mark">某连锁零售品牌</span>
+      <span class="txt">送审材料生成<small>SANRIO · GMBH 训练记录</small></span>
+    </div>
+    <div class="nav-links">
+      <a href="#input">输入说明</a>
+      <a href="#flow">工作流程</a>
+      <a href="#train">训练过程</a>
+      <a href="#deliver">产出物</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-inner reveal">
+    <span class="tag"><span class="dot"></span>AI 辅助 · 版权送审文件自动化</span>
+    <h1>名创优品 × 三丽鸥<br>新品送审方案 <b>一次生成</b></h1>
+    <p>从一份参考稿、一个空模板、一张规范说明出发，配合产品实拍图，由 WorkBuddy 完成产品抠图置白、信息栏同源复刻与三页方案排版，最终产出符合三丽鸥（Sanrio）GMBH 版权监修规范的送审文件。本页完整记录这次「人机协作训练」的输入、调试与产出。</p>
+    <div class="hero-meta">
+      <div class="chip"><b>BUZZ 运动塑料杯</b> · 玩具总动员联名</div>
+      <div class="chip">PDF + PPTX 双格式交付</div>
+      <div class="chip">PDF ≤ 9.5M · 命名规范合规</div>
+    </div>
+  </div>
+</header>
+
+<!-- 数据条 -->
+<div class="stats reveal">
+  <div class="stats-grid">
+    <div class="stat"><div class="num">3</div><div class="lbl">份输入文件</div></div>
+    <div class="stat"><div class="num">5</div><div class="lbl">张产品图抠图置白</div></div>
+    <div class="stat"><div class="num">8</div><div class="lbl">轮调试迭代</div></div>
+    <div class="stat"><div class="num">3</div><div class="lbl">页送审方案</div></div>
+  </div>
+</div>
+
+<!-- 输入说明 -->
+<section class="block" id="input">
+  <div class="sec-head reveal">
+    <span class="sec-kicker">01 / INPUT</span>
+    <h2 class="sec-title">输入说明</h2>
+    <p class="sec-sub">整套送审材料的生成，建立在三类「锚定文件」与若干张产品实拍图之上。规范决定能否过审，参考稿决定排版形态，模板决定字体与版式。</p>
+  </div>
+
+  <div class="input-grid reveal">
+    <div class="icard">
+      <div class="no">01</div>
+      <div class="ico" data-full="assets/thumb_ref.jpg"><img src="assets/thumb_ref.jpg" alt="参考稿缩略图"></div>
+      <span class="ext">PDF · 参考文档</span>
+      <h3>送审材料参考稿</h3>
+      <p>已过审的同类送审文件（Ice cup 案例），用于确定每一页的版式、信息栏结构与 Approved 标识形态——格宝据此对齐整体专业度。</p>
+    </div>
+    <div class="icard">
+      <div class="no">02</div>
+      <div class="ico" data-full="assets/thumb_tpl.jpg"><img src="assets/thumb_tpl.jpg" alt="模板缩略图"></div>
+      <span class="ext">PPTX · 空模板</span>
+      <h3>官方空白模板</h3>
+      <p>三丽鸥 GMBH 规定的空模板，内含真实 logo、字体规格（微软雅黑）、信息栏占位与版式骨架。所有产出在此模板基础上修改。</p>
+    </div>
+    <div class="icard">
+      <div class="no">03</div>
+      <div class="ico" data-full="assets/thumb_spec.jpg"><img src="assets/thumb_spec.jpg" alt="规范说明缩略图"></div>
+      <span class="ext">JPG · 规范说明</span>
+      <h3>填写规范说明</h3>
+      <p>逐项说明信息栏 9 个字段的填写口径：上市时间须为上市年月、价格须为欧元、图库出处须标注 Guideline——决定内容合规性。</p>
+    </div>
+  </div>
+
+  <div class="prod-strip reveal">
+    <div class="cap">🥤 <b>产品实拍图 ×5</b> · BUZZ 玩具总动员运动塑料杯（多角度 + 手提绳特写），需逐张抠图并背景置白</div>
+    <div class="evi" data-full="assets/cutout_all.jpg">
+      <img src="assets/cutout_all.jpg" alt="五张抠图联检">
+      <div class="evi-cap">五张产品图抠图置白后的联检图（点击放大）</div>
+    </div>
+  </div>
+</section>
+
+<!-- 工作流程 -->
+<section class="block" id="flow">
+  <div class="sec-head reveal">
+    <span class="sec-kicker">02 / PIPELINE</span>
+    <h2 class="sec-title">工作流程</h2>
+    <p class="sec-sub">输入到产出的五步主线。其中「抠图置白」与「信息栏同源复刻」是两大技术攻坚点。</p>
+  </div>
+  <div class="flow reveal">
+    <div class="fstep"><div class="s-no">1</div><h4>读取素材</h4><p>解析 3 份文件 + 5 张产品图，吃透规范</p></div>
+    <div class="fstep"><div class="s-no">2</div><h4>抠图置白</h4><p>半透明杯逐张抠图，背景换纯白</p></div>
+    <div class="fstep"><div class="s-no">3</div><h4>填写信息栏</h4><p>与设计稿同源，逐字逐图一致</p></div>
+    <div class="fstep"><div class="s-no">4</div><h4>三页排版</h4><p>效果图 / 分隔页 / 已过审稿</p></div>
+    <div class="fstep"><div class="s-no">5</div><h4>导出交付</h4><p>PDF + PPTX，规范命名</p></div>
+  </div>
+</section>
+
+<!-- 训练过程 -->
+<section class="block" id="train">
+  <div class="sec-head reveal">
+    <span class="sec-kicker">03 / TRAINING</span>
+    <h2 class="sec-title">训练过程 · 调试实录</h2>
+    <p class="sec-sub">下面按真实对话顺序还原 8 轮人机协作：左侧为麻麻的指令（Prompt），右侧为 WorkBuddy 的回应摘要与调试动作。这正是「训练」的核心——通过反馈不断逼近合规与一致。</p>
+  </div>
+
+  <div class="timeline">
+
+    <!-- R1 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 1</span><span class="rt">理解需求，定义本质</span><span class="rline"></span></div>
+      <div class="msg user"><div class="avatar">麻</div><div class="bubble"><div class="who">Prompt · 麻麻</div>
+        <p>给你参考文档、空模板、规范说明三份文件。我会陆续给产品图片，要你抠图+背景置白，按规范用空模板生成新产品的审核方案。先理解需求，告诉我重点和工作步骤。</p>
+      </div></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">WorkBuddy 回复摘要</div>
+        <p>这是<b>合规性文档，不是创意稿——规范 &gt; 美观</b>。提炼出三个决定能否过审的重点：</p>
+        <ul>
+          <li>产品图必须抠图 + 背景置白（核心动手活）</li>
+          <li>右侧信息栏全英文、9 项不能漏（上市时间、欧元价格、图库出处）</li>
+          <li>输出 PDF ≤9.5M、命名规范 <code>GMBH-某连锁零售品牌-...</code></li>
+        </ul>
+        <p>并解析了模板版式（16:9 单页、左上标题、右侧竖栏、中间留白放产品图），就 4 个关键点向麻麻确认。</p>
+        <div class="pill-row"><span class="pill">读取 3 文件</span><span class="pill">解析 PPTX 结构</span><span class="pill ok">本质对齐</span></div>
+      </div></div>
+    </div>
+
+    <!-- R2 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 2</span><span class="rt">确认方案，锁定决策</span><span class="rline"></span></div>
+      <div class="msg user"><div class="avatar">麻</div><div class="bubble"><div class="who">Prompt · 麻麻</div>
+        <p>给你 5 张产品图 + 设计稿 PDF。说明：交付物第二页保持不变，第三页在 PDF 基础上、同样位置加上 Approved 标识。</p>
+      </div></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">WorkBuddy 回复摘要</div>
+        <p>核对全部素材后明确了三页结构，并发现唯一内容缺口——信息栏 4 项（角色 / 上市 / 年龄段 / 价格）设计稿里没有。与麻麻确认后锁定三条决策：</p>
+        <ul>
+          <li>信息栏<b>完全照搬设计稿右侧</b>，不强凑模板 9 项</li>
+          <li>5 张实拍<b>全部使用</b>，逐张抠图置白</li>
+          <li>Approved 用<b>黄色高亮</b>，叠在设计稿同位置</li>
+        </ul>
+        <div class="pill-row"><span class="pill">渲染设计稿 PDF</span><span class="pill">核对 Approved 位置</span><span class="pill ok">三决策锁定</span></div>
+      </div></div>
+    </div>
+
+    <!-- R3 抠图攻坚 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 3</span><span class="rt">技术攻坚：半透明杯抠图置白</span><span class="rline"></span></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">WorkBuddy 调试实录</div>
+        <p>这是整个任务<b>最难的一环</b>：半透明塑料杯 + 灰色背景，自动算法极易把杯身反光区误判成背景而「挖空」。为保证<b>产品像素零改动</b>（不能让 AI 重绘把 BUZZ 字、版权标画错），坚持用算法抠图而非 AI 重绘，经历三道工序迭代：</p>
+        <ul>
+          <li><b>第一版</b>（rembg 直出）：杯身被挖空，右侧出现白洞 ❌</li>
+          <li><b>第二版</b>（形态学填洞 binary_fill_holes）：补回内部，仍有反光缺口 ⚠️</li>
+          <li><b>第三版</b>（四角 flood-fill 漫填背景 + 图1单独轮廓规整）：杯身完整、灰残留清除 ✅</li>
+        </ul>
+        <div class="insight">💡 <b>调试洞察：</b>低对比场景（半透明 + 灰底）下，「从四角向内漫填连续背景」比「猜测连通域」更鲁棒——产品因封闭轮廓与颜色差异不会被误填。这一经验已沉淀进记忆。</div>
+        <div class="evi-2">
+          <figure class="before" data-full="assets/raw1.jpg"><img src="assets/raw1.jpg" alt="原图"><figcaption>抠图前 · 灰色背景原图</figcaption></figure>
+          <figure class="after" data-full="assets/cut1.jpg"><img src="assets/cut1.jpg" alt="抠图后"><figcaption>抠图后 · 背景置白、杯身完整</figcaption></figure>
+        </div>
+        <div class="pill-row"><span class="pill fix">挖空→填洞</span><span class="pill fix">连通域→漫填</span><span class="pill">轮廓规整</span><span class="pill ok">5 张全部达标</span></div>
+      </div></div>
+    </div>
+
+    <!-- R4 排版 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 4</span><span class="rt">三页排版与字体坑</span><span class="rline"></span></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">WorkBuddy 调试实录</div>
+        <p>基于空模板用 python-pptx 构建三页，并用 PIL 高清渲染做自检。过程中踩到字体坑：</p>
+        <ul>
+          <li>渲染时 <code>PingFang.ttc</code> 路径实际不存在 → 中文显示为方块 ❌</li>
+          <li>改用 <code>STHeiti Medium.ttc</code> 渲染 → 中文恢复正常 ✅</li>
+          <li>信息栏标签中英分段绘制，解决 8pt 小字方块问题</li>
+        </ul>
+        <p>同时用模板内嵌的<b>真实三丽鸥 logo</b> 替换占位红方块，专业度提升。</p>
+        <div class="pill-row"><span class="pill fix">PingFang→STHeiti</span><span class="pill">真实 logo</span><span class="pill ok">三页自检通过</span></div>
+      </div></div>
+    </div>
+
+    <!-- R5 反馈：左侧一致 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 5</span><span class="rt">反馈修正：第一页左侧须与第三页一致</span><span class="rline"></span></div>
+      <div class="msg user"><div class="avatar">麻</div><div class="bubble"><div class="who">Prompt · 麻麻</div>
+        <p>第一页的左侧，应该和第三页的左侧完全一致。请重新调整。</p>
+      </div></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">WorkBuddy 回复摘要</div>
+        <p>没有用文字逐项重打，而是<b>直接把第三页设计稿那一整条信息栏裁成图，原样贴到第一页</b>——字体、图库缩略图、排版 100% 同源，逐字逐图零偏差。</p>
+        <div class="insight">💡 <b>调试洞察：</b>「某栏要和另一页完全一致」的需求，优先用<b>同源裁图贴图</b>而非文字复刻，从根本上规避字体/字号/换行差异。</div>
+        <div class="pill-row"><span class="pill">同源裁图</span><span class="pill ok">逐字逐图一致</span></div>
+      </div></div>
+    </div>
+
+    <!-- R6 黄色高亮 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 6</span><span class="rt">反馈修正：Approved 黄色高亮不显示</span><span class="rline"></span></div>
+      <div class="msg user"><div class="avatar">麻</div><div class="bubble"><div class="who">Prompt · 麻麻</div>
+        <p>PPT 版本：Approved 需要加黄色高亮。</p>
+      </div></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">WorkBuddy 回复摘要</div>
+        <p>定位根因：之前用的是 DrawingML 文字高亮标签 <code>&lt;a:highlight&gt;</code>，很多 PowerPoint 版本根本不渲染，所以看到的是黑字无底色。</p>
+        <p>改用<b>黄色实心矩形（FFFF00）+ 居中黑色粗体字</b>叠加——任何软件打开都能看到黄底。</p>
+        <div class="insight">💡 <b>调试洞察：</b>PPTX 里要稳定显示「文字高亮」，不要依赖 <code>highlight</code> 标签，改用色块矩形垫底最可靠。</div>
+        <div class="pill-row"><span class="pill fix">highlight 标签失效</span><span class="pill">黄矩形垫底</span><span class="pill ok">全软件可见</span></div>
+      </div></div>
+    </div>
+
+    <!-- R7 尺寸一致 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 7</span><span class="rt">反馈修正：信息栏尺寸对齐、去除多余竖线</span><span class="rline"></span></div>
+      <div class="msg user"><div class="avatar">麻</div><div class="bubble"><div class="who">Prompt · 麻麻</div>
+        <p>第一页的右侧和第三页不一样，第一页的小了。请保证两者大小完全一致，且没有额外多的竖线。</p>
+      </div></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">WorkBuddy 回复摘要</div>
+        <p>根因：第一页信息栏被设成固定 2.0 英寸宽，而第三页是整张设计稿铺满幻灯片、信息栏按比例更大。改为<b>用与第三页完全相同的缩放公式</b>贴图：</p>
+        <ul>
+          <li>信息栏放大至 <code>2.72 × 7.39 英寸 @ (10.38, 0.06)</code>，与 P3 像素级一致</li>
+          <li>删除 PDF 手画竖线 + PPTX 模板自带竖线（直接连接符 20）</li>
+          <li>产品图右边界收窄避让</li>
+        </ul>
+        <div class="evi" data-full="assets/infobar.jpg">
+          <img src="assets/infobar.jpg" alt="同源信息栏">
+          <div class="evi-cap">第三页同源裁出的信息栏，原样复用到第一页（点击放大）</div>
+        </div>
+        <div class="pill-row"><span class="pill">同缩放公式</span><span class="pill fix">删竖线</span><span class="pill ok">像素级一致</span></div>
+      </div></div>
+    </div>
+
+    <!-- R8 收敛 -->
+    <div class="round reveal">
+      <div class="round-tag"><span class="rn">ROUND 8</span><span class="rt">收敛交付</span><span class="rline"></span></div>
+      <div class="msg ai"><div class="avatar">W</div><div class="bubble"><div class="who">训练收敛</div>
+        <p>经过 8 轮迭代，三页方案在<b>合规性、一致性、显示稳定性</b>三个维度全部达标，PDF + PPTX 双格式同步产出，命名符合规范。整个工作流已沉淀为可复用经验——下一个产品可直接套用此流程批量生成。</p>
+        <div class="pill-row"><span class="pill ok">合规达标</span><span class="pill ok">逐页一致</span><span class="pill ok">双格式同步</span><span class="pill ok">流程可复用</span></div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 产出物 -->
+<section class="deliver" id="deliver">
+  <div class="deliver-inner">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">04 / OUTPUT</span>
+      <h2 class="sec-title">产出物呈现</h2>
+      <p class="sec-sub">最终交付为一份 3 页送审方案，PDF（送审用）+ PPTX（可二次编辑）双格式。以下为三页实际渲染效果。</p>
+    </div>
+
+    <div class="pages reveal">
+      <div class="pcard">
+        <div class="ph"><div class="pp"><span class="pno">1</span><h4>效果图页</h4></div><span class="stat-t">新建</span></div>
+        <div class="img-wrap" data-full="assets/page1.jpg"><img src="assets/page1.jpg" alt="第一页 效果图页"></div>
+        <div class="pdesc">标题 + SPU/设计师/买手；中间 5 张抠图置白产品图（4 杯横排 + 手提绳）；右侧信息栏与第三页同源一致；真实三丽鸥 logo。</div>
+      </div>
+      <div class="pcard">
+        <div class="ph"><div class="pp"><span class="pno">2</span><h4>分隔页</h4></div><span class="stat-t">原样不动</span></div>
+        <div class="img-wrap" data-full="assets/page2.jpg"><img src="assets/page2.jpg" alt="第二页 分隔页"></div>
+        <div class="pdesc">纯白底居中「以下为已过审设计稿」，照搬参考稿第二页样式，承上启下。</div>
+      </div>
+      <div class="pcard">
+        <div class="ph"><div class="pp"><span class="pno">3</span><h4>已过审设计稿</h4></div><span class="stat-t">叠加 Approved</span></div>
+        <div class="img-wrap" data-full="assets/page3.jpg"><img src="assets/page3.jpg" alt="第三页 已过审设计稿"></div>
+        <div class="pdesc">设计稿整页高清嵌入，顶部同位置叠加黄底黑字 Approved 标识，标记审核通过状态。</div>
+      </div>
+    </div>
+
+    <div class="meta-line reveal">
+      <div class="meta-box"><div class="k">文件命名</div><div class="v">GMBH-某连锁零售品牌-Sports Plastic Cup-Product Design-方依玮-20260629</div></div>
+      <div class="meta-box"><div class="k">PDF 体积</div><div class="v green">0.57 M / ≤9.5M ✓</div></div>
+      <div class="meta-box"><div class="k">交付格式</div><div class="v">PDF + PPTX</div></div>
+    </div>
+
+    <div class="dl-wrap reveal">
+      <a class="dl-btn pdf" href="assets/output.pdf" download="GMBH-某连锁零售品牌-Sports Plastic Cup-Product Design-方依玮-20260629.pdf">
+        <span class="ico">📄</span> 下载 PDF（送审用）<span class="sz">0.57 MB</span>
+      </a>
+      <a class="dl-btn pptx" href="assets/output.pptx" download="GMBH-某连锁零售品牌-Sports Plastic Cup-Product Design-方依玮-20260629.pptx">
+        <span class="ico">📊</span> 下载 PPTX（可编辑）<span class="sz">8.93 MB</span>
+      </a>
+    </div>
+
+    <!-- Skill 下载 -->
+    <div class="skill-dl reveal">
+      <div class="sk-title">🤖 WorkBuddy Skill 下载</div>
+      <div class="sk-desc">
+        将上述训练过程封装为可复用 Skill，下次生成送审材料时<br>
+        只需上传产品图 + 设计稿，WorkBuddy 自动完成抠图、排版、导出。
+      </div>
+      <a class="sk-btn" href="assets/miniso_skill.zip" download="miniso_送审材料生成.zip">
+        <span class="ico">⚡</span> 下载 Skill 压缩包<span class="sz">14 KB</span>
+      </a>
+      <div class="sk-note">
+        安装方法：解压后放入 <code>~/.workbuddy/skills/</code> 目录，重启 WorkBuddy 即可使用
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- footer -->
+<footer>
+  <div class="foot-inner">
+    <div class="logo">
+      <span class="mark">某连锁零售品牌</span>
+      <span class="txt">送审材料生成<small>SANRIO · GMBH 训练记录</small></span>
+    </div>
+    <div class="fnote">
+      名创优品 × 三丽鸥 BUZZ 运动塑料杯 · 送审方案训练记录<br>
+      由 WorkBuddy 辅助生成 · 2026-06-29 · 本页仅作流程呈现用途
+    </div>
+  </div>
+</footer>
+
+<!-- lightbox -->
+<div class="lb" id="lb"><span class="close">&times;</span><img src="" alt="放大查看"></div>
+
+<script>
+  // 渐入
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // lightbox
+  const lb=document.getElementById('lb'), lbImg=lb.querySelector('img');
+  function openLB(src){lbImg.src=src;lb.classList.add('on');}
+  function closeLB(){lb.classList.remove('on');lbImg.src='';}
+  document.querySelectorAll('[data-full]').forEach(el=>{
+    el.addEventListener('click',()=>openLB(el.getAttribute('data-full')));
+  });
+  document.querySelectorAll('.img-wrap[data-full]').forEach(el=>{}); // already covered
+  lb.addEventListener('click',closeLB);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+
+  // ===== AI 回复折叠 =====
+  function initCollapse(){
+    const bubbles=document.querySelectorAll('.msg.ai .bubble');
+    bubbles.forEach(bu=>{
+      if(bu.dataset.collapsedInited) return;
+      bu.dataset.collapsedInited='1';
+
+      // 包一层 bubble-body 用于折叠
+      const body=document.createElement('div');
+      body.className='bubble-body';
+      while(bu.firstChild){ body.appendChild(bu.firstChild); }
+      bu.appendChild(body);
+
+      // 展开/收起按钮（放在 bubble 内、body 外，永远不被裁）
+      const btn=document.createElement('button');
+      btn.className='expand-btn';
+      btn.innerHTML='展开完整回复 <span class="arr">▾</span>';
+      btn.addEventListener('click',function(e){
+        e.stopPropagation();
+        const isCol=bu.classList.toggle('collapsed');
+        this.classList.toggle('open',!isCol);
+        this.innerHTML=isCol
+          ? '展开完整回复 <span class="arr">▾</span>'
+          : '收起回复 <span class="arr">▴</span>';
+      });
+      bu.appendChild(btn);
+
+      // 默认折叠
+      bu.classList.add('collapsed');
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',initCollapse);
+  }else{
+    initCollapse();
+  }
+</script>
+</body>
+</html>

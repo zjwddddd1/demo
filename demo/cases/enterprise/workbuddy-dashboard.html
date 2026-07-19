@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy 方案 + Demo 演示</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; color: #1a1a1a; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 80px 24px 40px; }
+.brand { font-size: 13px; color: #94a3b8; letter-spacing: 2px; margin-bottom: 8px; text-transform: uppercase; }
+h1 { font-size: 32px; font-weight: 600; color: #0f172a; margin-bottom: 12px; letter-spacing: -0.5px; }
+.subtitle { font-size: 15px; color: #64748b; margin-bottom: 32px; }
+.header-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 32px; }
+.header-row h1 { margin-bottom: 0; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.biz-btn { padding: 8px 16px; font-size: 13px; font-weight: 500; color: #1E40AF; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; cursor: pointer; transition: all .15s; white-space: nowrap; }
+.biz-btn:hover { background: #dbeafe; }
+.stat-link { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; font-size: 12px; font-weight: 400; font-family: inherit; line-height: 1; color: #94a3b8; background: transparent; border: 1px solid #e2e8f0; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all .15s; white-space: nowrap; }
+.stat-link:hover { color: #64748b; border-color: #cbd5e1; background: #f8fafc; }
+.stat-link svg { width: 13px; height: 13px; opacity: .7; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; }
+.tab { padding: 12px 20px; font-size: 14px; font-weight: 500; color: #64748b; cursor: pointer; border: none; background: transparent; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s, border-color .15s; }
+.tab:hover { color: #0f172a; }
+.tab.active { color: #1E40AF; border-bottom-color: #1E40AF; }
+.tab .count { display: inline-block; margin-left: 6px; font-size: 12px; color: #94a3b8; font-weight: 400; }
+.tab.active .count { color: #1E40AF; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* 子板块标题（行业解决方案用） */
+.section-title { font-size: 13px; font-weight: 600; color: #475569; letter-spacing: 1px; margin: 8px 0 16px; padding-left: 10px; border-left: 3px solid #1E40AF; }
+.section-title:not(:first-child) { margin-top: 36px; }
+.section-title .sec-sub { font-weight: 400; color: #94a3b8; margin-left: 8px; letter-spacing: 0; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; }
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 32px 28px; text-decoration: none; color: inherit; transition: border-color .15s; display: block; }
+.card:hover { border-color: #1E40AF; }
+.card.huawei:hover { border-color: #C7000B; }
+.card.huawei .tag { background: #FEE2E2; color: #C7000B; }
+.card.huawei .meta::after { color: #C7000B; }
+.card.security:hover { border-color: #047857; }
+.card.security .tag { background: #D1FAE5; color: #047857; }
+.card.security .meta::after { color: #047857; }
+.card.tmeet:hover { border-color: #006EFF; }
+.card.tmeet .tag { background: #E6F2FF; color: #006EFF; }
+.card.tmeet .meta::after { color: #006EFF; }
+.card.feishu:hover { border-color: #3370FF; }
+.card.feishu .tag { background: #EBF1FF; color: #3370FF; }
+.card.feishu .meta::after { color: #3370FF; }
+.card.wecom:hover { border-color: #07C160; }
+.card.wecom .tag { background: #E8F8EE; color: #07C160; }
+.card.wecom .meta::after { color: #07C160; }
+.card.master:hover { border-color: #7C3AED; }
+.card.master .tag { background: #EDE9FE; color: #7C3AED; }
+.card.master .meta::after { color: #7C3AED; }
+.card.lingbao:hover { border-color: #b8901f; }
+.card.lingbao .tag { background: #f7ecd6; color: #9a6a16; }
+.card.lingbao .meta::after { color: #b8901f; }
+.card.vehicle:hover { border-color: #0066FF; }
+.card.vehicle .tag { background: #E6F0FF; color: #0066FF; }
+.card.vehicle .meta::after { color: #0066FF; }
+.card.short-video:hover { border-color: #FF2E93; }
+.card.short-video .tag { background: #FFF0F6; color: #FF2E93; }
+.card.short-video .meta::after { color: #FF2E93; }
+.card.yuexiu:hover { border-color: #00875A; }
+.card.yuexiu .tag { background: #E3F2EC; color: #00875A; }
+.card.yuexiu .meta::after { color: #00875A; }
+.card.zhinao:hover { border-color: #1E3A8A; }
+.card.zhinao .tag { background: #EAF0FB; color: #1E3A8A; }
+.card.zhinao .meta::after { color: #1E3A8A; }
+.card.industry-mfg:hover { border-color: #475569; }
+.card.industry-mfg .tag { background: #EEF2F6; color: #475569; }
+.card.industry-mfg .meta::after { color: #475569; }
+.card.industry-liquid:hover { border-color: #0E7490; }
+.card.industry-liquid .tag { background: #ECFEFF; color: #0E7490; }
+.card.industry-liquid .meta::after { color: #0E7490; }
+.card.dingtalk:hover { border-color: #3296FA; }
+.card.dingtalk .tag { background: #E6F2FF; color: #3296FA; }
+.card.dingtalk .meta::after { color: #3296FA; }
+.card.miniso:hover { border-color: #FF0032; }
+.card.miniso .tag { background: #FFE9EC; color: #FF0032; }
+.card.miniso .meta::after { color: #FF0032; }
+.tag { display: inline-block; font-size: 11px; padding: 3px 8px; border-radius: 2px; background: #eff6ff; color: #1E40AF; margin-bottom: 16px; letter-spacing: 0.5px; font-weight: 500; }
+.card h2 { font-size: 20px; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+.card p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
+.meta { font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 8px; }
+.meta::after { content: "→"; margin-left: auto; font-size: 16px; color: #1E40AF; }
+.foot { margin-top: 64px; font-size: 12px; color: #94a3b8; text-align: center; }
+
+/* 密码覆盖层 */
+.auth-overlay { position: fixed; inset: 0; background: #f5f7fa; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.auth-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 40px 32px; width: 360px; text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+.auth-box h2 { font-size: 20px; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+.auth-box p { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+.auth-box input { width: 100%; padding: 10px 14px; font-size: 14px; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 16px; outline: none; transition: border-color .15s; }
+.auth-box input:focus { border-color: #1E40AF; }
+.auth-box button { width: 100%; padding: 10px 14px; font-size: 14px; font-weight: 500; color: #fff; background: #1E40AF; border: none; border-radius: 4px; cursor: pointer; transition: opacity .15s; }
+.auth-box button:hover { opacity: 0.9; }
+.auth-box .err { color: #dc2626; font-size: 12px; margin-top: 12px; display: none; }
+
+/* tab 内密码层 */
+.biz-auth-wrap { position: relative; }
+.biz-auth-overlay { position: absolute; inset: 0; background: rgba(245,247,250,0.98); z-index: 100; display: flex; align-items: center; justify-content: center; border-radius: 4px; min-height: 280px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">WBD · DASHBOARD</div>
+  <div class="header-row">
+    <div>
+      <h1>WorkBuddy 方案 + Demo 演示</h1>
+      <p class="subtitle">售前数据洞察与分工协作中心</p>
+    </div>
+    <div class="header-actions">
+      <button class="stat-link" onclick="activate('panel-biz')" title="查看经营看板"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>wb经营看板</button>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-target="panel-demo" role="tab" aria-selected="true">客户 Demo 演示<span class="count">4</span></button>
+    <button class="tab" data-target="panel-industry" role="tab" aria-selected="false">行业解决方案<span class="count">7</span></button>
+    <button class="tab" data-target="panel-eco" role="tab" aria-selected="false">生态联动方案<span class="count">4</span></button>
+    <button class="tab" data-target="panel-product" role="tab" aria-selected="false">产品方案<span class="count">4</span></button>
+    <button class="tab" data-target="panel-compete" role="tab" aria-selected="false">竞品分析<span class="count">2</span></button>
+    <button class="tab" data-target="panel-knowledge" role="tab" aria-selected="false">知识沉淀<span class="count">3</span></button>
+  </div>
+
+  <!-- 经营看板（右上角按钮触发，密码访问） -->
+  <div id="panel-biz" class="panel" role="tabpanel">
+    <div class="biz-auth-wrap">
+      <div id="bizAuthOverlay" class="biz-auth-overlay" style="display: none;">
+        <div class="auth-box">
+          <h2>WB 经营看板</h2>
+          <p>此区域需要密码访问</p>
+          <input type="password" id="bizAuthInput" placeholder="密码" autocomplete="off">
+          <button onclick="doBizAuth()">进入</button>
+          <div id="bizAuthErr" class="err">密码错误</div>
+        </div>
+      </div>
+      <div class="cards">
+        <a class="card" href="pages/customer/index.html">
+          <span class="tag">客户分工</span>
+          <h2>客户分工信息</h2>
+          <p>9 维度筛选 + 6 人认领 + 实时联动 KPI，认领信息云端共享、永久保存，一键导出原表 + 认领人 Excel。</p>
+          <div class="meta">客户清单 / 认领 / 导出</div>
+        </a>
+
+        <a class="card" href="pages/biz/index.html">
+          <span class="tag">经营分析</span>
+          <h2>南区经营周报</h2>
+          <p>按战区维度透视收入、License/Credit 续费、新签客户、TOP 行业与重点客户。</p>
+          <div class="meta">收入趋势 / 续费 / 新签</div>
+        </a>
+
+        <a class="card industry-mfg" href="pages/mfg-board/index.html">
+          <span class="tag">作战清单</span>
+          <h2>工业客户作战清单合集</h2>
+          <p>三合一售前作战材料：① 工业客户价值论证与南区作战清单（含优先级打分）② 全国先进制造 Top100 目标客户（带跟进状态三色高亮）③ 珠三角 Top100（按城市分组、含待核实标签）。顶部 Tab 一处统览。</p>
+          <div class="meta">价值论证 / 全国 Top100 / 珠三角 Top100</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 客户 Demo 演示 -->
+  <div id="panel-demo" class="panel active" role="tabpanel">
+    <div class="cards">
+      <a class="card huawei" href="pages/huawei/index.html">
+        <span class="tag">客户 Demo · 某科技公司</span>
+        <h2>某科技公司销售管理 Agent</h2>
+        <p>某科技公司风格 SPA + ACP 协议接入 11 个垂直 Agent。覆盖智能客服、客户画象（比亚迪 70 万员工集采）、零售门店真实地图、销售看板、报价单生成等全销售流程。</p>
+        <div class="meta">智能客服 / 客户画象 / 真实地图 / 11 个 Agent</div>
+      </a>
+
+      <a class="card" href="pages/tcl/index.html">
+        <span class="tag">客户 Demo · 某家电企业</span>
+        <h2>某家电企业 × WorkBuddy 演示首页</h2>
+        <p>5 张垂类应用卡片：费用审核 AI（CFO 漏洞看板）/ 回款认领 / 政策解读 / 数据洞察 / 文档创作，01·02 已部署本地，03-05 走 codebuddy.work 分享链。</p>
+        <div class="meta">费用审核 / 回款认领 / 共 5 应用</div>
+      </a>
+
+      <a class="card lingbao" href="pages/lingbao/index.html">
+        <span class="tag">客户 Demo · 某黄金矿企</span>
+        <h2>某黄金矿企 AI 智能办公助手落地方案</h2>
+        <p>基于需求调研场景征集表，覆盖 7 大部门 35 个核心场景：先列需求清单（部门筛选 + 点击跳转），再逐项给出 WorkBuddy 落地方案、依赖能力、实现难度与预期效果，🔴官方/🔵生态/🟢自定义三类徽章标识。某黄金矿企官网配色。</p>
+        <div class="meta">35 场景 / 7 部门 / 逐项方案详解</div>
+      </a>
+
+      <a class="card" href="pages/football/index.html">
+        <span class="tag">客户 Demo · 某省级广电</span>
+        <h2>体育赛事精彩集锦 AI 剪辑方案</h2>
+        <p>基于腾讯云 MPS 高光检测 + 本地 FFmpeg 混合方案，完成 141 分钟粤超联赛素材的 AI 自动剪辑：MPS 召回精彩时间戳 → FFmpeg 流复制保画质切片 → 音频响度法自动判定进球 → 拼接成片 + BGM 混音。</p>
+        <div class="meta">MPS 高光检测 / FFmpeg 混剪 / 完整方案文档</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 行业解决方案 -->
+  <div id="panel-industry" class="panel" role="tabpanel">
+    <div class="section-title">工业</div>
+    <div class="cards">
+      <a class="card industry-mfg" href="pages/industry-mfg/index.html">
+        <span class="tag">行业方案 · 工业</span>
+        <h2>工业制造业典型场景 · WorkBuddy 实现</h2>
+        <p>面向工业制造业的落地实践：将工程图纸类机械性工作交由 AI 自动完成，覆盖图纸解析、参数提取、加工图纸生成、BOM 物料清单整理与比价等典型场景，讲清 WorkBuddy 在制造业研发与生产环节的提效价值与能力边界。</p>
+        <div class="meta">工程图纸 / 自动生成 / 典型场景</div>
+      </a>
+
+      <a class="card industry-liquid" href="pages/industry-liquid/index.html">
+        <span class="tag">行业方案 · 工业</span>
+        <h2>北美液冷盈利模型</h2>
+        <p>面向数据中心液冷基础设施的盈利测算模型，覆盖北美市场液冷部署的成本结构、收益预测与盈利敏感性分析，为工业客户评估液冷项目投资回报提供量化决策依据。</p>
+        <div class="meta">液冷 / 盈利模型 / 投资回报</div>
+      </a>
+    </div>
+
+    <div class="section-title">自媒体</div>
+    <div class="cards">
+      <a class="card short-video" href="pages/short-video/index.html">
+        <span class="tag">行业方案 · 自媒体</span>
+        <h2>1 分钟 AI 短视频自动生成全流程</h2>
+        <p>一篇稿子 → 7 步流水线 → 成片 MP4，全链路透明：AI 配音 + 首帧图 + 视频生成 + 字幕烧录 + 配乐混音。含完整过程材料（56 张首帧图 / 8 段视频片段 / 配音 + 配乐）、成本核算（1 分钟约 ¥27.5）、省钱技巧与风格优化建议，附 Skill 下载可复用。</p>
+        <div class="meta">7 步流水线 / 过程全透明 / 成本核算</div>
+      </a>
+    </div>
+
+    
+    <div class="section-title">零售</div>
+    <div class="cards">
+      <a class="card miniso" href="pages/miniso/index.html">
+        <span class="tag">行业方案 · 零售</span>
+        <h2>某连锁零售品牌 × Sanrio 送审材料自动生成</h2>
+        <p>名创优品 × 三丽鸥 GMBH 送审材料完整训练过程：从原始素材（参考稿 PDF / 空模板 PPTX / 规范说明）到最终交付（PDF + PPTX），含抠图置白、信息栏同源对齐、Approved 标识叠加等 8 轮调试过程还原。附可复用 Skill 下载。</p>
+        <div class="meta">送审材料 / AI 辅助 / 训练过程</div>
+      </a>
+
+      <a class="card miniso" href="pages/miniso-design/index.html">
+        <span class="tag">行业方案 · 零售</span>
+        <h2>名创优品产品设计流程</h2>
+        <p>情绪玩具产品从 0 到 1 的全链路 AI 设计：① 深度研究百元情绪玩具赛道产出分析报告 → ② Nano Banana Pro 生成「招财阿福」财神公仔六面稿（含 v1-v4 配色迭代）+ Ardot 可编辑提案稿 → ③ 混元图生 3D 立体化建模。每步工具/输入/输出全透明，3D 模型可在线 360° 拖拽预览。</p>
+        <div class="meta">市场研究 / 六面稿设计 / 图生 3D</div>
+      </a>
+    </div>
+
+<div class="section-title">财经</div>
+    <div class="cards">
+      <a class="card zhinao" href="pages/zhinao/index.html">
+        <span class="tag">行业方案 · 财经</span>
+        <h2>WorkBuddy · AI 投研大脑</h2>
+        <p>面向越秀集团投资研究场景的定制分享：以"智脑委员会"多智能体协作为核心，讲清 WorkBuddy 在投研信息采集、研报分析、投资决策支持、多家协同推演等场景的落地价值与能力边界，作为客户宣讲与方案沟通的核心材料。</p>
+        <div class="meta">投研大脑 / 智脑委员会 / 客户宣讲</div>
+      </a>
+
+      <a class="card yuexiu" href="pages/yuexiu/index.html">
+        <span class="tag">行业方案 · 财经</span>
+        <h2>WorkBuddy 财务智能体宣讲材料</h2>
+        <p>面向越秀地产财务团队的智能化决策摘要专版：以"The WorkBuddy Briefing"编辑式版式，讲清财务智能体在报表分析、决策支持、流程提效等场景的落地价值与能力边界，作为客户宣讲与方案沟通的核心材料。</p>
+        <div class="meta">财务智能体 / 决策摘要 / 客户宣讲</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 生态联动方案 -->
+  <div id="panel-eco" class="panel" role="tabpanel">
+    <div class="cards">
+      <a class="card tmeet" href="pages/tmeet/index.html">
+        <span class="tag">联动方案 · 腾讯会议</span>
+        <h2>WorkBuddy × 腾讯会议 联动方案</h2>
+        <p>三层架构（Connector→Skill→Memory）+ 7 类核心能力清单 + 4 大真实场景案例（约会议 / 出纪要 / 周盘点 / 周报）+ 命令速查 + 5 条踩坑经验，覆盖从约会到沉淀的完整闭环。腾讯会议官方蓝配色。</p>
+        <div class="meta">三层架构 / 4 场景 / 5 踩坑经验</div>
+      </a>
+
+      <a class="card feishu" href="pages/feishu/index.html">
+        <span class="tag">联动方案 · 飞书</span>
+        <h2>WorkBuddy × 飞书 联动方案</h2>
+        <p>28 个 lark-* skill 能力矩阵 + 5 个今日实跑端到端案例（AI 热点 Top10 推送 / 吴晓波知识库对谈 / 日程创建改期 / docx 转在线文档 / Wiki 空间新建挂载）+ 4 节点统一架构 + 4 条已知边界。飞书蓝主配色。</p>
+        <div class="meta">28 skill / 5 实跑案例 / Wiki 知识库</div>
+      </a>
+
+      <a class="card wecom" href="pages/wecom/index.html">
+        <span class="tag">联动方案 · 企微文档</span>
+        <h2>WorkBuddy × 企微文档 联动方案</h2>
+        <p>企微文档智能表格全链路打通：读取分析 → 自动排期写入 → 定时周报，3 个实战场景 + 权限模型 + 5 条踩坑经验。深邃黑夜风交互式报告，含销售跟进分析 / 场景洞察 / 周报样例三个子报告。</p>
+        <div class="meta">3 场景 / 权限模型 / 踩坑经验</div>
+      </a>
+
+      <a class="card dingtalk" href="pages/dingtalk/index.html">
+        <span class="tag">联动方案 · 钉钉</span>
+        <h2>WorkBuddy × 钉钉 联动方案</h2>
+        <p>钉钉企业应用全链路打通：场景一抽数多维表数据自动合成周报推送到群，场景二让员工在群里 @ 机器人即时检索乐享知识库作答。含两个场景的四段链路、分层架构图、实际效果截图、凭证体系与关键决策，并附五类读写能力扩展（审批 / 待办 / 日程 / 文档 / 通讯录）的规划与串联闭环。企业微信配色。</p>
+        <div class="meta">2 场景已上线 / 架构图 / 能力扩展规划</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 产品方案 -->
+  <div id="panel-product" class="panel" role="tabpanel">
+    <div class="cards">
+      <a class="card" href="pages/databuddy-wb/index.html">
+        <span class="tag">产品方案 · 边界对比</span>
+        <h2>DataBuddy vs WorkBuddy 产品方案对比</h2>
+        <p>蓝色经典商务风。一句话定位 + 六维度对比表 + 三个差异化能力（六层语义体系 / 治理自动化 / 数仓对话式交付）+ 售前推荐特征 + 反方压测 + ABCD 决策清单，把客户最常混淆的边界一次讲清楚。</p>
+        <div class="meta">六维对比 / 售前话术 / 反方压测</div>
+      </a>
+
+      <a class="card security" href="pages/security/index.html">
+        <span class="tag">产品方案 · 企业级安全</span>
+        <h2>WorkBuddy & CodeBuddy 企业级安全方案</h2>
+        <p>面向企业客户的安全能力总览：覆盖代码与数据安全、运行环境隔离、AI 行为安全、合规与责任界定、部署与运维五大方向，含沙箱机制、审计日志、AES-256-GCM 加密、Prompt 注入防御、合规资质与部署模式说明。</p>
+        <div class="meta">代码安全 / 沙箱隔离 / 合规资质</div>
+      </a>
+
+      <a class="card vehicle" href="pages/vehicle-crm/index.html">
+        <span class="tag">产品方案 · 专家团</span>
+        <h2>专家团方案-车辆销售CRM</h2>
+        <p>新能源汽车科技风 · 浅色底。由产品战略团队（5 位专家协作）产出的三件套：功能规格书 PRD（10 章 / 25 条需求池 / 3 张流程图）、竞品分析（8 家竞品 / SWOT / 4 条差异化机会）、产品路线图（4 里里程碑 / 24 Sprint / 27 人 × 4 阶段）。三 Tab 切换，含 Mermaid 流程图渲染。</p>
+        <div class="meta">PRD / 竞品分析 / 路线图 · 三 Tab</div>
+      </a>
+
+      <a class="card master" href="pages/master/index.html">
+        <span class="tag">产品方案 · 专家团</span>
+        <h2>思辨大师专家团报告档案</h2>
+        <p>28 位大师 5 步流水线（路由→选人→独立→对抗→合成）的历次专家团评估报告。涵盖技术战略、认知现象、情感自我认知、信息本体论等多领域命题。每份报告含蛛网图、对抗摘要与决策清单。</p>
+        <div class="meta">5 份报告 / 5 维蛛网图 / 对抗合成</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 竞品分析 -->
+  <div id="panel-compete" class="panel" role="tabpanel">
+    <div class="cards">
+      <a class="card" href="pages/overseas-compare/workbuddy-vs-overseas.html">
+        <span class="tag">竞品对比 · 出海</span>
+        <h2>WorkBuddy vs Claude Cowork · OpenAI Codex</h2>
+        <p>面向中国企业的 AI 工作平台竞品对照：按重要性逐条说明 WorkBuddy 相比 Claude Cowork 与 OpenAI Codex 的七大核心优势（合规可达、国内生态、全员覆盖、计费透明、企业管理、行业方案、本地服务），含一页纸三方对照表与「海外产品优势与适用场景」客观评估页。</p>
+        <div class="meta">七大优势 / 三方对照表 / 计费拆解</div>
+      </a>
+
+      <a class="card" href="pages/compete/index.html">
+        <span class="tag">竞品对比 · 效果评测</span>
+        <h2>WorkBuddy vs QoderWork 效果 & 成本对比评测</h2>
+        <p>基于统一测评包的实测对比报告：从任务完成效果与成本两个维度量化 WorkBuddy 与 QoderWork 的差异，含完整测评结果展示。配套测评包可下载，便于复现与比价。</p>
+        <div class="meta">效果对比 / 成本拆解 / 测评包下载</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 知识沉淀 -->
+  <div id="panel-knowledge" class="panel" role="tabpanel">
+    <div class="cards">
+      <a class="card security" href="pages/faq/index.html">
+        <span class="tag">知识沉淀 · FAQ 手册</span>
+        <h2>数据安全与客户咨询 FAQ 手册</h2>
+        <p>沉淀 5-26 至 6-15 多轮客户咨询的 32 个高频问题，涵盖数据安全、产品形态、技术机制、SDK 生态四大类。左侧目录导航 + 滚动高亮，含数万行表格是否被训练、Tool Call 机制、SDK 封装边界、Coze Bridge、上下文折叠等售前高频追问。</p>
+        <div class="meta">32 问 / 4 大类 / 目录导航</div>
+      </a>
+
+      <a class="card" href="pages/faq-center/index.html">
+        <span class="tag">知识沉淀 · 常见问题中心</span>
+        <h2>常见问题中心</h2>
+        <p>全屏左目录右文档式的常见问题知识库，按主题分区检索，持续沉淀客户与内部高频问答，作为统一的问题查询入口。</p>
+        <div class="meta">左目录右文档 / 主题分区 / 统一入口</div>
+      </a>
+
+      <a class="card" href="pages/token/index.html">
+        <span class="tag">知识沉淀 · Token</span>
+        <h2>Token 这么用最省</h2>
+        <p>WorkBuddy / CodeBuddy 培训材料（实操版）：聚焦 Token 节省与高效用法，含背景原理、实操技巧、典型场景对比与一图速查，面向团队内部分享。</p>
+        <div class="meta">培训材料 / 实操技巧 / Token 节省</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="foot">服务于 anialang-any4 · 内网仅供内部使用</div>
+</div>
+
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.panel');
+  window.activate = function(id){
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-target') === id;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function(p){
+      p.classList.toggle('active', p.id === id);
+    });
+    if (history.replaceState) {
+      history.replaceState(null '', '#' + id.replace('panel-',''));
+    }
+  };
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ window.activate(t.getAttribute('data-target')); });
+  });
+  // hash 路由（含旧锚点兼容）
+  var hash = (location.hash || '').replace('#','');
+  if (hash === 'demo') window.activate('panel-demo');
+  else if (hash === 'industry') window.activate('panel-industry');
+  else if (hash === 'product') window.activate('panel-product');
+  else if (hash === 'biz') window.activate('panel-biz');
+  else if (hash === 'eco' || hash === 'tmeet' || hash === 'wecom' || hash === 'feishu' || hash === 'dingtalk') window.activate('panel-eco');
+  else if (hash === 'compete') window.activate('panel-compete');
+  else if (hash === 'knowledge' || hash === 'faq' || hash === 'other') window.activate('panel-knowledge');
+
+  // 密码验证（仅 panel-biz）— 本地版默认已解锁
+  window.doBizAuth = function() {
+    document.getElementById('bizAuthOverlay').style.display = 'none';
+    sessionStorage.setItem('wbd_auth_biz', '1');
+  };
+  document.getElementById('bizAuthInput').addEventListener('keypress', function(e){ if(e.key==='Enter') doBizAuth(); });
+})();
+</script>
+</body>
+</html>

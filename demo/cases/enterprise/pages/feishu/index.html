@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WorkBuddy × 飞书 · 联动能力总览</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --feishu-blue: #3370FF;
+    --feishu-blue-hover: #245BDB;
+    --feishu-blue-soft: #E8F0FF;
+    --feishu-blue-deep: #1456F0;
+    --feishu-cyan: #00D6B9;
+    --ink-900: #1F2329;
+    --ink-700: #4E5969;
+    --ink-500: #86909C;
+    --ink-300: #C9CDD4;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F8FA;
+    --bg-card: #FFFFFF;
+    --line: #E5E6EB;
+    --success: #00B42A;
+    --warning: #FF7D00;
+    --danger: #F53F3F;
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(31,35,41,.04);
+    --shadow: 0 4px 16px rgba(31,35,41,.06);
+    --shadow-lg: 0 12px 40px rgba(51,112,255,.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: 'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    color: var(--ink-900);
+    background: var(--bg-soft);
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  code, .mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.88em; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  /* Top bar */
+  .topbar {
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    background-color: rgba(255,255,255,0.85);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 16px; }
+  .brand-logo {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: linear-gradient(135deg, var(--feishu-blue), var(--feishu-blue-deep));
+    display: grid; place-items: center; color: white; font-size: 13px; font-weight: 800;
+  }
+  .brand-x { color: var(--ink-300); font-weight: 400; }
+  .topbar nav { display: flex; gap: 28px; font-size: 14px; color: var(--ink-700); }
+  .topbar nav a { color: inherit; text-decoration: none; transition: color .2s; }
+  .topbar nav a:hover { color: var(--feishu-blue); }
+  @media (max-width: 720px) { .topbar nav { display: none; } }
+
+  /* Hero */
+  .hero {
+    padding: 96px 0 80px;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(51,112,255,0.06) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 60%, rgba(0,214,185,0.05) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 800px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; background: var(--feishu-blue-soft);
+    color: var(--feishu-blue-deep); border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--feishu-blue); }
+  h1 {
+    font-size: 56px; line-height: 1.12; font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: 24px;
+    color: var(--ink-900);
+  }
+  h1 .accent { color: var(--feishu-blue); }
+  .hero p.lead {
+    font-size: 19px; color: var(--ink-700); max-width: 680px;
+    line-height: 1.65;
+  }
+  .hero-meta {
+    display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap;
+    padding-top: 32px; border-top: 1px solid var(--line);
+  }
+  .meta-item .label { font-size: 12px; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.05em; }
+  .meta-item .value { font-size: 22px; font-weight: 700; color: var(--ink-900); margin-top: 4px; }
+  .meta-item .value .unit { font-size: 14px; color: var(--ink-500); font-weight: 500; margin-left: 4px; }
+  @media (max-width: 720px) { h1 { font-size: 38px; } .hero { padding: 56px 0 48px; } }
+
+  /* Section */
+  section { padding: 80px 0; }
+  section.alt { background: var(--bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .section-head { margin-bottom: 48px; max-width: 720px; }
+  .section-tag {
+    display: inline-block; font-size: 13px; font-weight: 600;
+    color: var(--feishu-blue); margin-bottom: 12px; letter-spacing: 0.04em;
+  }
+  h2 {
+    font-size: 36px; font-weight: 700; letter-spacing: -0.015em;
+    margin-bottom: 14px; line-height: 1.2;
+  }
+  .section-sub { color: var(--ink-700); font-size: 16px; line-height: 1.7; }
+
+  /* Capability grid */
+  .cap-grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .cap-card {
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 24px;
+    transition: all .2s ease;
+    position: relative;
+  }
+  .cap-card:hover {
+    border-color: var(--feishu-blue);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .cap-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--feishu-blue-soft); color: var(--feishu-blue);
+    display: grid; place-items: center; font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .cap-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .cap-desc { font-size: 14px; color: var(--ink-700); line-height: 1.6; margin-bottom: 12px; }
+  .cap-skills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .skill-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    padding: 3px 8px; background: var(--bg-soft); color: var(--ink-700);
+    border-radius: 4px; border: 1px solid var(--line);
+  }
+
+  /* Cases */
+  .cases { display: grid; gap: 24px; }
+  .case {
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .case-header {
+    padding: 28px 32px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 24px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+  }
+  .case-num {
+    flex-shrink: 0;
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--feishu-blue); color: white;
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 18px;
+    box-shadow: 0 4px 12px rgba(51,112,255,.25);
+  }
+  .case-meta { flex: 1; }
+  .case-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .case-sub { font-size: 14px; color: var(--ink-500); }
+  .case-status {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    background: rgba(0,180,42,.1); color: var(--success);
+  }
+  .case-status .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .case-body { padding: 28px 32px; }
+  .case-row {
+    display: grid; grid-template-columns: 140px 1fr;
+    gap: 16px; padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .case-row:last-child { border-bottom: none; }
+  .case-row .label { font-size: 13px; color: var(--ink-500); font-weight: 500; }
+  .case-row .value { font-size: 14px; color: var(--ink-900); line-height: 1.7; }
+  .case-row .value code {
+    background: var(--feishu-blue-soft); color: var(--feishu-blue-deep);
+    padding: 2px 6px; border-radius: 4px;
+  }
+  @media (max-width: 720px) {
+    .case-row { grid-template-columns: 1fr; gap: 4px; }
+    .case-header { flex-direction: column; }
+  }
+
+  /* Architecture */
+  .arch {
+    background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 40px;
+    box-shadow: var(--shadow);
+  }
+  .arch-flow {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; align-items: stretch;
+    position: relative;
+  }
+  @media (max-width: 900px) { .arch-flow { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .arch-flow { grid-template-columns: 1fr; } }
+  .arch-node {
+    background: var(--bg-soft); border: 1.5px solid var(--line);
+    border-radius: var(--radius); padding: 20px;
+    text-align: center; position: relative;
+  }
+  .arch-node.primary {
+    background: var(--feishu-blue); color: white; border-color: var(--feishu-blue);
+  }
+  .arch-node.primary .arch-name { color: white; }
+  .arch-node.primary .arch-detail { color: rgba(255,255,255,.85); }
+  .arch-step {
+    font-size: 11px; color: var(--ink-500);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600; margin-bottom: 8px;
+  }
+  .arch-node.primary .arch-step { color: rgba(255,255,255,.7); }
+  .arch-name { font-weight: 700; margin-bottom: 4px; font-size: 15px; }
+  .arch-detail { font-size: 12px; color: var(--ink-500); line-height: 1.5; }
+
+  /* Limits / honest box */
+  .limit {
+    background: #FFF7E6; border: 1px solid #FFE4B5;
+    border-left: 4px solid var(--warning);
+    border-radius: var(--radius); padding: 24px 28px;
+    margin-top: 40px;
+  }
+  .limit-title {
+    font-weight: 700; color: #B25A00; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .limit-body { color: var(--ink-700); font-size: 14px; line-height: 1.7; }
+  .limit-body code { background: rgba(255,125,0,.12); color: #B25A00; padding: 1px 5px; border-radius: 3px; font-size: 0.9em; }
+
+  /* Footer */
+  footer {
+    padding: 40px 0 60px; text-align: center;
+    color: var(--ink-500); font-size: 13px;
+    border-top: 1px solid var(--line); background: var(--bg);
+  }
+  footer .brand-mini { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px; color: var(--ink-700); font-weight: 500; }
+  footer .meta-line { font-size: 12px; }
+
+  /* Number Pill */
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px; background: var(--feishu-blue-soft);
+    color: var(--feishu-blue-deep); font-size: 12px;
+    font-weight: 600; border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <div class="brand-logo">W</div>
+      <span>WorkBuddy</span>
+      <span class="brand-x">×</span>
+      <span style="color: var(--feishu-blue)">飞书</span>
+    </div>
+    <nav>
+      <a href="#capabilities">能力矩阵</a>
+      <a href="#cases">实战案例</a>
+      <a href="#arch">链路架构</a>
+      <a href="#limits">已知边界</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-inner">
+    <span class="eyebrow"><span class="dot"></span>2026-06-07 · 实战验证</span>
+    <h1>WorkBuddy × 飞书<br/>联动能力<span class="accent">总览</span></h1>
+    <p class="lead">
+      通过飞书 Connector，WorkBuddy 直接调度 IM、日历、云文档、知识库、视频会议、审批等飞书原生能力。
+      本文档基于今日实跑的 4 个真实案例，记录每条链路的具体接口、踩坑点与最终效果，避免空谈架构。
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="label">已封装 Skill</div>
+        <div class="value">28<span class="unit">个 lark-*</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="label">今日跑通案例</div>
+        <div class="value">5<span class="unit">个端到端链路</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="label">在线 Automation</div>
+        <div class="value">2<span class="unit">条定时任务</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Wiki 知识空间</div>
+        <div class="value" style="color: var(--feishu-blue)">1<span class="unit">个新建并挂载</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Connector 状态</div>
+        <div class="value" style="color: var(--success)">已连接<span class="unit">·feishu</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Capabilities -->
+<section id="capabilities">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">CAPABILITY MATRIX</div>
+      <h2>飞书能给的,WorkBuddy 都能调</h2>
+      <p class="section-sub">9 大能力模块,28 个开箱即用的 lark-* skill,覆盖从基础消息到完整工作流。每个模块下方列出今日已实测或随时可用的核心命令。</p>
+    </div>
+
+    <div class="cap-grid">
+
+      <div class="cap-card">
+        <div class="cap-icon">●</div>
+        <div class="cap-title">IM 消息</div>
+        <div class="cap-desc">主动推送 / 被动响应 / 群运营 / 加急三件套(应用闪烁、短信、电话)。支持 markdown、卡片、文件、图片。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-im</span>
+          <span class="skill-tag">lark-event</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">▣</div>
+        <div class="cap-title">日历日程</div>
+        <div class="cap-desc">日程预约 / 修改 / 与会人管理 / 会议室预订 / 忙闲查询 / 推荐空闲时段 / 邀请回复。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-calendar</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">▤</div>
+        <div class="cap-title">云文档</div>
+        <div class="cap-desc">Docx 创建/读取/编辑、Markdown 上传与对比、画板节点导出、ECMAScript 协议幻灯片编辑。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-doc</span>
+          <span class="skill-tag">lark-markdown</span>
+          <span class="skill-tag">lark-slides</span>
+          <span class="skill-tag">lark-whiteboard</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">▦</div>
+        <div class="cap-title">表格 / 知识库</div>
+        <div class="cap-desc">多维表格(Bitable)建表/字段/记录/视图/公式/Lookup;电子表格;Wiki 知识空间与节点。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-base</span>
+          <span class="skill-tag">lark-sheets</span>
+          <span class="skill-tag">lark-wiki</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">▥</div>
+        <div class="cap-title">云盘文件</div>
+        <div class="cap-desc">本地文件上传/下载/分享、docx 一键导入为飞书在线云文档(可在线阅读、检索、评论)。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-drive</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">◎</div>
+        <div class="cap-title">视频会议</div>
+        <div class="cap-desc">历史会议查询、会议纪要产物提取、机器人代入会、妙记转写产物读取。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-vc</span>
+          <span class="skill-tag">lark-vc-agent</span>
+          <span class="skill-tag">lark-minutes</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">✓</div>
+        <div class="cap-title">任务 / OKR / 审批</div>
+        <div class="cap-desc">待办与子任务、OKR 周期与目标、审批实例与任务、考勤打卡记录。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-task</span>
+          <span class="skill-tag">lark-okr</span>
+          <span class="skill-tag">lark-approval</span>
+          <span class="skill-tag">lark-attendance</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">@</div>
+        <div class="cap-title">通讯录 / 邮件</div>
+        <div class="cap-desc">姓名/邮箱 ↔ open_id 解析,邮件草稿/发送/回复/转发/抄送/附件。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-contact</span>
+          <span class="skill-tag">lark-mail</span>
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-icon">↗</div>
+        <div class="cap-title">应用部署 / 元能力</div>
+        <div class="cap-desc">本地 HTML 一键部署到飞书妙搭、未封装 OpenAPI 探索、自定义 Skill 打包。</div>
+        <div class="cap-skills">
+          <span class="skill-tag">lark-apps</span>
+          <span class="skill-tag">lark-openapi-explorer</span>
+          <span class="skill-tag">lark-skill-maker</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Cases -->
+<section id="cases" class="alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">REAL CASES · TODAY</div>
+      <h2>5 个今日实跑的端到端案例</h2>
+      <p class="section-sub">不是 PPT 讲解,是真实在飞书 App 里能看到结果的链路。每个案例标注了具体命令、关键参数、踩坑修正,方便复用。</p>
+    </div>
+
+    <div class="cases">
+
+      <!-- Case 1 -->
+      <article class="case">
+        <div class="case-header">
+          <div class="case-num">1</div>
+          <div class="case-meta">
+            <div class="case-title">每日 AI 热点 Top10 飞书私聊推送</div>
+            <div class="case-sub">类型:主动推送 + 定时任务 · automation-1780795727451</div>
+          </div>
+          <div class="case-status"><span class="dot"></span>ACTIVE</div>
+        </div>
+        <div class="case-body">
+          <div class="case-row">
+            <div class="label">链路</div>
+            <div class="value">WebSearch 全网 AI 新闻 → 按热度×重要性排序去重 → 选 Top10 → 通过 <code>lark-cli im +messages-send</code> 推送至本人飞书私聊</div>
+          </div>
+          <div class="case-row">
+            <div class="label">关键命令</div>
+            <div class="value mono">lark-cli im +messages-send --as bot --user-id ou_7c6a... --markdown "..."</div>
+          </div>
+          <div class="case-row">
+            <div class="label">触发频率</div>
+            <div class="value">每天 09:00 · <code>FREQ=DAILY;BYHOUR=9;BYMINUTE=0</code></div>
+          </div>
+          <div class="case-row">
+            <div class="label">踩坑修正</div>
+            <div class="value"><code>--as user</code> 缺 <code>im:message.send_as_user</code> scope 会失败,改用 <code>--as bot</code> 跑通(前提:user 已与 bot 建立过 P2P 会话)</div>
+          </div>
+          <div class="case-row">
+            <div class="label">实测结果</div>
+            <div class="value">手动跑通一次,message_id <span class="mono">om_x100b6d78f03524a0c2992c72c542933</span>,飞书私聊已收到 Top10 推送(含 Anthropic IPO、Claude Opus 4.8、DeepSeek 融资等当日要闻)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 2 -->
+      <article class="case">
+        <div class="case-header">
+          <div class="case-num">2</div>
+          <div class="case-meta">
+            <div class="case-title">吴晓波飞书对谈(知识库 RAG + 准实时轮询)</div>
+            <div class="case-sub">类型:被动响应 + 知识库 RAG · automation-1780811241203</div>
+          </div>
+          <div class="case-status"><span class="dot"></span>ACTIVE</div>
+        </div>
+        <div class="case-body">
+          <div class="case-row">
+            <div class="label">链路</div>
+            <div class="value">每 5 分钟拉取飞书 P2P 会话 → 筛「吴老师 xxx」未回提问 → 调用 lke-kb 检索吴晓波知识库(25318 篇) → 按 wuxiaobo-skill 5 段式生成 → <code>messages-reply</code> 引用回复</div>
+          </div>
+          <div class="case-row">
+            <div class="label">关键命令</div>
+            <div class="value mono">lark-cli im +chat-messages-list --chat-id oc_xxx --sort desc --as bot<br/>lark-cli im +messages-reply --message-id om_xxx --as bot --markdown "..."</div>
+          </div>
+          <div class="case-row">
+            <div class="label">触发频率</div>
+            <div class="value">每 5 分钟,8:00–24:00 · <code>FREQ=HOURLY;BYMINUTE=0,5,10,...,55</code></div>
+          </div>
+          <div class="case-row">
+            <div class="label">关键洞察</div>
+            <div class="value">实时监听 <code>event consume</code> 因 IPC socket 被 Agent 沙盒拦死,转用「主动轮询拉历史消息」走纯 HTTP 绕开沙盒。靠 <code>reply_to</code> 字段去重防刷屏。</div>
+          </div>
+          <div class="case-row">
+            <div class="label">实测结果</div>
+            <div class="value">已成功回复用户 2 条提问:「企业出海还有机会吗」(命中 246 篇,引《大周期与企业出海机会》)、「黄金还值得买吗」(走红线模板,转长周期货币逻辑)</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 3 -->
+      <article class="case">
+        <div class="case-header">
+          <div class="case-num">3</div>
+          <div class="case-meta">
+            <div class="case-title">日程创建与改期(下周二 8:00–10:00 和 tic 开会)</div>
+            <div class="case-sub">类型:日历回写 · event_id 561646e2-...</div>
+          </div>
+          <div class="case-status"><span class="dot"></span>已写入</div>
+        </div>
+        <div class="case-body">
+          <div class="case-row">
+            <div class="label">链路</div>
+            <div class="value">自然语言「下周一上午 8-10 点和 tic 开会」 → 用 <code>date</code> 命令换算精确时间戳 → <code>+create</code> 写入主日历 → 用户改期 → <code>+update</code> 移到下周二 → 二次 <code>+agenda</code> 回查确认</div>
+          </div>
+          <div class="case-row">
+            <div class="label">关键命令</div>
+            <div class="value mono">lark-cli calendar +create --summary "..." --start "2026-06-09T08:00:00+08:00" --end "..." --as user<br/>lark-cli calendar +update --event-id &lt;完整id&gt; --start ... --end ...</div>
+          </div>
+          <div class="case-row">
+            <div class="label">踩坑修正</div>
+            <div class="value">①时间字符串↔时间戳必须用系统命令算,不能口算 ②<code>event_id</code> 要用带 <code>_0</code> 后缀的完整形式,从 <code>+agenda</code> 返回值拿 ③通讯录搜不到「tic」,与会人未自动加,仅标题注明</div>
+          </div>
+          <div class="case-row">
+            <div class="label">实测结果</div>
+            <div class="value">回查 6/9(下周二)有日程、6/8(原下周一)已空,飞书日历 App 立刻可见,自动附带飞书会议链接</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 4 -->
+      <article class="case">
+        <div class="case-header">
+          <div class="case-num">4</div>
+          <div class="case-meta">
+            <div class="case-title">本地 docx 上传飞书并转在线云文档</div>
+            <div class="case-sub">类型:文件回写 · token Qbfxd8yvCo1YVpxb3AIcz52Nnrd</div>
+          </div>
+          <div class="case-status"><span class="dot"></span>已完成</div>
+        </div>
+        <div class="case-body">
+          <div class="case-row">
+            <div class="label">链路</div>
+            <div class="value">本地 docx → cp 到工作目录(CLI 约束) → <code>drive +import --type docx</code> 转飞书在线云文档 → 落入云盘根目录,可在线阅读、检索、评论</div>
+          </div>
+          <div class="case-row">
+            <div class="label">关键命令</div>
+            <div class="value mono">lark-cli drive +import --file ./AIagent发展及Workbuddy应用交流.docx --type docx --name "..." --as user</div>
+          </div>
+          <div class="case-row">
+            <div class="label">两条路对比</div>
+            <div class="value"><code>+upload</code> 当附件传(下载才能看) vs <code>+import</code> 转在线文档(可读可检索可评论,更适合知识库)。本案选后者。</div>
+          </div>
+          <div class="case-row">
+            <div class="label">重要纠错</div>
+            <div class="value">最初判断「user 缺 wiki scope 需重新授权」是<strong>误判</strong>。<code>auth status</code> 实测 user token scope 已含 <code>wiki:space:retrieve/write_only</code>、<code>wiki:node:create</code> 全套,只是 token 处于 <code>needs_refresh</code> 状态,触发任意 user API 即自动刷新。真实瓶颈是「账号下还没建过 Wiki 空间」(见案例 5)。</div>
+          </div>
+          <div class="case-row">
+            <div class="label">实测结果</div>
+            <div class="value">导入成功,URL <span class="mono">kcnij01rty0f.feishu.cn/docx/Qbfxd8yvCo1YVpxb3AIcz52Nnrd</span> 可直接打开。后续在案例 5 中已挂进新建的 Wiki 知识空间。</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 5 -->
+      <article class="case">
+        <div class="case-header">
+          <div class="case-num">5</div>
+          <div class="case-meta">
+            <div class="case-title">新建 Wiki 知识空间并挂载文档</div>
+            <div class="case-sub">类型:Wiki 知识库回写 · space_id 7648603751674023100</div>
+          </div>
+          <div class="case-status"><span class="dot"></span>已完成</div>
+        </div>
+        <div class="case-body">
+          <div class="case-row">
+            <div class="label">链路</div>
+            <div class="value">触发 user token 自动刷新 → <code>wiki +space-create</code> 新建「WorkBuddy 实践库」空间 → <code>wiki +move --obj-token --obj-type docx</code> 把云盘 docx 转挂到 Wiki 节点 → <code>+node-list</code> 回查确认</div>
+          </div>
+          <div class="case-row">
+            <div class="label">关键命令</div>
+            <div class="value mono">lark-cli wiki +space-create --name "WorkBuddy 实践库" --description "..." --as user<br/>lark-cli wiki +move --obj-token Qbfxd8yvCo1YVpxb3AIcz52Nnrd --obj-type docx --target-space-id 7648603751674023100 --as user</div>
+          </div>
+          <div class="case-row">
+            <div class="label">两步式分工</div>
+            <div class="value"><code>+space-create</code> = 创建知识空间(返回 space_id);<code>+move</code> = 把已有云盘文档挂进 Wiki 节点(返回 wiki node_token)。docx 的 obj_token 不变,但增加了 wiki 视图入口。</div>
+          </div>
+          <div class="case-row">
+            <div class="label">未尽项</div>
+            <div class="value">空间默认 visibility=private,改为「对组织开放」需在飞书 UI 里点(lark-cli 未封装 spaces setting 命令,避免 OpenAPI 误改敏感配置)</div>
+          </div>
+          <div class="case-row">
+            <div class="label">实测结果</div>
+            <div class="value">空间 <code>7648603751674023100</code> + 节点 <code>ZZ6Nw7dneiNs1nkB6Jcckl1An6e</code> 已建立,直达链接 <span class="mono">kcnij01rty0f.feishu.cn/wiki/ZZ6Nw7dneiNs1nkB6Jcckl1An6e</span>,飞书侧边栏「知识库」可见</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Architecture -->
+<section id="arch">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">ARCHITECTURE</div>
+      <h2>统一链路架构</h2>
+      <p class="section-sub">所有飞书联动案例都走同一条标准链路:WorkBuddy(Agent + Skill)→ MCP Connector → lark-cli/HTTP API → 飞书开放平台。差别只在中间「数据来源」和最后「触达接口」。</p>
+    </div>
+
+    <div class="arch">
+      <div class="arch-flow">
+        <div class="arch-node">
+          <div class="arch-step">Step 1 · Trigger</div>
+          <div class="arch-name">触发源</div>
+          <div class="arch-detail">用户对话 / Automation 定时 / 飞书消息轮询</div>
+        </div>
+        <div class="arch-node primary">
+          <div class="arch-step">Step 2 · Brain</div>
+          <div class="arch-name">WorkBuddy</div>
+          <div class="arch-detail">Skill + MCP 工具 (WebSearch / lke-kb / adp-kb)</div>
+        </div>
+        <div class="arch-node">
+          <div class="arch-step">Step 3 · Bridge</div>
+          <div class="arch-name">飞书 Connector</div>
+          <div class="arch-detail">lark-cli (28 个 lark-* skill, 用户/bot 双身份)</div>
+        </div>
+        <div class="arch-node">
+          <div class="arch-step">Step 4 · Action</div>
+          <div class="arch-name">飞书侧落地</div>
+          <div class="arch-detail">IM / 日历 / 云文档 / Wiki / 视频会议</div>
+        </div>
+      </div>
+
+      <div class="limit" id="limits">
+        <div class="limit-title"><span>⚠</span> 已知边界(诚实披露)</div>
+        <div class="limit-body">
+          <strong>1. 实时事件监听走不通。</strong> <code>lark-cli event consume</code> 需要在本地建 IPC socket 与 <code>bus.fork.lock</code>,Agent 沙盒会拦截 <code>operation not permitted</code>,即使父进程提权,spawn 出的子进程仍被沙盒限制。<strong>解法:</strong>改用「轮询拉取历史消息」走纯 HTTP API,绕开沙盒(吴晓波对谈案例已验证可行)。代价是「秒回」变成「最长延迟 N 分钟」。<br/><br/>
+          <strong>2. Wiki 知识库无现存空间时需先建。</strong> 用户首次接入 Wiki 时,<code>wiki +space-list</code> 可能返回 0 个空间。这并非权限缺失(<code>auth status</code> 实测 user token scope 已含 wiki 全套),而是账号下确实没建过空间。<strong>解法:</strong>用 <code>wiki +space-create</code> 直接建一个,再用 <code>wiki +move</code> 把云盘文档挂进去(本报告案例 5 已实测打通)。<br/><br/>
+          <strong>3. Automation RRULE 不支持 MINUTELY。</strong> 最细粒度是 HOURLY。要实现「每 N 分钟」需用 <code>FREQ=HOURLY;BYMINUTE=0,5,10,...,55</code> + <code>BYHOUR=列举</code> 来模拟。<br/><br/>
+          <strong>4. 通讯录搜索是模糊匹配,但要求是飞书全名/手机/邮箱。</strong> 别名(如「tic」)搜不到,需要用户提供准确字段才能解析为 open_id 加为与会人。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="brand-mini">
+      <div class="brand-logo" style="width: 22px; height: 22px; font-size: 11px;">W</div>
+      WorkBuddy × 飞书 联动报告
+    </div>
+    <div class="meta-line">基于 2026-06-07 实跑链路整理 · 飞书 Connector 已连接 · 28 个 lark-* skill · 5 个真实案例 · 1 个 Wiki 空间</div>
+  </div>
+</footer>
+
+</body>
+</html>
+

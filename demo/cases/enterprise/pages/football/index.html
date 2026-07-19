@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>体育赛事精彩集锦剪辑方案 · 某省级广电</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* 广东卫视主色：中国红 + 木棉花红 + 沉稳金 */
+    --gd-red: #E60012;
+    --gd-red-deep: #B8000E;
+    --gd-red-soft: #FFE5E8;
+    --gd-gold: #C9A961;
+    --gd-gold-soft: #F5E9C7;
+    --ink: #1A1A1A;
+    --ink-2: #5C5C5C;
+    --ink-3: #8E8E8E;
+    --paper: #FAF7F2;
+    --paper-2: #FFFFFF;
+    --line: #E8E1D6;
+    --line-strong: #1A1A1A;
+    --code-bg: #1A1A1A;
+    --code-text: #F5E9C7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Noto Sans SC", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.75;
+    font-size: 15px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* ========== 顶部导航条（致敬广电频道台头） ========== */
+  .topbar {
+    background: var(--gd-red);
+    color: white;
+    padding: 12px 0;
+    border-bottom: 3px solid var(--gd-gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .topbar-channel {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 900;
+    font-size: 16px;
+    letter-spacing: 4px;
+  }
+  .topbar-divider { opacity: 0.5; }
+  .topbar-show { font-size: 13px; opacity: 0.9; letter-spacing: 2px; }
+  .topbar-spacer { flex: 1; }
+  .topbar-time { font-family: "JetBrains Mono", monospace; font-size: 13px; opacity: 0.85; }
+
+  /* ========== Hero 头版 ========== */
+  .hero {
+    padding: 64px 0 56px;
+    background:
+      linear-gradient(180deg, var(--paper) 0%, var(--paper) 70%, transparent 100%),
+      radial-gradient(circle at 20% 30%, rgba(230,0,18,0.08), transparent 60%),
+      radial-gradient(circle at 85% 70%, rgba(201,169,97,0.10), transparent 55%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: -40px;
+    width: 340px;
+    height: 340px;
+    background: var(--gd-red);
+    opacity: 0.06;
+    transform: rotate(15deg);
+    border-radius: 30px;
+    z-index: 0;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 6px;
+    background: white;
+    border: 1px solid var(--gd-red);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gd-red);
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow .dot {
+    width: 24px;
+    height: 24px;
+    background: var(--gd-red);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-family: "Noto Serif SC", serif;
+    font-weight: 900;
+  }
+  .hero h1 {
+    font-family: "Noto Serif SC", serif;
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .hero h1 .accent { color: var(--gd-red); position: relative; }
+  .hero h1 .accent::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gd-gold);
+    z-index: -1;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 720px;
+    line-height: 1.85;
+    margin-bottom: 36px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .hero-stat {
+    padding: 22px 20px;
+    border-right: 1px solid var(--line);
+    position: relative;
+  }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat .label {
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .hero-stat .value {
+    font-family: "Noto Serif SC", serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .hero-stat .value.red { color: var(--gd-red); }
+  .hero-stat .unit { font-size: 14px; color: var(--ink-2); margin-left: 4px; font-weight: 500; font-family: "Noto Sans SC", sans-serif; }
+  @media (max-width: 800px) {
+    .hero h1 { font-size: 40px; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .hero-stat:nth-child(2) { border-right: none; }
+    .hero-stat:nth-child(1), .hero-stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+  }
+
+  /* ========== Section 通用 ========== */
+  section { padding: 56px 0; }
+  section:nth-child(even) { background: var(--paper-2); }
+
+  .section-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+  }
+  .section-head::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 80px;
+    height: 6px;
+    background: var(--gd-red);
+  }
+  .section-num {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    background: var(--gd-red);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif SC", serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .section-num.gold { background: var(--gd-gold); color: var(--ink); }
+  .section-num.ink { background: var(--ink); color: white; }
+  .section-title { flex: 1; padding-top: 4px; }
+  .section-title h2 {
+    font-family: "Noto Serif SC", serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .section-title .subtitle {
+    font-size: 14px;
+    color: var(--ink-2);
+    letter-spacing: 1px;
+  }
+  .section-body p { color: var(--ink); margin-bottom: 16px; }
+  .section-body h3 {
+    font-family: "Noto Serif SC", serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 28px 0 14px;
+    color: var(--ink);
+    padding-left: 14px;
+    border-left: 4px solid var(--gd-red);
+  }
+  .section-body ul, .section-body ol { padding-left: 24px; margin-bottom: 16px; }
+  .section-body li { margin-bottom: 8px; color: var(--ink); }
+  .section-body strong { color: var(--ink); font-weight: 700; }
+
+  /* ========== 名词解释卡片 ========== */
+  .glossary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .glossary-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--gd-red);
+    padding: 20px 22px;
+    border-radius: 0 0 4px 4px;
+    transition: all 0.2s;
+  }
+  .glossary-card:hover {
+    border-top-color: var(--gd-gold);
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: translate(-2px, -2px);
+  }
+  .glossary-card .term {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .glossary-card .term .abbr {
+    font-family: "Noto Serif SC", serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gd-red);
+    letter-spacing: 1px;
+  }
+  .glossary-card .term .full {
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 1px;
+    font-family: "JetBrains Mono", monospace;
+  }
+  .glossary-card .term-cn {
+    font-family: "Noto Serif SC", serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .glossary-card .desc {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .glossary-card .role {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 10px;
+    background: var(--gd-red-soft);
+    color: var(--gd-red-deep);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border-radius: 2px;
+  }
+  .glossary-card.gold { border-top-color: var(--gd-gold); }
+  .glossary-card.gold .term .abbr { color: var(--gd-gold); }
+  .glossary-card.gold .role { background: var(--gd-gold-soft); color: #8B7338; }
+  .glossary-card.ink { border-top-color: var(--ink); }
+  .glossary-card.ink .term .abbr { color: var(--ink); }
+
+  /* ========== Pipeline 6 阶段 ========== */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    margin: 32px 0;
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .pipe-step {
+    padding: 22px 14px;
+    text-align: center;
+    border-right: 1px solid var(--line);
+    position: relative;
+    background: white;
+    transition: background 0.2s;
+  }
+  .pipe-step:last-child { border-right: none; }
+  .pipe-step:hover { background: var(--gd-red-soft); }
+  .pipe-step .pipe-num {
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 10px;
+    background: var(--ink);
+    color: var(--gd-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif SC", serif;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .pipe-step .pipe-name {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  .pipe-step .pipe-time {
+    font-size: 11px;
+    color: var(--ink-3);
+    font-family: "JetBrains Mono", monospace;
+  }
+  @media (max-width: 900px) {
+    .pipeline { grid-template-columns: repeat(3, 1fr); }
+    .pipe-step:nth-child(3n) { border-right: none; }
+    .pipe-step:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+  }
+
+  /* ========== KV 卡片 ========== */
+  .kv {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .kv-item {
+    background: white;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--gd-red);
+    padding: 16px 18px;
+    border-radius: 0 4px 4px 0;
+  }
+  .kv-item .k {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  .kv-item .v {
+    font-family: "Noto Serif SC", serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .kv-item .v.red { color: var(--gd-red); }
+  .kv-item .v.gold { color: var(--gd-gold); }
+  .kv-item.gold { border-left-color: var(--gd-gold); }
+  .kv-item.ink { border-left-color: var(--ink); }
+
+  /* ========== 表格 ========== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 14px;
+    background: white;
+    border: 1px solid var(--ink);
+  }
+  th {
+    background: var(--ink);
+    color: var(--gd-gold);
+    font-weight: 700;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--gd-red-soft); }
+  td code, code.inline {
+    background: var(--ink);
+    color: var(--gd-gold);
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+  }
+
+  /* ========== 代码块 ========== */
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 22px 26px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 18px 0;
+    border-left: 4px solid var(--gd-red);
+    position: relative;
+  }
+  pre::before {
+    content: 'CODE';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 10px;
+    color: var(--gd-gold);
+    letter-spacing: 2px;
+    opacity: 0.6;
+  }
+  pre .c { color: #7A7A7A; }
+  pre .k { color: #FF6B7A; }
+  pre .s { color: #C9A961; }
+
+  /* ========== 醒目提示框 ========== */
+  .panel {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 20px 24px;
+    margin: 18px 0;
+    border-radius: 4px;
+    position: relative;
+  }
+  .panel.red {
+    border-left: 4px solid var(--gd-red);
+    background: var(--gd-red-soft);
+  }
+  .panel.gold {
+    border-left: 4px solid var(--gd-gold);
+    background: var(--gd-gold-soft);
+  }
+  .panel.ink {
+    background: var(--ink);
+    color: var(--paper);
+    border-left: 4px solid var(--gd-gold);
+  }
+  .panel.ink p, .panel.ink li, .panel.ink strong { color: var(--paper); }
+  .panel-label {
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--gd-red);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  .panel.gold .panel-label { background: var(--gd-gold); color: var(--ink); }
+  .panel.ink .panel-label { background: var(--gd-gold); color: var(--ink); }
+
+  /* ========== 视频区 ========== */
+  .video-section {
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    padding: 0;
+    margin: 24px 0;
+    overflow: hidden;
+  }
+  .video-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 3px solid var(--gd-red);
+  }
+  .video-header .vh-num {
+    width: 32px;
+    height: 32px;
+    background: var(--gd-red);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif SC", serif;
+    font-weight: 900;
+    font-size: 15px;
+  }
+  .video-header .vh-title {
+    font-family: "Noto Serif SC", serif;
+    font-size: 18px;
+    font-weight: 700;
+    flex: 1;
+    color: white;
+    letter-spacing: 1px;
+  }
+  .video-header .vh-badge {
+    padding: 4px 12px;
+    background: var(--gd-gold);
+    color: var(--ink);
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .video-header .vh-badge.green { background: #4CAF50; color: white; }
+  .video-body { padding: 20px; }
+  .video-body p { color: var(--ink-2); margin-bottom: 14px; font-size: 13.5px; }
+  .video-large {
+    width: 100%;
+    border-radius: 4px;
+    background: black;
+    display: block;
+  }
+  .video-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--ink-2);
+    font-family: "JetBrains Mono", monospace;
+  }
+  .video-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .video-meta span::before { content: '▸'; color: var(--gd-red); }
+
+  /* 原视频与成片并列 */
+  .duo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  @media (max-width: 800px) {
+    .duo-grid { grid-template-columns: 1fr; }
+  }
+
+  /* 进球小窗网格 */
+  .clips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 800px) { .clips-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 500px) { .clips-grid { grid-template-columns: 1fr; } }
+  .clip {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .clip:hover {
+    border-color: var(--gd-red);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 var(--gd-red);
+  }
+  .clip video {
+    width: 100%;
+    background: black;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+  .clip-info {
+    padding: 10px 14px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+  }
+  .clip-info .clip-num {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 900;
+    color: var(--gd-red);
+    font-size: 16px;
+  }
+  .clip-info .clip-time {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+
+  /* 终极成片高亮（在并列中也保持视觉强调） */
+  .video-section.featured {
+    border: 3px solid var(--gd-red);
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+  }
+  .video-section.featured::before {
+    content: '★ 最终交付';
+    position: absolute;
+    top: 18px;
+    right: 96px;
+    background: var(--gd-red);
+    color: white;
+    padding: 4px 12px;
+    font-family: "Noto Serif SC", serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 2px;
+    z-index: 2;
+    line-height: 1;
+  }
+
+  /* ========== 阶段角标 ========== */
+  .stage-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--ink);
+    color: var(--gd-gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 2px;
+    margin-right: 8px;
+  }
+
+  /* ========== 大标题分段（致敬节目段落卡） ========== */
+  .chapter-title {
+    text-align: center;
+    margin: 40px 0 24px;
+    position: relative;
+  }
+  .chapter-title h2 {
+    font-family: "Noto Serif SC", serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--ink);
+    display: inline-block;
+    padding: 0 30px;
+    background: var(--paper-2);
+    position: relative;
+    z-index: 1;
+  }
+  .chapter-title::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  /* ========== 下载卡片 ========== */
+  .download-card {
+    background: linear-gradient(135deg, var(--ink) 0%, #2a2a2a 100%);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin: 24px 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-left: 6px solid var(--gd-gold);
+    position: relative;
+    overflow: hidden;
+  }
+  .download-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,169,97,0.15), transparent 70%);
+  }
+  .download-card .dl-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--gd-red);
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif SC", serif;
+    font-size: 28px;
+    font-weight: 900;
+    box-shadow: 3px 3px 0 var(--gd-gold);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .download-card .dl-info { flex: 1; min-width: 260px; position: relative; z-index: 1; }
+  .download-card .dl-title {
+    font-family: "Noto Serif SC", serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .download-card .dl-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+  }
+  .download-card .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: var(--gd-gold);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: "Noto Serif SC", serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border-radius: 3px;
+    transition: all 0.2s;
+    box-shadow: 3px 3px 0 var(--gd-red);
+    position: relative;
+    z-index: 1;
+  }
+  .download-card .dl-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--gd-red);
+  }
+  .download-card .dl-btn::after { content: '↓'; font-size: 18px; }
+  .download-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    font-family: "JetBrains Mono", monospace;
+  }
+  .download-meta span::before { content: '◆ '; color: var(--gd-gold); }
+
+  /* ========== Footer ========== */
+  .footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 0 28px;
+    margin-top: 40px;
+    border-top: 6px solid var(--gd-red);
+  }
+  .footer .wrap { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+  .footer-brand .footer-text {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: white;
+  }
+  .footer-brand .footer-sub { font-size: 12px; opacity: 0.7; margin-top: 4px; letter-spacing: 1px; }
+  .footer-meta { font-size: 12px; opacity: 0.7; font-family: "JetBrains Mono", monospace; }
+</style>
+</head>
+<body>
+
+<!-- ============== 顶部频道台头条 ============== -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-channel">广东卫视</span>
+    <span class="topbar-divider">|</span>
+    <span class="topbar-show">体育频道 · 技术方案</span>
+    <div class="topbar-spacer"></div>
+    <span class="topbar-time">GDTV · 2026-05-31</span>
+  </div>
+</div>
+
+<!-- ============== Hero 头版 ============== -->
+<div class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow">
+      <span class="dot">案</span>
+      <span>客户案例 · 体育赛事 AI 剪辑</span>
+    </div>
+    <h1>体育赛事<br><span class="accent">精彩集锦</span>智能剪辑方案</h1>
+    <p>面向某省级广电体育频道的端到端 AI 剪辑工作流：腾讯云 MPS 大模型版高光检测 + 本地 FFmpeg 流复制保画质 + 音频响度反推法二次筛选 + 一键配乐拼接，<strong>把 2 小时全场赛事的人工剪辑从 3~5 小时压缩到 50 分钟</strong>。</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="label">原片时长</div>
+        <div class="value">2:23<span class="unit">小时</span></div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">AI 检测</div>
+        <div class="value red">22<span class="unit">分钟</span></div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">最终成片</div>
+        <div class="value">1:16</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">效率提升</div>
+        <div class="value red">5<span class="unit">倍</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== 核心技术名词解释（新增） ============== -->
+<section style="background: var(--paper-2);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num gold">零</div>
+      <div class="section-title">
+        <h2>核心技术名词</h2>
+        <div class="subtitle">GLOSSARY · 上手前先看这一页</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>方案中频繁出现的专业术语集中说明。本套工作流由<strong>云端 AI 检测 + 本地视频处理 + 对象存储中转</strong>三部分协作完成，每个环节由不同组件担当。</p>
+
+      <div class="glossary">
+
+        <div class="glossary-card">
+          <div class="term">
+            <span class="abbr">MPS</span>
+            <span class="full">Media Processing Service</span>
+          </div>
+          <div class="term-cn">腾讯云媒体处理服务</div>
+          <p class="desc">腾讯云的视频 AI 处理云服务，提供精彩集锦、视频转码、智能审核、智能字幕、人脸识别等几十种能力。本方案核心使用其<strong>「精彩集锦-高级版」（Definition=26）</strong>，输入一段长视频，云端用大模型分析画面+音频，输出每个精彩片段的起止时间戳和置信度。</p>
+          <span class="role">角色 · 云端 AI 检测</span>
+        </div>
+
+        <div class="glossary-card gold">
+          <div class="term">
+            <span class="abbr">FFmpeg</span>
+            <span class="full">F-Fast / Forward MPEG</span>
+          </div>
+          <div class="term-cn">开源音视频处理全能工具</div>
+          <p class="desc">业界事实标准的视频处理命令行工具，一行命令即可完成切片、转码、混音、加字幕、淡入淡出、抽帧等操作。本方案用它做<strong>本地切片（流复制保画质）+ 拼接 + 字幕 + BGM 混音 + 响度分析</strong>，所有不需要 AI 推理的工序都交给它。</p>
+          <span class="role">角色 · 本地视频处理</span>
+        </div>
+
+        <div class="glossary-card ink">
+          <div class="term">
+            <span class="abbr">COS</span>
+            <span class="full">Cloud Object Storage</span>
+          </div>
+          <div class="term-cn">腾讯云对象存储</div>
+          <p class="desc">类似 AWS S3 的云端文件仓库。MPS 任务不接受本地文件，必须先把原片传到 COS，MPS 再以 <code class="inline">CosFileInfo</code> 引用。同地域桶可避免跨区流量费，VPC 私网上传可达 100 MB/s。</p>
+          <span class="role">角色 · 云端中转仓库</span>
+        </div>
+
+        <div class="glossary-card">
+          <div class="term">
+            <span class="abbr">force_cls</span>
+            <span class="full">Forced Classification</span>
+          </div>
+          <div class="term-cn">MPS 高光检测分类参数</div>
+          <p class="desc">告诉 MPS 用哪种"算法分支"做检测：<code class="inline">4001</code> = 足球专用模型（识别黄牌/换人/进球等具体事件，给出标签），<code class="inline">10020</code> = 大模型版（综合精彩瞬间，召回更高但只给 confidence 不给具体标签）。本方案最终选 10020 + 二次细筛。</p>
+          <span class="role">角色 · MPS 调参字段</span>
+        </div>
+
+        <div class="glossary-card gold">
+          <div class="term">
+            <span class="abbr">流复制</span>
+            <span class="full">-c copy / Stream Copy</span>
+          </div>
+          <div class="term-cn">FFmpeg 无损切片模式</div>
+          <p class="desc">FFmpeg 有两种切片模式：重新转码会损失画质，<strong>流复制</strong>则只是从原文件里"剪刀剪"出一段，不解码不重编码，<strong>0 画质损失 + 速度极快</strong>（1 小时素材切完只需几秒）。代价是切点必须落在关键帧（GOP 边界），偶有几帧时间戳偏差，但对 1 秒级精度的高光集锦完全够用。</p>
+          <span class="role">角色 · 切片核心技术</span>
+        </div>
+
+        <div class="glossary-card">
+          <div class="term">
+            <span class="abbr">volumedetect</span>
+            <span class="full">FFmpeg Audio Filter</span>
+          </div>
+          <div class="term-cn">音频响度分析滤镜</div>
+          <p class="desc">FFmpeg 自带的音频分析滤镜，输出片段的<strong>平均响度（mean_volume）</strong>和<strong>峰值响度（max_volume）</strong>，单位 dBFS（满刻度分贝，<code class="inline">0</code> 是顶满，<code class="inline">-20</code> 是较安静）。本方案用 mean_volume 阈值反推"观众是否在欢呼"，进而判断是否进球。</p>
+          <span class="role">角色 · 进球细筛信号</span>
+        </div>
+
+        <div class="glossary-card ink">
+          <div class="term">
+            <span class="abbr">concat demuxer</span>
+            <span class="full">FFmpeg Concat</span>
+          </div>
+          <div class="term-cn">FFmpeg 拼接模式</div>
+          <p class="desc">FFmpeg 有两种拼接：<code class="inline">concat filter</code>（重转码，参数随便）和 <code class="inline">concat demuxer + -c copy</code>（无损拼接，<strong>所有片段必须分辨率/fps/采样率/PixFmt 完全一致</strong>）。本方案用后者，速度快画质零损失，但需要先把每段显式归一化。</p>
+          <span class="role">角色 · 拼接核心技术</span>
+        </div>
+
+        <div class="glossary-card gold">
+          <div class="term">
+            <span class="abbr">alimiter</span>
+            <span class="full">Audio Limiter</span>
+          </div>
+          <div class="term-cn">FFmpeg 限幅器</div>
+          <p class="desc">音频限幅器，强制把信号峰值压在某个上限（本方案 <code class="inline">0.89 ≈ -1 dBFS</code>），<strong>防止 BGM + 现场声混合后触顶削波（破音）</strong>。这是广电播出标准的标配处理，保证最终响度符合 mean -16~-18、max 不超 -1 的播出规范。</p>
+          <span class="role">角色 · 混音末端处理</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 概览 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">壹</div>
+      <div class="section-title">
+        <h2>方案总览</h2>
+        <div class="subtitle">OVERVIEW · 三段式流水线设计</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>电视台体育频道每场比赛产生 90~120 分钟原片，传统人工剪辑需 3~5 人时。本方案通过<strong>「AI 粗筛 + 客观信号细筛 + 一键合成」</strong>三段式流水线，把全片处理时间压缩到 50 分钟以内，且全程可工程化复用。下场比赛只需 1 条命令即可重跑。</p>
+
+      <h3>六阶段工作流</h3>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-num">1</div>
+          <div class="pipe-name">素材准备</div>
+          <div class="pipe-time">~5 min</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">2</div>
+          <div class="pipe-name">AI 高光检测</div>
+          <div class="pipe-time">~22 min</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">3</div>
+          <div class="pipe-name">本地切片</div>
+          <div class="pipe-time">~2 min</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">4</div>
+          <div class="pipe-name">细筛进球</div>
+          <div class="pipe-time">~3 min</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">5</div>
+          <div class="pipe-name">拼接成片</div>
+          <div class="pipe-time">~1 min</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">6</div>
+          <div class="pipe-name">配乐混音</div>
+          <div class="pipe-time">~1 min</div>
+        </div>
+      </div>
+
+      <h3>关键技术指标</h3>
+      <div class="kv">
+        <div class="kv-item"><div class="k">原片时长</div><div class="v">2h 23m</div></div>
+        <div class="kv-item gold"><div class="k">AI 检测耗时</div><div class="v gold">22 分钟</div></div>
+        <div class="kv-item ink"><div class="k">本地切片</div><div class="v">2 分钟</div></div>
+        <div class="kv-item"><div class="k">最终成片</div><div class="v red">1m 16s</div></div>
+        <div class="kv-item gold"><div class="k">分辨率</div><div class="v gold" style="font-size:18px">1280×720@25</div></div>
+        <div class="kv-item"><div class="k">混音响度</div><div class="v" style="font-size:18px">−15 dB</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Stage 1 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">1</div>
+      <div class="section-title">
+        <h2>素材准备 <span class="stage-tag">STAGE 01</span></h2>
+        <div class="subtitle">PREPARATION · 上传到对象存储</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>原片上传到腾讯云 COS，作为后续 MPS 处理的输入。COS 同地域桶可避免跨区流量费，且 MPS 任务能直接以 <code class="inline">CosFileInfo</code> 引用，无需重复下载。</p>
+
+      <table>
+        <tr><th>资源</th><th>规格</th><th>说明</th></tr>
+        <tr><td>COS 桶</td><td><code>test-1433610541</code></td><td>ap-guangzhou，与 MPS 同地域</td></tr>
+        <tr><td>SDK</td><td>cos-python-sdk-v5</td><td>分块上传 + 断点续传</td></tr>
+        <tr><td>对象 Key</td><td><code>football/粤超.mp4</code></td><td>2 GB / 2h23m / h264+aac</td></tr>
+      </table>
+
+      <div class="panel red">
+        <div class="panel-label">关键要点</div>
+        <p style="margin: 0;">所有公网传输环节都建议加 SHA256 校验。<strong>电视台局域网可走 VPC 私网上传</strong>，速度从 ~30 MB/s 提升到 ~100 MB/s，2GB 原片约 20 秒上传完成。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Stage 2 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">2</div>
+      <div class="section-title">
+        <h2>AI 高光检测 <span class="stage-tag">STAGE 02</span></h2>
+        <div class="subtitle">DETECTION · 腾讯云 MPS 大模型版</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>调用 MPS 的 <code class="inline">ProcessMedia</code> 接口，触发<strong>精彩集锦-高级版（Definition=26）</strong>。MPS 内部用大模型分析画面运动 + 音频强度 + 场景切换，输出每个精彩片段的起止时间戳和置信度。</p>
+
+      <h3>关键参数选型</h3>
+      <table>
+        <tr><th>force_cls</th><th>含义</th><th>适用场景</th></tr>
+        <tr><td><code>4001</code></td><td>足球专用（黄牌/换人/进球）</td><td>赛前测试调通链路</td></tr>
+        <tr><td><code>10020</code></td><td>大模型版（综合精彩瞬间）</td><td>✅ 全片生产用</td></tr>
+      </table>
+
+      <div class="panel red">
+        <div class="panel-label">实测踩坑</div>
+        <p style="margin: 0;">大模型版返回的 <code class="inline">TagSet</code> 字段为空，仅给 <code class="inline">Confidence</code>（1~5）。无法依赖标签直接区分"进球/射门/越位"，<strong>必须叠加二次筛选</strong>（见 Stage 4）。</p>
+      </div>
+
+      <h3>调用片段</h3>
+      <pre><span class="c"># 提交任务</span>
+client = MpsClient(cred, <span class="s">"ap-guangzhou"</span>)
+req = ProcessMediaRequest()
+req.from_json_string(json.dumps({
+  <span class="s">"InputInfo"</span>: {<span class="s">"Type"</span>: <span class="s">"COS"</span>, <span class="s">"CosInputInfo"</span>: {...}},
+  <span class="s">"AiAnalysisTask"</span>: {<span class="s">"Definition"</span>: 26,
+    <span class="s">"ExtendedParameter"</span>: <span class="s">'{"hht":{"force_cls":10020}}'</span>
+  }
+}))
+task_id = client.ProcessMedia(req).TaskId
+
+<span class="c"># 容错轮询（60s timeout，连续失败 20 次才退出）</span>
+while True:
+    status = describe_task(task_id, timeout=60)
+    if status.Status == <span class="s">"FINISH"</span>: break
+    sleep(30)</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Stage 3 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">3</div>
+      <div class="section-title">
+        <h2>本地切片 <span class="stage-tag">STAGE 03</span></h2>
+        <div class="subtitle">SLICING · FFmpeg 流复制保画质</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>MPS 返回时间戳后，<strong>不让 MPS 直接出片</strong>，而是回到本地用 FFmpeg 按时间戳切片。这是本方案的核心成本优化点。</p>
+
+      <div class="panel gold">
+        <div class="panel-label">为什么要混合方案</div>
+        <ul style="margin: 0;">
+          <li><strong>MPS 出片会重新转码</strong>，画质不可控（CRF/码率/profile 都是平台默认值）</li>
+          <li><strong>本地 <code class="inline">-c copy</code> 流复制</strong> 0 损失原画质，1 小时切完只需 ~2 分钟</li>
+          <li>MPS 计费按时长收，纯检测远比"检测+转码"便宜约 60%</li>
+        </ul>
+      </div>
+
+      <pre><span class="c"># 关键命令：流复制不重编码</span>
+ffmpeg -ss <span class="s">$start</span> -i 粤超.mp4 -t <span class="s">$dur</span> \
+       -c copy -avoid_negative_ts make_zero \
+       output/highlight_<span class="s">$N</span>_<span class="s">$start</span>s_<span class="s">$end</span>s.mp4</pre>
+
+      <p>13 个片段从 142 分钟原片中切出，总耗时 87 秒（M2 Mac），原画质 1:1 保留。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Stage 4 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num gold">4</div>
+      <div class="section-title">
+        <h2>细筛进球射门 <span class="stage-tag">STAGE 04</span></h2>
+        <div class="subtitle">FILTERING · 音频响度反推法（核心创新）</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>大模型版只给 confidence 不给标签，13 个片段中既有真进球也有常规对抗。<strong>用音频响度作为客观信号</strong>——进球瞬间观众爆发欢呼，是体育视频里最廉价、最高准的进球指代信号。</p>
+
+      <pre><span class="c"># 用 ffmpeg volumedetect 测每段平均/峰值响度</span>
+ffmpeg -i clip.mp4 -af volumedetect -f null /dev/null 2>&1 \
+  | grep -E <span class="s">"(mean_volume|max_volume)"</span></pre>
+
+      <h3>判定阈值（实测定型）</h3>
+      <table>
+        <tr><th>mean_volume</th><th>判定</th><th>典型场景</th></tr>
+        <tr><td><code>≥ −17 dB</code></td><td>✅ 确认进球</td><td>观众爆发性欢呼，持续 3~5 秒</td></tr>
+        <tr><td><code>−21 ~ −17 dB</code></td><td>⚠️ 可能射门</td><td>明显欢呼但未爆发，含险情/扑救</td></tr>
+        <tr><td><code>≤ −21 dB</code></td><td>❌ 非射门</td><td>常规对抗，无明显情绪波动</td></tr>
+      </table>
+
+      <div class="panel ink">
+        <div class="panel-label">KEY INSIGHT</div>
+        <p style="margin: 0;"><strong>优先用 mean 而不是 max。</strong>max 容易被解说员单点叫喊污染（"哎呀这个球！"），<strong>mean 反映的是观众持续欢呼的能量积累</strong>，跟进球高度相关。这个洞察让我们用一个 ffmpeg 命令就完成了原本需要画面识别的工作。</p>
+      </div>
+
+      <h3>13 段实测分布</h3>
+      <div class="kv">
+        <div class="kv-item"><div class="k">总片段</div><div class="v">13</div></div>
+        <div class="kv-item"><div class="k">确认进球</div><div class="v red">5</div></div>
+        <div class="kv-item gold"><div class="k">可能射门</div><div class="v gold">2</div></div>
+        <div class="kv-item ink"><div class="k">非射门</div><div class="v">6</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Stage 5 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">5</div>
+      <div class="section-title">
+        <h2>拼接成片 <span class="stage-tag">STAGE 05</span></h2>
+        <div class="subtitle">EDITING · 字幕 + 过渡 + 节目化包装</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>把人工 review 后保留的 6 段进球射门按比赛时间排序，添加片头/片尾 + 段头字幕 + 淡入淡出，无损拼接成长视频。</p>
+
+      <h3>视觉设计规范</h3>
+      <ul>
+        <li><strong>片头卡 3s</strong>：深色底 + 主标题"粤超联赛 · 进球射门集锦" + 副标题，淡入淡出</li>
+        <li><strong>每段右上角</strong>：半透明黑底白字 <code class="inline">#N/6  第MM分SS秒</code></li>
+        <li><strong>每段左下角</strong>：场次水印"粤超联赛 · 精彩瞬间"</li>
+        <li><strong>段间过渡</strong>：0.5s 视频+音频淡入淡出</li>
+        <li><strong>片尾卡 2s</strong>："—— 全场结束 ——"，淡入淡出</li>
+      </ul>
+
+      <div class="panel red">
+        <div class="panel-label">工程坑点</div>
+        <p><code class="inline">concat -c copy</code> 要求所有输入参数完全一致（分辨率/fps/采样率/PixFmt）。处理片头/片尾卡时<strong>必须显式归一化</strong>：</p>
+        <pre style="margin-top: 8px; margin-bottom: 0;">scale=1280:720,setsar=1,fps=25  <span class="c"># 视频归一化</span>
+aresample=44100,ac=2             <span class="c"># 音频归一化</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Stage 6 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">6</div>
+      <div class="section-title">
+        <h2>配乐混音 <span class="stage-tag">STAGE 06</span></h2>
+        <div class="subtitle">MIXING · 业内体育转播标准</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>BGM 必须做底（不能盖过现场欢呼），且末端要加限幅器防止削波，符合广电响度规范。</p>
+
+      <h3>混音参数（已定型）</h3>
+      <table>
+        <tr><th>项目</th><th>值</th><th>作用</th></tr>
+        <tr><td>BGM 音量</td><td><code>−12 dB</code></td><td>压低做底，约原响度的 25%</td></tr>
+        <tr><td>现场声</td><td><code>−2 dB</code></td><td>微降给 BGM 留 headroom</td></tr>
+        <tr><td>BGM 淡入/淡出</td><td><code>1.5 s</code></td><td>比片头淡入更长，自然引入</td></tr>
+        <tr><td>Limiter 限幅</td><td><code>0.89 (−1 dBFS)</code></td><td>防止 amix 触顶削波</td></tr>
+        <tr><td>实测响度</td><td><code>mean −15 / max −0.5 dB</code></td><td>✅ 符合广电播出标准</td></tr>
+      </table>
+
+      <pre><span class="c"># 一键替换 BGM</span>
+python add_bgm.py /path/to/your-bgm.mp3</pre>
+
+      <div class="panel gold">
+        <div class="panel-label">工程化收益</div>
+        <p style="margin: 0;">已封装通用脚本 <code class="inline">add_bgm.py</code>，支持任意 BGM 文件输入，<strong>混音参数自动套用</strong>。换 BGM 只跑 1 条命令，本次案例从合成 BGM 切到 <em>Aeon - JJD.mp3</em> 仅用 30 秒。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 工程资产 + 下载 ============== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num ink">⚙</div>
+      <div class="section-title">
+        <h2>工程资产沉淀</h2>
+        <div class="subtitle">DELIVERABLES · 下场比赛即用</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <table>
+        <tr><th>文件</th><th>位置</th><th>作用</th></tr>
+        <tr><td><code>football_highlight.py</code></td><td>football-highlight/</td><td>主流程（COS 上传→MPS 提交→轮询→切片）</td></tr>
+        <tr><td><code>poll_and_clip.py</code></td><td>football-highlight/</td><td>容错轮询（60s timeout + 重试）</td></tr>
+        <tr><td><code>make_highlight_reel.py</code></td><td>football-highlight/</td><td>多段拼接 + 字幕 + 淡入淡出</td></tr>
+        <tr><td><code>add_bgm.py</code></td><td>football-highlight/</td><td>BGM 混音（aloop+amix+alimiter）</td></tr>
+        <tr><td><code>SKILL.md</code></td><td>~/.workbuddy/skills/<br>tencent-mps-football-highlight/</td><td>方法论沉淀，下场比赛直接复用</td></tr>
+      </table>
+
+      <!-- Skill 下载卡片 -->
+      <div class="download-card">
+        <div class="dl-icon">⬇</div>
+        <div class="dl-info">
+          <div class="dl-title">Skill 包下载 · tencent-mps-football-highlight</div>
+          <div class="dl-desc">完整工作流 Skill 包（SKILL.md + 6 个脚本 + 配置模板），解压到 <code style="color:var(--gd-gold);background:rgba(0,0,0,0.3);padding:1px 6px;border-radius:2px;">~/.workbuddy/skills/</code> 即可在 WorkBuddy 中直接调用。</div>
+          <div class="download-meta">
+            <span>17.5 KB</span>
+            <span>ZIP</span>
+            <span>SKILL.md + scripts/ + templates/</span>
+          </div>
+        </div>
+        <a href="assets/tencent-mps-football-highlight-skill.zip" download class="dl-btn">下载 Skill 包</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 视频成果 ============== -->
+<div class="chapter-title">
+  <h2>视频成果展示</h2>
+</div>
+
+<section style="background: var(--paper-2);">
+  <div class="wrap">
+
+    <!-- 原视频 + 成片 并列 -->
+    <div class="duo-grid">
+
+      <div class="video-section">
+        <div class="video-header">
+          <div class="vh-num">1</div>
+          <div class="vh-title">原始素材 · 全场</div>
+          <div class="vh-badge">输入</div>
+        </div>
+        <div class="video-body">
+          <p>粤超联赛全场录像，2 小时 23 分钟，1280×720@25fps，h264+aac，约 2 GB。</p>
+          <video class="video-large" controls preload="metadata">
+            <source src="assets/原视频_粤超.mp4" type="video/mp4">
+            您的浏览器不支持视频播放。
+          </video>
+          <div class="video-meta">
+            <span>02:23:35</span>
+            <span>1280×720</span>
+            <span>2.0 GB</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-section featured">
+        <div class="video-header" style="border-bottom-color: var(--gd-gold);">
+          <div class="vh-num" style="background: var(--gd-gold); color: var(--ink);">3</div>
+          <div class="vh-title">带 BGM 成片 · 集锦</div>
+          <div class="vh-badge green">输出</div>
+        </div>
+        <div class="video-body">
+          <p>片头 + 6 段进球（带字幕和淡入淡出过渡）+ 片尾，混入 <em>Aeon - JJD</em>，符合广电响度标准。</p>
+          <video class="video-large" controls preload="metadata">
+            <source src="assets/成片_带BGM.mp4" type="video/mp4">
+          </video>
+          <div class="video-meta">
+            <span>01:16</span>
+            <span>27.7 MB</span>
+            <span>−15 / −0.5 dB</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 6段进球射门 小窗 -->
+    <div class="video-section">
+      <div class="video-header">
+        <div class="vh-num">2</div>
+        <div class="vh-title">细筛后 · 6 段进球射门（中间产物）</div>
+        <div class="vh-badge">中间产物</div>
+      </div>
+      <div class="video-body">
+        <p>从 13 个 AI 候选片段中，用音频响度法 + 人工核对筛出的 6 个真实进球/射门时刻，按比赛时间排序。</p>
+        <div class="clips-grid">
+          <div class="clip">
+            <video controls preload="metadata"><source src="assets/进球01_第69分26秒.mp4" type="video/mp4"></video>
+            <div class="clip-info"><span class="clip-num">No.01</span><span class="clip-time">69′26″</span></div>
+          </div>
+          <div class="clip">
+            <video controls preload="metadata"><source src="assets/进球02_第70分52秒.mp4" type="video/mp4"></video>
+            <div class="clip-info"><span class="clip-num">No.02</span><span class="clip-time">70′52″</span></div>
+          </div>
+          <div class="clip">
+            <video controls preload="metadata"><source src="assets/进球03_第118分34秒.mp4" type="video/mp4"></video>
+            <div class="clip-info"><span class="clip-num">No.03</span><span class="clip-time">118′34″</span></div>
+          </div>
+          <div class="clip">
+            <video controls preload="metadata"><source src="assets/进球04_第138分13秒.mp4" type="video/mp4"></video>
+            <div class="clip-info"><span class="clip-num">No.04</span><span class="clip-time">138′13″</span></div>
+          </div>
+          <div class="clip">
+            <video controls preload="metadata"><source src="assets/进球05_第138分32秒.mp4" type="video/mp4"></video>
+            <div class="clip-info"><span class="clip-num">No.05</span><span class="clip-time">138′32″</span></div>
+          </div>
+          <div class="clip">
+            <video controls preload="metadata"><source src="assets/进球06_第139分32秒.mp4" type="video/mp4"></video>
+            <div class="clip-info"><span class="clip-num">No.06</span><span class="clip-time">139′32″</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== Footer ============== -->
+<div class="footer">
+  <div class="wrap">
+    <div class="footer-brand">
+      <div class="footer-text">某省级广电 · 体育频道</div>
+      <div class="footer-sub">技术方案 · WorkBuddy 多模态生成</div>
+    </div>
+    <div class="footer-meta">
+      腾讯云 MPS · COS · FFmpeg · Python 3.13 · 2026-05-31
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

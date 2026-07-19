@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人作品集 · AI 产品落地与实践（概念方案演示）</title>
+<style>
+  :root{
+    --bg:#f7f8fc;--card:#ffffff;--ink:#0f172a;--ink-2:#334155;--muted:#64748b;
+    --line:#e6e8ef;--brand:#4f46e5;--brand-2:#7c3aed;--brand-3:#06b6d4;
+    --grad:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#06b6d4 100%);
+    --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+    --shadow-lg:0 4px 8px rgba(16,24,40,.06),0 24px 48px rgba(79,70,229,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  /* 顶部演示提示条 */
+  .notice{background:linear-gradient(90deg,#fff7e6,#fef3c7);border-bottom:1px solid #fde68a;color:#78350f;font-size:13px;text-align:center;padding:8px 16px;font-weight:500}
+  .notice b{color:#92400e}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.3px}
+  .brand .dot{width:28px;height:28px;border-radius:8px;background:var(--grad);box-shadow:0 4px 12px rgba(79,70,229,.4)}
+  .nav-links{display:flex;gap:6px;align-items:center}
+  .nav-links a{padding:8px 14px;border-radius:8px;font-size:14px;color:var(--ink-2);font-weight:500;transition:.18s}
+  .nav-links a:hover{background:#eef0ff;color:var(--brand)}
+  @media(max-width:780px){.nav-links{display:none}}
+
+  .hero{position:relative;overflow:hidden;background:radial-gradient(1200px 500px at 80% -10%,rgba(124,58,237,.18),transparent 60%),radial-gradient(900px 500px at 0% 10%,rgba(6,182,212,.16),transparent 55%),#0b1020;color:#eef2ff;padding:80px 0 92px}
+  .hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;mask:linear-gradient(180deg,#000,transparent);opacity:.5}
+  .hero-inner{position:relative;z-index:1}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;background:rgba(124,58,237,.18);border:1px solid rgba(167,139,250,.35);color:#ddd6fe;margin-bottom:22px}
+  .badge .pulse{width:8px;height:8px;border-radius:50%;background:#a78bfa;box-shadow:0 0 0 0 rgba(167,139,250,.7);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(167,139,250,.7)}70%{box-shadow:0 0 0 10px rgba(167,139,250,0)}100%{box-shadow:0 0 0 0 rgba(167,139,250,0)}}
+  h1.hero-title{font-size:clamp(34px,5.4vw,56px);line-height:1.12;font-weight:800;letter-spacing:-.5px;background:linear-gradient(90deg,#fff 0%,#c7d2fe 50%,#a5f3fc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:20px}
+  .hero-sub{font-size:clamp(16px,2vw,19px);color:#c7d2fe;max-width:680px;margin-bottom:30px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:10px;font-weight:600;font-size:15px;transition:.2s;cursor:pointer;border:1px solid transparent}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 24px rgba(79,70,229,.45)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(79,70,229,.55)}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#e0e7ff;border-color:rgba(255,255,255,.18)}
+  .btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:-56px 0 0 0;position:relative;z-index:2}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;box-shadow:var(--shadow);text-align:center}
+  .stat .num{font-size:30px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .lbl{font-size:13px;color:var(--muted);margin-top:4px}
+  @media(max-width:680px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  section{padding:64px 0}
+  .sec-head{margin-bottom:34px}
+  .sec-eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brand);margin-bottom:10px}
+  .sec-title{font-size:clamp(24px,3.4vw,32px);font-weight:800;letter-spacing:-.4px}
+  .sec-desc{color:var(--muted);margin-top:8px;max-width:680px;font-size:15px}
+  .section-alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+  .grid{display:grid;gap:20px}
+  .g-2{grid-template-columns:repeat(2,1fr)}
+  .g-3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:980px){.g-3{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:680px){.g-2,.g-3{grid-template-columns:1fr}}
+
+  .card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow);transition:.22s;overflow:hidden;display:flex;flex-direction:column}
+  .card::before{content:"";position:absolute;left:0;top:0;width:4px;height:100%;background:var(--grad);opacity:0;transition:.22s}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:#dfe1f5}
+  .card:hover::before{opacity:1}
+  .card .tag{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:#eef2ff;color:var(--brand);margin-bottom:14px}
+  .card .tag.amber{background:#fff7e6;color:#b45309}
+  .card .tag.cyan{background:#ecfeff;color:#0e7490}
+  .card .tag.green{background:#ecfdf5;color:#047857}
+  .card .tag.rose{background:#fff1f2;color:#be123c}
+  .card h3{font-size:18px;font-weight:700;margin-bottom:8px;line-height:1.4}
+  .card p{font-size:14px;color:var(--ink-2);margin-bottom:18px;flex:1}
+  .card .go{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--brand)}
+  .card .go svg{transition:.2s}
+  .card:hover .go svg{transform:translateX(3px)}
+
+  .card.feature{grid-column:span 2;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none}
+  .card.feature h3{color:#fff;font-size:22px}
+  .card.feature p{color:#e0e7ff}
+  .card.feature .go{color:#fff}
+  .card.feature::before{display:none}
+  .card.feature .tag{background:rgba(255,255,255,.18);color:#fff}
+  @media(max-width:680px){.card.feature{grid-column:span 1}}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{font-size:12px;color:var(--ink-2);background:#f1f3fb;border:1px solid var(--line);padding:5px 11px;border-radius:8px;transition:.18s;cursor:pointer;font-weight:500}
+  .chip:hover{background:#eef2ff;color:var(--brand);border-color:#c7d2fe}
+
+  footer{background:#0b1020;color:#94a3b8;padding:54px 0 40px}
+  .foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:flex-start}
+  .foot-brand{color:#fff;font-weight:700;font-size:18px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .foot-brand .dot{width:26px;height:26px;border-radius:8px;background:var(--grad)}
+  .foot-meta{font-size:13px;line-height:1.9}
+  .foot-meta b{color:#cbd5e1}
+  .foot-tip{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#64748b}
+  .arrow{display:inline-block;width:14px;height:14px}
+</style>
+</head>
+<body>
+
+<div class="notice"><b>概念方案 · 演示用</b> &nbsp;|&nbsp; 本作品集客户名称已脱敏，数据均为示意，非真实合作数据</div>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="brand"><span class="dot"></span>个人作品集</div>
+    <div class="nav-links">
+      <a href="#prd">产品原型</a>
+      <a href="#creative">创意作品</a>
+      <a href="#landing">产业落地</a>
+      <a href="#enterprise">企业案例</a>
+      <a href="#guide">操作指南</a>
+      <a href="#thinking">思考方法</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <span class="badge"><span class="pulse"></span>AI 产品落地 · 求职作品集</span>
+    <h1 class="hero-title">从产品定义到产业落地<br>AI Native 产品的完整实践</h1>
+    <p class="hero-sub">围绕 AI Agent / WorkBuddy 产品线，沉淀的一整套作品：交互式 PRD 原型、产业带 AI 落地案例、企业级方案、操作指南与方法论思考。每一件作品都可点击直接体验。</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#prd">浏览全部作品 →</a>
+      <a class="btn btn-ghost" href="#enterprise">查看企业级案例</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num">40+</div><div class="lbl">可交互作品</div></div>
+    <div class="stat"><div class="num">5</div><div class="lbl">作品大类</div></div>
+    <div class="stat"><div class="num">7+</div><div class="lbl">产业带场景</div></div>
+    <div class="stat"><div class="num">10+</div><div class="lbl">行业案例</div></div>
+  </div>
+</div>
+
+<section id="prd">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Product · Prototype</div>
+      <h2 class="sec-title">产品原型 & PRD</h2>
+      <p class="sec-desc">将传统 PRD 文档升级为可交互、可点击、可演示的在线原型，更直观地传达产品设计与协作流程。</p>
+    </div>
+    <div class="grid g-2">
+      <a class="card" href="demo/prd/ccmake.html" target="_blank" rel="noopener">
+        <span class="tag">交互式 PRD</span>
+        <h3>WorkBuddy 项目功能 PRD · 交互版</h3>
+        <p>以交互原型形式呈现 WorkBuddy 核心项目功能定义，覆盖需求背景、功能模块、交互流程与验收要点，支持在线点击浏览。</p>
+        <span class="go">查看作品 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/prd/glm_make.html" target="_blank" rel="noopener">
+        <span class="tag">交互式原型</span>
+        <h3>WorkBuddy Teams 项目协作 · 交互式原型</h3>
+        <p>还原 Teams 项目协作全流程的高保真交互原型，从任务拆解、成员协同到进度追踪，完整呈现团队协作产品形态。</p>
+        <span class="go">查看作品 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="creative" class="section-alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">AIGC · Game</div>
+      <h2 class="sec-title">AIGC 创意 & 互动小游戏</h2>
+      <p class="sec-desc">AIGC 视频生成实践，以及纯前端实现的互动小游戏 Demo，展示技术落地与创意表达的双向能力。</p>
+    </div>
+    <div class="grid g-3">
+      <a class="card" href="demo/aigc/cat-diary.mp4" target="_blank" rel="noopener">
+        <span class="tag amber">AIGC 视频</span>
+        <h3>猫咪争宠日记 · 配音字幕版</h3>
+        <p>使用 AI 生成的配音与字幕短视频作品，体现 AIGC 在内容创作链路上的完整实践。</p>
+        <span class="go">播放视频 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/games/index.html" target="_blank" rel="noopener">
+        <span class="tag cyan">前端小游戏</span>
+        <h3>贪吃蛇游戏</h3>
+        <p>纯前端实现的经典贪吃蛇游戏，支持键盘操作与计分，演示交互逻辑与游戏循环的工程实现。</p>
+        <span class="go">开始游戏 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/games/bird_game/index.html" target="_blank" rel="noopener">
+        <span class="tag cyan">前端小游戏</span>
+        <h3>Dino Fly · 小恐龙大冒险</h3>
+        <p>原创互动小游戏，体验小恐龙的飞行冒险旅程，融合趣味玩法与流畅动画。</p>
+        <span class="go">开始游戏 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="landing">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Industry · OPC</div>
+      <h2 class="sec-title">产业带 AI 落地 & 生态联动</h2>
+      <p class="sec-desc">面向实体产业带的 AI Native 落地方案，覆盖选品、渲染、跨境合规、短视频铺货等全链路，以及与办公生态平台的联动能力。</p>
+    </div>
+    <div class="grid g-2">
+      <a class="card feature" href="demo/cases/industry/main.html" target="_blank" rel="noopener">
+        <span class="tag">总览入口</span>
+        <h3>WorkBuddy · 生态联动 & 产业带 OPC 落地案例</h3>
+        <p>产业带 AI 落地与办公生态联动的总览门户，串起 7 大产业带场景与 6 大生态平台打通能力，建议从该入口进入浏览全部案例。</p>
+        <span class="go">进入案例总览 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <div class="card" style="background:#fafbff">
+        <span class="tag green">产业带场景 · 7 类</span>
+        <h3>产业带 AI 全链路落地</h3>
+        <p>覆盖服装、电商、家具、美发、汉服、鞋款、玩具等产业带的 AI 选品、渲染、跨境合规与铺货方案。</p>
+        <div class="chips">
+          <a class="chip" href="demo/cases/industry/belt-cloth.html" target="_blank" rel="noopener">AI 选品 + 7 天上新</a>
+          <a class="chip" href="demo/cases/industry/belt-ecom.html" target="_blank" rel="noopener">全链路 AI 操作员 · 4 万档口</a>
+          <a class="chip" href="demo/cases/industry/belt-furn.html" target="_blank" rel="noopener">AI 渲染 + 询盘秒回</a>
+          <a class="chip" href="demo/cases/industry/belt-hair.html" target="_blank" rel="noopener">跨境合规 + 多肤色适配</a>
+          <a class="chip" href="demo/cases/industry/belt-hanfu.html" target="_blank" rel="noopener">汉服文化 + 图案 AI 生成</a>
+          <a class="chip" href="demo/cases/industry/belt-shoe.html" target="_blank" rel="noopener">AI 鞋款设计 + 大货质检</a>
+          <a class="chip" href="demo/cases/industry/belt-toy.html" target="_blank" rel="noopener">AI 短视频 + 多平台铺货</a>
+        </div>
+      </div>
+      <div class="card" style="background:#fafbff">
+        <span class="tag cyan">生态联动 · 6 平台</span>
+        <h3>办公生态平台联动</h3>
+        <p>WorkBuddy 与主流办公平台的打通能力总览，覆盖文档、会议、IM、知识库等协作场景。</p>
+        <div class="chips">
+          <a class="chip" href="demo/cases/industry/eco-dingtalk.html" target="_blank" rel="noopener">× 钉钉</a>
+          <a class="chip" href="demo/cases/industry/eco-feishu.html" target="_blank" rel="noopener">× 飞书</a>
+          <a class="chip" href="demo/cases/industry/eco-ima.html" target="_blank" rel="noopener">× IMA 知识库</a>
+          <a class="chip" href="demo/cases/industry/eco-tdoc.html" target="_blank" rel="noopener">× 腾讯文档</a>
+          <a class="chip" href="demo/cases/industry/eco-tmeet.html" target="_blank" rel="noopener">× 腾讯会议</a>
+          <a class="chip" href="demo/cases/industry/eco-wecom.html" target="_blank" rel="noopener">× 企业微信</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="enterprise" class="section-alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Enterprise Cases</div>
+      <h2 class="sec-title">企业级方案案例</h2>
+      <p class="sec-desc">面向家电、科技、矿企、零售、广电、制造业等行业的完整方案与 Demo 集合，涵盖销售 Agent、经营看板、费用审核、智能回款、安全方案等场景。<br><span style="color:#92400e;font-weight:500">注：客户名称已脱敏，数据均为示意。</span></p>
+    </div>
+    <div class="grid g-2">
+      <a class="card feature" href="demo/cases/enterprise/workbuddy-dashboard.html" target="_blank" rel="noopener">
+        <span class="tag">主入口</span>
+        <h3>WorkBuddy 方案 + Demo 演示总台</h3>
+        <p>企业级案例的统一入口看板，汇集家电、科技、矿企、零售、制造业、安全等全部子案例，建议从此进入。</p>
+        <span class="go">进入案例总台 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/tcl/index.html" target="_blank" rel="noopener">
+        <span class="tag rose">家电</span>
+        <h3>某家电企业 × WorkBuddy 应用演示</h3>
+        <p>家电企业业务场景下的 WorkBuddy 应用全貌，含费用审核、回款认领等智能体落地。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/huawei/index.html" target="_blank" rel="noopener">
+        <span class="tag rose">科技</span>
+        <h3>某科技公司 · AI 销售管理 Agent 应用</h3>
+        <p>面向科技公司的 AI 销售管理 Agent 方案，串联线索、跟进与转化全流程。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/lingbao/index.html" target="_blank" rel="noopener">
+        <span class="tag rose">矿企</span>
+        <h3>某黄金矿企 · AI 智能办公助手落地方案</h3>
+        <p>传统矿企的 AI 智能办公助手落地实践，聚焦办公提效与流程数字化。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/miniso-design/index.html" target="_blank" rel="noopener">
+        <span class="tag rose">零售</span>
+        <h3>财神情绪公仔 · 全流程复盘</h3>
+        <p>某连锁零售品牌财神情绪公仔从设计到上市的 AI 全流程复盘，含 100 元价位段市场分析。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/industry-mfg/index.html" target="_blank" rel="noopener">
+        <span class="tag rose">工业制造</span>
+        <h3>工业制造业典型场景 · WorkBuddy 实现</h3>
+        <p>工业制造业典型场景的 AI 落地实现，含加工图纸、BOM 等资产。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/security/index.html" target="_blank" rel="noopener">
+        <span class="tag rose">安全方案</span>
+        <h3>WorkBuddy & CodeBuddy 企业级安全方案</h3>
+        <p>面向企业的数据安全与合规方案，覆盖 DLP 协同控制与客户咨询 FAQ。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/football/index.html" target="_blank" rel="noopener">
+        <span class="tag rose">广电传媒</span>
+        <h3>体育赛事精彩集锦剪辑方案</h3>
+        <p>某省级广电体育赛事精彩集锦的 AI 剪辑方案落地。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/tcl/expense-audit-demo.html" target="_blank" rel="noopener">
+        <span class="tag rose">家电</span>
+        <h3>费用审核 AI 助手 · 家电企业 × WorkBuddy</h3>
+        <p>家电企业费用审核场景下的 AI 助手 Demo，演示自动化审核流程。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/cases/enterprise/pages/tcl/receipt-claim-demo.html" target="_blank" rel="noopener">
+        <span class="tag rose">家电</span>
+        <h3>回款认领智能体 · 家电企业 × WorkBuddy</h3>
+        <p>家电企业回款认领场景下的智能体 Demo，自动匹配与认领回款。</p>
+        <span class="go">查看案例 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+    <div class="chips" style="margin-top:24px">
+      <span style="font-size:13px;color:var(--muted);margin-right:6px">更多子案例：</span>
+      <a class="chip" href="demo/cases/enterprise/pages/wecom/weekly_report_sample.html" target="_blank" rel="noopener">售前线索周报</a>
+      <a class="chip" href="demo/cases/enterprise/pages/wecom/scene_insight_report.html" target="_blank" rel="noopener">业务场景洞察报告</a>
+      <a class="chip" href="demo/cases/enterprise/pages/wecom/sales_followup_report.html" target="_blank" rel="noopener">销售跟进分析报告</a>
+      <a class="chip" href="demo/cases/enterprise/pages/tmeet/weekly-report.html" target="_blank" rel="noopener">本周会议盘点周报</a>
+      <a class="chip" href="demo/cases/enterprise/pages/token/index.html" target="_blank" rel="noopener">Token 使用培训材料</a>
+      <a class="chip" href="demo/cases/enterprise/pages/short-video/index.html" target="_blank" rel="noopener">短视频生成 Skill 指南</a>
+      <a class="chip" href="demo/cases/enterprise/pages/miniso/index.html" target="_blank" rel="noopener">某零售品牌送审材料训练</a>
+      <a class="chip" href="demo/cases/enterprise/pages/master/index.html" target="_blank" rel="noopener">大师召唤系统 · 思辨工坊</a>
+      <a class="chip" href="demo/cases/enterprise/pages/faq-center/index.html" target="_blank" rel="noopener">客户咨询 FAQ 手册</a>
+      <a class="chip" href="demo/cases/enterprise/pages/vehicle-crm/index.html" target="_blank" rel="noopener">车辆销售 CRM 三件套</a>
+    </div>
+  </div>
+</section>
+
+<section id="guide">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Playbook</div>
+      <h2 class="sec-title">操作指南</h2>
+      <p class="sec-desc">面向企业用户的实操手册，WorkBuddy Teams 功能的完整操作流程。</p>
+    </div>
+    <div class="grid g-2">
+      <a class="card" href="guides/WorkBuddy%20Teams%20%E5%8A%9F%E8%83%BD%E5%AE%9E%E6%93%8D%E6%89%8B%E5%86%8C_%E4%BC%81%E4%B8%9A%E7%89%88.html" target="_blank" rel="noopener">
+        <span class="tag amber">操作手册</span>
+        <h3>WorkBuddy Teams 功能实操手册 · 企业版</h3>
+        <p>面向企业用户的 Teams 功能完整实操手册，覆盖配置、协作、自动化等核心能力。</p>
+        <span class="go">查看手册 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <div class="card" style="background:#fafbff">
+        <span class="tag">说明</span>
+        <h3>关于本作品集</h3>
+        <p>本作品集为求职展示用，所有客户名称已脱敏处理（如"某家电企业""某科技公司"），数据均为示意，非真实合作数据。WorkBuddy 为本人参与的产品线，相关产品介绍可公开。</p>
+        <span class="go" style="color:var(--muted)">概念方案 · 演示用</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="thinking" class="section-alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Thinking · Methodology</div>
+      <h2 class="sec-title">思考 & 方法论</h2>
+      <p class="sec-desc">从超级个人到超级团队的组织思考，以及 AI Workbench 场景卡等方法论沉淀。</p>
+    </div>
+    <div class="grid g-2">
+      <a class="card" href="thinking/pico_park%E6%80%9D%E8%80%83.html" target="_blank" rel="noopener">
+        <span class="tag">组织思考</span>
+        <h3>从超级个人到超级团队 · Pico Park 思考</h3>
+        <p>借 Pico Park 的协作机制，思考 AI 时代下从「超级个人」走向「超级团队」的组织范式，可编辑版。</p>
+        <span class="go">阅读全文 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="methodology/half_works.html" target="_blank" rel="noopener">
+        <span class="tag">方法论</span>
+        <h3>AI Workbench · 场景卡手册</h3>
+        <p>AI Workbench 场景卡手册，沉淀 AI 能力与业务场景的匹配方法论。</p>
+        <span class="go">阅读全文 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div>
+      <div class="foot-brand"><span class="dot"></span>个人作品集</div>
+      <div class="foot-meta">AI 产品落地 · 求职展示作品集<br>所有作品均可在浏览器中直接交互体验</div>
+    </div>
+    <div class="foot-meta">
+      <b>作品分类</b><br>
+      产品原型 & PRD · AIGC & 游戏<br>
+      产业带落地 · 企业级案例 · 操作指南 · 思考方法
+    </div>
+  </div>
+  <div class="wrap foot-tip">
+    本作品集为概念方案演示用 · 客户名称已脱敏 · 数据均为示意 · © 个人作品集
+  </div>
+</footer>
+
+</body>
+</html>

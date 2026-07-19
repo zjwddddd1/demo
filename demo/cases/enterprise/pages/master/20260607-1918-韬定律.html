@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>某科技公司韬(τ)定律 · 是定律还是叙事 · 专家团评分报告</title>
+<style>
+  :root {
+    --primary: #1E40AF;
+    --primary-light: #EFF6FF;
+    --text: #111827;
+    --text-2: #4B5563;
+    --text-3: #9CA3AF;
+    --border: #E5E7EB;
+    --border-2: #F3F4F6;
+    --bg: #FAFAFA;
+    --card: #FFFFFF;
+    --radius: 4px;
+    --warn: #DC2626;
+    --warn-bg: #FEE2E2;
+    --ok: #047857;
+    --ok-bg: #ECFDF5;
+    --hint: #B45309;
+    --hint-bg: #FEF3C7;
+    --feynman: #0891B2;
+    --musk: #DC2626;
+    --wuxiaobo: #B45309;
+    --popper: #1E40AF;
+    --foucault: #6D28D9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+  .container { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  .header { padding: 28px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .badge { font-size: 12px; padding: 3px 10px; border-radius: var(--radius); background: var(--primary-light); color: var(--primary); border: 1px solid #DBEAFE; }
+  .badge.muted { background: var(--bg); color: var(--text-2); border-color: var(--border); }
+  .badge.warn { background: var(--warn-bg); color: var(--warn); border-color: #FECACA; }
+  h1 { font-size: 26px; font-weight: 700; line-height: 1.45; letter-spacing: -0.5px; }
+  h1 small { display: block; font-size: 14px; font-weight: 400; color: var(--text-2); margin-top: 8px; line-height: 1.6; }
+  .meta { margin-top: 12px; color: var(--text-3); font-size: 13px; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 18px; font-weight: 700; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-2); }
+  .card h3 { font-size: 15px; font-weight: 700; margin: 14px 0 8px; color: var(--primary); }
+
+  .routing-grid { display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; font-size: 14px; }
+  .routing-grid dt { color: var(--text-2); }
+  .routing-grid dd { color: var(--text); }
+  .conflict-axis { display: inline-block; background: var(--warn-bg); color: var(--warn); padding: 2px 8px; border-radius: var(--radius); font-size: 13px; margin-right: 6px; margin-bottom: 4px; }
+
+  .fact-box { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
+  .fact-box .item { padding: 12px 14px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); }
+  .fact-box .item .k { font-weight: 700; font-size: 13px; color: var(--primary); margin-bottom: 4px; }
+  .fact-box .item .v { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+  .master-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .master-chip { padding: 12px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg); }
+  .master-chip .name { font-weight: 700; font-size: 15px; }
+  .master-chip .stance { font-size: 12px; color: var(--text-2); margin-top: 4px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+  .expert-card { border-left: 4px solid var(--border); padding-left: 18px; margin-bottom: 28px; }
+  .expert-card.feynman { border-color: var(--feynman); }
+  .expert-card.musk { border-color: var(--musk); }
+  .expert-card.wuxiaobo { border-color: var(--wuxiaobo); }
+  .expert-card.popper { border-color: var(--popper); }
+  .expert-card.foucault { border-color: var(--foucault); }
+  .expert-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .expert-tag { font-size: 12px; color: var(--text-2); margin-bottom: 12px; }
+  .quote { background: var(--bg); padding: 12px 14px; border-radius: var(--radius); margin: 10px 0; font-size: 14px; color: var(--text); border-left: 2px solid var(--border); font-style: italic; }
+  .self-claim { font-size: 13px; color: var(--text-2); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-2); }
+  .self-claim strong { color: var(--text); }
+
+  .score-tbl { width: 100%; font-size: 13px; margin-top: 10px; border-collapse: collapse; }
+  .score-tbl td { padding: 6px 8px; border-bottom: 1px solid var(--border-2); }
+  .score-tbl td:first-child { color: var(--text-2); width: 56%; }
+  .score-tbl td:last-child { text-align: right; font-weight: 700; }
+  .s5 { color: #047857; font-weight: 800; }
+  .s4 { color: #16A34A; }
+  .s3 { color: var(--text-2); }
+  .s2 { color: #EA580C; }
+  .s1 { color: var(--warn); font-weight: 700; }
+
+  /* 对抗分析 */
+  .duel { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: var(--radius); padding: 16px; margin-bottom: 14px; }
+  .duel .who-vs-who { font-weight: 700; color: #C2410C; margin-bottom: 8px; font-size: 14px; }
+  .duel .challenge { font-size: 14px; margin-bottom: 8px; }
+  .duel .response { font-size: 13px; color: var(--text-2); padding-left: 14px; border-left: 2px solid #FED7AA; }
+  .response-tag { display: inline-block; padding: 1px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-right: 6px; }
+  .response-tag.accept { background: #DCFCE7; color: #166534; }
+  .response-tag.partial { background: #FEF3C7; color: #92400E; }
+  .response-tag.reject { background: #FEE2E2; color: #991B1B; }
+
+  .adjust-tbl { width: 100%; font-size: 13px; margin-top: 12px; border-collapse: collapse; }
+  .adjust-tbl th, .adjust-tbl td { padding: 8px; border-bottom: 1px solid var(--border-2); text-align: left; }
+  .adjust-tbl th { background: var(--bg); color: var(--text-2); font-weight: 600; font-size: 12px; }
+  .adjust-tbl td.delta-up { color: var(--ok); font-weight: 700; }
+  .adjust-tbl td.delta-down { color: var(--warn); font-weight: 700; }
+  .adjust-tbl td.delta-flat { color: var(--text-3); }
+
+  /* 合成 */
+  .syn-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .syn-block { padding: 14px; border-radius: var(--radius); border: 1px solid; font-size: 14px; }
+  .syn-block.agree { background: var(--ok-bg); border-color: #A7F3D0; color: var(--ok); }
+  .syn-block.diff { background: var(--warn-bg); border-color: #FECACA; color: var(--warn); }
+  .syn-block.blind { background: var(--hint-bg); border-color: #FDE68A; color: var(--hint); }
+  .syn-block .label { font-weight: 700; font-size: 13px; margin-bottom: 6px; letter-spacing: 0.3px; }
+
+  .deci-list { list-style: none; counter-reset: d; margin-top: 8px; }
+  .deci-list li { counter-increment: d; padding: 14px 14px 14px 50px; position: relative; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; font-size: 14px; }
+  .deci-list li::before { content: counter(d); position: absolute; left: 14px; top: 14px; width: 24px; height: 24px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .deci-list li.warn { background: #FFFBEB; border-color: #FDE68A; }
+  .deci-list li.warn::before { background: var(--warn); color: #fff; }
+  .deci-list li .lead { font-weight: 700; display: block; margin-bottom: 4px; color: var(--text); }
+  .deci-list li.warn .lead { color: var(--warn); }
+
+  /* Radar */
+  .radar-wrap { background: var(--card); padding: 12px; border-radius: var(--radius); }
+  .radar-wrap svg { width: 100%; height: auto; display: block; }
+
+  .print-btn { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: var(--radius); cursor: pointer; font-size: 13px; }
+  .print-btn:hover { background: #1E3A8A; }
+
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-3); font-size: 12px; text-align: center; }
+
+  .disclaim { background: #F0FDFA; border: 1px solid #99F6E4; border-radius: var(--radius); padding: 14px 18px; font-size: 13px; color: #115E59; margin-bottom: 20px; }
+  .disclaim strong { color: #134E4A; }
+
+  @media print {
+    .print-btn, .unified-nav { display: none !important; }
+    body { background: #fff; font-size: 13px; }
+    .container { padding: 16px; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    h1 { font-size: 20px; }
+    .routing-grid { grid-template-columns: 1fr; }
+    .routing-grid dt { color: var(--primary); font-weight: 600; margin-top: 6px; }
+  }
+</style>
+
+<style id="unified-nav-style">
+  .unified-nav {
+    position: sticky; top: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 20px;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+    font-size: 13px; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .unified-nav a {
+    color: #4F46E5; text-decoration: none; padding: 6px 12px;
+    border-radius: 6px; transition: all 0.15s;
+    border: 1px solid transparent; white-space: nowrap;
+  }
+  .unified-nav a:hover { background: #EEF2FF; border-color: #C7D2FE; }
+  .unified-nav a.disabled { color: #9CA3AF; pointer-events: none; opacity: 0.5; }
+  .unified-nav .nav-back { font-weight: 600; }
+  .unified-nav .nav-pages { display: flex; gap: 8px; }
+  .unified-nav .nav-current { color: #6B7280; font-size: 12px; padding: 0 8px; }
+  @media print { .unified-nav { display: none !important; } }
+</style>
+</head>
+<body>
+<nav class="unified-nav">
+  <a href="./index.html" class="nav-back">← 大师召唤系统目录</a>
+  <span class="nav-current">某科技公司韬定律 · 3 / 3</span>
+  <div class="nav-pages">
+    <a href="./20260524-2345-巧合似神迹.html" title="巧合似神迹">← 上一份</a>
+    <a href="#" class="disabled">下一份 →</a>
+  </div>
+</nav>
+
+<button class="print-btn" onclick="window.print()">📄 打印 / 存 PDF</button>
+
+<div class="container">
+
+  <header class="header">
+    <div class="badges">
+      <span class="badge">专家团评分</span>
+      <span class="badge muted">技术战略 / 产业格局</span>
+      <span class="badge muted">高复杂度</span>
+      <span class="badge muted">5 位大师</span>
+      <span class="badge warn">非粉非黑独立判断</span>
+    </div>
+    <h1>某科技公司"韬(τ)定律"评估
+      <small>2026-05-25 ISCAS · 何庭波发布 · "时间缩微"替代"几何缩微" · 6 年量产 381 款芯片 · 2031 对标 1.4nm — 这是一条新定律，还是一次精心包装的工程方法论 + 战略叙事？</small>
+    </h1>
+    <div class="meta">2026-06-07 · 19:18 · 大师召唤系统 v0.8.0 · 5 步流水线</div>
+  </header>
+
+  <!-- ============ 免责声明 ============ -->
+  <div class="disclaim">
+    <strong>这份报告不站队。</strong>不替某科技公司唱赞歌，也不站到"民粹包装论"的对立面。大师们的工作是把"韬定律"这个命题<strong>剥成事实层 / 工程层 / 命名层 / 商业层 / 历史层</strong>——分层评估，每层独立打分。哪一层站得住、哪一层是修辞，分清楚。
+  </div>
+
+  <!-- ============ Step 1 路由 ============ -->
+  <section class="card">
+    <h2>Step 1 · 路由分析</h2>
+    <dl class="routing-grid">
+      <dt>问题域</dt><dd>半导体技术 / 产业战略 / 科学哲学 / 商业话语（不是纯技术问题，是技术 + 叙事 + 地缘的多重命题）</dd>
+      <dt>表层问题</dt><dd>"韬定律"是真突破吗？对中国半导体产业意味着什么？</dd>
+      <dt>深层问题</dt>
+      <dd>① 这是<strong>定律</strong>还是<strong>工程方法论</strong>？为什么某科技公司要用"定律"这个词？<br>
+          ② "时间缩微替代几何缩微"是真物理重构，还是把已有工程技巧（3D 堆叠、HBM、互连优化）重新打包？<br>
+          ③ 这件事在制裁背景下被放大，多少是技术、多少是国家叙事？<br>
+          ④ 对中国半导体长期路径，是真破局还是局部安慰？</dd>
+      <dt>复杂度</dt><dd>高（涉及物理 / 商业 / 命名权 / 产业史 / 地缘 多层）</dd>
+      <dt>核心冲突</dt>
+      <dd>
+        <span class="conflict-axis">定律 ↔ 方法论</span>
+        <span class="conflict-axis">物理实在 ↔ 话语装置</span>
+        <span class="conflict-axis">技术突围 ↔ 叙事突围</span>
+        <span class="conflict-axis">破局 ↔ 弥补</span>
+        <span class="conflict-axis">可证伪 ↔ 不可证伪</span>
+      </dd>
+      <dt>评分模板</dt><dd>技术战略命题定制 5 维：科学严谨度 / 战略洞察力 / 证伪可能性 / 商业现实感 / 历史定位力</dd>
+    </dl>
+
+    <h3 style="margin-top: 20px;">事实底稿（不可争议的硬事实，5 位均以此为前提）</h3>
+    <div class="fact-box">
+      <div class="item">
+        <div class="k">时间 / 场合</div>
+        <div class="v">2026-05-25 上海 ISCAS 2026 · 某科技公司何庭波主旨演讲</div>
+      </div>
+      <div class="item">
+        <div class="k">命名</div>
+        <div class="v">韬(τ)定律 / 何式定律 / Tau Scaling Law · "韬"对应何庭波之"何·庭"+ τ 时间常数双关</div>
+      </div>
+      <div class="item">
+        <div class="k">核心主张</div>
+        <div class="v">以"时间(τ)缩微"替代摩尔定律的"几何缩微"作为指导原则</div>
+      </div>
+      <div class="item">
+        <div class="k">关键技术</div>
+        <div class="v">逻辑折叠 (LogicFolding)·数字/模拟/存储垂直堆叠·灵衢总线 (UnifiedBus)</div>
+      </div>
+      <div class="item">
+        <div class="k">实证基础</div>
+        <div class="v">6 年量产 381 款芯片 · 麒麟 2026 实测晶体管密度 +55% / 能效 +41%</div>
+      </div>
+      <div class="item">
+        <div class="k">未来承诺</div>
+        <div class="v">2031 年高端芯片对标 1.4nm 制程的同等晶体管密度</div>
+      </div>
+      <div class="item">
+        <div class="k">论文</div>
+        <div class="v">何庭波《面向多层级电子系统的时间缩微理论》预发布于中国科学院科技论文平台</div>
+      </div>
+      <div class="item">
+        <div class="k">时代背景</div>
+        <div class="v">EUV 受限 · 7nm 以下封锁 · 摩尔定律物理墙 + 经济墙 + 地缘墙</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 14px; color: var(--text-2); font-size: 13px;">
+      <strong>关键观察：</strong>这件事至少要分 5 层来看——<br>
+      <strong>(L1) 物理层</strong>：τ 时间常数本来就是电路学常识，"用 τ 做优化目标"算不算革命？<br>
+      <strong>(L2) 工程层</strong>：3D 堆叠、互连优化、全栈协同——业界已有相关探索，某科技公司做的是<strong>系统化整合并量产验证</strong>。<br>
+      <strong>(L3) 命名层</strong>：为什么叫"定律"不叫"方法"？这关乎话语权竞争。<br>
+      <strong>(L4) 商业层</strong>：381 款芯片是真硬数据，但"对标 1.4nm"是承诺不是已成事实。<br>
+      <strong>(L5) 历史层</strong>：60 年来全球第一次有人尝试改写摩尔定律的语法，无论结果如何，<strong>提议这件事本身就有历史含义</strong>。
+    </p>
+  </section>
+
+  <!-- ============ Step 2 选人 ============ -->
+  <section class="card">
+    <h2>Step 2 · 专家阵容（按冲突最大化选 5 位）</h2>
+    <div class="master-row">
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--feynman);"></span>费曼</div><div class="stance">物理直觉 · "τ 究竟是什么？" · 警惕命名魔术</div></div>
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--musk);"></span>马斯克</div><div class="stance">First Principle · "这是真物理突破还是包装？"</div></div>
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--wuxiaobo);"></span>吴晓波</div><div class="stance">商业史 · 周期视角 · "制裁倒逼出来的中国式范式"</div></div>
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--popper);"></span>波普尔</div><div class="stance">科学哲学 · "可证伪性" · 这能不能算定律</div></div>
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--foucault);"></span>福柯</div><div class="stance">话语 / 权力 · "命名权 = 标准定义权"</div></div>
+    </div>
+    <p style="margin-top: 14px; color: var(--text-2); font-size: 13px;">
+      <strong>排除说明：</strong>排除波伏瓦（情感 / 性别命题更强）、苏格拉底（反诘式更适合主体性议题）、王阳明（致良知与产业战略不搭）、芒格（金融心智模型不在硬科技核心区）、纳瓦尔（个体杠杆视角与企业 / 国家产业战略错配）。<br>
+      <strong>选这 5 位的张力：</strong>费曼（物理实在 / 还原论）↔ 福柯（话语生产 / 命名权）↔ 波普尔（科学定义 / 证伪标准）↔ 马斯克（first principle / 工程现实）↔ 吴晓波（中国语境 / 周期叙事）。<strong>5 个人会在"这是不是定律"、"是真创新还是制裁倒逼的工程包装"、"该不该用'定律'这个词"上撕得最深</strong>。
+    </p>
+  </section>
+
+  <!-- ============ 蛛网图 ============ -->
+  <section class="card">
+    <h2>蛛网图：5 位独立评分（对抗调整后）</h2>
+    <p style="font-size: 13px; color: var(--text-2); margin-bottom: 14px;">5 维：科学严谨度 / 战略洞察力 / 证伪可能性 / 商业现实感 / 历史定位力。下图为<strong>对抗后</strong>的最终得分。分数高 = 这位大师在该维度上对韬定律给出的评估更"通过"。</p>
+    <div class="radar-wrap">
+      <svg viewBox="0 0 760 620" style="overflow: visible;" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(380,310)">
+          <!-- 同心环 5 圈 -->
+          <g fill="none" stroke="#E5E7EB" stroke-width="0.8">
+            <polygon points="0,-50 47.55,-15.45 29.39,40.45 -29.39,40.45 -47.55,-15.45"/>
+            <polygon points="0,-100 95.11,-30.9 58.78,80.9 -58.78,80.9 -95.11,-30.9"/>
+            <polygon points="0,-150 142.66,-46.35 88.17,121.35 -88.17,121.35 -142.66,-46.35"/>
+            <polygon points="0,-200 190.21,-61.8 117.56,161.8 -117.56,161.8 -190.21,-61.8"/>
+            <polygon points="0,-250 237.76,-77.25 146.95,202.25 -146.95,202.25 -237.76,-77.25"/>
+          </g>
+          <!-- 5 条轴线 -->
+          <g stroke="#D1D5DB" stroke-width="0.6">
+            <line x1="0" y1="0" x2="0" y2="-250"/>
+            <line x1="0" y1="0" x2="237.76" y2="-77.25"/>
+            <line x1="0" y1="0" x2="146.95" y2="202.25"/>
+            <line x1="0" y1="0" x2="-146.95" y2="202.25"/>
+            <line x1="0" y1="0" x2="-237.76" y2="-77.25"/>
+          </g>
+
+          <!-- 费曼 3/3/2/4/3 → 科学严谨 / 战略洞察 / 可证伪 / 商业现实 / 历史定位 -->
+          <polygon points="0,-150 142.66,-46.35 58.78,80.9 -117.56,161.8 -142.66,-46.35"
+                   fill="#0891B2" fill-opacity="0.16" stroke="#0891B2" stroke-width="2"/>
+          <!-- 马斯克 3/4/3/4/3 -->
+          <polygon points="0,-150 190.21,-61.8 88.17,121.35 -117.56,161.8 -142.66,-46.35"
+                   fill="#DC2626" fill-opacity="0.16" stroke="#DC2626" stroke-width="2"/>
+          <!-- 吴晓波 2/5/2/4/5 -->
+          <polygon points="0,-100 237.76,-77.25 58.78,80.9 -117.56,161.8 -237.76,-77.25"
+                   fill="#B45309" fill-opacity="0.16" stroke="#B45309" stroke-width="2"/>
+          <!-- 波普尔 1/3/2/3/3 -->
+          <polygon points="0,-50 142.66,-46.35 58.78,80.9 -88.17,121.35 -142.66,-46.35"
+                   fill="#1E40AF" fill-opacity="0.16" stroke="#1E40AF" stroke-width="2"/>
+          <!-- 福柯 2/5/1/3/4 -->
+          <polygon points="0,-100 237.76,-77.25 29.39,40.45 -88.17,121.35 -190.21,-61.8"
+                   fill="#6D28D9" fill-opacity="0.16" stroke="#6D28D9" stroke-width="2"/>
+
+          <!-- 分歧高亮：科学严谨度（费曼/马斯克 3 ↔ 波普尔 1，分差 2） -->
+          <line x1="0" y1="0" x2="0" y2="-250" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="4 3"/>
+          <!-- 分歧高亮：历史定位力（吴晓波/福柯 5/4 ↔ 费曼/马斯克 3，分差 2） -->
+          <line x1="0" y1="0" x2="-237.76" y2="-77.25" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="4 3"/>
+
+          <!-- 5 个维度标签 -->
+          <text x="0" y="-265" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">科学严谨度</text>
+          <text x="0" y="-280" text-anchor="middle" font-size="11" fill="#DC2626">⚠ 分差 2（费曼/马斯克 3 ↔ 波普尔 1）</text>
+
+          <text x="252" y="-77" text-anchor="start" font-size="14" font-weight="700" fill="#111827">战略洞察力</text>
+          <text x="252" y="-62" text-anchor="start" font-size="11" fill="#6B7280">最高：吴晓波/福柯 5</text>
+
+          <text x="156" y="222" text-anchor="start" font-size="14" font-weight="700" fill="#111827">证伪可能性</text>
+          <text x="156" y="237" text-anchor="start" font-size="11" fill="#6B7280">普遍偏低（最高马斯克 3）</text>
+
+          <text x="-156" y="222" text-anchor="end" font-size="14" font-weight="700" fill="#111827">商业现实感</text>
+          <text x="-156" y="237" text-anchor="end" font-size="11" fill="#6B7280">最高：费曼/马斯克/吴晓波 4</text>
+
+          <text x="-252" y="-77" text-anchor="end" font-size="14" font-weight="700" fill="#111827">历史定位力</text>
+          <text x="-252" y="-62" text-anchor="end" font-size="11" fill="#DC2626">⚠ 分差 2（吴晓波 5 ↔ 费曼/波普尔 3）</text>
+
+          <!-- 数值刻度 -->
+          <g font-size="9" fill="#9CA3AF" text-anchor="middle">
+            <text x="0" y="-46">1</text>
+            <text x="0" y="-96">2</text>
+            <text x="0" y="-146">3</text>
+            <text x="0" y="-196">4</text>
+            <text x="0" y="-244">5</text>
+          </g>
+        </g>
+
+        <!-- 图例 -->
+        <g transform="translate(40, 565)" font-size="13">
+          <g><rect x="0" y="-12" width="14" height="14" fill="#0891B2" fill-opacity="0.6" stroke="#0891B2"/><text x="20" y="0">费曼</text></g>
+          <g transform="translate(80,0)"><rect x="0" y="-12" width="14" height="14" fill="#DC2626" fill-opacity="0.6" stroke="#DC2626"/><text x="20" y="0">马斯克</text></g>
+          <g transform="translate(170,0)"><rect x="0" y="-12" width="14" height="14" fill="#B45309" fill-opacity="0.6" stroke="#B45309"/><text x="20" y="0">吴晓波</text></g>
+          <g transform="translate(260,0)"><rect x="0" y="-12" width="14" height="14" fill="#1E40AF" fill-opacity="0.6" stroke="#1E40AF"/><text x="20" y="0">波普尔</text></g>
+          <g transform="translate(350,0)"><rect x="0" y="-12" width="14" height="14" fill="#6D28D9" fill-opacity="0.6" stroke="#6D28D9"/><text x="20" y="0">福柯</text></g>
+          <g transform="translate(430,0)"><line x1="0" y1="-6" x2="20" y2="-6" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 3"/><text x="26" y="0" fill="#DC2626">分歧轴</text></g>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============ Step 3 独立分析 ============ -->
+  <section class="card">
+    <h2>Step 3 · 独立分析（5 位逐一开口，互不参考）</h2>
+
+    <!-- 费曼 -->
+    <div class="expert-card feynman">
+      <div class="expert-name" style="color: var(--feynman);">Richard Feynman · 费曼</div>
+      <div class="expert-tag">物理直觉 · 第一性回到现象 · 警惕命名魔术</div>
+
+      <p>好。我先把某科技公司这套讲法<strong>翻译成傻子也懂的版本</strong>——这是我的第一道工序。<strong>如果一个东西不能用最朴素的语言讲清楚，那它要么我没懂，要么讲的人也没懂</strong>。</p>
+
+      <p>翻译：芯片性能由两件事决定——晶体管多不多，信号跑得快不快。摩尔定律是<strong>把晶体管做小，多塞几个</strong>。某科技公司说现在做小做不动了（光刻机被卡），那我们换一招——<strong>少在尺寸上较劲，多在"信号从 A 跑到 B 要多久"上较劲</strong>。怎么压缩这个时间？把电路立体堆起来（3D 堆叠），缩短走线；优化 RC（电阻 × 电容）；改总线协议；芯片和软件一起设计。</p>
+
+      <p>这套东西，作为<strong>工程实践</strong>，我给它鼓掌——因为<strong>它管用</strong>。麒麟 2026 实测晶体管密度 +55%、能效 +41%，量产 381 款芯片，<strong>这是数据，不是 PPT</strong>。</p>
+
+      <p>但作为<strong>"定律"</strong>——我犹豫。τ 是个老朋友。RC 时间常数从基尔霍夫年代就在那儿。<strong>"以 τ 缩微为优化目标"这件事，在系统级、跨层级被明确提为统一原则——这是新的</strong>。但 τ 本身不是新发现的物理量。</p>
+
+      <div class="quote">There's a difference between knowing the name of something and knowing something. ——叫得出名字和真的懂，是两回事。"韬定律"是个名字。它背后是真物理，但<strong>名字不能替代你做出来的那个东西</strong>。我会更看重 381 款芯片，少看一点"定律"这个词。</div>
+
+      <p><strong>我担心的是什么？</strong>当工程实践被升级为"定律"，<strong>有时候会引入一种不可证伪的修辞</strong>——只要任何成功，都算"τ 在起作用"；任何失败，都算"τ 还没压到位"。这是危险的。波普尔会比我说得更狠，我先放下话筒给他。</p>
+
+      <p><strong>我能给的判断：</strong></p>
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li>(L1 物理层) τ 不是新东西。<strong>把"系统时延"作为统一指标贯穿全栈，是值得肯定的方法论组织</strong>——但这是<strong>方法论</strong>。</li>
+        <li>(L2 工程层) 逻辑折叠 = 3D 堆叠 + 平面到立体的电路重构。<strong>业界做了很多年，某科技公司是把它系统化、量产化</strong>，这功劳是真的。</li>
+        <li>(L3 命名层) "定律"用得过重了。但不致命——历史上"黄氏定律"也被这么叫，行业有这个习惯。</li>
+      </ul>
+
+      <div class="self-claim">
+        <strong>费曼的自评：</strong>我能把它拆回物理本身，让你不被"定律"两个字吓住。但<strong>战略 / 商业 / 历史维度我不擅长</strong>——我看到 τ 觉得"挺合理但没那么神"，可我说不清楚为什么这件事会在 2026 年这个时点变成全国新闻——那是吴晓波和福柯的活儿。
+      </div>
+
+      <table class="score-tbl">
+        <tr><td>① 科学严谨度（"定律"配得上吗）</td><td class="s3">3</td></tr>
+        <tr><td>② 战略洞察力（看到大棋局）</td><td class="s3">3</td></tr>
+        <tr><td>③ 证伪可能性（能不能被证否）</td><td class="s2">2</td></tr>
+        <tr><td>④ 商业现实感（落地有多少）</td><td class="s4">4</td></tr>
+        <tr><td>⑤ 历史定位力（在产业史的坐标）</td><td class="s3">3</td></tr>
+      </table>
+    </div>
+
+    <!-- 马斯克 -->
+    <div class="expert-card musk">
+      <div class="expert-name" style="color: var(--musk);">Elon Musk · 马斯克</div>
+      <div class="expert-tag">第一性原理 · 工程师视角 · "停止用比喻，告诉我具体数字"</div>
+
+      <p>好，让我用我的方式来。<strong>先扔掉所有形容词，就看变量</strong>。</p>
+
+      <p>性能 P 由若干因素决定，最朴素地：<strong>P ≈ f(晶体管密度 D, 时钟频率 / 时延 1/τ, 架构效率 η, 功耗预算 W)</strong>。摩尔定律押注 D。某科技公司说他们现在押注 1/τ。<strong>从第一性原理看，这本来就该一起优化，没什么"哪个替代哪个"</strong>——任何严肃工程师都知道你不能只看一个变量。</p>
+
+      <p>所以"τ 替代几何"这个表述，<strong>从严格物理上是不准确的</strong>。几何缩微减小 D 的同时也减小 RC，所以两者不是替代关系，是耦合的。准确的说法应该是："当 D 不能继续推进时，更激进地推进 1/τ 的优化"——这是<strong>策略转移，不是范式革命</strong>。</p>
+
+      <p>但策略转移本身值得尊重，<strong>因为它选择了正确的剩余变量去发力</strong>。当你被卡死在一个变量上，识别出"还有哪些变量可以推"，并把全部资源压上去——这是优秀工程组织的标志。SpaceX 不能用一次性火箭与波音卷价格，所以我们押全部筹码到可重复使用——同一个逻辑。</p>
+
+      <div class="quote">If you're not using physics first principles, you're using analogy. Analogies fool you when the analogy fits. ——比喻骗你，恰恰发生在它看起来很贴的时候。"时间折叠 vs 空间折叠"这个比喻很美，<strong>但它是 PR 修辞，不是物理</strong>。</div>
+
+      <p><strong>但我必须给某科技公司公道：381 款芯片量产 + 麒麟 2026 实测 +55% 密度——这不是 PPT，这是 hardware in production</strong>。当我看到一家公司在被切断 EUV、被切断顶尖 EDA、被切断台积电先进制程的情况下，<strong>仍然在 6 年里量产了几乎所有方向的芯片</strong>——这是很硬的。我会把这个评价拆开：</p>
+
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li><strong>"韬定律"作为定律</strong>：勉强 2/5——它不是物理定律，是工程战略。</li>
+        <li><strong>"韬定律"作为工程战略</strong>：4/5——选择了正确的变量，做了系统级整合。</li>
+        <li><strong>某科技公司这家公司的执行力</strong>：5/5——在最严苛约束下保持了量产节奏。</li>
+      </ul>
+
+      <p><strong>2031 对标 1.4nm 的承诺</strong>——这是关键点。如果做到，韬定律就站住了；做不到，就是一次包装。<strong>我倾向相信他们能做到 70-80% 的目标</strong>（每瓦性能可能差一截，但晶体管密度等效是有可能的），因为他们已经用 6 年证明了这套方法的可重复性。</p>
+
+      <div class="self-claim">
+        <strong>马斯克的自评：</strong>我能把它扒回工程现实，告诉你哪些数字真、哪些是叙事。但<strong>命名权 / 话语装置 / 中国产业史我不在意</strong>——我只看物理和量产数字。福柯和吴晓波会从我看不到的角度切入。
+      </div>
+
+      <table class="score-tbl">
+        <tr><td>① 科学严谨度</td><td class="s3">3</td></tr>
+        <tr><td>② 战略洞察力</td><td class="s4">4</td></tr>
+        <tr><td>③ 证伪可能性</td><td class="s3">3</td></tr>
+        <tr><td>④ 商业现实感</td><td class="s4">4</td></tr>
+        <tr><td>⑤ 历史定位力</td><td class="s3">3</td></tr>
+      </table>
+    </div>
+
+    <!-- 吴晓波 -->
+    <div class="expert-card wuxiaobo">
+      <div class="expert-name" style="color: var(--wuxiaobo);">吴晓波</div>
+      <div class="expert-tag">商业史 · 周期视角 · 中国民营企业研究</div>
+
+      <p>从 1965 年摩尔在《电子学》杂志写下那条经验曲线，到 2026 年何庭波在 ISCAS 提出韬定律——<strong>整整 61 年</strong>。这 61 年里，全球半导体行业的"语法"都是美国人写的：摩尔定律 (1965)、登纳德缩放 (1974)、黄氏定律 (2018)。<strong>这是第一次，一个中国公司试图<strong>书写</strong>这门语言的下一章</strong>。</p>
+
+      <p>这件事的意义，<strong>不能只在物理意义上评估</strong>。要放回中国半导体史的周期里看：</p>
+
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li><strong>2000-2014 · 跟随期</strong>：从 90nm 到 28nm，中国晶圆厂亦步亦趋追赶国际先进。代表事件：中芯国际成立、华虹追赶。</li>
+        <li><strong>2015-2019 · 突破期</strong>：海思崛起、麒麟 970 自研 NPU、5G 模块自给。摩尔定律仍是公认范式。</li>
+        <li><strong>2019-2025 · 制裁期</strong>：5 月 16 日实体清单、EUV 禁运、EDA 断供。<strong>"卡脖子"成为关键词</strong>。</li>
+        <li><strong>2026- · 范式期</strong>：韬定律的发布，标志着中国半导体从"追随别人定义的赛道"到"<strong>尝试定义自己的赛道</strong>"。</li>
+      </ul>
+
+      <p>这是第一个意义。<strong>第二个意义更深</strong>：这是中国民营企业第一次在<strong>受制裁的极限压力下</strong>提出全行业级的指导原则。和当年某科技公司的 IPD（从 IBM 学来的产品开发流程）不一样，韬定律是<strong>原生于自身困境</strong>的方法论。"被卡住" → "另辟蹊径" → "把蹊径系统化" → "把系统化升格为原则"——这是一个非常完整的中国式企业进化路径。</p>
+
+      <p>但我要泼冷水。<strong>"定律"这个词，承担了它本不该承担的国家叙事</strong>。何庭波本意可能就是一个工程方法论的总结，但落到舆论场，"中国版摩尔定律"被赋予了<strong>地缘抗争的象征</strong>。这种象征会反噬技术本身——它会让市场对它要求过高（你要打败摩尔！），也会让批评者陷入"骂韬定律 = 不爱国"的二元陷阱。</p>
+
+      <div class="quote">中国企业最危险的时刻，往往是它被国家叙事绑架的时刻。柳传志、张瑞敏、任正非——三代人都在这条路上栽过。技术成果是 6 年累积的硬功夫，但<strong>当它被升格为"民族叙事"，技术评估的空间就缩小了</strong>。</div>
+
+      <p><strong>我的判断：</strong></p>
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li>(L4 商业层) 6 年 381 款芯片是真硬数据。麒麟 2026 +55% 密度是真硬数据。<strong>这家公司确实做到了不可思议的事</strong>。</li>
+        <li>(L5 历史层) 这是中国半导体史上的<strong>分水岭事件</strong>，无论"定律"是否成立。<strong>分水岭的标志不是结果，是命名权易手</strong>——从这一天起，全球半导体行业讨论的范式表里，多了一个中国名字。</li>
+        <li>(L3 命名层) 但这把命名权用得稍重。<strong>叫"何氏方法论"或"τ 范式"都比"韬定律"稳一些</strong>——前者在赢，后者在赌。</li>
+      </ul>
+
+      <div class="self-claim">
+        <strong>吴晓波的自评：</strong>我能把它放回中国 60 年商业史的脉络，告诉你这件事的<strong>真重量</strong>。但<strong>科学严谨度的判断我不擅长</strong>——我会被叙事的重量影响，给历史定位打高分，但波普尔会问我"什么样的观察会让你说这个定律是错的"，我答不上来。
+      </div>
+
+      <table class="score-tbl">
+        <tr><td>① 科学严谨度</td><td class="s2">2</td></tr>
+        <tr><td>② 战略洞察力</td><td class="s5">5</td></tr>
+        <tr><td>③ 证伪可能性</td><td class="s2">2</td></tr>
+        <tr><td>④ 商业现实感</td><td class="s4">4</td></tr>
+        <tr><td>⑤ 历史定位力</td><td class="s5">5</td></tr>
+      </table>
+    </div>
+
+    <!-- 波普尔 -->
+    <div class="expert-card popper">
+      <div class="expert-name" style="color: var(--popper);">Karl Popper · 波普尔</div>
+      <div class="expert-tag">科学哲学 · 可证伪性 · 划界问题</div>
+
+      <p>等一下。在你们把这叫"定律"之前——<strong>请告诉我，什么样的观察会让你们承认"韬定律是错的"？</strong></p>
+
+      <p>这是 demarcation problem——划界问题。一个命题要进入科学，必须能被设想出可使其失败的观察。<strong>"韬定律"在严格意义上，没有给出这个测试</strong>。我们逐条审视：</p>
+
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li><strong>"以 τ 缩微替代几何缩微"</strong>——这是规范性陈述（应该这样做），不是描述性陈述（自然就这样）。<strong>规范性陈述无所谓真假，只有用与不用</strong>。摩尔定律在 1965 年也是经验观察 + 行业自我实现的预言，但它至少给了量化指标（每 18-24 个月翻倍），<strong>韬定律没有等价的量化承诺</strong>。</li>
+        <li><strong>"2031 对标 1.4nm 制程的同等晶体管密度"</strong>——这<strong>是</strong>可证伪的承诺。如果 2031 年没做到，韬定律就证伪了一次。这一点比"定律"的总体表述要科学。</li>
+        <li><strong>"逻辑折叠等创新技术压缩信号传播时延"</strong>——具体到每一项工程结果是可证伪的，但作为整体框架是<strong>蕴含性陈述</strong>（无论结果如何都能解释），这是危险的。</li>
+      </ul>
+
+      <p>摩尔定律之所以是"定律"，是因为<strong>它一旦被违反就被人指出来了</strong>。2016 年 ITRS 路线图正式承认摩尔定律放缓，2020 年 5nm 后单位晶体管成本不再下降，<strong>这些是摩尔定律被证伪 / 部分证伪的真实事件</strong>。摩尔定律因为被证伪而获得了科学地位。</p>
+
+      <div class="quote">A theory which is not refutable by any conceivable event is non-scientific. ——一个无法被任何可设想的事件反驳的理论，是非科学的。<strong>"韬定律"目前的表述，更像一个工程组织原则，而不是一个科学定律</strong>。这不贬低它的工程价值，但它不该用"定律"自居。</div>
+
+      <p><strong>我的判断分两层：</strong></p>
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li><strong>作为科学定律</strong>：1/5。它没有清晰的证伪条件，没有量化的衰减预测，没有跨场景的不变性陈述。</li>
+        <li><strong>作为工程范式声明</strong>：3/5。它清晰指明了优化目标（τ）、提供了实证（381 款芯片）、给出了可验证的未来承诺（2031 对标 1.4nm）。</li>
+      </ul>
+
+      <p><strong>给某科技公司的真诚建议</strong>：把"定律"改名为"τ 范式"或"何式原则"，可以保留全部叙事价值，同时<strong>不让真正的科学共同体产生反感</strong>。当外国论文写"according to Tau Scaling Law"时，他们会找不到一篇可被同行评议的、给出明确证伪条件的奠基论文。这个问题在一两年内必须解决。</p>
+
+      <div class="self-claim">
+        <strong>波普尔的自评：</strong>我擅长"科学 vs 非科学"的划界，能让你看清"定律"这个词被滥用的危险。但<strong>商业 / 战略 / 中国语境我不在意</strong>——吴晓波会指出我的"定律"标准过严，是欧洲启蒙时代的洁癖；他可能是对的。
+      </div>
+
+      <table class="score-tbl">
+        <tr><td>① 科学严谨度</td><td class="s1">1</td></tr>
+        <tr><td>② 战略洞察力</td><td class="s3">3</td></tr>
+        <tr><td>③ 证伪可能性</td><td class="s2">2</td></tr>
+        <tr><td>④ 商业现实感</td><td class="s3">3</td></tr>
+        <tr><td>⑤ 历史定位力</td><td class="s3">3</td></tr>
+      </table>
+    </div>
+
+    <!-- 福柯 -->
+    <div class="expert-card foucault">
+      <div class="expert-name" style="color: var(--foucault);">Michel Foucault · 福柯</div>
+      <div class="expert-tag">话语 / 权力 · 知识考古 · 命名权 = 标准定义权</div>
+
+      <p>我对"韬定律是不是真定律"这个问题不感兴趣。<strong>我感兴趣的是：是谁、在什么时刻、为什么开始把它叫做"定律"——以及这个命名行为本身改变了什么</strong>。</p>
+
+      <p>在科技史上，<strong>命名权从来不是对真理的发现，是对话语场的占有</strong>。摩尔定律 1965 年被命名时，并不比其他数十个观察更"科学"——它甚至不是一个定理，是一篇杂志专栏文章里的趋势线。但它<strong>因为被命名为"定律"</strong>，开始组织全行业的资源分配、路线图制定、投资周期、人才教育——它<strong>以话语装置的方式重塑了它所描述的现实</strong>。</p>
+
+      <p>这是 performative naming——施事性命名。被叫"定律"之后，它就开始自我实现，因为整个行业按它来组织。</p>
+
+      <p>现在轮到"韬定律"。它是一次<strong>命名权的争夺</strong>——目标不是物理学的承认（这一点波普尔说得对，物理学家不会认），目标是<strong>组织一个新的话语场</strong>：</p>
+
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li><strong>对内</strong>：让中国半导体生态围绕"τ 优化"组织 R&D 路径、人才培养、资本流向。</li>
+        <li><strong>对外</strong>：把全球半导体行业的术语表里塞进一个中国词。当 IEEE 论文里出现"based on Tau Scaling Law"时，话语场就分叉了。</li>
+        <li><strong>对中</strong>（最关键）：在制裁压力下，<strong>用一个新的指标重新定义"领先"</strong>。如果领先 = "几纳米"，中国永远落后；如果领先 = "τ 多小"，那就是另一张比赛单子了。</li>
+      </ul>
+
+      <div class="quote">权力不只是禁止，权力也生产。它生产你的衡量标准、你的"先进 / 落后"分类、你看到自己的方式。"几纳米"也是一个被生产的标准——它假装客观，其实是某些公司（拥有 EUV 的）的话语装置。"τ"是另一个标准。哪个标准胜出，取决于谁能让足够多的工程师按它来工作。</div>
+
+      <p><strong>这一点我必须说清楚——这不是阴谋论</strong>。我不是说"某科技公司在搞舆论战所以这是假的"。我是说：<strong>所有定律在历史上都是这样诞生的</strong>，包括摩尔定律。把"几何缩微"称为客观、把"时间缩微"称为政治化，是双标。</p>
+
+      <p><strong>真正的问题是：这个命名能不能被全球工程师社群接住</strong>。如果不能，"韬定律"就停留在中国语境内的自我命名，类似当年某些苏联式术语没能跨出冷战阵营。如果能，<strong>它就进入了人类技术词典，独立于某科技公司继续存活</strong>——那就是最高级别的成功，也是最深层意义上的"定律"。</p>
+
+      <p><strong>我的判断：</strong></p>
+      <ul style="padding-left: 24px; margin: 6px 0; font-size: 14px;">
+        <li>(L3 命名层) 这是一次<strong>清醒、雄心勃勃、风险很大的命名权博弈</strong>。我不评价它对错，但我承认它的战略眼光。</li>
+        <li>(L5 历史层) 即便最终"韬定律"作为术语没能在国际生根，<strong>"中国公司开始尝试命名"这件事</strong>，已经是历史事件。</li>
+        <li>(L1 物理层) 我不在这一层评判——交给费曼。</li>
+      </ul>
+
+      <div class="self-claim">
+        <strong>福柯的自评：</strong>我能让你看穿命名行为背后的权力结构，看到这场博弈的真正棋盘。但<strong>具体物理 / 工程现实我不评判</strong>——而且我容易让人陷入"一切都是话语"的相对主义陷阱。马斯克和费曼会把我拽回到现实工程数据上。
+      </div>
+
+      <table class="score-tbl">
+        <tr><td>① 科学严谨度</td><td class="s2">2</td></tr>
+        <tr><td>② 战略洞察力</td><td class="s5">5</td></tr>
+        <tr><td>③ 证伪可能性</td><td class="s1">1</td></tr>
+        <tr><td>④ 商业现实感</td><td class="s3">3</td></tr>
+        <tr><td>⑤ 历史定位力</td><td class="s4">4</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ Step 4 对抗分析 ============ -->
+  <section class="card">
+    <h2>Step 4 · 对抗分析（点名拷问 + 调分）</h2>
+
+    <p style="font-size: 13px; color: var(--text-2); margin-bottom: 16px;">独立分析后 5 位互相点名质疑。<span class="response-tag accept">🟢接受</span>对方质疑成立，调整自评<span class="response-tag partial">🟡部分接受</span>承认部分但保留底层判断<span class="response-tag reject">🔴拒绝</span>必须指出对方假设错在哪。</p>
+
+    <div class="duel">
+      <div class="who-vs-who">波普尔 → 吴晓波</div>
+      <div class="challenge">"晓波，你给历史定位打 5 分。但'历史定位'是事后才能写的——苏联在 1957 年发射 sputnik 时也被认为是'历史分水岭'，30 年后呢？你现在给韬定律 5 分，<strong>是基于结果还是基于你的中国叙事偏好</strong>？请回答：什么样的事件会让你 5 年后把这个分数降到 2？"</div>
+      <div class="response"><span class="response-tag partial">🟡部分接受</span>吴晓波：……Karl，你这一刀切得到我最痛的地方。我承认我的"历史定位 5 分"含有<strong>叙事赌博</strong>成分。我列出我的证伪条件：(1) 2031 年 1.4nm 等效未达成且差距 > 30%；(2) 国际工程社群 5 年内仍无人在论文里引用 τ Scaling Law；(3) 某科技公司下一代麒麟、昇腾出现明显技术倒退。任一条触发，我把<strong>历史定位从 5 调到 3</strong>。但底线我守住——<strong>"中国公司首次尝试命名半导体范式"这件事在历史上已经发生了</strong>，无论后续结果如何，这个 fact 不会消失。当前我从 5 调到 5（保留），但加注释：包含一定叙事溢价。</div>
+    </div>
+
+    <div class="duel">
+      <div class="who-vs-who">费曼 → 福柯</div>
+      <div class="challenge">"米歇尔，你说所有定律都是话语装置——OK。但你忽略了一个区别：<strong>摩尔定律在 30 年里被全球数千家公司、数百万工程师独立验证过它的预测力</strong>。它不只是命名行为，它<strong>真的预测对了</strong>，而且预测对了<strong>很多次</strong>。这不是话语，是<strong>跨主体的可重复观察</strong>。韬定律目前只有某科技公司一家在用，没有第三方独立验证。你把这两件事放在'都是话语'的同一框架里，是<strong>话语决定论的过度延伸</strong>。"</div>
+      <div class="response"><span class="response-tag accept">🟢接受</span>福柯：Richard，你说得对。我承认我的工具有"过度均质化"的倾向——把所有命名都还原为权力装置，<strong>会丢失"经过反复验证的命名" vs "尚未经过验证的命名"之间的关键区别</strong>。我调整：把<strong>科学严谨度从 3 调到 2</strong>（更承认我自己的局限），但<strong>战略洞察力维持 5</strong>。我的洞察是关于"命名行为本身的政治性"，这一点不需要降——但我承认这洞察不能替代物理验证。</div>
+    </div>
+
+    <div class="duel">
+      <div class="who-vs-who">马斯克 → 波普尔</div>
+      <div class="challenge">"Karl，你给科学严谨度 1/5。但你的标准是 1934 年版的<strong>逻辑实证主义</strong>。现代工程不全是物理学定律——<strong>登纳德缩放、黄氏定律、阿姆达尔定律</strong>都不严格符合你的可证伪标准，但它们都是行业公认的有用范式。你的标准对纯粹科学有效，对工程范式过严。请说明：你给阿姆达尔定律打几分？"</div>
+      <div class="response"><span class="response-tag partial">🟡部分接受</span>波普尔：Elon，你说得有道理。我承认<strong>"工程范式"和"科学定律"之间应有不同的评估标准</strong>。如果我严格用证伪标准，阿姆达尔定律也只有 2-3 分。我调整——<strong>"科学严谨度"这个维度，我把评估对象从"作为物理定律"改为"作为工程范式声明"，分数从 1 调到 2</strong>。但我维持核心立场——<strong>"定律"这个词在中文里仍然过重，把工程范式称为"定律"会让科学受众产生不必要的反感</strong>。</div>
+    </div>
+
+    <div class="duel">
+      <div class="who-vs-who">福柯 → 费曼</div>
+      <div class="challenge">"Richard，你说'我看 381 款芯片，少看一点定律这个词'。这听起来很 humble，但实际上<strong>你是把定义半导体行业'什么算成功'的标准默认为'量产芯片数量'</strong>——这本身就是一个被预设的标准。如果我们把成功定义为'重塑全球技术词典'，381 款芯片和'韬定律'命名行为，<strong>哪个对未来 30 年的影响更大</strong>？这不是反问，是一个真问题。"</div>
+      <div class="response"><span class="response-tag partial">🟡部分接受</span>费曼：Michel，你抓到我的盲点了。我确实<strong>默认了"做出东西"是衡量成功的最高标准</strong>，但这本身是一个工程师的偏见。我承认在足够长的时间尺度上，<strong>"重塑词典"可能比"量产 381 款芯片"影响更大</strong>——电学的 V/A/Ω 命名比任何具体电路都活得久。我调整——<strong>历史定位力从 3 调到 4</strong>，承认命名行为本身的长期影响。但我坚持——<strong>在 5-10 年的时间尺度上，量产数据 + 实测性能仍然是更可靠的判断依据</strong>。</div>
+    </div>
+
+    <div class="duel">
+      <div class="who-vs-who">吴晓波 → 马斯克</div>
+      <div class="challenge">"Elon，你给商业现实感 4 分，给历史定位 3 分——这反映了<strong>硅谷工程师视角的盲区</strong>。你看到 381 款芯片、看到 +55% 密度，但你看不到这件事在中国 14 亿人语境里的<strong>象征重量</strong>。摩尔定律也不是只靠物理活下来的——它活下来一半靠'美国主导半导体'这个国家叙事。<strong>你把'国家叙事'当噪声去掉，是不是把信号也去掉了</strong>？"</div>
+      <div class="response"><span class="response-tag partial">🟡部分接受</span>马斯克：晓波，你说得对一半。我承认<strong>叙事重量是真实变量，不是噪声</strong>——SpaceX 也部分依赖"美国重返太空"这个叙事获得早期支持。我调整——<strong>历史定位力从 3 调到 4</strong>。但我维持核心：<strong>叙事最终需要被 hardware 证明</strong>。摩尔定律因为预测对了 30 年才活下来，韬定律也得在 5-10 年内交出可被独立验证的成果。<strong>叙事可以让飞机起飞，但不能让飞机持续飞行</strong>。</div>
+    </div>
+
+    <h3 style="margin-top: 24px;">调分摘要</h3>
+    <table class="adjust-tbl">
+      <thead><tr><th>大师</th><th>维度</th><th>原分</th><th>新分</th><th>改动理由（≤30 字）</th></tr></thead>
+      <tbody>
+        <tr><td>福柯</td><td>科学严谨度</td><td>3</td><td class="delta-down">2</td><td>承认"话语论"过度均质化，未区分已验证 vs 未验证的命名</td></tr>
+        <tr><td>波普尔</td><td>科学严谨度</td><td>1</td><td class="delta-up">2</td><td>承认应区分"科学定律"和"工程范式"的评估标准</td></tr>
+        <tr><td>费曼</td><td>历史定位力</td><td>3</td><td class="delta-up">4</td><td>承认命名行为的长期影响，工程师视角有盲区</td></tr>
+        <tr><td>马斯克</td><td>历史定位力</td><td>3</td><td class="delta-up">4</td><td>承认叙事重量是真实变量，不是噪声</td></tr>
+        <tr><td>吴晓波</td><td>历史定位力</td><td>5</td><td class="delta-flat">5</td><td>列出证伪条件后保留 5，但加注：含叙事溢价</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: 24px;">真分歧 / 伪分歧 / 共识</h3>
+    <div class="syn-grid">
+      <div class="syn-block diff">
+        <div class="label">🔴 真分歧 1（分差≥2，未消解）：科学严谨度</div>
+        波普尔 (2) vs 马斯克/费曼 (3)：用什么标尺评估"韬定律"？波普尔用纯科学定律标尺，费曼/马斯克用工程范式标尺。<strong>对你的启示：评估韬定律时不要混用两套标尺。讨论"它能不能引导工程实践"用工程标尺；讨论"它能不能进物理教科书"用科学标尺。两个问题的答案不同</strong>。
+      </div>
+      <div class="syn-block diff">
+        <div class="label">🔴 真分歧 2：历史定位力</div>
+        吴晓波/福柯 (5/4) vs 费曼/马斯克 (4/4)：这件事在 30 年后的位置如何？吴晓波看中国半导体史的分水岭意义、福柯看命名权易手；费曼/马斯克更看具体技术验证。<strong>对你的启示：这件事的"历史地位"目前是叠加态——既可能成为"中国半导体的转折点"，也可能成为"被时间证伪的过度命名"。两个未来都要为它打 30% 概率的押注</strong>。
+      </div>
+      <div class="syn-block agree">
+        <div class="label">🟢 共识 1：381 款芯片量产是真实的</div>
+        5 位无人质疑这个数据。<strong>这是讨论的硬地基</strong>。无论叫不叫"定律"、命名是否过当、范式能否扩散——某科技公司在 6 年制裁周期内量产了 381 款覆盖光通信 / 数据通信 / 无线 / 5G / 手机 / 自动驾驶 / AI 计算的芯片。这个工程组织能力本身值得尊重。
+      </div>
+      <div class="syn-block agree">
+        <div class="label">🟢 共识 2："定律"二字用得过重</div>
+        费曼说"名字不该替代东西"、波普尔说"按科学定律标准这是非科学"、马斯克说"作为定律 2/5"、福柯说"是命名权博弈"、吴晓波说"叫'方法论'或'范式'更稳"。<strong>5 位以不同理由，全部认为"定律"这个词承载了过多东西</strong>。这是某科技公司应该听到的最尖锐的共识——不是来自批评者，是来自分析者。
+      </div>
+      <div class="syn-block agree">
+        <div class="label">🟢 共识 3：2031 是真正的判决时刻</div>
+        费曼/马斯克/波普尔/吴晓波/福柯都把"2031 对标 1.4nm"作为<strong>关键证伪节点</strong>。波普尔指出这是这份声明里少有的明确可证伪部分。<strong>那一年某科技公司是否真的拿出 1.4nm 同等密度的高端芯片，将决定"韬定律"在术语史上的地位</strong>。
+      </div>
+      <div class="syn-block agree">
+        <div class="label">🟢 共识 4：这是中国半导体的"叙事突围"</div>
+        无论"定律"称谓是否成立，这是中国公司第一次<strong>不在别人定义的赛道上追赶，而是尝试定义自己的赛道</strong>。这件事的战略意义被 5 位（虽然程度不同）一致承认。即便最终命名失败，<strong>"尝试命名"这个动作本身在产业心态上有不可逆的影响</strong>。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Step 5 合成 ============ -->
+  <section class="card">
+    <h2>Step 5 · 合成报告</h2>
+
+    <h3>① 韬定律的真实重量（5 位整合视角）</h3>
+    <p>把这件事拆成 5 层独立打分，每层有不同结论，<strong>不能合并为一个简单的"是"或"否"</strong>：</p>
+    <table class="adjust-tbl" style="margin-top: 10px;">
+      <thead><tr><th>层次</th><th>评估</th><th>结论</th></tr></thead>
+      <tbody>
+        <tr><td>L1 物理层</td><td>τ 不是新物理量，"以系统时延作为统一指标"是<strong>方法论组织</strong>，不是新发现</td><td><span class="response-tag partial">部分成立</span></td></tr>
+        <tr><td>L2 工程层</td><td>逻辑折叠 = 3D 堆叠 + 全栈协同；业界已有探索，<strong>某科技公司做的是系统化整合 + 量产化</strong></td><td><span class="response-tag accept">实在突破</span></td></tr>
+        <tr><td>L3 命名层</td><td>"定律"二字过重；但命名权博弈本身是清醒的战略行为</td><td><span class="response-tag partial">战略上有，科学上不</span></td></tr>
+        <tr><td>L4 商业层</td><td>381 款芯片量产 + 麒麟 2026 实测数据是<strong>不可质疑的硬功夫</strong>；2031 承诺待验证</td><td><span class="response-tag accept">硬</span></td></tr>
+        <tr><td>L5 历史层</td><td>无论"定律"是否最终被国际接受，<strong>"中国公司首次尝试命名半导体范式"已经是历史事件</strong></td><td><span class="response-tag accept">分水岭</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>② 你应该忽视的（5 位提醒的常见误读）</h3>
+    <ul style="padding-left: 24px; margin: 10px 0; font-size: 14px;">
+      <li><strong>误读一：把"τ 替代几何"当真物理革命。</strong>这只是当一个变量被卡死时<strong>把资源转移到另一个变量</strong>的策略转移，不是范式革命。任何严肃工程师都本来就该一起优化。</li>
+      <li><strong>误读二：把"6 年 381 款芯片"等同于"摩尔定律已被替代"。</strong>替代摩尔定律的<strong>不是更小的尺寸</strong>，是<strong>不同的成功标准</strong>。这两件事不能混。</li>
+      <li><strong>误读三：把"定律"是否成立当成关键问题。</strong>真正关键的是 2031 年实测数据，以及国际工程社群是否在论文里采用 τ Scaling Law 这一术语。前者是物理验证，后者是话语扩散。</li>
+      <li><strong>误读四：因为"反对韬定律 = 不爱国"的舆论压力而拒绝独立评估。</strong>这是吴晓波点出的最危险的事——<strong>当技术成果被国家叙事绑架，技术评估的空间会被压缩</strong>。最好的爱国是严苛评估。</li>
+      <li><strong>误读五：把这件事还原为"某科技公司 PR"。</strong>反方向的过度怀疑也是错的——381 款芯片是 hardware in production，不是 PPT。需要在"全盘接受"和"全盘怀疑"之间找到分层评估的位置。</li>
+    </ul>
+
+    <h3>③ 决策清单（如果你是产业从业者 / 投资人 / 战略观察者）</h3>
+    <ol class="deci-list">
+      <li class="warn">
+        <span class="lead">🔴 把"是不是定律"问题搁置 24 个月</span>
+        这个问题在国际工程社群独立验证之前不可能有答案。<strong>盯量产数据、盯 IEEE 论文里 τ 术语的引用频率、盯麒麟 2026 上市后的第三方拆解评测</strong>。这些是真信号，"定律"二字是噪声。
+      </li>
+      <li>
+        <span class="lead">🟢 把 2031 作为锁定的判决节点</span>
+        某科技公司承诺的"2031 对标 1.4nm 等效密度"是这件事少有的明确可证伪节点。<strong>建立你的跟踪表：每年问一次"距离 1.4nm 等效还有多远"</strong>。如果到 2029 年差距 < 30%，韬定律基本立住；> 50% 则承诺破产。
+      </li>
+      <li>
+        <span class="lead">🟢 在你的领域里寻找 τ 视角的迁移机会</span>
+        即使"韬定律"作为定律失败，<strong>"在被卡死的变量之外寻找剩余可优化变量"这个 meta 思路是真有用</strong>。SaaS 被卷入价格战时，去想响应时延 / 用户操作步数 / 集成时延等"τ 类变量"。这是马斯克的解读，可能比命名本身更有迁移价值。
+      </li>
+      <li>
+        <span class="lead">🟢 关注命名权扩散的 4 个关键信号</span>
+        (1) 第一篇<strong>非某科技公司作者</strong>的 IEEE 论文显式引用 τ Scaling Law；(2) 任一海外学府开设以 τ Scaling 为名的课程或 workshop；(3) 任一海外公司（哪怕一家小公司）在产品发布会上使用这个术语；(4) 任一非中文媒体把 τ 写入年度技术回顾。这 4 个信号任一出现，都是命名战的胜利里程碑。
+      </li>
+      <li>
+        <span class="lead">🟡 警惕国家叙事对评估能力的侵蚀</span>
+        中文舆论场里"批评韬定律 = 不爱国"的二元陷阱已经形成。<strong>主动维护你的评估独立性，把"叙事归叙事，技术归技术"作为基本纪律</strong>。这是吴晓波给的最重要提醒。
+      </li>
+      <li>
+        <span class="lead">🟢 给某科技公司的真诚建议（如果你能影响）</span>
+        参考波普尔的提议——<strong>把"定律"作为 PR 用语保留，把"τ 范式"或"何式原则"作为科学论文用语</strong>。这样既保留对内动员力 + 对外话语权，又让国际科学共同体有一个可严肃讨论的版本。两个版本不冲突。
+      </li>
+      <li class="warn">
+        <span class="lead">🔴 不要急着站队</span>
+        在前 6 步未走完之前，"韬定律是不是真的"问题没有干净答案。<strong>分层评估 + 长期观测，不站队不出口号</strong>，是技术分析者面对国家级技术叙事时唯一的尊严。
+      </li>
+    </ol>
+
+    <h3>④ 一句话结论（5 位汇总，最锋利的版本）</h3>
+    <div class="quote" style="font-size: 15px; color: var(--text); border-left-color: var(--primary); background: var(--primary-light);">
+      <strong>"韬定律"作为科学定律，称谓过重；作为工程范式，言之有物；作为商业战略，是清醒的命名权博弈；作为产业史事件，无论结果如何，已经发生。</strong>真正的判决在 2031——届时如果某科技公司做出了 1.4nm 等效密度的高端芯片，并且国际工程社群开始独立采用 τ 术语，这就是 21 世纪上半叶半导体史最大的一次范式转移；如果没做到，它会被记住为"一次雄心勃勃的工程总结被命名权野心所累"。<strong>当下任何斩钉截铁的"是"或"否"，都是叙事，不是分析</strong>。
+    </div>
+  </section>
+
+  <!-- ============ 大师寄语 ============ -->
+  <section class="card">
+    <h2>大师寄语（每位送你一句）</h2>
+    <div class="quote" style="border-left-color: var(--feynman);"><strong style="color: var(--feynman);">费曼：</strong>叫得出名字和真的懂是两回事。"韬定律"是个名字。它背后是真物理，但<strong>名字不能替代你做出来的那个东西</strong>——381 款芯片是真的，盯紧它。</div>
+    <div class="quote" style="border-left-color: var(--musk);"><strong style="color: var(--musk);">马斯克：</strong>"τ 替代几何"是 PR 修辞，不是物理。但选择正确的剩余变量去发力，是优秀工程组织的标志。<strong>2031 年的 hardware 会替它说话——叙事让飞机起飞，但 hardware 决定它能不能持续飞</strong>。</div>
+    <div class="quote" style="border-left-color: var(--wuxiaobo);"><strong style="color: var(--wuxiaobo);">吴晓波：</strong>这是中国半导体史上的分水岭事件，无论"定律"是否成立。<strong>分水岭的标志不是结果，是命名权易手</strong>——但当技术被国家叙事绑架，最大的危险是评估空间被压缩。最好的爱国是严苛评估。</div>
+    <div class="quote" style="border-left-color: var(--popper);"><strong style="color: var(--popper);">波普尔：</strong>把"定律"改名为"τ 范式"，可以保留全部叙事价值，<strong>同时不让真正的科学共同体产生反感</strong>。一个不能被任何可设想的事件反驳的命题，不该用"定律"自居——但作为工程范式它站得住。</div>
+    <div class="quote" style="border-left-color: var(--foucault);"><strong style="color: var(--foucault);">福柯：</strong>命名从来不是对真理的发现，是对话语场的占有。摩尔定律也是这样诞生的。"韬定律"是<strong>清醒、雄心勃勃、风险很大的命名权博弈</strong>——能不能进入人类技术词典，取决于全球工程师社群是否接住，那才是最深层意义上的"定律"。</div>
+  </section>
+
+  <div class="footer">
+    大师召唤系统 v0.8.0 · 2026-06-07 · 5 步流水线（路由 → 选人 → 独立 → 对抗 → 合成）<br>
+    专家阵容：费曼 · 马斯克 · 吴晓波 · 波普尔 · 福柯 · 默认隔离个人人设<br>
+    本报告基于 2026-05-25 ISCAS 公开发布信息及后续公开报道。不构成投资建议，亦不代表任何机构立场。
+  </div>
+
+</div>
+</body>
+</html>

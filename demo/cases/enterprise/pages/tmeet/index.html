@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WorkBuddy × 腾讯会议 联动经验文档</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --tm-blue:#006EFF;
+    --tm-blue-deep:#0052D9;
+    --tm-blue-soft:#E6F0FF;
+    --tm-blue-line:#CFE0FF;
+    --tm-cyan:#00C4FF;
+    --tm-bg:#F4F6FA;
+    --tm-card:#FFFFFF;
+    --tm-text:#1D2129;
+    --tm-text-2:#4E5969;
+    --tm-text-3:#86909C;
+    --tm-line:#E5E6EB;
+    --tm-success:#00B42A;
+    --tm-warning:#FF7D00;
+    --tm-danger:#F53F3F;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--tm-bg);color:var(--tm-text);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}
+  code,pre{font-family:"JetBrains Mono",Menlo,Consolas,monospace}
+
+  /* Hero */
+  .hero{background:linear-gradient(135deg,var(--tm-blue) 0%,var(--tm-blue-deep) 100%);color:#fff;padding:64px 48px 80px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;right:-100px;top:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(0,196,255,.35),transparent 70%)}
+  .hero::after{content:"";position:absolute;left:-80px;bottom:-200px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%)}
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:13px;font-weight:500;backdrop-filter:blur(10px)}
+  .hero-tag .dot{width:6px;height:6px;border-radius:50%;background:#00C4FF;box-shadow:0 0 8px #00C4FF}
+  .hero h1{font-size:44px;font-weight:700;margin:18px 0 12px;letter-spacing:-.5px}
+  .hero-subtitle{font-size:18px;opacity:.92;font-weight:400;max-width:780px}
+  .hero-meta{display:flex;gap:32px;margin-top:36px;flex-wrap:wrap}
+  .hero-meta .item .k{font-size:12px;opacity:.7;letter-spacing:1px}
+  .hero-meta .item .v{font-size:22px;font-weight:600;margin-top:4px}
+
+  /* Container */
+  .container{max-width:1180px;margin:-40px auto 80px;padding:0 24px;position:relative;z-index:2}
+
+  /* Section */
+  section{margin-bottom:48px}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .sec-num{width:36px;height:36px;border-radius:10px;background:var(--tm-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;box-shadow:0 4px 12px rgba(0,110,255,.3)}
+  .sec-head h2{font-size:24px;font-weight:600;color:var(--tm-text)}
+  .sec-head .sub{color:var(--tm-text-3);font-size:14px;margin-left:auto}
+
+  /* Card */
+  .card{background:var(--tm-card);border-radius:14px;padding:28px;box-shadow:0 2px 16px rgba(15,30,60,.04);border:1px solid var(--tm-line)}
+  .card + .card{margin-top:18px}
+  .card h3{font-size:18px;font-weight:600;margin-bottom:14px;color:var(--tm-text);display:flex;align-items:center;gap:10px}
+  .card h3::before{content:"";width:4px;height:18px;background:var(--tm-blue);border-radius:2px}
+
+  /* Architecture grid */
+  .arch{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  .arch-col{background:var(--tm-blue-soft);border:1px solid var(--tm-blue-line);border-radius:12px;padding:20px;position:relative}
+  .arch-col .layer{font-size:12px;color:var(--tm-blue-deep);font-weight:600;letter-spacing:1px;margin-bottom:10px}
+  .arch-col .name{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--tm-text)}
+  .arch-col .desc{font-size:13px;color:var(--tm-text-2);line-height:1.6}
+  .arch-col ul{list-style:none;margin-top:12px}
+  .arch-col li{font-size:13px;color:var(--tm-text-2);padding:4px 0;padding-left:14px;position:relative}
+  .arch-col li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--tm-blue)}
+
+  /* Capability table */
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+  thead th{background:var(--tm-blue-soft);color:var(--tm-blue-deep);font-weight:600;text-align:left;padding:12px 14px;border-bottom:2px solid var(--tm-blue-line);font-size:13px;letter-spacing:.5px}
+  tbody td{padding:14px;border-bottom:1px solid var(--tm-line);vertical-align:top;color:var(--tm-text-2)}
+  tbody tr:hover{background:#FAFCFF}
+  tbody tr:last-child td{border-bottom:none}
+  td .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:500}
+  .badge-blue{background:var(--tm-blue-soft);color:var(--tm-blue-deep)}
+  .badge-green{background:#E8F8EB;color:var(--tm-success)}
+  .badge-orange{background:#FFF4E6;color:var(--tm-warning)}
+  .badge-gray{background:#F2F3F5;color:var(--tm-text-2)}
+
+  /* Case timeline */
+  .case{position:relative;padding-left:28px;border-left:2px solid var(--tm-blue-line);margin-bottom:20px}
+  .case:last-child{margin-bottom:0}
+  .case::before{content:"";position:absolute;left:-9px;top:8px;width:16px;height:16px;border-radius:50%;background:var(--tm-blue);border:3px solid #fff;box-shadow:0 0 0 2px var(--tm-blue-line)}
+  .case-time{font-size:13px;color:var(--tm-blue-deep);font-weight:600;margin-bottom:4px}
+  .case-title{font-size:17px;font-weight:600;margin-bottom:10px}
+  .case-step{display:grid;grid-template-columns:84px 1fr;gap:12px;padding:8px 0;font-size:14px}
+  .case-step .step-tag{color:var(--tm-blue-deep);font-weight:500;font-size:13px}
+  .case-step .step-content{color:var(--tm-text-2)}
+  .case-result{margin-top:14px;padding:14px 16px;background:var(--tm-blue-soft);border-radius:8px;font-size:14px;color:var(--tm-text-2);border-left:3px solid var(--tm-blue)}
+  .case-result strong{color:var(--tm-blue-deep)}
+
+  /* Embed report */
+  .embed-wrap{margin-top:14px;border:1px solid var(--tm-blue-line);border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,110,255,.08)}
+  .embed-wrap>summary{background:var(--tm-blue-soft);padding:10px 14px;font-size:12px;color:var(--tm-blue-deep);font-weight:500;display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none;user-select:none;transition:background .15s}
+  .embed-wrap>summary::-webkit-details-marker{display:none}
+  .embed-wrap>summary:hover{background:#DCEAFF}
+  .embed-wrap>summary .left{display:flex;align-items:center;gap:8px}
+  .embed-wrap>summary .arrow{display:inline-block;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--tm-blue);transition:transform .2s}
+  .embed-wrap[open]>summary{border-bottom:1px solid var(--tm-blue-line)}
+  .embed-wrap[open]>summary .arrow{transform:rotate(180deg)}
+  .embed-wrap>summary a{color:var(--tm-blue);text-decoration:none;font-size:12px}
+  .embed-wrap>summary a:hover{text-decoration:underline}
+  .embed-wrap iframe{display:block;width:100%;height:1200px;border:0;background:#F4F6FA}
+
+  /* Code */
+  pre{background:#1D2129;color:#E5E6EB;padding:18px 20px;border-radius:10px;overflow-x:auto;font-size:13px;line-height:1.7;margin:10px 0}
+  pre .cmt{color:#86909C}
+  pre .key{color:#00C4FF}
+  pre .str{color:#FFD666}
+  code.inline{background:var(--tm-blue-soft);color:var(--tm-blue-deep);padding:2px 6px;border-radius:4px;font-size:13px}
+
+  /* Pitfall */
+  .pitfall{background:#FFF8F0;border:1px solid #FFE0B2;border-left:4px solid var(--tm-warning);border-radius:8px;padding:16px 18px;margin-top:12px}
+  .pitfall-title{font-weight:600;color:var(--tm-warning);font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .pitfall-content{font-size:14px;color:var(--tm-text-2);line-height:1.7}
+  .pitfall-content code{background:#FFE8B8;padding:1px 5px;border-radius:3px;font-size:12px;color:#7A4100}
+
+  /* Quick ref grid */
+  .qref{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .qref-item{padding:14px 16px;background:#FAFCFF;border:1px solid var(--tm-line);border-radius:8px}
+  .qref-item .qref-label{font-size:12px;color:var(--tm-text-3);margin-bottom:6px;letter-spacing:.5px}
+  .qref-item code{display:block;font-size:12.5px;color:var(--tm-blue-deep);word-break:break-all}
+
+  /* Footer */
+  .footer{text-align:center;padding:40px 20px;color:var(--tm-text-3);font-size:13px;border-top:1px solid var(--tm-line);margin-top:60px}
+  .footer .logo{display:inline-flex;align-items:center;gap:8px;margin-bottom:8px;color:var(--tm-blue-deep);font-weight:600;font-size:14px}
+  .footer .logo-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--tm-blue),var(--tm-cyan))}
+
+  @media(max-width:768px){
+    .hero{padding:40px 24px 60px}
+    .hero h1{font-size:30px}
+    .arch{grid-template-columns:1fr}
+    .qref{grid-template-columns:1fr}
+    .case-step{grid-template-columns:1fr;gap:4px}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag"><span class="dot"></span>WorkBuddy 工作流经验沉淀 · 2026-06-07</span>
+    <h1>WorkBuddy × 腾讯会议<br>联动经验文档</h1>
+    <p class="hero-subtitle">从「约会议」到「拉纪要」「建文档」「出周报」——把腾讯会议变成 AI 工作流的数据入口与协作引擎，全流程零跳出 IDE。</p>
+    <div class="hero-meta">
+      <div class="item"><div class="k">联动入口</div><div class="v">tmeet CLI</div></div>
+      <div class="item"><div class="k">协同模块</div><div class="v">3 个</div></div>
+      <div class="item"><div class="k">实战案例</div><div class="v">4 个</div></div>
+      <div class="item"><div class="k">踩坑沉淀</div><div class="v">5 条</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- 1. 联动方案 -->
+<section>
+  <div class="sec-head">
+    <div class="sec-num">1</div>
+    <h2>联动方案：三层架构</h2>
+    <span class="sub">Connector → Skill → Memory</span>
+  </div>
+
+  <div class="card">
+    <h3>整体架构图</h3>
+    <div class="arch">
+      <div class="arch-col">
+        <div class="layer">L1 · 数据层</div>
+        <div class="name">腾讯会议 OpenAPI</div>
+        <div class="desc">通过 tmeet 连接器（OAuth 授权登录）打通腾讯会议数据。</div>
+        <ul>
+          <li>会议管理（创建/修改/取消）</li>
+          <li>历史会议查询</li>
+          <li>云录制 / 智能纪要 / 逐字稿</li>
+          <li>参会人 / 主持人信息</li>
+        </ul>
+      </div>
+      <div class="arch-col">
+        <div class="layer">L2 · 编排层</div>
+        <div class="name">WorkBuddy Skill</div>
+        <div class="desc">把多步操作封装为可复用工作流，AI 自主调度。</div>
+        <ul>
+          <li>tencent-meeting-skill（基础能力）</li>
+          <li>meeting-minutes-to-tencent-docs（端到端）</li>
+          <li>跨 Skill 串联（乐享 / 腾讯文档 / FFmpeg）</li>
+        </ul>
+      </div>
+      <div class="arch-col">
+        <div class="layer">L3 · 沉淀层</div>
+        <div class="name">协同产物</div>
+        <div class="desc">会议数据流向哪里就在哪里沉淀，形成可检索资产。</div>
+        <ul>
+          <li>腾讯文档（结构化纪要 MDX）</li>
+          <li>乐享知识库（团队检索）</li>
+          <li>本地 Memory（个人复盘）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>能力清单</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%">能力域</th>
+          <th style="width:32%">CLI 命令 / 接口</th>
+          <th style="width:30%">输入</th>
+          <th>典型产出</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-blue">会议管理</span></td>
+          <td><code class="inline">tmeet meeting create</code></td>
+          <td>主题 + ISO 8601 起止时间 + 时区</td>
+          <td>会议号 / 入会链接 / trace_id</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">会议查询</span></td>
+          <td><code class="inline">tmeet meeting list-ended</code></td>
+          <td>时间窗 + page-size（≤30）</td>
+          <td>已结束会议列表（含主持人）</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">会议详情</span></td>
+          <td><code class="inline">tmeet meeting get --meeting-code</code></td>
+          <td>会议号</td>
+          <td>参会人 / 主持人 / 起止时间</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">云录制</span></td>
+          <td><code class="inline">tmeet record list</code></td>
+          <td>时间窗 或 meeting-code（仅本人主持）</td>
+          <td>录制文件 ID / 转码状态</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">智能纪要</span></td>
+          <td><code class="inline">tmeet record smart-minutes</code></td>
+          <td>record-file-id</td>
+          <td>结构化 AI 总结 + 待办 + 章节</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-orange">乐享导入</span></td>
+          <td><code class="inline">tx_meeting_import_tx_meeting_record</code></td>
+          <td>meeting-code</td>
+          <td>纪要存档到乐享知识库</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-orange">腾讯文档</span></td>
+          <td><code class="inline">mcporter call tencent-docs create_smartcanvas_by_mdx</code></td>
+          <td>title + MDX 内容</td>
+          <td>智能画布文档（可分享/协同）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 2. 场景案例 -->
+<section>
+  <div class="sec-head">
+    <div class="sec-num">2</div>
+    <h2>四大场景案例</h2>
+    <span class="sub">2026-06-07 真实工作流</span>
+  </div>
+
+  <div class="card">
+    <div class="case">
+      <div class="case-time">CASE 01 · 18:00</div>
+      <div class="case-title">📅 一句话约会议</div>
+      <div class="case-step">
+        <div class="step-tag">用户输入</div>
+        <div class="step-content">"帮我约个明天中午 1:00-1:30 的会议，命名为测试会议"</div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">AI 推理</div>
+        <div class="step-content">解析自然语言 → 生成 ISO 8601 时间（带 +08:00 时区）→ 调用 <code class="inline">tmeet meeting create</code></div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">产出</div>
+        <div class="step-content">会议号 317308891 + 入会链接 + trace_id 一次性返回</div>
+      </div>
+      <div class="case-result"><strong>价值：</strong>从打开腾讯会议 → 选时间 → 改时区 → 复制链接的 5 步操作压缩成 1 句话。</div>
+    </div>
+
+    <div class="case">
+      <div class="case-time">CASE 02 · 18:10</div>
+      <div class="case-title">📝 客户会议自动出纪要 + 落腾讯文档</div>
+      <div class="case-step">
+        <div class="step-tag">用户输入</div>
+        <div class="step-content">"名创优品 WorkBuddy 交流的会议纪要请整理，并创建一个腾讯文档"</div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">AI 工作流</div>
+        <div class="step-content">① 时间窗反查录制（绕开「只查本人主持」限制）→ ② <code class="inline">smart-minutes</code> 拉智能纪要 → ③ MDX 模板整理（结论/议题/待办/风险）→ ④ <code class="inline">mcporter</code> 创建智能画布</div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">产出</div>
+        <div class="step-content">一份可发给客户的结构化腾讯文档（含 5 条待办 + 3 个关键风险）<br>📄 <a href="https://docs.qq.com/aio/DV3ZLR0x0aURWWkRX?_fid=WvKGLtiDVZDW" target="_blank" style="color:var(--tm-blue);font-weight:600">点击查看：名创优品 × WorkBuddy 交流纪要（腾讯文档）</a></div>
+      </div>
+      <div class="case-result"><strong>价值：</strong>会议纪要从「人工记录 30min」变成「AI 整理 90s」，且每场都达到客户级交付质量。</div>
+    </div>
+
+    <div class="case">
+      <div class="case-time">CASE 03 · 18:20</div>
+      <div class="case-title">🗂️ 本周会议盘点 + 智能分类</div>
+      <div class="case-step">
+        <div class="step-tag">用户输入</div>
+        <div class="step-content">"本周我都开了哪些会，请分类"</div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">AI 工作流</div>
+        <div class="step-content"><code class="inline">tmeet meeting list-ended</code> 按周拉取 → AI 按主题语义分 5 类（客户交流 / 内部协同 / 团队例会 / 快速沟通）→ 输出含时长/客户/主持人的 markdown 表</div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">产出</div>
+        <div class="step-content">21 场已结束会议 / 11.5h 客户会 / 6/4 14:00 三会重叠告警</div>
+      </div>
+      <div class="case-result"><strong>价值：</strong>无需手工翻日历 → 自动发现「日程冲突」「客户场密度异常」等 insight。</div>
+      <details class="embed-wrap">
+        <summary>
+          <span class="left"><span class="arrow"></span>📊 内嵌交付物 · 本周会议盘点 + 客户拜访周报（W23） · 点击展开</span>
+          <a href="weekly-report.html" target="_blank" onclick="event.stopPropagation()">在新窗口打开 ↗</a>
+        </summary>
+        <iframe src="weekly-report.html" loading="lazy" title="本周会议盘点+客户拜访周报"></iframe>
+      </details>
+    </div>
+
+    <div class="case">
+      <div class="case-time">CASE 04 · 18:23</div>
+      <div class="case-title">📊 一键生成客户拜访周报</div>
+      <div class="case-step">
+        <div class="step-tag">用户输入</div>
+        <div class="step-content">"生成客户拜访周报"</div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">AI 工作流</div>
+        <div class="step-content">复用 CASE 03 的会议数据 → 按客户聚合（7 家）→ 提取每家进展/卡点 → 生成「核心 KPI / 客户进展 / 风险卡点 / 下周重点 / 效率观察」五段式周报</div>
+      </div>
+      <div class="case-step">
+        <div class="step-tag">产出</div>
+        <div class="step-content">客户拜访周报-2026W23.md（可直接发给上级）</div>
+      </div>
+      <div class="case-result"><strong>价值：</strong>周报从「半天搬运」变成「3 分钟生成」，且 AI 主动发现「10 场会仅 1 场出纪要」这种价值缺口。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 命令速查 -->
+<section>
+  <div class="sec-head">
+    <div class="sec-num">3</div>
+    <h2>核心命令速查</h2>
+    <span class="sub">常用 5 条</span>
+  </div>
+
+  <div class="card">
+    <pre><span class="cmt"># 创建会议（时间必须 ISO 8601 + 时区）</span>
+tmeet meeting create \
+  --subject <span class="str">"测试会议"</span> \
+  --start <span class="str">"2026-06-08T13:00+08:00"</span> \
+  --end <span class="str">"2026-06-08T13:30+08:00"</span> \
+  --timezone <span class="str">"Asia/Shanghai"</span>
+
+<span class="cmt"># 列已结束会议（按周/按客户做盘点用）</span>
+tmeet meeting <span class="key">list-ended</span> \
+  --start <span class="str">"2026-06-01T00:00+08:00"</span> \
+  --end <span class="str">"2026-06-07T23:59+08:00"</span> \
+  --page-size 30 --format json
+
+<span class="cmt"># 按时间窗反查录制（不限主持人，最关键的一条）</span>
+tmeet record list \
+  --start <span class="str">"2026-06-05T16:00+08:00"</span> \
+  --end <span class="str">"2026-06-05T18:30+08:00"</span> \
+  --format json-pretty
+
+<span class="cmt"># 拉智能纪要（结构化 AI 总结）</span>
+tmeet record <span class="key">smart-minutes</span> \
+  --record-file-id 2062817477450366977 \
+  --format json-pretty
+
+<span class="cmt"># 把 MDX 推到腾讯文档（智能画布）</span>
+mcporter call tencent-docs <span class="key">create_smartcanvas_by_mdx</span> \
+  --args <span class="str">'{"title":"...", "mdx":"..."}'</span></pre>
+  </div>
+</section>
+
+<!-- 4. 踩坑经验 -->
+<section>
+  <div class="sec-head">
+    <div class="sec-num">4</div>
+    <h2>踩坑经验</h2>
+    <span class="sub">2 次以上才趟通的坑</span>
+  </div>
+
+  <div class="card">
+    <div class="pitfall">
+      <div class="pitfall-title">⚠️ 录制反查必须用时间窗，不能直接用 meeting-code</div>
+      <div class="pitfall-content">
+        <code>tmeet record list --meeting-code XXX</code> 只返回<strong>当前用户主持的</strong>录制。如果会议是别人主持的（如团队同事帮你拉录制），这个查询会返回 0 条 → 误判「没开云录制」。<br>
+        <strong>正确做法：</strong>用 <code>--start / --end</code> 时间窗反查，会列出所有可见录制。
+      </div>
+    </div>
+
+    <div class="pitfall">
+      <div class="pitfall-title">⚠️ 时间格式必须 ISO 8601 带时区</div>
+      <div class="pitfall-content">
+        <code>tmeet meeting create</code> 不接受 <code>2026-06-08 13:00</code> 这种格式，必须是 <code>2026-06-08T13:00+08:00</code>。<br>
+        否则会被解析为 UTC，导致会议时间偏移 8 小时。
+      </div>
+    </div>
+
+    <div class="pitfall">
+      <div class="pitfall-title">⚠️ list-ended 的 page-size 上限是 30</div>
+      <div class="pitfall-content">
+        超过 30 会被自动 clamp 并往 stderr 写警告。需要更多数据要分页（用 <code>--page</code> 参数），不要傻傻地传 100。
+      </div>
+    </div>
+
+    <div class="pitfall">
+      <div class="pitfall-title">⚠️ 旧 SKILL 文档里的 schedule_meeting 是过期命令</div>
+      <div class="pitfall-content">
+        实际命令名是 <code>tmeet meeting create</code>，不是 <code>schedule</code>。如果搜到 <code>tmeet meeting schedule</code> 不要直接照搬，先用 <code>tmeet meeting --help</code> 核对。
+      </div>
+    </div>
+
+    <div class="pitfall">
+      <div class="pitfall-title">⚠️ 智能纪要依赖云录制，没录就没纪要</div>
+      <div class="pitfall-content">
+        <code>smart-minutes</code> 需要 <code>record-file-id</code>，而 record 只有开了云录制才会生成。<strong>建议：</strong>客户场会议默认开云录制，否则 AI 整理纪要这条工作流会断在第一步。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 工作流推荐 -->
+<section>
+  <div class="sec-head">
+    <div class="sec-num">5</div>
+    <h2>推荐工作流：会议三件套</h2>
+    <span class="sub">每场客户会的标准动作</span>
+  </div>
+
+  <div class="card">
+    <div class="qref">
+      <div class="qref-item">
+        <div class="qref-label">会前 · 5min</div>
+        <code>tmeet meeting create + 默认开启云录制</code>
+      </div>
+      <div class="qref-item">
+        <div class="qref-label">会中 · 关注</div>
+        <code>客户的诉求 / 卡点 / 决策信号</code>
+      </div>
+      <div class="qref-item">
+        <div class="qref-label">会后 30min · 必做</div>
+        <code>AI 拉纪要 + 落腾讯文档发客户</code>
+      </div>
+      <div class="qref-item">
+        <div class="qref-label">周末 · 复盘</div>
+        <code>list-ended + 客户拜访周报</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <div class="logo"><span class="logo-dot"></span>WorkBuddy × 腾讯会议</div>
+  <div>经验沉淀 · 2026-06-07 · 由 AI 工作流自动生成并人工审校</div>
+</footer>
+
+</body>
+</html>
+

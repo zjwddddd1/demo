@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>常见问题 · WorkBuddy</title>
+<style>
+  :root{
+    --ink:#0f2742;
+    --ink-soft:#3a4a5e;
+    --muted:#6b7a8d;
+    --blue:#1f5fae;
+    --blue-deep:#0d3b73;
+    --blue-bg:#eef4fb;
+    --blue-line:#cfe0f2;
+    --line:#e3e9f0;
+    --page:#f4f7fb;
+    --sidebar-w:300px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--ink);background:var(--page);
+    display:flex;height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;
+  }
+
+  /* 左侧目录 */
+  .sidebar{
+    width:var(--sidebar-w);flex:none;height:100%;
+    background:linear-gradient(170deg,#0d3b73 0%,#15498a 100%);
+    color:#fff;display:flex;flex-direction:column;
+    box-shadow:2px 0 16px rgba(13,59,115,.18);z-index:2;
+    overflow:hidden;transition:width .28s cubic-bezier(.4,0,.2,1);
+  }
+  /* 折叠态：侧栏滑出，右侧占满 */
+  body.nav-collapsed .sidebar{width:0;box-shadow:none;}
+  .sidebar > *{min-width:var(--sidebar-w);} /* 折叠时内容整体裁掉而非被挤压 */
+  .sb-head{padding:28px 26px 22px;border-bottom:1px solid rgba(255,255,255,.14);}
+  .sb-head .logo{font-size:12px;letter-spacing:.18em;color:#9fc2ec;text-transform:uppercase;margin-bottom:10px;}
+  .sb-head h1{font-size:19px;font-weight:700;letter-spacing:.02em;color:#fff;line-height:1.4;}
+  .sb-head p{font-size:12.5px;color:#bcd6f5;margin-top:8px;line-height:1.6;}
+
+  .nav{flex:1;overflow-y:auto;padding:16px 14px 30px;}
+  .nav .group-title{font-size:11.5px;letter-spacing:.12em;color:#7ea6d8;text-transform:uppercase;
+    padding:14px 12px 8px;font-weight:600;}
+  .nav a{
+    display:flex;align-items:flex-start;gap:10px;text-decoration:none;
+    color:#dce8f7;font-size:14px;line-height:1.5;
+    padding:12px 14px;border-radius:9px;margin-bottom:4px;
+    transition:background .15s,color .15s;cursor:pointer;border:1px solid transparent;
+  }
+  .nav a .ic{flex:none;width:20px;height:20px;margin-top:1px;opacity:.85;}
+  .nav a:hover{background:rgba(255,255,255,.08);color:#fff;}
+  .nav a.active{background:#fff;color:var(--blue-deep);font-weight:600;border-color:#fff;
+    box-shadow:0 4px 14px rgba(0,0,0,.12);}
+  .nav a.active .ic{opacity:1;}
+  .nav a .txt{flex:1;}
+  .nav a .desc{display:block;font-size:11.5px;color:#9fc2ec;margin-top:3px;font-weight:400;line-height:1.45;}
+  .nav a.active .desc{color:#5a7ba8;}
+
+  .sb-foot{padding:16px 26px;font-size:11px;color:#8fb2de;border-top:1px solid rgba(255,255,255,.12);line-height:1.7;}
+
+  /* 右侧内容区 */
+  .main{flex:1;height:100%;display:flex;flex-direction:column;min-width:0;}
+  .topbar{
+    height:54px;flex:none;background:#fff;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;padding:0 26px;gap:12px;
+    box-shadow:0 1px 3px rgba(16,40,72,.04);z-index:1;
+  }
+  .topbar .toggle{
+    flex:none;width:34px;height:34px;border:1px solid var(--line);border-radius:8px;
+    background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    color:var(--blue-deep);transition:background .15s,border-color .15s;padding:0;
+  }
+  .topbar .toggle:hover{background:var(--blue-bg);border-color:var(--blue-line);}
+  .topbar .toggle svg{width:18px;height:18px;}
+  .topbar .crumb{font-size:13px;color:var(--muted);}
+  .topbar .crumb b{color:var(--ink);font-weight:600;}
+  .topbar .doc-title{font-size:15px;font-weight:700;color:var(--blue-deep);}
+  .topbar .spacer{flex:1;}
+  .topbar .open-new{font-size:12.5px;color:var(--blue);text-decoration:none;
+    border:1px solid var(--blue-line);padding:6px 14px;border-radius:18px;background:var(--blue-bg);
+    transition:background .15s;}
+  .topbar .open-new:hover{background:#dcebfa;}
+  .frame-wrap{flex:1;position:relative;overflow:hidden;background:var(--page);}
+  iframe{width:100%;height:100%;border:none;display:block;background:#fff;}
+
+  @media (max-width:760px){
+    body{flex-direction:column;}
+    .sidebar{width:100%;height:auto;max-height:42vh;}
+    .main{height:58vh;}
+  }
+</style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sb-head">
+      <div class="logo">WorkBuddy · Knowledge</div>
+      <h1>常见问题</h1>
+      <p>企业部署与数据安全相关说明文档</p>
+    </div>
+
+    <nav class="nav" id="nav">
+      <div class="group-title">数据安全</div>
+      <a class="active" data-src="docs/data-dlp.html" data-title="WorkBuddy 与企业数据防泄漏（DLP）协同控制说明">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="txt">数据外发风险协同控制说明
+          <span class="desc">WorkBuddy 与企业 DLP 协同管控、法规义务对照</span>
+        </span>
+      </a>
+    </nav>
+
+    <div class="sb-foot">
+      点击左侧条目，右侧即时查看完整文档。<br>v1.0 · 内部技术沟通用途
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="toggle" id="navToggle" title="收起/展开目录" aria-label="收起或展开目录">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="crumb">常见问题 / <b>数据安全</b></span>
+      <span class="doc-title" id="docTitle">数据外发风险协同控制说明</span>
+      <span class="spacer"></span>
+      <a class="open-new" id="openNew" href="docs/data-dlp.html" target="_blank">在新标签页打开 ↗</a>
+    </div>
+    <div class="frame-wrap">
+      <iframe id="viewer" src="docs/data-dlp.html" title="文档内容"></iframe>
+    </div>
+  </div>
+
+<script>
+  (function(){
+    var nav = document.getElementById('nav');
+    var viewer = document.getElementById('viewer');
+    var docTitle = document.getElementById('docTitle');
+    var openNew = document.getElementById('openNew');
+
+    // 目录收起/展开
+    var toggle = document.getElementById('navToggle');
+    try{ if(localStorage.getItem('faqNavCollapsed')==='1') document.body.classList.add('nav-collapsed'); }catch(e){}
+    toggle.addEventListener('click', function(){
+      var collapsed = document.body.classList.toggle('nav-collapsed');
+      try{ localStorage.setItem('faqNavCollapsed', collapsed?'1':'0'); }catch(e){}
+    });
+
+    nav.addEventListener('click', function(e){
+      var a = e.target.closest('a[data-src]');
+      if(!a) return;
+      e.preventDefault();
+      nav.querySelectorAll('a').forEach(function(x){x.classList.remove('active');});
+      a.classList.add('active');
+      var src = a.getAttribute('data-src');
+      var title = a.getAttribute('data-title') || '';
+      viewer.src = src;
+      openNew.href = src;
+      docTitle.textContent = title.split('（')[0].replace('WorkBuddy 与企业数据防泄漏','数据外发风险协同控制说明');
+    });
+  })();
+</script>
+</body>
+</html>
+

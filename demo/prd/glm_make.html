@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy Teams 项目协作 · 交互式原型</title>
+<style>
+  :root{
+    --bg:#f6f7fb;--bg-2:#eef1f8;--card:#fff;
+    --ink:#1f2430;--ink-2:#4b5563;--ink-3:#8a93a6;
+    --line:#e6e8f0;--primary:#4f46e5;--primary-2:#7c3aed;
+    --accent:#06b6d4;--warm:#f59e0b;--rose:#f43f5e;--green:#10b981;--blue:#378add;
+    --c-todo:#888780;--c-doing:#BA7517;--c-review:#378ADD;--c-done:#1D9E75;
+    --shadow:0 6px 24px rgba(31,36,48,.06);--shadow-2:0 12px 40px rgba(79,70,229,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+  /* 顶部导航 */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:11px 24px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+  .brand .dot{width:13px;height:13px;border-radius:4px;background:linear-gradient(135deg,var(--primary),var(--accent))}
+  .nav-links{display:flex;gap:3px;flex-wrap:wrap}
+  .nav-links a{text-decoration:none;color:var(--ink-2);font-size:12.5px;font-weight:500;padding:6px 11px;border-radius:8px;transition:.2s;cursor:pointer}
+  .nav-links a:hover{background:var(--bg-2);color:var(--primary)}
+  .nav-links a.active{background:var(--primary);color:#fff}
+  .wrap{max-width:1140px;margin:0 auto;padding:22px 24px 80px}
+  .section{margin-top:34px;scroll-margin-top:64px}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+  .sec-num{font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-2));min-width:28px;height:28px;padding:0 8px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none}
+  .sec-title{font-size:21px;font-weight:800;letter-spacing:-.2px}
+  .sec-sub{color:var(--ink-3);font-size:13px;margin-bottom:16px;padding-left:40px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:14px}
+  .card h3{font-size:16px;margin-bottom:8px}
+  .card p{font-size:14px;color:var(--ink-2);margin-bottom:6px}
+  .card p b,.card li b{color:var(--ink)}
+  .lead{background:linear-gradient(135deg,rgba(79,70,229,.06),rgba(6,182,212,.06));border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:16px;color:var(--ink-2);font-size:13.5px}
+  .lead b{color:var(--primary)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;color:#fff;vertical-align:middle}
+  .b-p0{background:var(--rose)}.b-p1{background:var(--warm)}.b-p2{background:var(--ink-3)}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--bg-2);font-weight:700;font-size:12.5px}
+  tr:nth-child(even) td{background:#fafbfd}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+  .mini{background:var(--bg-2);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+  .mini h4{font-size:14px;margin-bottom:5px;color:var(--primary)}
+  .mini p{font-size:12.5px;color:var(--ink-2);margin:0}
+
+  /* ===== 项目工作台 ===== */
+  .proj-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+  .proj-bar h2{font-size:18px}
+  .btn{font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+  .btn-pri{background:var(--primary);color:#fff}
+  .btn-pri:hover{background:#3a34b8;box-shadow:var(--shadow-2)}
+  .btn-ghost{background:var(--bg-2);color:var(--ink-2);border:1px solid var(--line)}
+  .btn-ghost:hover{background:#e6e8f0}
+  .btn-sm{font-size:12px;padding:5px 11px}
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .proj-card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;cursor:pointer;transition:.2s;position:relative}
+  .proj-card:hover{box-shadow:var(--shadow-2);transform:translateY(-2px);border-color:rgba(79,70,229,.3)}
+  .proj-card.active{border:2px solid var(--primary)}
+  .st-tag{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:5px;color:#fff;display:inline-block}
+  .st-doing{background:var(--green)}.st-todo{background:var(--warm)}.st-done{background:var(--ink-3)}
+  .prog{height:7px;border-radius:4px;background:var(--line);margin:10px 0 6px;overflow:hidden}
+  .prog>span{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .4s}
+  .proj-card .del{position:absolute;top:10px;right:10px;font-size:14px;color:var(--ink-3);cursor:pointer;opacity:0;transition:.2s}
+  .proj-card:hover .del{opacity:1}
+  .proj-card .del:hover{color:var(--rose)}
+
+  /* ===== 看板 ===== */
+  .kb-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+  .seg{display:inline-flex;background:var(--bg-2);border-radius:8px;padding:3px}
+  .seg button{font-size:12.5px;padding:6px 14px;border:none;background:transparent;cursor:pointer;border-radius:6px;color:var(--ink-2);font-weight:500;transition:.2s}
+  .seg button.on{background:var(--card);color:var(--primary);box-shadow:var(--shadow)}
+  .stats{display:flex;gap:10px;flex-wrap:wrap}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;text-align:center;min-width:88px}
+  .stat .n{font-size:20px;font-weight:800;color:var(--primary);line-height:1.2}
+  .stat .l{font-size:11px;color:var(--ink-3)}
+  .board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .col{background:var(--bg-2);border-radius:12px;padding:10px;min-height:200px}
+  .col-head{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 10px}
+  .col-head .name{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px}
+  .dot-s{width:9px;height:9px;border-radius:50%}
+  .col-head .cnt{font-size:11px;color:var(--ink-3);background:var(--card);padding:1px 8px;border-radius:8px}
+  .task{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px;cursor:grab;transition:.15s;position:relative}
+  .task:hover{box-shadow:var(--shadow);border-color:rgba(79,70,229,.25)}
+  .task.dragging{opacity:.4;transform:rotate(2deg)}
+  .task.over{border:2px dashed var(--primary)}
+  .task .pri{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:6px}
+  .pri-p0{background:rgba(244,63,94,.12);color:var(--rose)}
+  .pri-p1{background:rgba(245,158,11,.14);color:var(--warm)}
+  .pri-p2{background:var(--bg-2);color:var(--ink-3)}
+  .task .tt{font-size:13.5px;font-weight:600;margin-bottom:7px;padding-right:18px}
+  .task .meta{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--ink-3)}
+  .avatar{width:22px;height:22px;border-radius:50%;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .task .del{position:absolute;top:9px;right:9px;font-size:14px;color:var(--ink-3);cursor:pointer;opacity:0;transition:.2s;line-height:1}
+  .task:hover .del{opacity:1}
+  .task .del:hover{color:var(--rose)}
+  .task.overdue{border-color:var(--rose);background:rgba(244,63,94,.04)}
+  .task.overdue .dl{color:var(--rose);font-weight:600}
+  .empty-col{text-align:center;color:var(--ink-3);font-size:12px;padding:24px 0}
+
+  /* 列表视图 */
+  .list-view table{font-size:13px}
+  .list-view .pri{font-size:10px}
+
+  /* ===== 状态机 ===== */
+  .fsm{display:flex;align-items:center;flex-wrap:wrap;gap:8px;justify-content:center;padding:14px 0}
+  .fsm-node{padding:9px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid;transition:.2s}
+  .fsm-node:hover{transform:translateY(-2px)}
+  .fsm-node.cur{box-shadow:0 0 0 3px rgba(79,70,229,.2)}
+  .fsm-arr{color:var(--ink-3);font-size:16px}
+  .fsm-info{background:var(--bg-2);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--ink-2);margin-top:10px;min-height:48px}
+  .fsm-info b{color:var(--primary)}
+
+  /* ===== Modal ===== */
+  .mask{position:fixed;inset:0;background:rgba(31,36,48,.45);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+  .mask.show{display:flex}
+  .modal{background:var(--card);border-radius:16px;padding:24px;width:100%;max-width:420px;box-shadow:var(--shadow-2)}
+  .modal h3{font-size:17px;margin-bottom:16px}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+  .field input,.field select,.field textarea{width:100%;font-size:13.5px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-family:inherit;background:#fff}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:300}
+  .toast.show{opacity:.95}
+  .hint{font-size:12px;color:var(--ink-3);margin-top:8px;text-align:center}
+  footer{text-align:center;color:var(--ink-3);font-size:12.5px;padding:22px 20px 40px}
+  @media (max-width:780px){.board{grid-template-columns:1fr 1fr}.grid2,.grid3{grid-template-columns:1fr}.nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span>WorkBuddy Teams · 交互式原型</div>
+    <div class="nav-links" id="navlinks">
+      <a data-href="overview">总览</a>
+      <a data-href="workbench">项目工作台</a>
+      <a data-href="board">任务看板</a>
+      <a data-href="fsm">状态机</a>
+      <a data-href="track">埋点</a>
+      <a data-href="launch">上线</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- 总览 -->
+  <section class="section" id="overview">
+    <div class="sec-head"><div class="sec-num">★</div><div class="sec-title">WorkBuddy Teams 项目协作 · 交互式 PRD</div></div>
+    <div class="sec-sub">可直接操作的原型：拖拽任务、新建项目、状态流转，数据本地持久化</div>
+    <div class="lead">
+      这是 Teams 项目协作功能的<b>可交互原型</b>。下方"项目工作台"可新建/切换项目，"任务看板"可<b>拖拽卡片改状态、新建/删除任务、切换看板/列表视图</b>，所有操作实时更新统计并保存到浏览器本地。<b>建议从任务看板开始体验</b>——这是 PRD 原型最该验证的交互闭环。
+    </div>
+    <div class="grid3">
+      <div class="mini"><h4>项目空间</h4><p>新建项目、切换、删除，进度自动计算</p></div>
+      <div class="mini"><h4>任务看板</h4><p>拖拽改状态、新建/删除、看板/列表切换</p></div>
+      <div class="mini"><h4>状态机</h4><p>点击节点查看流转规则</p></div>
+    </div>
+  </section>
+
+  <!-- 项目工作台 -->
+  <section class="section" id="workbench">
+    <div class="sec-head"><div class="sec-num">1</div><div class="sec-title">项目工作台</div></div>
+    <div class="sec-sub">点击项目卡片进入其看板；右上角新建项目</div>
+    <div class="proj-bar">
+      <h2>我的项目 <span id="projCount" style="font-size:13px;color:var(--ink-3);font-weight:400"></span></h2>
+      <button class="btn btn-pri" onclick="openProjModal()">+ 新建项目</button>
+    </div>
+    <div class="proj-grid" id="projGrid"></div>
+  </section>
+
+  <!-- 任务看板 -->
+  <section class="section" id="board">
+    <div class="sec-head"><div class="sec-num">2</div><div class="sec-title">任务看板</div></div>
+    <div class="sec-sub" id="boardSub">拖拽卡片跨列即改状态 · 当前项目：—</div>
+
+    <div class="kb-bar">
+      <div class="stats" id="stats"></div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="seg" id="viewSeg">
+          <button class="on" data-v="board">看板</button>
+          <button data-v="list">列表</button>
+        </div>
+        <button class="btn btn-pri" onclick="openTaskModal()">+ 新建任务</button>
+      </div>
+    </div>
+
+    <div id="boardView" class="board"></div>
+    <div id="listView" class="list-view" style="display:none"></div>
+    <div class="hint">提示：拖拽任务卡片到其他列即可改变状态；hover 卡片显示删除按钮；超期任务自动标红。</div>
+  </section>
+
+  <!-- 状态机 -->
+  <section class="section" id="fsm">
+    <div class="sec-head"><div class="sec-num">3</div><div class="sec-title">任务状态机</div></div>
+    <div class="sec-sub">点击节点查看流转规则</div>
+    <div class="card">
+      <div class="fsm" id="fsmNodes"></div>
+      <div class="fsm-info" id="fsmInfo">点击上方任一状态节点查看流转规则。</div>
+    </div>
+  </section>
+
+  <!-- 埋点 -->
+  <section class="section" id="track">
+    <div class="sec-head"><div class="sec-num">4</div><div class="sec-title">数据埋点</div></div>
+    <div class="sec-sub">操作即埋点模拟 · 下方表格为关键事件</div>
+    <table>
+      <tr><th>事件</th><th>触发时机</th><th>关键属性</th><th>对应指标</th></tr>
+      <tr><td>project_create</td><td>新建项目</td><td>成员数/目录</td><td>项目创建数</td></tr>
+      <tr><td>task_create</td><td>新建任务</td><td>优先级/指派人</td><td>—</td></tr>
+      <tr><td>task_status_change</td><td>拖拽改状态</td><td>原状态/新状态</td><td>任务完成率</td></tr>
+      <tr><td>project_active</td><td>项目有活动</td><td>活跃成员数</td><td>WA-Project</td></tr>
+    </table>
+    <div class="card" style="margin-top:12px">
+      <h3>本次操作日志（模拟埋点回显）</h3>
+      <div id="eventLog" style="font-size:12.5px;color:var(--ink-2);max-height:160px;overflow:auto;font-family:Consolas,monospace"></div>
+    </div>
+  </section>
+
+  <!-- 上线 -->
+  <section class="section" id="launch">
+    <div class="sec-head"><div class="sec-num">5</div><div class="sec-title">灰度上线计划</div></div>
+    <div class="sec-sub">分批放量 · 指标达标才进下一档</div>
+    <table>
+      <tr><th>阶段</th><th>范围</th><th>观察指标</th><th>通过标准</th></tr>
+      <tr><td>内测</td><td>腾讯内部 3 团队</td><td>崩溃率</td><td>&lt;0.1%</td></tr>
+      <tr><td>灰度 5%</td><td>种子企业</td><td>创建率/完成率</td><td>无 P0 bug</td></tr>
+      <tr><td>灰度 30%</td><td>扩量企业</td><td>WA-Project/留存</td><td>留存不降</td></tr>
+      <tr><td>全量</td><td>所有企业版</td><td>综合</td><td>达成成功标准</td></tr>
+    </table>
+    <div class="lead" style="margin-top:14px"><b>回滚策略</b>：任一阶段指标恶化即时回滚，影响面始终可控。</div>
+  </section>
+
+</div>
+
+<!-- 新建项目 Modal -->
+<div class="mask" id="projMask">
+  <div class="modal">
+    <h3>新建项目</h3>
+    <div class="field"><label>项目名称 *</label><input id="pName" placeholder="如：官网重构 v2" maxlength="30"></div>
+    <div class="field"><label>项目描述</label><textarea id="pDesc" placeholder="选填" rows="2" maxlength="120"></textarea></div>
+    <div class="field"><label>初始成员数</label><input id="pMembers" type="number" value="4" min="1" max="99"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeMask('projMask')">取消</button>
+      <button class="btn btn-pri" onclick="createProject()">创建</button>
+    </div>
+  </div>
+</div>
+
+<!-- 新建任务 Modal -->
+<div class="mask" id="taskMask">
+  <div class="modal">
+    <h3>新建任务</h3>
+    <div class="field"><label>任务标题 *</label><input id="tTitle" placeholder="如：登录页联调" maxlength="40"></div>
+    <div class="field"><label>优先级</label>
+      <select id="tPri"><option value="P0">P0 紧急</option><option value="P1" selected>P1 高</option><option value="P2">P2 中</option></select>
+    </div>
+    <div class="field"><label>指派人（姓名首字）</label><input id="tAssignee" placeholder="如：张" value="张" maxlength="2"></div>
+    <div class="field"><label>截止日期</label><input id="tDeadline" type="date"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeMask('taskMask')">取消</button>
+      <button class="btn btn-pri" onclick="createTask()">创建</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>WorkBuddy Teams 项目协作 · 交互式原型 · 数据保存在本地浏览器 · 2026-07-16</footer>
+
+<script>
+/* ============ 数据 ============ */
+const STATUSES = [
+  {key:'todo',  name:'待领取', color:'#888780'},
+  {key:'doing', name:'进行中', color:'#BA7517'},
+  {key:'review',name:'待验收', color:'#378ADD'},
+  {key:'done',  name:'已完成', color:'#1D9E75'}
+];
+const DEFAULT_DATA = [
+  {id:'p1', name:'官网重构 v2', desc:'首页与核心链路重构', status:'doing', members:6,
+    tasks:[
+      {id:'t1',title:'首页性能优化',pri:'P0',assignee:'张',deadline:'2026-07-18',status:'todo'},
+      {id:'t2',title:'登录页联调',pri:'P1',assignee:'张',deadline:'2026-07-22',status:'doing'},
+      {id:'t3',title:'SEO 改造',pri:'P1',assignee:'李',deadline:'2026-07-25',status:'review'},
+      {id:'t4',title:'路由重构',pri:'P2',assignee:'王',deadline:'2026-07-10',status:'done'},
+      {id:'t5',title:'支付链路联调',pri:'P0',assignee:'王',deadline:'2026-07-14',status:'doing'}
+    ]},
+  {id:'p2', name:'API 网关迁移', desc:'统一网关与鉴权', status:'todo', members:4,
+    tasks:[
+      {id:'t6',title:'网关选型评估',pri:'P1',assignee:'李',deadline:'2026-08-10',status:'todo'}
+    ]},
+  {id:'p3', name:'数据看板开发', desc:'业务数据可视化', status:'doing', members:5,
+    tasks:[
+      {id:'t7',title:'埋点接入',pri:'P0',assignee:'赵',deadline:'2026-07-28',status:'doing'},
+      {id:'t8',title:'图表组件封装',pri:'P1',assignee:'赵',deadline:'2026-07-30',status:'review'}
+    ]}
+];
+let data = loadData();
+let curProj = data[0]?.id || null;
+let view = 'board';
+let logEvents = [];
+
+/* ============ 持久化 ============ */
+function loadData(){
+  try{ const s = localStorage.getItem('wb_teams_data'); if(s) return JSON.parse(s); }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+function saveData(){ localStorage.setItem('wb_teams_data', JSON.stringify(data)); }
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function avatarColor(name){
+  const colors={张:'#06b6d4',李:'#f59e0b',王:'#f43f5e',赵:'#10b981',陈:'#7c3aed',刘:'#378ADD'};
+  return colors[name]||'#4f46e5';
+}
+function uid(){ return 'x'+Math.random().toString(36).slice(2,8); }
+
+/* ============ 事件日志 ============ */
+function logEvent(ev, props){
+  const t=new Date().toLocaleTimeString('zh-CN',{hour12:false});
+  logEvents.unshift(`[${t}] ${ev}  ${JSON.stringify(props)}`);
+  if(logEvents.length>30) logEvents.pop();
+  const el=document.getElementById('eventLog');
+  if(el) el.innerHTML = logEvents.map(e=>`<div style="padding:3px 0;border-bottom:1px solid var(--line)">› ${e}</div>`).join('');
+}
+function toast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1600);
+}
+
+/* ============ 渲染：项目工作台 ============ */
+function renderProjects(){
+  const grid=document.getElementById('projGrid');
+  document.getElementById('projCount').textContent=`（共 ${data.length} 个）`;
+  if(!data.length){ grid.innerHTML='<div style="color:var(--ink-3);padding:20px">暂无项目，点击右上角新建</div>'; return; }
+  grid.innerHTML = data.map(p=>{
+    const total=p.tasks.length, done=p.tasks.filter(t=>t.status==='done').length;
+    const pct = total? Math.round(done/total*100):0;
+    const stCls = p.status==='doing'?'st-doing':(p.status==='done'?'st-done':'st-todo');
+    const stTxt = p.status==='doing'?'进行中':(p.status==='done'?'已完成':'待启动');
+    return `<div class="proj-card ${p.id===curProj?'active':''}" onclick="selectProject('${p.id}')">
+      <span class="del" onclick="delProject(event,'${p.id}')">✕</span>
+      <span class="st-tag ${stCls}">${stTxt}</span>
+      <div style="font-size:15px;font-weight:700;margin-top:8px">${esc(p.name)}</div>
+      <div style="font-size:12px;color:var(--ink-3);margin-top:2px">${esc(p.desc||'无描述')} · 成员 ${p.members}</div>
+      <div class="prog"><span style="width:${pct}%"></span></div>
+      <div style="font-size:12px;color:var(--ink-2)">任务 ${done}/${total} · 进度 ${pct}%</div>
+    </div>`;
+  }).join('');
+}
+function selectProject(id){ curProj=id; renderProjects(); renderBoard(); logEvent('project_switch',{project:id}); }
+function delProject(e,id){
+  e.stopPropagation();
+  if(!confirm('删除该项目及其所有任务？')) return;
+  data=data.filter(p=>p.id!==id);
+  if(curProj===id) curProj=data[0]?.id||null;
+  saveData(); renderProjects(); renderBoard();
+  logEvent('project_delete',{project:id}); toast('项目已删除');
+}
+
+/* ============ 渲染：看板 ============ */
+function curProject(){ return data.find(p=>p.id===curProj); }
+function renderBoard(){
+  const p=curProject();
+  const sub=document.getElementById('boardSub');
+  if(!p){ sub.textContent='请先选择或新建项目'; document.getElementById('boardView').innerHTML=''; renderStats(); return; }
+  sub.innerHTML=`拖拽卡片跨列即改状态 · 当前项目：<b>${esc(p.name)}</b>`;
+  renderStats();
+  if(view==='board') renderKanban(p); else renderList(p);
+}
+function renderStats(){
+  const p=curProject(); const el=document.getElementById('stats');
+  if(!p){ el.innerHTML=''; return; }
+  const total=p.tasks.length;
+  const done=p.tasks.filter(t=>t.status==='done').length;
+  const doing=p.tasks.filter(t=>t.status==='doing').length;
+  const overdue=p.tasks.filter(t=>t.status!=='done'&&t.deadline&&t.deadline<todayStr()).length;
+  const pct=total?Math.round(done/total*100):0;
+  el.innerHTML=`
+    <div class="stat"><div class="n">${total}</div><div class="l">总任务</div></div>
+    <div class="stat"><div class="n" style="color:var(--warm)">${doing}</div><div class="l">进行中</div></div>
+    <div class="stat"><div class="n" style="color:var(--green)">${done}</div><div class="l">已完成</div></div>
+    <div class="stat"><div class="n" style="color:var(--rose)">${overdue}</div><div class="l">超期</div></div>
+    <div class="stat"><div class="n">${pct}%</div><div class="l">完成率</div></div>`;
+}
+function taskCard(t){
+  const overdue = t.status!=='done'&&t.deadline&&t.deadline<todayStr();
+  const priCls = t.pri==='P0'?'pri-p0':(t.pri==='P1'?'pri-p1':'pri-p2');
+  return `<div class="task ${overdue?'overdue':''}" draggable="true" data-id="${t.id}"
+    ondragstart="dragStart(event,'${t.id}')" ondragend="dragEnd(event)">
+    <span class="del" onclick="delTask(event,'${t.id}')">✕</span>
+    <span class="pri ${priCls}">${t.pri}</span>
+    <div class="tt">${esc(t.title)}</div>
+    <div class="meta">
+      <span class="dl">${t.deadline||'无截止'}</span>
+      <span class="avatar" style="background:${avatarColor(t.assignee)}">${esc(t.assignee||'?')}</span>
+    </div>
+  </div>`;
+}
+function renderKanban(p){
+  const bv=document.getElementById('boardView');
+  bv.style.display='grid';
+  document.getElementById('listView').style.display='none';
+  bv.innerHTML = STATUSES.map(s=>{
+    const tasks=p.tasks.filter(t=>t.status===s.key);
+    return `<div class="col" data-status="${s.key}" ondragover="dragOver(event)" ondrop="drop(event,'${s.key}')" ondragleave="dragLeave(event)">
+      <div class="col-head">
+        <span class="name"><span class="dot-s" style="background:${s.color}"></span>${s.name}</span>
+        <span class="cnt">${tasks.length}</span>
+      </div>
+      ${tasks.length?tasks.map(taskCard).join(''):'<div class="empty-col">拖拽任务到此列</div>'}
+    </div>`;
+  }).join('');
+}
+function renderList(p){
+  document.getElementById('boardView').style.display='none';
+  const lv=document.getElementById('listView'); lv.style.display='block';
+  if(!p.tasks.length){ lv.innerHTML='<div style="color:var(--ink-3);padding:16px">暂无任务</div>'; return; }
+  const sName=k=>STATUSES.find(s=>s.key===k).name;
+  lv.innerHTML=`<table><thead><tr><th>状态</th><th>优先级</th><th>标题</th><th>指派</th><th>截止</th></tr></thead><tbody>
+    ${p.tasks.map(t=>{const overdue=t.status!=='done'&&t.deadline&&t.deadline<todayStr();
+      const priCls=t.pri==='P0'?'pri-p0':(t.pri==='P1'?'pri-p1':'pri-p2');
+      return `<tr><td>${sName(t.status)}</td><td><span class="pri ${priCls}">${t.pri}</span></td>
+        <td>${esc(t.title)}${overdue?' <span style="color:var(--rose);font-size:11px">超期</span>':''}</td>
+        <td>${esc(t.assignee||'-')}</td><td>${t.deadline||'-'}</td></tr>`;
+    }).join('')}</tbody></table>`;
+}
+
+/* ============ 拖拽 ============ */
+let dragId=null;
+function dragStart(e,id){ dragId=id; e.target.classList.add('dragging'); }
+function dragEnd(e){ e.target.classList.remove('dragging'); document.querySelectorAll('.col.over').forEach(c=>c.classList.remove('over')); }
+function dragOver(e){ e.preventDefault(); e.currentTarget.classList.add('over'); }
+function dragLeave(e){ e.currentTarget.classList.remove('over'); }
+function drop(e,status){
+  e.preventDefault(); e.currentTarget.classList.remove('over');
+  if(!dragId) return;
+  const p=curProject(); if(!p) return;
+  const t=p.tasks.find(x=>x.id===dragId); if(!t) return;
+  const old=t.status; if(old===status){ dragId=null; return; }
+  t.status=status; saveData(); renderBoard(); renderProjects();
+  logEvent('task_status_change',{id:dragId,from:old,to:status});
+  toast(`任务「${t.title}」→ ${STATUSES.find(s=>s.key===status).name}`);
+  dragId=null;
+}
+
+/* ============ 新建 ============ */
+function openProjModal(){ document.getElementById('projMask').classList.add('show'); document.getElementById('pName').focus(); }
+function openTaskModal(){
+  if(!curProject()){ toast('请先选择项目'); return; }
+  const m=document.getElementById('taskMask'); m.classList.add('show');
+  const d=new Date(); d.setDate(d.getDate()+7);
+  document.getElementById('tDeadline').value=d.toISOString().slice(0,10);
+  document.getElementById('tTitle').focus();
+}
+function closeMask(id){ document.getElementById(id).classList.remove('show'); }
+function createProject(){
+  const name=document.getElementById('pName').value.trim();
+  if(!name){ toast('请输入项目名称'); return; }
+  const p={id:uid(),name,desc:document.getElementById('pDesc').value.trim(),status:'doing',
+    members:parseInt(document.getElementById('pMembers').value)||1,tasks:[]};
+  data.unshift(p); curProj=p.id; saveData();
+  closeMask('projMask');
+  document.getElementById('pName').value=''; document.getElementById('pDesc').value='';
+  renderProjects(); renderBoard();
+  logEvent('project_create',{name,members:p.members}); toast('项目已创建');
+}
+function createTask(){
+  const title=document.getElementById('tTitle').value.trim();
+  if(!title){ toast('请输入任务标题'); return; }
+  const t={id:uid(),title,pri:document.getElementById('tPri').value,
+    assignee:document.getElementById('tAssignee').value.trim()||'?',
+    deadline:document.getElementById('tDeadline').value,status:'todo'};
+  const p=curProject(); p.tasks.unshift(t); saveData();
+  closeMask('taskMask'); document.getElementById('tTitle').value='';
+  renderBoard(); renderProjects();
+  logEvent('task_create',{title,pri:t.pri}); toast('任务已创建');
+}
+function delTask(e,id){
+  e.stopPropagation();
+  const p=curProject(); const t=p.tasks.find(x=>x.id===id); if(!t) return;
+  p.tasks=p.tasks.filter(x=>x.id!==id); saveData();
+  renderBoard(); renderProjects();
+  logEvent('task_delete',{id,title:t.title}); toast('任务已删除');
+}
+
+/* ============ 状态机 ============ */
+const FSM = {
+  todo:{next:'进行中',rule:'成员领取或被指派后进入"进行中"',color:'#888780'},
+  doing:{next:'待验收',rule:'执行完成后提交验收，进入"待验收"',color:'#BA7517'},
+  review:{next:'已完成',rule:'Owner 验收通过→已完成；不通过→退回进行中',color:'#378ADD'},
+  done:{next:'（终态）',rule:'任务归档，可统计但不可再改',color:'#1D9E75'}
+};
+let fsmCur='todo';
+function renderFSM(){
+  const el=document.getElementById('fsmNodes');
+  el.innerHTML = STATUSES.map((s,i)=>{
+    return `<div class="fsm-node ${s.key===fsmCur?'cur':''}" style="border-color:${s.color};color:${s.color};background:${s.color}15"
+      onclick="setFSM('${s.key}')">${s.name}</div>${i<STATUSES.length-1?'<span class="fsm-arr">→</span>':''}`;
+  }).join('');
+  const f=FSM[fsmCur];
+  document.getElementById('fsmInfo').innerHTML=`当前状态：<b>${STATUSES.find(s=>s.key===fsmCur).name}</b>　→　下一状态：<b>${f.next}</b><br>规则：${f.rule}`;
+}
+function setFSM(k){ fsmCur=k; renderFSM(); }
+
+function esc(s){ return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ============ 视图切换 & 导航 ============ */
+document.getElementById('viewSeg').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON') return;
+  document.querySelectorAll('#viewSeg button').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on');
+  view=e.target.dataset.v; renderBoard();
+});
+document.getElementById('navlinks').addEventListener('click',e=>{
+  if(e.target.tagName!=='A') return;
+  const id=e.target.dataset.href;
+  document.getElementById(id)?.scrollIntoView();
+});
+/* 滚动高亮 */
+const sectIds=['overview','workbench','board','fsm','track','launch'];
+window.addEventListener('scroll',()=>{
+  let cur='overview';
+  for(const id of sectIds){ const el=document.getElementById(id); if(el && el.getBoundingClientRect().top<120) cur=id; }
+  document.querySelectorAll('#navlinks a').forEach(a=>a.classList.toggle('active',a.dataset.href===cur));
+});
+/* 点击遮罩关闭 */
+document.querySelectorAll('.mask').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('show'); }));
+/* 回车提交 */
+document.getElementById('pName').addEventListener('keydown',e=>{ if(e.key==='Enter') createProject(); });
+document.getElementById('tTitle').addEventListener('keydown',e=>{ if(e.key==='Enter') createTask(); });
+
+/* ============ 初始化 ============ */
+renderProjects(); renderBoard(); renderFSM();
+logEvent('page_view',{});
+</script>
+</body>
+</html>

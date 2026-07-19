@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy 工业客户作战清单合集</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --bar:#ffffff;
+    --ink:#1a1d24;
+    --sub:#6b7280;
+    --line:#e5e7eb;
+    --accent:#2563eb;
+    --accentb:#eff4ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+  }
+  /* ===== 主体 ===== */
+  #app{display:none;flex-direction:column;height:100vh;overflow:hidden;}
+  #app.ready{display:flex;}
+  .topbar{
+    background:var(--bar);
+    border-bottom:1px solid var(--line);
+    padding:14px 22px 0;
+    flex-shrink:0;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .title{
+    font-size:16px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;
+    display:flex;align-items:center;gap:9px;
+  }
+  .title .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;}
+  .title small{font-weight:400;color:var(--sub);font-size:12px;margin-left:4px;}
+  .tabs{display:flex;gap:4px;}
+  .tab{
+    appearance:none;border:none;background:transparent;color:var(--sub);
+    font-size:14px;font-weight:600;padding:11px 20px;cursor:pointer;
+    border-radius:8px 8px 0 0;position:relative;
+    transition:color .15s,background .15s;font-family:inherit;white-space:nowrap;
+  }
+  .tab:hover{color:var(--ink);background:var(--accentb);}
+  .tab.active{color:var(--accent);background:var(--accentb);}
+  .tab.active::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:3px;background:var(--accent);border-radius:3px 3px 0 0;}
+  .tab .num{display:inline-block;min-width:18px;margin-left:6px;font-size:11px;color:#fff;background:#c7cdd6;border-radius:9px;padding:1px 7px;font-weight:700;}
+  .tab.active .num{background:var(--accent);}
+  .stage{flex:1;position:relative;background:var(--bg);}
+  .frame{position:absolute;inset:0;width:100%;height:100%;border:none;background:#fff;display:none;}
+  .frame.active{display:block;}
+</style>
+</head>
+<body>
+  <!-- 主体 -->
+  <div id="app" class="ready">
+    <div class="topbar">
+      <div class="title">
+        <span class="dot"></span>WorkBuddy · 工业客户作战清单合集
+        <small>价值论证 / 全国 Top100 / 珠三角 Top100 · 一处统览</small>
+      </div>
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-i="0">价值论证与南区作战</button>
+        <button class="tab" data-i="1">全国 Top100<span class="num">100</span></button>
+        <button class="tab" data-i="2">珠三角 Top100<span class="num">100</span></button>
+      </div>
+    </div>
+    <div class="stage">
+      <iframe class="frame active" data-i="0" data-src="page_value.html"></iframe>
+      <iframe class="frame" data-i="1" data-src="page_national.html"></iframe>
+      <iframe class="frame" data-i="2" data-src="page_prd.html"></iframe>
+    </div>
+  </div>
+
+<script>
+  // 复用首页「wb经营看板」的授权状态（sessionStorage.wbd_auth_biz）。
+  // 已通过经营看板密码门 → 直接显示；未授权（裸链直访/已关闭浏览器）→ 跳回首页经营看板输密码。
+  function loadFrames(){
+    document.querySelectorAll('.frame').forEach(function(f){
+      if(!f.src) f.src=f.dataset.src;
+    });
+  }
+  if(sessionStorage.getItem('wbd_auth_biz')==='1'){
+    loadFrames();
+  }else{
+    // 未经经营看板授权，回首页输密码
+    location.replace('/#biz');
+  }
+
+  // Tab 切换
+  var tabs=document.querySelectorAll('.tab');
+  var frames=document.querySelectorAll('.frame');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      var i=t.dataset.i;
+      tabs.forEach(function(x){x.classList.toggle('active',x.dataset.i===i);});
+      frames.forEach(function(f){f.classList.toggle('active',f.dataset.i===i);});
+    });
+  });
+</script>
+</body>
+</html>
+

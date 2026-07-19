@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>某家电企业 × WorkBuddy 应用演示</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --ink-2: #2C2C2A;
+    --ink-3: #5F5E5A;
+    --ink-4: #888780;
+    --paper: #FAFAF6;
+    --paper-2: #F1EFE8;
+    --rule: rgba(10, 10, 10, 0.08);
+    --rule-strong: rgba(10, 10, 10, 0.18);
+    --accent: #0A2540;
+    --accent-soft: #E8EDF3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    font-feature-settings: "tnum", "ss01";
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .serif { font-family: 'Noto Serif SC', 'Source Han Serif SC', serif; font-weight: 500; letter-spacing: 0.02em; }
+  .mono { font-family: 'JetBrains Mono', Menlo, monospace; }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 56px; }
+
+  /* ============ Top bar ============ */
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: saturate(140%) blur(8px);
+  }
+  .topbar-inner {
+    height: 72px;
+    display: flex;
+    align-items: center;
+  }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .brand-tcl {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+  }
+  .brand-cross {
+    width: 14px; height: 14px;
+    color: var(--ink-4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .brand-cross svg { width: 100%; height: 100%; }
+  .brand-wb {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+    font-size: 19px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .brand-wb em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .topbar nav {
+    margin-left: auto;
+    display: flex;
+    gap: 32px;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .topbar nav a:hover { color: var(--ink); }
+  .topbar nav .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    color: var(--ink-2);
+    font-size: 12px;
+  }
+  .topbar nav .pill::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: #16A34A;
+  }
+
+  /* ============ Hero ============ */
+  .hero {
+    padding: 96px 0 72px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--ink-4);
+    text-transform: uppercase;
+    padding-top: 14px;
+    border-top: 1px solid var(--ink);
+    width: 80px;
+  }
+  .hero-kicker .label { color: var(--ink); margin-top: 6px; display: block; font-weight: 500; }
+  .hero-content { max-width: 920px; }
+  .hero-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--ink-4);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .hero h1 .accent { color: var(--accent); font-style: italic; font-weight: 400; }
+  .hero h1 .x {
+    display: inline-block;
+    margin: 0 0.08em;
+    color: var(--ink-3);
+    font-style: italic;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    transform: translateY(-4px);
+  }
+  .hero p.lead {
+    font-size: 17px;
+    color: var(--ink-2);
+    line-height: 1.75;
+    max-width: 720px;
+    font-weight: 400;
+  }
+  .hero-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 36px;
+  }
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 5px 10px;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-2);
+    border-radius: 2px;
+  }
+
+  /* ============ Section ============ */
+  .section { padding: 80px 0; border-bottom: 1px solid var(--rule); }
+  .section-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+    align-items: start;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--ink-4);
+    text-transform: uppercase;
+    padding-top: 14px;
+    border-top: 1px solid var(--ink);
+  }
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .section-title em {
+    font-style: italic;
+    font-family: 'Noto Serif SC', serif;
+    color: var(--ink-3);
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 14px;
+    letter-spacing: 0.02em;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-top: 10px;
+    max-width: 600px;
+  }
+
+  /* ============ Cards (editorial list style) ============ */
+  .apps {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 48px;
+  }
+  .apps-list { display: flex; flex-direction: column; }
+
+  .app {
+    display: grid;
+    grid-template-columns: 64px 1fr 220px;
+    gap: 40px;
+    padding: 36px 0;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+    cursor: pointer;
+    transition: padding 0.25s ease, background 0.25s ease;
+    position: relative;
+  }
+  .app:last-child { border-bottom: 1px solid var(--rule); }
+  .app:hover {
+    padding-left: 12px;
+    padding-right: 12px;
+    background: rgba(10, 37, 64, 0.02);
+  }
+  .app:hover .app-arrow { transform: translateX(8px); color: var(--accent); }
+  .app:hover .app-title { color: var(--accent); }
+
+  .app-num {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 400;
+    font-size: 38px;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    padding-top: 4px;
+  }
+  .app-num em {
+    font-style: italic;
+    color: var(--ink-3);
+  }
+
+  .app-body { min-width: 0; }
+  .app-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-4);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .app-eyebrow .status {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #1D7B4E;
+  }
+  .app-eyebrow .status::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%; background: #1D7B4E;
+  }
+  .app-eyebrow .status.demo { color: #B45309; }
+  .app-eyebrow .status.demo::before { background: #B45309; }
+
+  .app-title {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+  }
+  .app-desc {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    line-height: 1.75;
+    max-width: 640px;
+  }
+  .app-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 16px;
+  }
+  .app-tag {
+    font-size: 12px;
+    padding: 3px 9px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    border-radius: 2px;
+    letter-spacing: 0.02em;
+  }
+
+  .app-side {
+    display: flex; flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    padding-top: 8px;
+  }
+  .app-icon {
+    width: 56px; height: 56px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+  }
+  .app-icon svg { width: 24px; height: 24px; }
+  .app-arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+
+  /* ============ Footer ============ */
+  .footer {
+    padding: 56px 0 80px;
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 48px;
+    align-items: end;
+  }
+  .footer-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--ink-4);
+    text-transform: uppercase;
+  }
+  .footer-text { font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+  .footer-text strong { font-weight: 500; color: var(--ink); }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--ink-4);
+    text-transform: uppercase;
+    text-align: right;
+  }
+
+  @media (max-width: 1024px) {
+    .container { padding: 0 32px; }
+    .hero h1 { font-size: 48px; }
+    .section-title { font-size: 26px; }
+    .app-title { font-size: 22px; }
+    .app { grid-template-columns: 50px 1fr 160px; gap: 28px; }
+  }
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    .topbar nav { display: none; }
+    .hero { padding: 56px 0 48px; }
+    .hero h1 { font-size: 36px; }
+    .hero-grid, .section-head, .apps, .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero-kicker, .section-num { width: auto; padding-top: 0; border-top: none; }
+    .app { grid-template-columns: 1fr; gap: 16px; }
+    .app-side { flex-direction: row; align-items: center; justify-content: space-between; }
+    .footer-meta { text-align: left; }
+  }
+
+  /* ============================================================
+     ERP / CRM SKIN — 商务简约覆盖层（保留 DOM 与交互逻辑）
+     色：#F5F7FA 底 / #FFFFFF 卡 / #E4E7EC 描边 / #2563EB 主蓝
+     字：系统无衬线 + tabular-nums；圆角 4-6px；零渐变；扁平阴影
+     ============================================================ */
+  :root {
+    --ink: #111827;
+    --ink-2: #374151;
+    --ink-3: #6B7280;
+    --ink-4: #9CA3AF;
+    --paper: #F5F7FA;
+    --paper-2: #FFFFFF;
+    --paper-3: #EEF1F5;
+    --rule: #E4E7EC;
+    --rule-strong: #D0D5DD;
+    --accent: #2563EB;
+    --accent-soft: #EFF4FF;
+    --accent-hover: #1D4ED8;
+    --ok: #16A34A;
+    --ok-soft: #ECFDF5;
+    --warn: #D97706;
+    --warn-soft: #FFFBEB;
+    --bad: #DC2626;
+    --bad-soft: #FEF2F2;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.04);
+    --shadow-md: 0 1px 3px rgba(16,24,40,.06), 0 1px 2px rgba(16,24,40,.04);
+  }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif !important;
+    background: var(--paper) !important;
+    color: var(--ink);
+    font-feature-settings: "tnum";
+    line-height: 1.55;
+  }
+  .serif {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+  }
+  .mono {
+    font-family: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace !important;
+    letter-spacing: 0 !important;
+  }
+  /* —— 顶栏 —— */
+  .topbar {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--rule) !important;
+    backdrop-filter: none !important;
+  }
+  .topbar-inner { height: 56px !important; }
+  .brand { gap: 12px !important; }
+  .brand-tcl {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    font-size: 16px !important; font-weight: 700 !important; letter-spacing: 0.04em !important;
+    color: var(--ink) !important;
+  }
+  .brand-cross { width: 10px !important; height: 10px !important; color: var(--ink-4) !important; }
+  .brand-wb {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif !important;
+    font-size: 15px !important; font-weight: 600 !important; letter-spacing: 0 !important;
+    color: var(--ink) !important;
+  }
+  .brand-wb em { color: var(--accent) !important; font-style: normal !important; }
+  .topbar nav { gap: 16px !important; font-size: 13px !important; }
+  .topbar nav .pill {
+    border-radius: 4px !important;
+    border: 1px solid var(--rule) !important;
+    background: var(--paper-3) !important;
+    padding: 4px 10px !important; font-size: 12px !important;
+    color: var(--ink-2) !important;
+  }
+  .topbar nav .pill::before { background: var(--ok) !important; }
+  /* —— Hero —— */
+  .hero {
+    padding: 40px 0 32px !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .hero-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .hero-kicker {
+    border-top: none !important; padding-top: 0 !important; width: auto !important;
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--accent) !important;
+  }
+  .hero-kicker .label { color: var(--ink-3) !important; margin-top: 2px !important; font-weight: 400 !important; }
+  .hero-meta {
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--ink-4) !important; margin-bottom: 12px !important;
+  }
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 30px !important;
+    line-height: 1.32 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--ink) !important;
+    margin-bottom: 14px !important;
+  }
+  .hero h1 .accent {
+    color: var(--accent) !important; font-style: normal !important; font-weight: 600 !important;
+    font-family: inherit !important;
+  }
+  .hero h1 .x {
+    transform: none !important; font-style: normal !important;
+    color: var(--ink-4) !important; font-weight: 400 !important; margin: 0 .15em !important;
+  }
+  .hero p.lead {
+    font-size: 14px !important; line-height: 1.7 !important;
+    color: var(--ink-2) !important; max-width: 760px !important;
+  }
+  .hero-tags { margin-top: 20px !important; gap: 6px !important; }
+  .hero-tag {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    padding: 3px 8px !important; border-radius: 3px !important;
+    border: 1px solid var(--rule) !important; background: var(--paper-3) !important;
+    color: var(--ink-2) !important;
+  }
+  /* —— 章节 —— */
+  .section { padding: 40px 0 !important; border-bottom: 1px solid var(--rule) !important; }
+  .section-head { grid-template-columns: 1fr !important; gap: 8px !important; margin-bottom: 20px !important; }
+  .section-num {
+    border-top: none !important; padding-top: 0 !important;
+    font-size: 11px !important; letter-spacing: 0.16em !important;
+    color: var(--accent) !important;
+  }
+  .section-num br { display: none; }
+  .section-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif !important;
+    font-weight: 600 !important; font-size: 18px !important; letter-spacing: 0 !important;
+    color: var(--ink) !important;
+  }
+  .section-title em {
+    font-family: inherit !important; font-style: normal !important;
+    font-size: 13px !important; color: var(--ink-4) !important;
+    margin-left: 8px !important; font-weight: 400 !important;
+  }
+  .section-sub { font-size: 13px !important; color: var(--ink-3) !important; margin-top: 4px !important; }
+  /* —— 应用卡列表 —— */
+  .apps { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .apps-list { gap: 12px !important; }
+  .app {
+    grid-template-columns: 44px 1fr 200px !important;
+    gap: 20px !important;
+    padding: 18px 20px !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    background: #FFFFFF !important;
+    margin-bottom: 12px !important;
+    align-items: center !important;
+    transition: border-color .15s ease, box-shadow .15s ease !important;
+  }
+  .app:last-child { border-bottom: 1px solid var(--rule) !important; }
+  .app:hover {
+    padding: 18px 20px !important;
+    background: #FFFFFF !important;
+    border-color: var(--accent) !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+  .app:hover .app-title { color: var(--accent) !important; }
+  .app-num {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-weight: 500 !important; font-size: 14px !important;
+    color: var(--ink-4) !important; padding-top: 0 !important; letter-spacing: 0.04em !important;
+  }
+  .app-num em { font-style: normal !important; color: inherit !important; }
+  .app-eyebrow {
+    font-size: 10px !important; letter-spacing: 0.14em !important;
+    color: var(--ink-4) !important; margin-bottom: 6px !important; gap: 10px !important;
+  }
+  .app-eyebrow .status {
+    padding: 2px 7px !important; border-radius: 3px !important;
+    background: var(--ok-soft) !important; color: var(--ok) !important;
+    font-size: 10px !important; letter-spacing: 0.06em !important;
+  }
+  .app-eyebrow .status::before { display: none !important; }
+  .app-eyebrow .status.demo { background: var(--warn-soft) !important; color: var(--warn) !important; }
+  .app-title {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-weight: 600 !important; font-size: 15px !important; letter-spacing: 0 !important;
+    color: var(--ink) !important; margin-bottom: 4px !important;
+  }
+  .app-desc { font-size: 13px !important; line-height: 1.65 !important; color: var(--ink-3) !important; }
+  .app-tags { margin-top: 10px !important; gap: 6px !important; }
+  .app-tag {
+    font-size: 11px !important; padding: 2px 7px !important;
+    background: var(--paper-3) !important; color: var(--ink-2) !important;
+    border: 1px solid var(--rule) !important; border-radius: 3px !important; letter-spacing: 0 !important;
+  }
+  .app-side { gap: 8px !important; padding-top: 0 !important; align-items: flex-end !important; }
+  .app-icon {
+    width: 36px !important; height: 36px !important;
+    border-radius: 6px !important; background: var(--accent-soft) !important;
+    border: 1px solid var(--rule) !important; color: var(--accent) !important;
+  }
+  .app-icon svg { width: 18px !important; height: 18px !important; }
+  .app-arrow {
+    font-size: 12px !important; letter-spacing: 0 !important;
+    text-transform: none !important; color: var(--accent) !important;
+    font-family: inherit !important;
+  }
+  /* —— 页脚 —— */
+  .footer { padding: 24px 0 !important; background: #FFFFFF !important; border-top: 1px solid var(--rule); }
+  .footer-grid { grid-template-columns: 1fr auto !important; gap: 16px !important; }
+  .footer-mark { display: none !important; }
+  .footer-text {
+    font-family: inherit !important; font-size: 13px !important; color: var(--ink-3) !important; line-height: 1.5 !important;
+  }
+  .footer-text strong { color: var(--ink) !important; font-weight: 600 !important; }
+  .footer-meta { font-size: 11px !important; letter-spacing: 0.08em !important; color: var(--ink-4) !important; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="brand-tcl">某家电企业</span>
+      <span class="brand-cross" aria-hidden="true">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <line x1="2" y1="2" x2="12" y2="12"></line>
+          <line x1="12" y1="2" x2="2" y2="12"></line>
+        </svg>
+      </span>
+      <span class="brand-wb">Work<em>Buddy</em></span>
+    </div>
+    <nav>
+      <span class="pill">财务中心 · 应用演示</span>
+      <span class="mono">2026.05.19</span>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-kicker">
+        EDITION
+        <span class="label">No. 01</span>
+      </div>
+      <div class="hero-content">
+        <div class="hero-meta">FINANCE CENTER · AI APPLICATION SHOWCASE</div>
+        <h1>
+          以 <span class="accent">智能体</span>之力，<br>
+          重塑 某家电企业 财务作业链路<span class="x">×</span>
+        </h1>
+        <p class="lead">
+          围绕单据、资金、核算、经营四大场景，某家电企业 财务中心携手 WorkBuddy 沉淀 5 个 AI 应用，
+          以智能体协同的方式介入复核、对账与决策环节 — 让审核更准、核对更快、洞察更稳。
+        </p>
+        <div class="hero-tags">
+          <span class="hero-tag">5 APPS</span>
+          <span class="hero-tag">FINANCE × AI</span>
+          <span class="hero-tag">POWERED BY WORKBUDDY</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num">PART<br>I</div>
+      <div>
+        <h2 class="section-title">核心智能应用 <em>Core Applications</em></h2>
+        <p class="section-sub">财务作业链路上的三个关键节点 — 自研落地、已投入使用。</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="apps">
+      <div></div>
+      <div class="apps-list">
+
+        <a class="app" href="expense-audit-demo.html" target="_blank" rel="noopener">
+          <span class="app-num">01</span>
+          <div class="app-body">
+            <div class="app-eyebrow">
+              <span>EXPENSE · AUDIT</span>
+              <span class="status">演示demo</span>
+            </div>
+            <h3 class="app-title">费用审核 AI 助手</h3>
+            <p class="app-desc">读懂发票、合同与差旅政策，逐单稽核每一笔代理商费用 — 把财务从「按章逐条核」释放到「只看高风险」，本月已替财务部堵下 <strong>¥186 万</strong> 异常支出。</p>
+            <div class="app-tags">
+              <span class="app-tag">违规拦截</span>
+              <span class="app-tag">金额挽回</span>
+              <span class="app-tag">漏洞看板</span>
+            </div>
+          </div>
+          <div class="app-side">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12l2 2 4-4"></path>
+                <path d="M21 12c-1.5 4.5-5.5 8-9 8s-7.5-3.5-9-8c1.5-4.5 5.5-8 9-8s7.5 3.5 9 8z"></path>
+              </svg>
+            </div>
+            <span class="app-arrow">打开应用 →</span>
+          </div>
+        </a>
+
+        <a class="app" href="receipt-claim-demo.html" target="_blank" rel="noopener">
+          <span class="app-num">02</span>
+          <div class="app-body">
+            <div class="app-eyebrow">
+              <span>CASH · CLAIM</span>
+              <span class="status">演示demo</span>
+            </div>
+            <h3 class="app-title">回款认领智能体</h3>
+            <p class="app-desc">对接银行流水与业务系统，自动识别回款对应的客户/合同/订单 — 处理同名异体、合并打款、私户回款等异常场景，把模糊的「未识别款项」收敛回客户账面。</p>
+            <div class="app-tags">
+              <span class="app-tag">流水解析</span>
+              <span class="app-tag">合同/订单匹配</span>
+              <span class="app-tag">自动认领</span>
+            </div>
+          </div>
+          <div class="app-side">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="8" r="4"></circle>
+                <path d="M3 21c0-3.3 2.7-6 6-6s6 2.7 6 6"></path>
+                <path d="M16 11l2 2 4-4"></path>
+              </svg>
+            </div>
+            <span class="app-arrow">进入应用 →</span>
+          </div>
+        </a>
+
+        <a class="app" href="diff.html" target="_blank" rel="noopener">
+          <span class="app-num">03</span>
+          <div class="app-body">
+            <div class="app-eyebrow">
+              <span>DATA · VERIFICATION</span>
+              <span class="status">演示demo</span>
+            </div>
+            <h3 class="app-title">数据核对智能体</h3>
+            <p class="app-desc">跨系统、跨表格、跨周期数据自动比对，定位差异、追溯口径、生成核对底稿 — 把对账从「夜班加点」变为「分钟级闭环」，让财务把时间花在分析而非搬运上。</p>
+            <div class="app-tags">
+              <span class="app-tag">跨表对账</span>
+              <span class="app-tag">差异定位</span>
+              <span class="app-tag">底稿生成</span>
+            </div>
+          </div>
+          <div class="app-side">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="8" height="16" rx="1"></rect>
+                <rect x="13" y="4" width="8" height="16" rx="1"></rect>
+                <line x1="7" y1="9" x2="7" y2="9.01"></line>
+                <line x1="17" y1="9" x2="17" y2="9.01"></line>
+                <line x1="7" y1="14" x2="7" y2="14.01"></line>
+                <line x1="17" y1="14" x2="17" y2="14.01"></line>
+              </svg>
+            </div>
+            <span class="app-arrow">打开应用 →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num">PART<br>II</div>
+      <div>
+        <h2 class="section-title">其他应用 <em>Showcase</em></h2>
+        <p class="section-sub">扩展场景的演示版本 — 来自 WorkBuddy 智能体平台、可在线体验。</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="apps">
+      <div></div>
+      <div class="apps-list">
+
+        <a class="app" href="https://codebuddy.work/agents/share/OUG16kI8n6lNtjzQTeWGf0CKjiXAJm5OQbtfa3-ZaI0dBcEQnrkor68a7e6Kld7m?platform=workbuddy" target="_blank" rel="noopener">
+          <span class="app-num">04</span>
+          <div class="app-body">
+            <div class="app-eyebrow">
+              <span>COSTING · HEAVY ASSET</span>
+              <span class="status demo">演示版</span>
+            </div>
+            <h3 class="app-title">重资产成本核算</h3>
+            <p class="app-desc">面向产线、设备等重资产场景，自动归集人工 / 折旧 / 能耗与制造费用，输出可追溯的成本结构与差异分析报表 — 让重资产的成本不再是黑盒。</p>
+            <div class="app-tags">
+              <span class="app-tag">成本归集</span>
+              <span class="app-tag">折旧分摊</span>
+              <span class="app-tag">差异分析</span>
+            </div>
+          </div>
+          <div class="app-side">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18"></path>
+                <path d="M5 21V8l7-5 7 5v13"></path>
+                <path d="M9 21v-6h6v6"></path>
+              </svg>
+            </div>
+            <span class="app-arrow">打开演示 →</span>
+          </div>
+        </a>
+
+        <a class="app" href="customer-dashboard.html" target="_blank" rel="noopener">
+          <span class="app-num">05</span>
+          <div class="app-body">
+            <div class="app-eyebrow">
+              <span>CUSTOMER · INSIGHT</span>
+              <span class="status">演示demo</span>
+            </div>
+            <h3 class="app-title">客户经营看板</h3>
+            <p class="app-desc">基于 487 家客户、828 笔订单的真实数据，提供 5 维交叉筛选（售前战区 / 企业类型 / 行业 / 订单类型 / 自定义标签）、客户分层与订单明细钻取 — 让客户从一行数据变成一张可决策的画像。</p>
+            <div class="app-tags">
+              <span class="app-tag">客户分层</span>
+              <span class="app-tag">5维筛选</span>
+              <span class="app-tag">明细钻取</span>
+            </div>
+          </div>
+          <div class="app-side">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 3v18h18"></path>
+                <path d="M7 15l4-4 3 3 5-6"></path>
+                <circle cx="7" cy="15" r="1.4" fill="currentColor"></circle>
+                <circle cx="11" cy="11" r="1.4" fill="currentColor"></circle>
+                <circle cx="14" cy="14" r="1.4" fill="currentColor"></circle>
+                <circle cx="19" cy="8" r="1.4" fill="currentColor"></circle>
+              </svg>
+            </div>
+            <span class="app-arrow">进入应用 →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-mark">— END —</div>
+      <div class="footer-text">
+        <strong>某家电企业 × WorkBuddy</strong> · 应用演示页面<br>
+        AI 智能体协同 · 重塑财务作业链路
+      </div>
+      <div class="footer-meta">INTERNAL DEMO<br>2026 · FINANCE CENTER</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.app[data-app]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const name = el.querySelector('.app-title').textContent.trim();
+      alert('「' + name + '」内部应用\n\n请通过 WorkBuddy 内部门户进入。');
+    });
+  });
+</script>
+</body>
+</html>
+

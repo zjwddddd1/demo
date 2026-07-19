@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Workbench · 场景卡手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;700;900&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --bg: #F4EFE3;
+    --bg-soft: #ECE4D2;
+    --bg-deep: #E4DBC4;
+    --card: #FBF6EB;
+    --card-2: #F7F0DD;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-faint: #8A8174;
+    --ink-fade: #B5AC9A;
+    --accent: #B8462E;
+    --accent-soft: #E0A18D;
+    --accent-tint: #F2D5C7;
+    --secondary: #2F5046;
+    --secondary-soft: #7A9C90;
+    --secondary-tint: #C9D8D1;
+    --gold: #B89048;
+    --line: rgba(26, 26, 26, 0.10);
+    --line-soft: rgba(26, 26, 26, 0.06);
+    --line-strong: rgba(26, 26, 26, 0.18);
+    --shadow-sm: 0 1px 2px rgba(26, 26, 26, 0.04), 0 2px 6px rgba(26, 26, 26, 0.04);
+    --shadow-md: 0 2px 4px rgba(26, 26, 26, 0.05), 0 8px 24px rgba(26, 26, 26, 0.08);
+    --shadow-lg: 0 4px 8px rgba(26, 26, 26, 0.06), 0 18px 48px rgba(26, 26, 26, 0.12);
+    --font-serif: "Fraunces", "Noto Serif SC", "Songti SC", "STSong", serif;
+    --font-sans: "Inter", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    --sidebar-w: 304px;
+    --header-h: 64px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    height: 100vh;
+    overflow: hidden;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(184, 144, 72, 0.08), transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(47, 80, 70, 0.06), transparent 50%);
+  }
+
+  ::selection { background: var(--accent); color: #FBF6EB; }
+
+  aside.nav {
+    background: var(--bg-soft);
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  aside.nav::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--ink-fade) 20%, var(--ink-fade) 80%, transparent);
+    opacity: 0.4;
+  }
+
+  .brand { padding: 28px 28px 24px; border-bottom: 1px solid var(--line); }
+  .brand-mark { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .brand-glyph {
+    width: 32px; height: 32px;
+    background: var(--ink); color: var(--bg);
+    display: grid; place-items: center;
+    font-family: var(--font-serif); font-weight: 700; font-size: 17px;
+    border-radius: 4px; letter-spacing: -0.02em;
+  }
+  .brand-name { font-family: var(--font-serif); font-weight: 600; font-size: 18px; letter-spacing: -0.01em; }
+  .brand-tag { font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 500; }
+  .brand-title { font-family: var(--font-serif); font-weight: 500; font-size: 22px; line-height: 1.2; letter-spacing: -0.01em; margin-top: 6px; }
+  .brand-sub { margin-top: 6px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; }
+  .brand-meta { margin-top: 14px; display: flex; gap: 14px; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+  .brand-meta b { color: var(--ink-soft); font-weight: 600; }
+
+  .nav-search { padding: 16px 28px; border-bottom: 1px solid var(--line); }
+  .nav-search input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 10px 8px 30px;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231A1A1A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 10px center;
+  }
+  .nav-search input::placeholder { color: var(--ink-faint); }
+  .nav-search input:focus { border-color: var(--ink); background: #fff; }
+
+  .nav-sections { padding: 8px 0 40px; }
+  .nav-section { margin-top: 14px; }
+  .nav-section-head {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 10px 28px 6px;
+    font-family: var(--font-serif); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--ink-faint);
+  }
+  .nav-section-head .num { font-family: var(--font-mono); font-size: 10px; color: var(--accent); font-weight: 500; }
+  .nav-section-head .zh { color: var(--ink-soft); }
+  .nav-section-head .en {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 500;
+    color: var(--ink-faint); text-transform: none; letter-spacing: 0.04em; font-style: italic;
+  }
+
+  .nav-list { list-style: none; }
+  .nav-item {
+    position: relative;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 9px 28px 9px 36px;
+    cursor: pointer; color: var(--ink-soft);
+    font-size: 13.5px; line-height: 1.4;
+    transition: color 0.18s, background 0.18s;
+    border: none; background: transparent;
+    width: 100%; text-align: left; font-family: inherit;
+  }
+  .nav-item::before {
+    content: ""; position: absolute; left: 28px; top: 50%;
+    transform: translateY(-50%);
+    width: 2px; height: 0; background: var(--accent);
+    transition: height 0.2s ease;
+  }
+  .nav-item .icon { width: 6px; height: 6px; border: 1px solid var(--ink-fade); border-radius: 50%; flex-shrink: 0; transition: background 0.2s, border-color 0.2s; }
+  .nav-item .label { flex: 1; }
+  .nav-item .tag { font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.05em; }
+  .nav-item:hover { color: var(--ink); background: rgba(26, 26, 26, 0.025); }
+  .nav-item:hover .icon { border-color: var(--ink-soft); }
+  .nav-item.is-active { color: var(--ink); font-weight: 500; background: rgba(184, 70, 46, 0.05); }
+  .nav-item.is-active::before { height: 16px; }
+  .nav-item.is-active .icon { background: var(--accent); border-color: var(--accent); }
+  .nav-item.is-hidden { display: none; }
+  .nav-section.is-empty { display: none; }
+
+  .nav-footer {
+    margin-top: auto; padding: 20px 28px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px; color: var(--ink-faint); line-height: 1.5;
+  }
+  .nav-footer .kbd {
+    display: inline-block; font-family: var(--font-mono); font-size: 10px;
+    padding: 1px 5px; border: 1px solid var(--line); border-radius: 3px;
+    background: var(--card); color: var(--ink-soft); margin: 0 2px;
+  }
+  .nav-footer .hint { margin-top: 6px; }
+
+  main.content {
+    overflow-y: auto; overflow-x: hidden; position: relative;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+  }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    height: var(--header-h); padding: 0 48px;
+    background: rgba(244, 239, 227, 0.86);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .crumbs { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--ink-soft); }
+  .crumbs .sep { color: var(--ink-faint); }
+  .crumbs .here { color: var(--ink); font-weight: 500; }
+  .topbar-actions { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--ink-faint); }
+  .topbar-actions .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--secondary); box-shadow: 0 0 0 3px rgba(47, 80, 70, 0.15); }
+  .topbar-actions .label-up { text-transform: uppercase; letter-spacing: 0.12em; font-size: 10.5px; }
+
+  .pages { position: relative; }
+  .page { display: none; padding: 56px 64px 80px; animation: pageIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .page.is-on { display: block; }
+
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero {
+    display: grid; grid-template-columns: 200px 1fr; gap: 40px;
+    margin-bottom: 56px; align-items: end;
+    padding-bottom: 32px; border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .hero-num {
+    font-family: var(--font-serif); font-weight: 300;
+    font-size: 156px; line-height: 0.9;
+    color: var(--ink); letter-spacing: -0.04em;
+    position: relative;
+  }
+  .hero-num::after {
+    content: ""; position: absolute; right: 16px; top: 24px;
+    width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+  }
+  .hero-body { padding-bottom: 8px; }
+  .hero-kicker {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--ink-faint); font-weight: 600;
+  }
+  .hero-kicker .line { width: 32px; height: 1px; background: var(--ink-faint); }
+  .hero-kicker .acc { color: var(--accent); }
+  .hero-title {
+    font-family: var(--font-serif); font-weight: 500;
+    font-size: 56px; line-height: 1.05; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 18px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+  .hero-lead { font-size: 17px; line-height: 1.55; color: var(--ink-soft); max-width: 720px; }
+
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin-bottom: 56px;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    background: var(--card);
+  }
+  .stat { padding: 24px 24px 22px; border-right: 1px solid var(--line); }
+  .stat:last-child { border-right: none; }
+  .stat-k { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-faint); margin-bottom: 10px; }
+  .stat-v { font-family: var(--font-serif); font-weight: 500; font-size: 36px; line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 6px; }
+  .stat-v .u { font-size: 18px; color: var(--accent); margin-left: 2px; }
+  .stat-d { font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
+
+  .block { margin-bottom: 56px; }
+  .block-head {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--line);
+  }
+  .block-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); font-weight: 500; }
+  .block-title { font-family: var(--font-serif); font-weight: 500; font-size: 28px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+  .block-en { font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: 14px; color: var(--ink-faint); margin-left: auto; }
+
+  .prose { max-width: 760px; font-size: 15.5px; line-height: 1.7; color: var(--ink-soft); }
+  .prose p { margin-bottom: 16px; }
+  .prose p:first-of-type::first-letter {
+    font-family: var(--font-serif); font-weight: 600;
+    font-size: 56px; line-height: 0.9;
+    float: left; padding: 4px 10px 0 0; color: var(--accent);
+  }
+  .prose strong { color: var(--ink); font-weight: 600; }
+  .prose em { font-family: var(--font-serif); font-style: italic; color: var(--ink); }
+  .prose code { font-family: var(--font-mono); font-size: 13px; background: var(--bg-soft); padding: 1px 5px; border-radius: 3px; color: var(--accent); }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .step {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    padding: 20px 20px 22px;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position: relative;
+  }
+  .step:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--line-strong); }
+  .step-num { font-family: var(--font-mono); font-size: 10.5px; color: var(--accent); font-weight: 600; margin-bottom: 12px; letter-spacing: 0.06em; }
+  .step-title { font-family: var(--font-serif); font-weight: 500; font-size: 18px; line-height: 1.25; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+  .step-body { font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); margin-bottom: 12px; }
+  .step-meta { display: flex; gap: 8px; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+  .step-meta span { padding: 2px 6px; border: 1px solid var(--line); border-radius: 3px; background: var(--bg-soft); }
+
+  pre.code {
+    background: #1F1B16; color: #E9DDC4; border-radius: 8px;
+    padding: 18px 22px 20px;
+    font-family: var(--font-mono); font-size: 12.5px; line-height: 1.65;
+    overflow-x: auto; position: relative;
+    margin: 16px 0; border: 1px solid #2A251E;
+  }
+  pre.code::before {
+    content: "●●●"; position: absolute; top: 10px; left: 16px;
+    color: #5A5040; letter-spacing: 4px; font-size: 9px;
+  }
+  pre.code .c { color: #8A7E64; font-style: italic; }
+  pre.code .k { color: #D4836B; }
+  pre.code .s { color: #A8C58E; }
+  pre.code .n { color: #E9DDC4; }
+  pre.code .v { color: #E0C896; }
+  pre.code .p { color: #C97A60; }
+  .code-caption {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11.5px; color: var(--ink-faint);
+    margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.1em;
+    font-family: var(--font-mono);
+  }
+  .code-caption .lang { color: var(--accent); }
+
+  .callout {
+    display: grid; grid-template-columns: 4px 1fr; gap: 18px;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 6px; padding: 18px 22px 18px 18px;
+    margin: 20px 0;
+  }
+  .callout .bar { background: var(--accent); border-radius: 2px; }
+  .callout.tip .bar { background: var(--secondary); }
+  .callout.warn .bar { background: var(--gold); }
+  .callout-label { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 6px; font-weight: 600; }
+  .callout.tip .callout-label { color: var(--secondary); }
+  .callout.warn .callout-label { color: var(--gold); }
+  .callout-body { font-size: 14px; line-height: 1.6; color: var(--ink-soft); }
+  .callout-body strong { color: var(--ink); }
+  .callout-body code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-soft); padding: 1px 5px; border-radius: 3px; color: var(--accent); }
+  .callout-body em { font-family: var(--font-serif); font-style: italic; color: var(--ink); }
+
+  table.t { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: 13.5px; }
+  table.t th { text-align: left; font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); background: var(--bg-soft); padding: 12px 16px; border-bottom: 1px solid var(--line); font-weight: 600; }
+  table.t td { padding: 14px 16px; border-bottom: 1px solid var(--line-soft); color: var(--ink-soft); vertical-align: top; }
+  table.t tr:last-child td { border-bottom: none; }
+  table.t td strong { color: var(--ink); font-weight: 600; }
+  table.t code { font-family: var(--font-mono); font-size: 12px; background: var(--bg-soft); padding: 1px 5px; border-radius: 3px; color: var(--accent); }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; }
+  .pill-ok { background: var(--secondary-tint); color: var(--secondary); }
+  .pill-warn { background: var(--accent-tint); color: var(--accent); }
+  .pill-info { background: rgba(184, 144, 72, 0.15); color: var(--gold); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    padding: 22px 22px 20px;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .card::after {
+    content: "→"; position: absolute; right: 18px; top: 20px;
+    font-family: var(--font-serif); color: var(--ink-fade);
+    opacity: 0; transform: translateX(-6px);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--line-strong); }
+  .card:hover::after { opacity: 1; transform: translateX(0); }
+  .card-icon {
+    width: 36px; height: 36px; border-radius: 6px;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    display: grid; place-items: center;
+    margin-bottom: 16px;
+    font-family: var(--font-serif); font-weight: 600; font-size: 16px;
+    color: var(--accent);
+  }
+  .card.tinted { background: var(--card-2); }
+  .card.dark { background: var(--ink); color: #E9DDC4; border-color: var(--ink); }
+  .card.dark .card-icon { background: rgba(233, 221, 196, 0.08); border-color: rgba(233, 221, 196, 0.18); color: var(--accent-soft); }
+  .card.dark::after { color: rgba(233, 221, 196, 0.5); }
+  .card.leaf { background: var(--secondary); color: #E0EAD7; border-color: var(--secondary); }
+  .card.leaf .card-icon { background: rgba(224, 234, 215, 0.1); border-color: rgba(224, 234, 215, 0.2); color: #C9D8D1; }
+  .card.leaf::after { color: rgba(224, 234, 215, 0.5); }
+  .card.gold { background: var(--gold); color: #FAF1DC; border-color: var(--gold); }
+  .card.gold .card-icon { background: rgba(250, 241, 220, 0.12); border-color: rgba(250, 241, 220, 0.22); color: #FAE0B0; }
+  .card.gold::after { color: rgba(250, 241, 220, 0.6); }
+
+  .card-title { font-family: var(--font-serif); font-weight: 500; font-size: 18px; line-height: 1.3; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .card.dark .card-title, .card.leaf .card-title, .card.gold .card-title { color: inherit; }
+  .card-body { font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); }
+  .card.dark .card-body { color: rgba(233, 221, 196, 0.78); }
+  .card.leaf .card-body { color: rgba(224, 234, 215, 0.82); }
+  .card.gold .card-body { color: rgba(250, 241, 220, 0.86); }
+
+  .card-foot { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+  .card.dark .card-foot { border-color: rgba(233, 221, 196, 0.15); color: rgba(233, 221, 196, 0.5); }
+  .card.leaf .card-foot { border-color: rgba(224, 234, 215, 0.18); color: rgba(224, 234, 215, 0.5); }
+  .card.gold .card-foot { border-color: rgba(250, 241, 220, 0.2); color: rgba(250, 241, 220, 0.55); }
+
+  .role-header { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; align-items: stretch; }
+  .role-id { background: var(--ink); color: var(--bg); padding: 32px 32px 30px; border-radius: 8px; position: relative; overflow: hidden; }
+  .role-id::before { content: ""; position: absolute; right: -40px; top: -40px; width: 200px; height: 200px; background: radial-gradient(circle, var(--accent) 0%, transparent 60%); opacity: 0.4; }
+  .role-id .role-num { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(244, 239, 227, 0.6); margin-bottom: 14px; }
+  .role-id .role-name { font-family: var(--font-serif); font-weight: 500; font-size: 64px; line-height: 0.95; letter-spacing: -0.03em; position: relative; }
+  .role-id .role-name .en { display: block; font-style: italic; font-size: 22px; color: rgba(244, 239, 227, 0.55); margin-top: 12px; font-weight: 300; letter-spacing: 0; }
+  .role-id .role-tagline { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(244, 239, 227, 0.15); font-size: 14.5px; line-height: 1.55; color: rgba(244, 239, 227, 0.85); position: relative; }
+  .role-id .role-tagline em { font-family: var(--font-serif); font-style: italic; color: var(--accent-soft); }
+  .role-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .role-meta .meta-box { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; }
+  .role-meta .meta-k { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-bottom: 8px; }
+  .role-meta .meta-v { font-family: var(--font-serif); font-weight: 500; font-size: 20px; line-height: 1.25; color: var(--ink); letter-spacing: -0.01em; }
+  .role-meta .meta-v .u { font-size: 14px; color: var(--accent); }
+  .role-meta .meta-d { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; margin-top: 4px; }
+
+  .scene-list { display: flex; flex-direction: column; gap: 12px; }
+  .scene { display: grid; grid-template-columns: 60px 1fr 1.4fr; gap: 20px; padding: 22px 0; border-top: 1px solid var(--line); align-items: start; }
+  .scene:last-child { border-bottom: 1px solid var(--line); }
+  .scene-num { font-family: var(--font-serif); font-weight: 300; font-size: 44px; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+  .scene-title { font-family: var(--font-serif); font-weight: 500; font-size: 22px; line-height: 1.2; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .scene-input { font-size: 13px; color: var(--ink-soft); line-height: 1.55; }
+  .scene-input .label, .scene-output .label { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); display: block; margin-bottom: 4px; }
+  .scene-output { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); }
+  .scene-output .label { color: var(--accent); margin-bottom: 6px; }
+
+  .prompt-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 14px 0; }
+  .prompt-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: var(--bg-soft); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); }
+  .prompt-head .name { color: var(--ink); font-weight: 600; }
+  .prompt-head .copy { color: var(--accent); cursor: pointer; user-select: none; }
+  .prompt-body { padding: 18px 22px 20px; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; color: var(--ink-soft); background: var(--card); white-space: pre-wrap; }
+  .prompt-body .ph { color: var(--accent); }
+  .prompt-body b { color: var(--ink); }
+
+  .case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .case { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+  .case:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .case-cover { height: 180px; position: relative; overflow: hidden; background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 50%, var(--secondary) 100%); }
+  .case-cover::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 35%), radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.2) 0%, transparent 40%); }
+  .case-cover::after { content: attr(data-num); position: absolute; right: 24px; bottom: 12px; font-family: var(--font-serif); font-weight: 300; font-size: 96px; line-height: 1; color: rgba(255, 255, 255, 0.18); letter-spacing: -0.04em; }
+  .case.c1 .case-cover { background: linear-gradient(135deg, #2F5046 0%, #7A9C90 100%); }
+  .case.c2 .case-cover { background: linear-gradient(135deg, #B8462E 0%, #E0A18D 100%); }
+  .case.c3 .case-cover { background: linear-gradient(135deg, #B89048 0%, #E6C99A 100%); }
+  .case.c4 .case-cover { background: linear-gradient(135deg, #1A1A1A 0%, #4A4A4A 100%); }
+  .case.c5 .case-cover { background: linear-gradient(135deg, #3D5A4A 0%, #C8553D 100%); }
+  .case.c6 .case-cover { background: linear-gradient(135deg, #8A6E48 0%, #D4B98C 100%); }
+
+  .case-tag { position: absolute; top: 16px; left: 18px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); background: rgba(0, 0, 0, 0.18); backdrop-filter: blur(6px); padding: 4px 10px; border-radius: 999px; }
+  .case-body { padding: 22px 24px 24px; }
+  .case-title { font-family: var(--font-serif); font-weight: 500; font-size: 22px; line-height: 1.25; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .case-client { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+  .case-lead { font-size: 14px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 18px; }
+  .case-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+  .case-kpi { padding: 12px 0; text-align: center; border-right: 1px solid var(--line); }
+  .case-kpi:last-child { border-right: none; }
+  .case-kpi .v { font-family: var(--font-serif); font-weight: 500; font-size: 22px; color: var(--accent); line-height: 1; letter-spacing: -0.01em; }
+  .case-kpi .k { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-top: 6px; }
+  .case-foot { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* === 云课堂视频卡片 === */
+  .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .video-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; }
+  .video-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+  .video-thumb { height: 130px; position: relative; overflow: hidden; background: linear-gradient(135deg, #1A1A1A 0%, #2D4A3E 60%, #B8412A 100%); display: flex; align-items: center; justify-content: center; }
+  .video-thumb::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle at 25% 30%, rgba(184, 65, 42, 0.4) 0%, transparent 45%), radial-gradient(circle at 75% 70%, rgba(45, 74, 62, 0.5) 0%, transparent 50%); }
+  .video-play { position: relative; z-index: 2; width: 56px; height: 56px; border-radius: 50%; background: rgba(244, 239, 227, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); transition: transform 0.3s; }
+  .video-card:hover .video-play { transform: scale(1.1); }
+  .video-play::after { content: ""; display: block; width: 0; height: 0; border-left: 18px solid var(--ink); border-top: 11px solid transparent; border-bottom: 11px solid transparent; margin-left: 4px; }
+  .video-tag { position: absolute; top: 12px; left: 14px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.92); background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(6px); padding: 4px 9px; border-radius: 999px; z-index: 2; }
+  .video-views { position: absolute; bottom: 10px; right: 12px; font-family: var(--font-mono); font-size: 10px; color: rgba(255, 255, 255, 0.85); z-index: 2; }
+  .video-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+  .video-title { font-family: var(--font-serif); font-weight: 500; font-size: 16px; line-height: 1.3; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.005em; }
+  .video-meta { display: flex; gap: 10px; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .video-meta .dot { color: var(--accent); }
+  .video-lead { font-size: 12.5px; line-height: 1.55; color: var(--ink-soft); flex: 1; }
+  .video-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-family: var(--font-mono); font-size: 10.5px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; text-decoration: none; }
+  .video-link::after { content: "→"; transition: transform 0.2s; }
+  .video-link:hover::after { transform: translateX(3px); }
+
+  /* === 三阶课程 === */
+  .level-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .level-card { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 26px 24px 24px; overflow: hidden; }
+  .level-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--accent); }
+  .level-card.l2::before { background: var(--secondary); }
+  .level-card.l3::before { background: var(--gold); }
+  .level-stage { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; font-weight: 600; }
+  .level-card.l2 .level-stage { color: var(--secondary); }
+  .level-card.l3 .level-stage { color: var(--gold); }
+  .level-name { font-family: var(--font-serif); font-weight: 500; font-size: 26px; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .level-en { font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
+  .level-desc { font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 14px; }
+  .level-list { list-style: none; padding: 0; margin: 0; }
+  .level-list li { font-size: 12.5px; color: var(--ink-soft); padding: 6px 0 6px 18px; position: relative; border-top: 1px dashed var(--line); }
+  .level-list li::before { content: "·"; position: absolute; left: 6px; color: var(--accent); font-weight: 700; font-size: 18px; line-height: 1; top: 4px; }
+  .level-list li:first-child { border-top: none; }
+
+  /* === 入口条 === */
+  .cta-bar { display: flex; align-items: center; gap: 24px; padding: 24px 28px; background: linear-gradient(135deg, #1A1A1A 0%, #2D4A3E 100%); border-radius: 10px; color: var(--bg); }
+  .cta-icon { font-family: var(--font-serif); font-size: 48px; color: var(--gold); line-height: 1; }
+  .cta-text { flex: 1; }
+  .cta-title { font-family: var(--font-serif); font-weight: 500; font-size: 22px; color: var(--bg); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .cta-desc { font-size: 13px; color: rgba(244, 239, 227, 0.7); }
+  .cta-btn { padding: 12px 20px; background: var(--bg); color: var(--ink); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; border-radius: 6px; text-decoration: none; white-space: nowrap; transition: transform 0.2s; }
+  .cta-btn:hover { transform: translateY(-2px); }
+
+  blockquote.q { margin: 20px 0; padding: 4px 0 4px 24px; border-left: 2px solid var(--accent); font-family: var(--font-serif); font-weight: 400; font-style: italic; font-size: 22px; line-height: 1.4; color: var(--ink); letter-spacing: -0.01em; }
+  blockquote.q .attrib { display: block; margin-top: 12px; font-family: var(--font-sans); font-style: normal; font-size: 12.5px; color: var(--ink-faint); letter-spacing: 0.04em; }
+  blockquote.q .attrib b { color: var(--ink-soft); font-weight: 500; }
+
+  ul.bullet, ol.bullet { margin: 12px 0 18px 20px; color: var(--ink-soft); font-size: 14px; line-height: 1.7; }
+  ul.bullet li, ol.bullet li { margin-bottom: 6px; }
+  ul.bullet li::marker { color: var(--accent); }
+  ol.bullet li::marker { color: var(--accent); font-family: var(--font-mono); font-weight: 600; }
+  ul.bullet b, ol.bullet b { color: var(--ink); font-weight: 600; }
+  ul.bullet code, ol.bullet code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-soft); padding: 1px 5px; border-radius: 3px; color: var(--accent); }
+
+  .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+  .feature { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+  .feature .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
+  .feature-text strong { display: block; font-family: var(--font-serif); font-weight: 500; font-size: 15px; color: var(--ink); margin-bottom: 2px; }
+  .feature-text span { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 6px; font-size: 12.5px; letter-spacing: 0.04em; opacity: 0; transform: translateY(10px); transition: opacity 0.25s, transform 0.25s; pointer-events: none; z-index: 100; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1100px) {
+    body { grid-template-columns: 260px 1fr; }
+    :root { --sidebar-w: 260px; }
+    .hero { grid-template-columns: 140px 1fr; }
+    .hero-num { font-size: 110px; }
+    .hero-title { font-size: 42px; }
+    .page { padding: 40px 40px 60px; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 760px) {
+    body { grid-template-columns: 1fr; height: auto; overflow: auto; }
+    aside.nav { display: none; }
+    .topbar { padding: 0 24px; }
+    .page { padding: 32px 24px 60px; }
+    .hero { grid-template-columns: 1fr; gap: 20px; }
+    .hero-num { font-size: 80px; }
+    .hero-title { font-size: 32px; }
+    .stat-strip { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(2) { border-right: none; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .role-header { grid-template-columns: 1fr; }
+    .case-grid { grid-template-columns: 1fr; }
+    .feature-list { grid-template-columns: 1fr; }
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(26, 26, 26, 0.18); border-radius: 999px; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(26, 26, 26, 0.32); }
+  aside.nav::-webkit-scrollbar-thumb { border-color: var(--bg-soft); }
+</style>
+</head>
+<body>
+  <aside class="nav">
+    <div class="brand">
+      <div class="brand-mark">
+        <div class="brand-glyph">W</div>
+        <div>
+          <div class="brand-name">WorkBuddy</div>
+          <div class="brand-tag">Scenario Cards · v2.6</div>
+        </div>
+      </div>
+      <div class="brand-title">AI 场景卡手册</div>
+      <div class="brand-sub">一份给运营、HR、销售、法务、财务、研发同事的工作台地图。每个角色都有可复用的剧本。</div>
+      <div class="brand-meta">
+        <span><b>2026</b> · Spring</span>
+        <span><b>13</b> Cards</span>
+        <span><b>ZH</b></span>
+      </div>
+    </div>
+
+    <div class="nav-search">
+      <input type="text" placeholder="搜场景、命令、角色…" id="searchInput" />
+    </div>
+
+    <nav class="nav-sections" id="navTree">
+      <div class="nav-section" data-section="01">
+        <div class="nav-section-head">
+          <span class="num">01</span>
+          <span class="zh">操作手册</span>
+          <span class="en">Handbook</span>
+        </div>
+        <ul class="nav-list">
+          <li><button class="nav-item" data-page="client-install"><span class="icon"></span><span class="label">客户端安装</span><span class="tag">M01</span></button></li>
+          <li><button class="nav-item" data-page="mcp-connect"><span class="icon"></span><span class="label">MCP 连接</span><span class="tag">M02</span></button></li>
+          <li><button class="nav-item" data-page="skill-create"><span class="icon"></span><span class="label">Skill 创建指南</span><span class="tag">M03</span></button></li>
+          <li><button class="nav-item" data-page="admin-console"><span class="icon"></span><span class="label">管理后台</span><span class="tag">M04</span></button></li>
+        </ul>
+      </div>
+
+      <div class="nav-section" data-section="02">
+        <div class="nav-section-head">
+          <span class="num">02</span>
+          <span class="zh">AI 岗位</span>
+          <span class="en">Roles</span>
+        </div>
+        <ul class="nav-list">
+          <li><button class="nav-item" data-page="role-hr"><span class="icon"></span><span class="label">HR · 人力资源</span><span class="tag">R01</span></button></li>
+          <li><button class="nav-item" data-page="role-admin"><span class="icon"></span><span class="label">行政 · 办公室</span><span class="tag">R02</span></button></li>
+          <li><button class="nav-item" data-page="role-finance"><span class="icon"></span><span class="label">财务 · 钱与账</span><span class="tag">R03</span></button></li>
+          <li><button class="nav-item" data-page="role-legal"><span class="icon"></span><span class="label">法务 · 风险</span><span class="tag">R04</span></button></li>
+          <li><button class="nav-item" data-page="role-rd"><span class="icon"></span><span class="label">研发 · 工程</span><span class="tag">R05</span></button></li>
+          <li><button class="nav-item" data-page="role-sales"><span class="icon"></span><span class="label">销售 · 增长</span><span class="tag">R06</span></button></li>
+        </ul>
+      </div>
+
+      <div class="nav-section" data-section="03">
+        <div class="nav-section-head">
+          <span class="num">03</span>
+          <span class="zh">案例参考</span>
+          <span class="en">Cases</span>
+        </div>
+        <ul class="nav-list">
+          <li><button class="nav-item" data-page="cases"><span class="icon"></span><span class="label">云课堂回放</span><span class="tag">C00</span></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="nav-footer">
+      <div>快捷键：<span class="kbd">↑</span> <span class="kbd">↓</span> 切换 · <span class="kbd">⌘ K</span> 搜索</div>
+      <div class="hint">本手册会随产品更新迭代，最新版本以 WorkBuddy 内部知识库为准。</div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="topbar">
+      <div class="crumbs" id="crumbs">
+        <span>WorkBuddy</span>
+        <span class="sep">/</span>
+        <span class="here" id="crumbHere">操作手册 / 客户端安装</span>
+      </div>
+      <div class="topbar-actions">
+        <span class="dot"></span>
+        <span class="label-up">已连接 · 5 MCP</span>
+        <span>·</span>
+        <span>ID 8X2-77F</span>
+      </div>
+    </div>
+
+    <div class="pages" id="pages">
+      <!--PAGE-CLIENT-INSTALL-->
+      <section class="page" data-page="client-install" data-crumb="操作手册 / 客户端安装">
+        <div class="hero">
+          <div class="hero-num">01</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Handbook · 01</span><span>客户端安装</span></div>
+            <h1 class="hero-title">先把 <em>WorkBuddy</em> 装上桌</h1>
+            <p class="hero-lead">无论是 macOS、Windows 还是命令行玩家，10 分钟内完成首次启动、登录、配 API Key。本节包含官方下载、Homebrew/Winget 一键安装、首次配置清单，以及 8 个最常见的安装坑。</p>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat"><div class="stat-k">支持平台</div><div class="stat-v">3<span class="u">端</span></div><div class="stat-d">macOS · Windows · Linux CLI</div></div>
+          <div class="stat"><div class="stat-k">安装耗时</div><div class="stat-v">~3<span class="u">min</span></div><div class="stat-d">含首次启动与登录</div></div>
+          <div class="stat"><div class="stat-k">系统要求</div><div class="stat-v">≥ 10.15</div><div class="stat-d">macOS Monterey 及以上</div></div>
+          <div class="stat"><div class="stat-k">首次配置项</div><div class="stat-v">4<span class="u">项</span></div><div class="stat-d">账户 / API / 偏好 / 权限</div></div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 1.1</span>
+            <h2 class="block-title">三种安装路径</h2>
+            <span class="block-en">Three ways to install</span>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <div class="card-icon">D</div>
+              <div class="card-title">官方安装包</div>
+              <div class="card-body">最稳妥的路径。从 workbuddy.com/download 下载对应平台的 .dmg / .exe / .AppImage。双击安装，拖入「应用程序」即可。</div>
+              <div class="card-foot"><span>macOS · Windows</span><span>推荐</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">B</div>
+              <div class="card-title">包管理器一行装</div>
+              <div class="card-body">给习惯命令行的同学。Homebrew / Winget / apt 仓库已上线，一条命令解决更新与依赖。</div>
+              <div class="card-foot"><span>brew · winget · apt</span><span>高效</span></div>
+            </div>
+            <div class="card tinted">
+              <div class="card-icon">⌘</div>
+              <div class="card-title">纯 CLI 版</div>
+              <div class="card-body">无 GUI 的 <code>wb</code> 命令行。给服务器、CI、SSH 远程用。配置与桌面端共享，技能和 MCP 互通。</div>
+              <div class="card-foot"><span>无头环境</span><span>轻量</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 1.2</span>
+            <h2 class="block-title">命令行安装</h2>
+            <span class="block-en">For the terminal native</span>
+          </div>
+          <div class="prose">
+            <p>三种平台我们都提供了包管理器源。<strong>Homebrew 仓库</strong>在国内有镜像，安装平均 8 秒搞定。如果你之前装过老版本，安装脚本会自动迁移配置和技能缓存。</p>
+            <p>需要 sudo 权限的只有 <code>apt</code> 路径。Homebrew 和 Winget 都不需要。</p>
+          </div>
+
+          <div class="code-caption"><span>macOS · Homebrew</span><span class="lang">SHELL</span></div>
+          <pre class="code"><span class="c"># 1. 添加仓库（首次需要）</span>
+<span class="k">brew</span> tap workbuddy/tap
+
+<span class="c"># 2. 安装 GUI 版</span>
+<span class="k">brew</span> install --cask workbuddy
+
+<span class="c"># 3. 或者只装 CLI</span>
+<span class="k">brew</span> install workbuddy-cli</pre>
+
+          <div class="code-caption"><span>Windows · Winget</span><span class="lang">POWERSHELL</span></div>
+          <pre class="code"><span class="c"># Windows 10/11 默认带 winget</span>
+<span class="k">winget</span> install WorkBuddy.WorkBuddy
+<span class="k">winget</span> install WorkBuddy.CLI      <span class="c"># 仅命令行版</span></pre>
+
+          <div class="code-caption"><span>Linux · apt</span><span class="lang">BASH</span></div>
+          <pre class="code"><span class="c"># Ubuntu 22.04+ / Debian 12+</span>
+<span class="k">curl</span> -fsSL https://pkg.workbuddy.com/key.gpg | <span class="k">sudo</span> gpg --dearmor -o /usr/share/keyrings/workbuddy.gpg
+<span class="k">echo</span> <span class="s">"deb [signed-by=/usr/share/keyrings/workbuddy.gpg] https://pkg.workbuddy.com/apt stable main"</span> | <span class="k">sudo</span> tee /etc/apt/sources.list.d/workbuddy.list
+<span class="k">sudo</span> apt update &amp;&amp; <span class="k">sudo</span> apt install workbuddy</pre>
+
+          <div class="callout tip">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">Tip · 国内网络</div>
+              <div class="callout-body">在 <code>~/.zshrc</code> 里加 <code>export WORKBUDDY_REGION=cn</code>，包下载走 CDN，平均提速 4x。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 1.3</span>
+            <h2 class="block-title">首次配置清单</h2>
+            <span class="block-en">First-run checklist</span>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">STEP · 01</div>
+              <div class="step-title">登录账户</div>
+              <div class="step-body">支持邮箱、企业 SSO、微信扫码。SSO 用户会自动继承企业权限和计费策略。</div>
+              <div class="step-meta"><span>~30s</span><span>SSO</span></div>
+            </div>
+            <div class="step">
+              <div class="step-num">STEP · 02</div>
+              <div class="step-title">配置 API Key</div>
+              <div class="step-body">在「设置 → 模型」里填入你自己的 LLM 凭据，或者使用平台赠送的额度。支持自定义 Base URL。</div>
+              <div class="step-meta"><span>~1m</span><span>BYOK</span></div>
+            </div>
+            <div class="step">
+              <div class="step-num">STEP · 03</div>
+              <div class="step-title">授权权限</div>
+              <div class="step-body">系统会请求屏幕录制、文件访问、网络代理三项权限。前两项影响 Skills，第三项控制外网访问。</div>
+              <div class="step-meta"><span>~30s</span><span>macOS · Win</span></div>
+            </div>
+            <div class="step">
+              <div class="step-num">STEP · 04</div>
+              <div class="step-title">选默认角色</div>
+              <div class="step-body">「我是 HR / 销售 / 研发 …」会预装对应的 Skill 集合和提示词预设。可随时在设置中切换。</div>
+              <div class="step-meta"><span>~10s</span><span>8 角色</span></div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">Note · 隐私默认</div>
+              <div class="callout-body">WorkBuddy <strong>不收集任何对话内容用于训练</strong>。所有会话在你设备本地加密缓存 7 天后自动清理，企业版可配置为 0 天。企业管理员可申请数据驻留区域。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 1.4</span>
+            <h2 class="block-title">8 个最常见的安装坑</h2>
+            <span class="block-en">Common pitfalls</span>
+          </div>
+          <table class="t">
+            <thead><tr><th>症状</th><th>原因</th><th>解决办法</th></tr></thead>
+            <tbody>
+              <tr><td><strong>"应用已损坏"</strong>（macOS）</td><td>未签名或 Gatekeeper 拦截</td><td>系统设置 → 隐私与安全 → 仍要打开；或执行 <code>xattr -d com.apple.quarantine /Applications/WorkBuddy.app</code></td></tr>
+              <tr><td><strong>登录页空白</strong></td><td>企业代理拦截 OAuth 回跳</td><td>把 <code>auth.workbuddy.com</code> 加入代理白名单</td></tr>
+              <tr><td><strong>API Key 校验失败</strong></td><td>Base URL 写成 v1 而模型是 v2</td><td>设置 → 模型 → 选「自动探测」或手动选 v2/chat/completions</td></tr>
+              <tr><td><strong>Windows Defender 误报</strong></td><td>未提交微软商店签名</td><td>从官网下载并「更多信息 → 仍要运行」</td></tr>
+              <tr><td><strong>无法访问麦克风</strong></td><td>macOS 14+ 新增的「语音隔离」</td><td>系统设置 → 麦克风 → 开启 WorkBuddy</td></tr>
+              <tr><td><strong>Linux 启动报 libfuse 缺失</strong></td><td>AppImage 依赖</td><td><code>sudo apt install libfuse2</code> 或改用 deb 包</td></tr>
+              <tr><td><strong>升级后旧 Skills 消失</strong></td><td>新版目录结构变了</td><td>运行 <code>wb doctor --migrate</code> 自动迁移</td></tr>
+              <tr><td><strong>登录后反复掉线</strong></td><td>本地时间与服务器偏差 &gt; 5 分钟</td><td>开启系统自动校时（NTP）</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 1.5</span>
+            <h2 class="block-title">下一步</h2>
+            <span class="block-en">Where to go next</span>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-icon">→</div>
+              <div class="card-title">连接你的第一个 MCP</div>
+              <div class="card-body">把 Notion、GitHub、企微接进来，让 WorkBuddy 真正能「动」你的数据。</div>
+              <div class="card-foot"><span>M02 · MCP 连接</span><span>~5 min</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">→</div>
+              <div class="card-title">安装岗位 Skill 集合</div>
+              <div class="card-body">在「市场」里挑你岗位的 Skill 一键安装，省去手动配提示词。</div>
+              <div class="card-foot"><span>R01–R06</span><span>~2 min</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-MCP-CONNECT-->
+      <section class="page" data-page="mcp-connect" data-crumb="操作手册 / MCP 连接">
+        <div class="hero">
+          <div class="hero-num">02</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Handbook · 02</span><span>MCP 连接</span></div>
+            <h1 class="hero-title">让 AI <em>伸手</em> 摸到你的数据</h1>
+            <p class="hero-lead">MCP（Model Context Protocol）让大模型可以安全、可控地调用外部工具。本节解释协议本身、列出内置 MCP、给出自定义 server 的标准做法，以及 6 类常见连接错误。</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 2.1</span>
+            <h2 class="block-title">什么是 MCP</h2>
+            <span class="block-en">30 seconds explainer</span>
+          </div>
+          <div class="prose">
+            <p>MCP 是 Anthropic 在 2024 年底开源的开放协议。它把「工具调用」这件事标准化：<em>一个 server 暴露一组带 schema 的工具，一个 client（也就是 WorkBuddy）按需调用，结果回传给模型</em>。这样不同数据源（Notion、Slack、内部数据库）能用同一套机制接入，不需要为每个工具写适配器。</p>
+            <p>对用户来说，配置一次 MCP，<strong>所有 Skill 都能自动用上这个能力</strong>。比如接了 GitHub MCP，HR Skill 可以看候选人仓库、研发 Skill 可以分析 PR、法务 Skill 可以拉合规清单——三件事用同一根线。</p>
+          </div>
+
+          <div class="grid-3" style="margin-top: 24px;">
+            <div class="card">
+              <div class="card-icon">↔</div>
+              <div class="card-title">标准化</div>
+              <div class="card-body">一套协议覆盖所有数据源。开发者写一次，企业全公司复用。</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">●</div>
+              <div class="card-title">可控</div>
+              <div class="card-body">每次调用都需用户授权，敏感操作走二次确认。日志全留痕。</div>
+            </div>
+            <div class="card">
+              <div class="card-icon">⚡</div>
+              <div class="card-title">组合</div>
+              <div class="card-body">多个 MCP 可以链式调用。一次提问触发 3 个数据源协作。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 2.2</span>
+            <h2 class="block-title">内置 MCP 速查</h2>
+            <span class="block-en">Built-in servers</span>
+          </div>
+          <table class="t">
+            <thead><tr><th>MCP</th><th>能力</th><th>典型用法</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Notion</strong></td><td>读写页面、数据库、评论</td><td>HR 知识库、销售 Wiki</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>GitHub</strong></td><td>仓库、PR、Issue、Actions</td><td>研发代码审查、Bug 复现</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>Slack</strong></td><td>频道、消息、表情回应</td><td>会议纪要、跨部门通知</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>飞书 / Lark</strong></td><td>多维表格、文档、消息</td><td>行政排会、HR 花名册</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>企业微信</strong></td><td>通讯录、消息、日程</td><td>销售外联、行政通知</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>Jira / TAPD</strong></td><td>工单、迭代、燃尽图</td><td>研发进度同步、PM 评审</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>Salesforce</strong></td><td>客户、机会、合同</td><td>销售 Pipeline、数据补全</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>PostgreSQL</strong></td><td>只读查询、Schema 探索</td><td>财务对账、数据分析</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>Web Search</strong></td><td>通用搜索 + 阅读</td><td>竞品调研、新闻监测</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>Filesystem</strong></td><td>本地文件读写</td><td>合同归档、报表导出</td><td><span class="pill pill-ok">稳定</span></td></tr>
+              <tr><td><strong>Tencent Docs</strong></td><td>在线文档 / 表格读写</td><td>月度报告、销售报表</td><td><span class="pill pill-warn">Beta</span></td></tr>
+              <tr><td><strong>iWiki · 乐享</strong></td><td>知识库搜索与写入</td><td>产品文档、流程沉淀</td><td><span class="pill pill-warn">Beta</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 2.3</span>
+            <h2 class="block-title">添加自定义 MCP</h2>
+            <span class="block-en">Custom server</span>
+          </div>
+          <div class="prose">
+            <p>WorkBuddy 的 MCP 配置目录是 <code>~/.workbuddy/mcp/servers.json</code>。每个 server 包含 name、command、args、env 四段。WorkBuddy 在启动时扫描这个文件，<strong>无需重启即可热加载</strong>（除系统级 MCP）。</p>
+          </div>
+          <div class="code-caption"><span>~/.workbuddy/mcp/servers.json</span><span class="lang">JSON</span></div>
+          <pre class="code"><span class="p">{</span>
+  <span class="v">"mcpServers"</span>: <span class="p">{</span>
+    <span class="v">"internal-crm"</span>: <span class="p">{</span>
+      <span class="v">"command"</span>: <span class="s">"node"</span>,
+      <span class="v">"args"</span>: <span class="p">[</span><span class="s">"/opt/mcp/internal-crm/dist/index.js"</span><span class="p">]</span>,
+      <span class="v">"env"</span>: <span class="p">{</span>
+        <span class="v">"CRM_TOKEN"</span>: <span class="s">"${secret:internal_crm_token}"</span>,
+        <span class="v">"CRM_BASE"</span>: <span class="s">"https://crm.internal.workbuddy.com"</span>
+      <span class="p">},</span>
+      <span class="v">"description"</span>: <span class="s">"公司内部 CRM 数据"</span>,
+      <span class="v">"permission"</span>: <span class="s">"read"</span>
+    <span class="p">},</span>
+
+    <span class="v">"weather"</span>: <span class="p">{</span>
+      <span class="v">"command"</span>: <span class="s">"uvx"</span>,
+      <span class="v">"args"</span>: <span class="p">[</span><span class="s">"mcp-weather-server"</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></pre>
+
+          <div class="callout warn">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">Secret 注入</div>
+              <div class="callout-body">不要把 token 明文写在配置里。用 <code>${secret:NAME}</code> 占位，真实值放在 <code>~/.workbuddy/secrets.enc</code>（系统级加密，权限 600）。WorkBuddy 启动时会要求 Touch ID / 系统密码解锁一次。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 2.4</span>
+            <h2 class="block-title">6 类连接错误及排查</h2>
+            <span class="block-en">Troubleshooting</span>
+          </div>
+          <ul class="bullet">
+            <li><b>spawn ENOENT</b> — command 路径不对。绝对路径优先，例如 <code>/usr/local/bin/uvx</code> 而不是 <code>uvx</code>。</li>
+            <li><b>Permission denied: /var/...</b> — macOS 沙箱拦截。系统设置 → 隐私 → 完全磁盘访问 → 启用 WorkBuddy。</li>
+            <li><b>SSL: CERTIFICATE_VERIFY_FAILED</b> — 企业代理替换了证书。导入公司根证书到系统钥匙串。</li>
+            <li><b>Connection timed out (5s)</b> — 网络层没问题但 server 没回包。先 <code>wb mcp test &lt;name&gt;</code> 看启动日志。</li>
+            <li><b>Schema validation failed</b> — server 端 tool 定义不符合 MCP spec 1.0。用 <code>wb mcp schema &lt;name&gt;</code> 检查。</li>
+            <li><b>401 Unauthorized</b> — token 过期或被回收。重新走 OAuth 流程，或 <code>wb secret rotate &lt;name&gt;</code>。</li>
+          </ul>
+        </div>
+      </section>
+      <!--PAGE-SKILL-CREATE-->
+      <section class="page" data-page="skill-create" data-crumb="操作手册 / Skill 创建指南">
+        <div class="hero">
+          <div class="hero-num">03</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Handbook · 03</span><span>Skill 创建</span></div>
+            <h1 class="hero-title">把<em>你脑子里的剧本</em> 装进 AI</h1>
+            <p class="hero-lead">Skill = 一份结构化提示词 + 一组工具 + 一个触发场景。本节走通一个真实例子：从「报销审核 Skill」的需求拆解到上线发布，再到团队复用。</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 3.1</span>
+            <h2 class="block-title">Skill 的本质</h2>
+            <span class="block-en">What a Skill really is</span>
+          </div>
+          <div class="prose">
+            <p>很多同事第一次写 Skill 会把它当成"提示词模板"。其实 Skill 是<em>四件事的封装</em>：</p>
+          </div>
+          <ul class="bullet">
+            <li><b>人感开场</b> — 一段"我是谁、我擅长什么、我会先问什么"的自我介绍，决定 AI 怎么开始对话。</li>
+            <li><b>工作流剧本</b> — 把任务拆成 N 步，每步明确输入、动作、输出、确认条件。</li>
+            <li><b>工具调用约定</b> — 哪些 MCP / 命令可以用、用之前要不要再确认、敏感数据怎么处理。</li>
+            <li><b>输出规范</b> — 表格 / Markdown / PDF / 邮件？要不要署名、要不要附时间戳、要不要带源链接。</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 3.2</span>
+            <h2 class="block-title">目录结构</h2>
+            <span class="block-en">Anatomy of a Skill</span>
+          </div>
+          <div class="code-caption"><span>~/.workbuddy/skills/expense-audit/</span><span class="lang">TREE</span></div>
+          <pre class="code"><span class="n">expense-audit/</span>
+├── <span class="k">SKILL.md</span>             <span class="c"># 必填 · 入口描述（人感开场 + 工作流）</span>
+├── <span class="k">prompt.md</span>            <span class="c"># 可选 · 长提示词 / system prompt</span>
+├── <span class="k">tools/</span>
+│   ├── <span class="k">approve.json</span>      <span class="c"># 工具 schema：审批规则查询</span>
+│   └── <span class="k">notify.json</span>       <span class="c"># 工具 schema：邮件通知</span>
+├── <span class="k">examples/</span>
+│   ├── <span class="k">01-国内差旅.md</span>     <span class="c"># 真实使用例子（few-shot）</span>
+│   └── <span class="k">02-招待餐.md</span>
+├── <span class="k">checks/</span>             <span class="c"># 可选 · 自检脚本</span>
+│   └── <span class="k">lint.py</span>
+├── <span class="k">README.md</span>           <span class="c"># 给同事看的说明</span>
+└── <span class="k">assets/</span>            <span class="c"># logo / 截图 / 模板</span>
+    └── <span class="k">flow.png</span></pre>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 3.3</span>
+            <h2 class="block-title">实战：写一个「报销审核」Skill</h2>
+            <span class="block-en">Hands-on</span>
+          </div>
+          <div class="prose">
+            <p>假设你是财务，想让 AI 帮你预审每月 200+ 张报销单。下面是从需求到上线的全过程。</p>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">SKILL.md</span><span class="copy">点击复制</span></div>
+            <div class="prompt-body">---
+name: expense-audit
+version: 1.2.0
+description: 报销单预审 · 节省财务 70% 重复劳动
+trigger: "审核报销" / "看下这张单"
+author: finance-team
+tools:
+  - approve_rules.query
+  - mailer.send
+permissions:
+  - read_reimbursement_table
+  - send_email_to_requester
+---
+
+# 报销预审员 · 小审
+
+你好，我是<span class="ph">小审</span>。我会按公司<span class="ph">《费用报销管理制度 v4.2》</span>帮你过一遍报销单。
+我会先看金额、用途、票据、附件，再决定是<span class="ph">通过、退回修改，还是转人工</span>。
+
+## 我的工作流
+
+1. <b>接单</b>：你贴单号 / 截图 / 描述，我先去 reimbursement 表里把原始数据拉出来。
+2. <b>分档</b>：
+   - <span class="ph">≤ 500 元</span>，且用途、票据齐全 → 直接通过
+   - <span class="ph">500 ~ 5000 元</span>，需检查是否在部门预算内
+   - <span class="ph">&gt; 5000 元</span>，必须附说明 + 部门负责人确认
+3. <b>查规则</b>：调用 <code>approve_rules.query</code> 核对当前生效的政策。
+4. <b>输出</b>：返回一张三列表（项 / 状态 / 建议），并标出需财务人工复核的红旗项。
+
+## 我会问什么
+
+- "票据是否齐全？"
+- "是市内交通还是差旅？"
+- "是否已超出部门当月预算的 80%？"
+
+## 我不会做什么
+
+- 不会直接打款
+- 不会修改任何原票据
+- 不会绕过 &gt; 5000 元的硬规则</div>
+          </div>
+
+          <div class="callout tip">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">技巧 · 拒绝模糊</div>
+              <div class="callout-body">把所有"看情况"翻译成"先问 X，再做 Y"。SKILL.md 越像新员工入职手册，AI 越稳定。写完大声读一遍，如果听起来像机器人，重新写。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 3.4</span>
+            <h2 class="block-title">测试、发布、迭代</h2>
+            <span class="block-en">Test · Ship · Iterate</span>
+          </div>
+          <div class="feature-list">
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>本地 dry-run</strong><span><code>wb skill test expense-audit --case examples/01-国内差旅.md</code></span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>对比回放</strong><span>用历史 50 张真实报销单回放，看通过率、误判率、是否出现幻觉字段。</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>影子模式</strong><span>先发布到 5 人内测组，AI 给建议、人最终决策，2 周后看采纳率。</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>权限分级</strong><span>财务同事看得到全部红旗；普通员工只看到与自己相关的项。</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>版本号</strong><span>用 semver。每次更新 prompt 必改 minor，工具变更必改 major。</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>回滚</strong><span><code>wb skill pin expense-audit@1.1.0</code>，一键回到上一稳定版。</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 3.5</span>
+            <h2 class="block-title">好 Skill 的 5 个特征</h2>
+            <span class="block-en">Hallmarks of a good Skill</span>
+          </div>
+          <div class="grid-3">
+            <div class="card"><div class="card-icon">1</div><div class="card-title">开口像人</div><div class="card-body">有名字、有口吻、有"我会问什么"。不要"作为一个 AI 助手"。</div></div>
+            <div class="card"><div class="card-icon">2</div><div class="card-title">边界清晰</div><div class="card-body">明说不会做什么。比"全能"更让人敢用。</div></div>
+            <div class="card"><div class="card-icon">3</div><div class="card-title">可被审计</div><div class="card-body">每一步都有日志，谁、什么时间、调了哪个工具、回包什么。</div></div>
+            <div class="card"><div class="card-icon">4</div><div class="card-title">有节奏感</div><div class="card-body">不一口气把所有信息倒完。先确认 → 再做 → 再总结。</div></div>
+            <div class="card"><div class="card-icon">5</div><div class="card-title">有反例</div><div class="card-body">examples/ 里既有正例也有反例，告诉 AI 哪些不能干。</div></div>
+            <div class="card tinted"><div class="card-icon">→</div><div class="card-title">下一步：发到市场</div><div class="card-body">跑完测试后 <code>wb skill publish</code>，可以选「本团队」或「公开」。</div></div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-ADMIN-CONSOLE-->
+      <section class="page" data-page="admin-console" data-crumb="操作手册 / 管理后台">
+        <div class="hero">
+          <div class="hero-num">04</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Handbook · 04</span><span>管理后台</span></div>
+            <h1 class="hero-title">给 <em>IT / 管理员</em> 的控制台</h1>
+            <p class="hero-lead">管理后台是 WorkBuddy 的"系统设置"。本节讲四件事：团队与权限、计费与积分、监控与日志、SSO 与集成。读完之后你应该能独立完成一次新员工开通。</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 4.1</span>
+            <h2 class="block-title">四张主面板</h2>
+            <span class="block-en">Four panels</span>
+          </div>
+          <div class="grid-2">
+            <div class="card"><div class="card-icon">U</div><div class="card-title">团队 · 人员</div><div class="card-body">组织架构树、角色矩阵、批量开通 / 离职、临时访客账号。</div><div class="card-foot"><span>/admin/team</span><span>RBAC</span></div></div>
+            <div class="card"><div class="card-icon">$</div><div class="card-title">计费 · 积分</div><div class="card-body">套餐升级、按席位 / 按 token 计费切换、积分余额预警、对账导出。</div><div class="card-foot"><span>/admin/billing</span><span>Stripe · 微信</span></div></div>
+            <div class="card"><div class="card-icon">M</div><div class="card-title">监控 · 日志</div><div class="card-body">实时调用量、Top 用户、错误率、Skill 采纳率、敏感词告警。</div><div class="card-foot"><span>/admin/observe</span><span>实时</span></div></div>
+            <div class="card"><div class="card-icon">⚙</div><div class="card-title">集成 · 安全</div><div class="card-body">SSO（OIDC / SAML）、IP 白名单、数据驻留、合规审计导出。</div><div class="card-foot"><span>/admin/integration</span><span>企业版</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 4.2</span>
+            <h2 class="block-title">权限矩阵</h2>
+            <span class="block-en">Permission matrix</span>
+          </div>
+          <table class="t">
+            <thead><tr><th>角色</th><th>查看</th><th>编辑 Skill</th><th>发布市场</th><th>查看他人日志</th><th>管理计费</th></tr></thead>
+            <tbody>
+              <tr><td><strong>普通成员</strong></td><td>自己</td><td>个人</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td><strong>团队负责人</strong></td><td>团队</td><td>团队</td><td>本团队</td><td>—</td><td>—</td></tr>
+              <tr><td><strong>Skill 维护员</strong></td><td>全部</td><td>全部</td><td>本企业</td><td>只读</td><td>—</td></tr>
+              <tr><td><strong>安全审计</strong></td><td>日志</td><td>—</td><td>—</td><td>全部</td><td>—</td></tr>
+              <tr><td><strong>财务管理员</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>全部</td></tr>
+              <tr><td><strong>超级管理员</strong></td><td>全部</td><td>全部</td><td>全部</td><td>全部</td><td>全部</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 4.3</span>
+            <h2 class="block-title">监控看板 5 个关键指标</h2>
+            <span class="block-en">5 KPIs that matter</span>
+          </div>
+          <div class="grid-4">
+            <div class="card"><div class="card-icon">A</div><div class="card-title">日活</div><div class="card-body">DAU / MAU。&lt; 30% 说明 Skill 库不够用，或培训没跟上。</div></div>
+            <div class="card"><div class="card-icon">B</div><div class="card-title">会话深度</div><div class="card-body">平均轮次。&gt; 6 轮说明工作流真正嵌入了流程。</div></div>
+            <div class="card"><div class="card-icon">C</div><div class="card-title">采纳率</div><div class="card-body">AI 建议被人工采纳的比例。健康区间 60–85%。</div></div>
+            <div class="card"><div class="card-icon">D</div><div class="card-title">错误率</div><div class="card-body">5xx + 工具调用失败。&gt; 2% 立即告警。</div></div>
+            <div class="card"><div class="card-icon">E</div><div class="card-title">人均 Token</div><div class="card-body">成本指标。异常飙升 = 有人在写超长循环脚本。</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 4.4</span>
+            <h2 class="block-title">新员工 5 步开通</h2>
+            <span class="block-en">Onboarding in 5 steps</span>
+          </div>
+          <div class="steps">
+            <div class="step"><div class="step-num">01</div><div class="step-title">创建账号</div><div class="step-body">邮箱 / 工号，自动同步到通讯录。</div></div>
+            <div class="step"><div class="step-num">02</div><div class="step-title">分配角色</div><div class="step-body">选默认 RBAC 角色 + 部门标签。</div></div>
+            <div class="step"><div class="step-num">03</div><div class="step-title">预装 Skill</div><div class="step-body">按部门勾选 Skill 集合（销售、市场、研发 …）。</div></div>
+            <div class="step"><div class="step-num">04</div><div class="step-title">设置额度</div><div class="step-body">月 token 上限，溢出自动告警。</div></div>
+            <div class="step"><div class="step-num">05</div><div class="step-title">欢迎邮件</div><div class="step-body">系统发一封带登录链接 + Skill 速查图的邮件。</div></div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-ROLE-HR-->
+      <section class="page" data-page="role-hr" data-crumb="AI 岗位 / HR · 人力资源">
+        <div class="hero">
+          <div class="hero-num">05</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Role · R01</span><span>HR · 人力资源</span></div>
+            <h1 class="hero-title">让 HR 把时间花在<em>人</em> 身上</h1>
+            <p class="hero-lead">招聘、入离职、培训、组织诊断——把流程里 70% 的重复劳动交给 AI。HR 同学的角色画像、典型场景、可复用提示词，以及真实效果指标都在这一节。</p>
+          </div>
+        </div>
+
+        <div class="role-header">
+          <div class="role-id">
+            <div class="role-num">Role · R01</div>
+            <div class="role-name">
+              HR
+              <span class="en">Human Resources · 人才与组织</span>
+            </div>
+            <div class="role-tagline">
+              "我是<em>阿瑶</em>。我帮你做 JD 优化、简历筛选、面试准备、入离职流程自动化和员工数据洞察。
+              我不会替你做最终判断，但会让你从<em>每周 30 张简历</em>里解放出来，把时间花在真正想见的人身上。"
+            </div>
+          </div>
+          <div class="role-meta">
+            <div class="meta-box"><div class="meta-k">每周节省</div><div class="meta-v">12.5<span class="u">h</span></div><div class="meta-d">按月 50 位候选人、5 场面试统计</div></div>
+            <div class="meta-box"><div class="meta-k">推荐 Skill</div><div class="meta-v">6</div><div class="meta-d">JD 优化 · 简历初筛 · 面试纪要 · 等</div></div>
+            <div class="meta-box"><div class="meta-k">最佳搭档</div><div class="meta-v">Notion</div><div class="meta-d">人才库、面试题库、JD 库</div></div>
+            <div class="meta-box"><div class="meta-k">高敏数据</div><div class="meta-v">PII</div><div class="meta-d">薪资、健康、绩效需二次确认</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 5.1</span>
+            <h2 class="block-title">4 个典型场景</h2>
+            <span class="block-en">Four daily scenes</span>
+          </div>
+          <div class="scene-list">
+            <div class="scene">
+              <div class="scene-num">01</div>
+              <div>
+                <div class="scene-title">JD 优化与去 bias</div>
+                <div class="scene-input"><span class="label">INPUT</span> 业务方提的 200 字需求 + 上一份 JD</div>
+              </div>
+              <div class="scene-output"><span class="label">OUTPUT</span> 3 个版本：传统版 / 友好版 / 雇主品牌版；含性别中立词检查、技能硬性 / 加分项拆解、薪酬带宽提示</div>
+            </div>
+            <div class="scene">
+              <div class="scene-num">02</div>
+              <div>
+                <div class="scene-title">简历初筛</div>
+                <div class="scene-input"><span class="label">INPUT</span> 一批 50 份简历（PDF/Word）+ 岗位 JD</div>
+              </div>
+              <div class="scene-output"><span class="label">OUTPUT</span> 三档分级（强推 / 备选 / 不匹配），每档给出 3 个匹配理由 + 1 个疑虑点</div>
+            </div>
+            <div class="scene">
+              <div class="scene-num">03</div>
+              <div>
+                <div class="scene-title">面试准备包</div>
+                <div class="scene-input"><span class="label">INPUT</span> 候选人简历 + 岗位 JD + 面试官人数</div>
+              </div>
+              <div class="scene-output"><span class="label">OUTPUT</span> 每位面试官一份定制题单（3 个行为面 + 2 个技术面 + 1 个反问），含追问路径</div>
+            </div>
+            <div class="scene">
+              <div class="scene-num">04</div>
+              <div>
+                <div class="scene-title">员工异动分析</div>
+                <div class="scene-input"><span class="label">INPUT</span> 过去 12 个月异动数据 + 部门组织树</div>
+              </div>
+              <div class="scene-output"><span class="label">OUTPUT</span> 留存曲线、流失高发期、部门对比表 + 3 条可执行建议（不替管理层做决策）</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 5.2</span>
+            <h2 class="block-title">工作流（招聘一例）</h2>
+            <span class="block-en">A workflow walkthrough</span>
+          </div>
+          <div class="prose">
+            <p>从「业务方提需求」到「发出 offer」一共 7 步，AI 介入其中 5 步。下面是经典 SaaS 招聘流程的协作图：</p>
+          </div>
+          <div class="grid-3" style="margin-top:18px;">
+            <div class="card"><div class="card-icon">A</div><div class="card-title">业务提需求</div><div class="card-body">业务方 1 段话。AI 转成结构化 JD。</div></div>
+            <div class="card"><div class="card-icon">B</div><div class="card-title">HR 审 JD</div><div class="card-body">人确认。AI 做 bias 检查 + 友好度评分。</div></div>
+            <div class="card"><div class="card-icon">C</div><div class="card-title">渠道分发</div><div class="card-body">AI 生成 3 个平台文案（拉勾 / BOSS / LinkedIn）。</div></div>
+            <div class="card"><div class="card-icon">D</div><div class="card-title">简历初筛</div><div class="card-body">AI 三档分级。HR 重点看强推。</div></div>
+            <div class="card"><div class="card-icon">E</div><div class="card-title">面试</div><div class="card-body">AI 出题，AI 录音转写 + 纪要。</div></div>
+            <div class="card"><div class="card-icon">F</div><div class="card-title">评估与 Offer</div><div class="card-body">AI 出评估对比表。HR 定薪 + 谈 offer。</div></div>
+            <div class="card"><div class="card-icon">G</div><div class="card-title">入职</div><div class="card-body">AI 准备欢迎包 + 30 天 onboarding 计划。</div></div>
+            <div class="card dark"><div class="card-icon">!</div><div class="card-title">边界</div><div class="card-body">Offer 金额、最终录用由人决定。AI 只生成对比表和历史薪资带宽参考。</div></div>
+            <div class="card leaf"><div class="card-icon">↻</div><div class="card-title">复盘</div><div class="card-body">3 个月后回看：留存率、招聘漏斗各阶段转化。</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 5.3</span>
+            <h2 class="block-title">3 条可复用提示词</h2>
+            <span class="block-en">Reusable prompts</span>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PR-01 · JD 优化</span><span class="copy">复制</span></div>
+            <div class="prompt-body">你是<span class="ph">资深招聘编辑</span>。我会贴给你业务方一段话和过往 JD。
+
+请输出 3 个版本：
+1. <b>正式版</b>（官网 / 拉勾用）
+2. <b>友好版</b>（BOSS / 脉脉用）
+3. <b>雇主品牌版</b>（LinkedIn / 微信视频号用）
+
+每个版本包含：<span class="ph">岗位价值主张、3 条核心职责、2 条加分项、薪酬带宽、面试流程时长</span>。
+
+最后做一次 <b>性别中立词 + 年龄偏见 + 学历歧视</b> 检查，列出问题词与替换建议。</div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PR-02 · 简历三档分级</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我给你 <span class="ph">N 份简历 + 1 个 JD</span>。请按以下规则分级：
+
+- <b>强推</b>：JD 命中 ≥ 80%，经验在 80–120% 区间
+- <b>备选</b>：命中 60–80%，或经验 50–80%（潜力股）
+- <b>不匹配</b>：命中 &lt; 60%
+
+每份简历给出：<span class="ph">3 条匹配理由 + 1 条最大疑虑</span>。不要给最终录用建议。
+如果有候选人履历明显造假或时间线对不上，标红提示。</div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PR-03 · 面试纪要模板</span><span class="copy">复制</span></div>
+            <div class="prompt-body">你将听到一段面试录音 / 看到一份逐字稿。
+
+请输出一份<span class="ph">结构化纪要</span>：
+- <b>候选人</b>：姓名、应聘岗位、面试官、时长
+- <b>关键回答</b>：3–5 条原话引用 + 你的观察
+- <b>能力雷达</b>：业务理解 / 沟通 / 学习力 / 文化匹配 / 抗压（5 分制）
+- <b>风险点</b>：1–3 条
+- <b>建议</b>：推进 / 待定 / 不推进（含一句话理由）
+
+不要替面试官写最终结论。</div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 5.4</span>
+            <h2 class="block-title">效果指标</h2>
+            <span class="block-en">What good looks like</span>
+          </div>
+          <div class="grid-4">
+            <div class="stat" style="border-right:none; border-bottom:1px solid var(--line);"><div class="stat-k">JD 完成时间</div><div class="stat-v">−72<span class="u">%</span></div><div class="stat-d">从 90 分钟到 25 分钟</div></div>
+            <div class="stat" style="border-right:none; border-bottom:1px solid var(--line);"><div class="stat-k">简历初筛覆盖率</div><div class="stat-v">100<span class="u">%</span></div><div class="stat-d">不再漏看长尾候选人</div></div>
+            <div class="stat" style="border-right:none; border-bottom:1px solid var(--line);"><div class="stat-k">面试纪要完成度</div><div class="stat-v">98<span class="u">%</span></div><div class="stat-d">当日交付，无遗漏</div></div>
+            <div class="stat" style="border-right:none; border-bottom:1px solid var(--line);"><div class="stat-k">招聘漏斗</div><div class="stat-v">+18<span class="u">%</span></div><div class="stat-d">渠道转化整体提升</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 5.5</span>
+            <h2 class="block-title">红线</h2>
+            <span class="block-en">What we never do</span>
+          </div>
+          <div class="callout warn">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">高敏</div>
+              <div class="callout-body">薪酬、健康、婚育、绩效、宗教、政治立场属于<strong>PII 禁区</strong>。AI 不能基于这些字段做录用建议，<em>也不能在日志里原样保存</em>。所有涉及这些字段的查询必须走「脱敏视图」。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-ROLE-ADMIN-->
+      <section class="page" data-page="role-admin" data-crumb="AI 岗位 / 行政 · 办公室">
+        <div class="hero">
+          <div class="hero-num">06</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Role · R02</span><span>行政 · 办公室</span></div>
+            <h1 class="hero-title">行政同学的<em>数字秘书</em></h1>
+            <p class="hero-lead">会议、差旅、报销、办公用品、通知公告——AI 不会替你端茶倒水，但能让所有琐事不再卡在你工位上。</p>
+          </div>
+        </div>
+
+        <div class="role-header">
+          <div class="role-id">
+            <div class="role-num">Role · R02</div>
+            <div class="role-name">行政<span class="en">Office · 运营中枢</span></div>
+            <div class="role-tagline">
+              "我是<em>小办</em>。我帮你排会议、订差旅、催报销、理通知、追办公用品。
+              我不能替你决定预算上限，但我能<em>让你 8 小时的工作压进 3 小时</em>。"
+            </div>
+          </div>
+          <div class="role-meta">
+            <div class="meta-box"><div class="meta-k">每月省下</div><div class="meta-v">36<span class="u">h</span></div><div class="meta-d">按 200 人规模统计</div></div>
+            <div class="meta-box"><div class="meta-k">推荐 Skill</div><div class="meta-v">5</div><div class="meta-d">会议 · 差旅 · 报销 · 通知 · 资产</div></div>
+            <div class="meta-box"><div class="meta-k">最佳搭档</div><div class="meta-v">飞书 / 企微</div><div class="meta-d">日程、审批、通知</div></div>
+            <div class="meta-box"><div class="meta-k">高敏数据</div><div class="meta-v">合同 / 证照</div><div class="meta-d">公章、证照需走审批</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 6.1</span>
+            <h2 class="block-title">典型场景</h2>
+            <span class="block-en">Daily scenes</span>
+          </div>
+          <div class="grid-3">
+            <div class="card"><div class="card-icon">▤</div><div class="card-title">会议安排</div><div class="card-body">5 人会议、找 30 分钟公共时间。AI 同时查日程、查会议室、订提醒、预生成议程。</div><div class="card-foot"><span>30 人/天</span><span>~5 min/次</span></div></div>
+            <div class="card"><div class="card-icon">✈</div><div class="card-title">差旅全流程</div><div class="card-body">机酒比价、行程单、出差申请单、事后报销。AI 把 11 步流程压成 1 次对话。</div><div class="card-foot"><span>商旅</span><span>~10 min</span></div></div>
+            <div class="card"><div class="card-icon">▣</div><div class="card-title">办公用品</div><div class="card-body">历史用量预测、月度补货、损坏登记。AI 给采购清单，人一键确认。</div><div class="card-foot"><span>月度</span><span>5 min</span></div></div>
+            <div class="card"><div class="card-icon">◉</div><div class="card-title">通知公告</div><div class="card-body">起草全公司通知，自动按部门拆分发送对象、规避重要时间点。</div><div class="card-foot"><span>~3 min/篇</span><span>多渠道</span></div></div>
+            <div class="card"><div class="card-icon">▷</div><div class="card-title">访客接待</div><div class="card-body">预约登记、通知前台、推荐会议室、提醒被访人。自动同步到门禁。</div><div class="card-foot"><span>访客</span><span>秒级</span></div></div>
+            <div class="card"><div class="card-icon">▦</div><div class="card-title">资产管理</div><div class="card-body">工位、设备、门禁卡、车辆。AI 做盘点，异常提醒。</div><div class="card-foot"><span>季度</span><span>0 跑腿</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 6.2</span>
+            <h2 class="block-title">工作流 · 差旅</h2>
+            <span class="block-en">A workflow walkthrough</span>
+          </div>
+          <div class="feature-list">
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>1. 员工对话</strong><span>"我下周三去上海见客户，2 天 1 晚。"</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>2. 反问补全</strong><span>出发地 / 客户地址 / 预算 / 同行人 / 偏好座位</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>3. AI 比价</strong><span>3 家航司 + 3 家酒店，按"经济 / 平衡 / 体验"三档展示</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>4. 出差单</strong><span>自动填 OA 单，附预算对照、报销预估</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>5. 行程同步</strong><span>同步到日历、企业微信、给客户发拜访提醒</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>6. 事后</strong><span>回程当晚自动生成报销草稿 + 行程报告</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 6.3</span>
+            <h2 class="block-title">提示词样例</h2>
+            <span class="block-en">Prompts you can steal</span>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PA-01 · 会议时间协调</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我会告诉你：<span class="ph">参与人列表 + 时长 + 主题 + 期望时间窗</span>。
+
+请输出：
+1. 3 个时间候选（按"参与人空档率"排序）
+2. 每个候选的<span class="ph">会议室推荐</span>（按人数 + 设备匹配）
+3. 自动生成的<span class="ph">会议议程</span>（按主题展开 3–5 个讨论点）
+4. <span class="ph">提前 24h / 1h 提醒</span>文案
+
+如果在 1 周内都找不到全员空闲的时间，标红提示并给出 2 个降级方案。</div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PA-02 · 通知公告</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我会告诉你：<span class="ph">事项 + 受众 + 渠道偏好 + 时效</span>。
+
+请按"公司通知 / 部门通知 / 紧急通知"三档输出，风格分别：
+- 公司：正式、克制、有称呼、有落款
+- 部门：亲切、口语化、有 emoji
+- 紧急：强信号、首句点题、明确截止时间
+
+每条 ≤ 200 字。给出<span class="ph">发送时段建议</span>（避免周一早 9 点、周五下班前）。</div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-ROLE-FINANCE-->
+      <section class="page" data-page="role-finance" data-crumb="AI 岗位 / 财务 · 钱与账">
+        <div class="hero">
+          <div class="hero-num">07</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Role · R03</span><span>财务 · 钱与账</span></div>
+            <h1 class="hero-title">把 <em>凭证</em> 变成 <em>洞察</em></h1>
+            <p class="hero-lead">发票识别、对账、报销审核、月度报表——AI 让财务从"录入员"变回"分析师"。</p>
+          </div>
+        </div>
+
+        <div class="role-header">
+          <div class="role-id">
+            <div class="role-num">Role · R03</div>
+            <div class="role-name">财务<span class="en">Finance · 钱与账</span></div>
+            <div class="role-tagline">
+              "我是<em>小账</em>。我处理发票、对账、报销审核、出月报。我<em>不做最终打款</em>，但我会让你每天少处理 60% 的重复单据。"
+            </div>
+          </div>
+          <div class="role-meta">
+            <div class="meta-box"><div class="meta-k">月处理量</div><div class="meta-v">2,400<span class="u">+</span></div><div class="meta-d">单据 / 月</div></div>
+            <div class="meta-box"><div class="meta-k">推荐 Skill</div><div class="meta-v">4</div><div class="meta-d">发票 · 对账 · 报销 · 月报</div></div>
+            <div class="meta-box"><div class="meta-k">最佳搭档</div><div class="meta-v">PostgreSQL</div><div class="meta-d">只读视图 + 严格权限</div></div>
+            <div class="meta-box"><div class="meta-k">高敏数据</div><div class="meta-v">金额 / 银行</div><div class="meta-d">所有写操作走二次确认</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 7.1</span>
+            <h2 class="block-title">典型场景</h2>
+            <span class="block-en">Daily scenes</span>
+          </div>
+          <div class="grid-3">
+            <div class="card"><div class="card-icon">▤</div><div class="card-title">发票识别</div><div class="card-body">电子 / 扫描件自动 OCR，提取金额、税率、销售方、税号，自动入台账。</div><div class="card-foot"><span>~3s/张</span><span>准确率 99.2%</span></div></div>
+            <div class="card"><div class="card-icon">⚖</div><div class="card-title">银行对账</div><div class="card-body">流水和台账自动匹配，差异行高亮，附原始凭证位置。</div><div class="card-foot"><span>日 / 周末批</span><span>差异 0</span></div></div>
+            <div class="card"><div class="card-icon">▤</div><div class="card-title">报销审核</div><div class="card-body">政策对照、超标标红、票据齐全性、跨部门异常检测。</div><div class="card-foot"><span>政策内</span><span>≤ 500 跳过</span></div></div>
+            <div class="card"><div class="card-icon">▦</div><div class="card-title">月度报表</div><div class="card-body">自动汇总三表、生成对比、趋势解读、附口播稿。</div><div class="card-foot"><span>月结 1 天</span><span>管理层 + 业务</span></div></div>
+            <div class="card"><div class="card-icon">$</div><div class="card-title">预算监控</div><div class="card-body">部门预算实时看板，80% 阈值预警，超支阻断。</div><div class="card-foot"><span>实时</span><span>飞书 / 企微</span></div></div>
+            <div class="card"><div class="card-icon">●</div><div class="card-title">合规检查</div><div class="card-body">大额支付、关联交易、关联交易方匹配，反洗钱初筛。</div><div class="card-foot"><span>日 / 周</span><span>需人工复核</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 7.2</span>
+            <h2 class="block-title">流程 · 月结</h2>
+            <span class="block-en">Monthly close</span>
+          </div>
+          <div class="feature-list">
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>D+1</strong><span>所有账目自动日清</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>D+3</strong><span>对账完成，差异清单交财务负责人</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>D+5</strong><span>预提 / 摊销 / 调整分录草稿，AI 起草 + 人复核</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>D+7</strong><span>三表出表，附同比 / 环比 / 预算对比</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>D+8</strong><span>管理层摘要 + 业务部门一对一解读</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>D+10</strong><span>归档 + 审计轨迹导出</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 7.3</span>
+            <h2 class="block-title">提示词样例</h2>
+            <span class="block-en">Prompts</span>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PF-01 · 月度经营摘要</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我会贴给你：本月<span class="ph">三表数据 + 预算 + 去年同期</span>。
+
+请输出一份 ≤ 1500 字的<span class="ph">管理层摘要</span>，结构：
+1. <b>本月三句话</b>（最该知道的事）
+2. <b>营收 / 毛利 / 净利</b>：同比 + 环比 + 预算对比
+3. <b>5 个最大变动</b>：科目 + 金额 + 解释假设
+4. <b>3 个风险信号</b>
+5. <b>下月重点</b>
+
+所有数字必须能在附件中追溯到单元格。</div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PF-02 · 报销单预审</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我会给你一张报销单的<span class="ph">JSON</span>。请按《费用报销管理制度 v4.2》逐项检查：
+
+- [ ] 票据合法、税号一致
+- [ ] 金额与 OA 单一致
+- [ ] 用途与金额匹配（市内 / 出差 / 招待 / 办公）
+- [ ] 是否超出部门预算
+- [ ] 是否需要附件（合同 / 行程单 / 参会名单）
+- [ ] 是否触碰红线（烟酒 / 礼品超 200 / 单餐超 1000）
+
+输出：<span class="ph">通过 / 退回 / 转人工</span>，退回时<strong>只列问题项 + 解决路径</strong>，不要解释政策原文。</div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 7.4</span>
+            <h2 class="block-title">红线</h2>
+            <span class="block-en">Hard rules</span>
+          </div>
+          <div class="callout">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">Final say</div>
+              <div class="callout-body"><strong>AI 不打款</strong>，不改银行账户，<strong>不调整会计政策</strong>。所有分录草稿必须由会计复核。所有 &gt; 5,000 元的对外支付，<em>必须有 CFO 或授权人显式确认</em>。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-ROLE-LEGAL-->
+      <section class="page" data-page="role-legal" data-crumb="AI 岗位 / 法务 · 风险">
+        <div class="hero">
+          <div class="hero-num">08</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Role · R04</span><span>法务 · 风险</span></div>
+            <h1 class="hero-title">让 <em>法律判断</em> 更可被复用</h1>
+            <p class="hero-lead">合同审查、合规检查、条款库、风险预警——AI 让法务同学不再"一份合同审三天"，而是把判断沉淀成可复用的资产。</p>
+          </div>
+        </div>
+
+        <div class="role-header">
+          <div class="role-id">
+            <div class="role-num">Role · R04</div>
+            <div class="role-name">法务<span class="en">Legal · 风险与合规</span></div>
+            <div class="role-tagline">
+              "我是<em>小法</em>。我审合同、查条款、跑合规、做风险分级。
+              我<em>不是律师</em>，但我会让你从重复劳动里走出来，把判断用在真正复杂的事上。"
+            </div>
+          </div>
+          <div class="role-meta">
+            <div class="meta-box"><div class="meta-k">合同审查</div><div class="meta-v">−85<span class="u">%</span></div><div class="meta-d">从 3 天到 2 小时</div></div>
+            <div class="meta-box"><div class="meta-k">条款库</div><div class="meta-v">200<span class="u">+</span></div><div class="meta-d">公司范本 / 行业标准</div></div>
+            <div class="meta-box"><div class="meta-k">最佳搭档</div><div class="meta-v">乐享 / 飞书</div><div class="meta-d">条款库、案例库</div></div>
+            <div class="meta-box"><div class="meta-k">高敏数据</div><div class="meta-v">诉讼 / 证照</div><div class="meta-d">永远走人审</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 8.1</span>
+            <h2 class="block-title">典型场景</h2>
+            <span class="block-en">Daily scenes</span>
+          </div>
+          <div class="grid-3">
+            <div class="card"><div class="card-icon">▤</div><div class="card-title">合同审查</div><div class="card-body">对方发来 NDA / SaaS / 采购合同。AI 提取条款、对比标准范本、标红差异。</div><div class="card-foot"><span>~30s/份</span><span>5 档风险</span></div></div>
+            <div class="card"><div class="card-icon">◎</div><div class="card-title">合规检查</div><div class="card-body">广告法、数据安全法、反不正当竞争、未成年人保护——上线前的最后一道闸。</div><div class="card-foot"><span>文案 / 产品</span><span>实时</span></div></div>
+            <div class="card"><div class="card-icon">▦</div><div class="card-title">条款库</div><div class="card-body">公司过往合同、对手范本、行业标准。AI 帮你找到"我们怎么写过类似条款"。</div><div class="card-foot"><span>200+ 范本</span><span>语义检索</span></div></div>
+            <div class="card"><div class="card-icon">⚖</div><div class="card-title">诉讼管理</div><div class="card-body">案件时间线、文书归档、节点提醒、律师沟通记录。</div><div class="card-foot"><span>件均</span><span>全留痕</span></div></div>
+            <div class="card"><div class="card-icon">◐</div><div class="card-title">法规监测</div><div class="card-body">新法 / 修订 / 监管动态按主题推送。AI 摘要影响范围 + 行动建议。</div><div class="card-foot"><span>日推</span><span>定向</span></div></div>
+            <div class="card"><div class="card-icon">▣</div><div class="card-title">授权与证照</div><div class="card-body">公章使用、证照借阅、对外授权。AI 走流程，证照到期前 30 天提醒。</div><div class="card-foot"><span>审批</span><span>证照全留痕</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 8.2</span>
+            <h2 class="block-title">合同审查工作流</h2>
+            <span class="block-en">Contract review</span>
+          </div>
+          <div class="feature-list">
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>1. 接收</strong><span>PDF / Word / 在线文档均可，自动 OCR + 结构化</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>2. 分类</strong><span>NDA / SaaS / 采购 / 投资 / 雇佣 / 合作</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>3. 条款拆解</strong><span>20+ 关键条款自动定位、原文引用、风险标签</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>4. 对比</strong><span>和公司范本、行业标准、历史同类型做差异分析</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>5. 风险分级</strong><span>低 / 中 / 高 / 阻断 4 档，阻断项必须改</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>6. 修改建议</strong><span>每条标红条款附建议改法 + 历史先例</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>7. 法务复核</strong><span>人审核 + AI 解释条款背景</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>8. 归档</strong><span>入库作为未来同类合同的参考</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 8.3</span>
+            <h2 class="block-title">提示词样例</h2>
+            <span class="block-en">Prompts</span>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PL-01 · 合同风险分级</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我给你一份<span class="ph">对方发来的合同文本</span>。请按以下步骤处理：
+
+1. <b>分类</b>：NDA / SaaS / 采购 / 投资 / 雇佣 / 合作 / 其他
+2. <b>提取 20+ 关键条款</b>：标的、价款、付款、保密、知识产权、违约、争议解决…
+3. <b>对比公司范本</b>，列出<span class="ph">5 条以上差异</span>
+4. <b>风险分级</b>：低 / 中 / 高 / 阻断
+5. <b>修改建议</b>：每条标红条款给改法 + 参考公司过往先例
+
+最后用<span class="ph">三句话</span>告诉我：最该让老板看的一句话、最该退回去改的两点、可以闭眼签的兜底条款。</div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PL-02 · 上线文案合规</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我会贴一段<span class="ph">即将上线的文案</span>。请按以下法规做合规检查：
+
+- <b>广告法</b>：极限词、对比词、承诺性表述
+- <b>数据安全法</b>：收集范围、告知同意、跨境
+- <b>反不正当竞争</b>：商业诋毁、混淆行为
+- <b>未成年人保护</b>：诱导、奖励、付费限制
+- <b>行业专项</b>：医疗 / 金融 / 教育额外条款
+
+输出：<span class="ph">问题段 / 触法条款 / 改写建议</span>。只列问题，不复述原文。</div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 8.4</span>
+            <h2 class="block-title">红线</h2>
+            <span class="block-en">Hard rules</span>
+          </div>
+          <div class="callout warn">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">人审</div>
+              <div class="callout-body">所有<strong>对外出具的最终版本</strong>（合同 / 法律意见书 / 律师函 / 诉讼文书）<em>必须由具备执业资格的同事签字</em>。AI 输出仅为参考，不构成法律意见。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-ROLE-RD-->
+      <section class="page" data-page="role-rd" data-crumb="AI 岗位 / 研发 · 工程">
+        <div class="hero">
+          <div class="hero-num">09</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Role · R05</span><span>研发 · 工程</span></div>
+            <h1 class="hero-title">给工程师的 <em>结对程序员</em></h1>
+            <p class="hero-lead">代码审查、Bug 复现、文档生成、技术债管理、CI 助手——AI 不替你写代码，但让它替你做"查、改、解释、写文档"。</p>
+          </div>
+        </div>
+
+        <div class="role-header">
+          <div class="role-id">
+            <div class="role-num">Role · R05</div>
+            <div class="role-name">研发<span class="en">Engineering · 工程</span></div>
+            <div class="role-tagline">
+              "我是<em>小码</em>。我看 PR、解 Bug、写文档、提技术债。
+              我<em>不做架构决策</em>，但我能让你 8 小时的 review 变成 90 分钟。"
+            </div>
+          </div>
+          <div class="role-meta">
+            <div class="meta-box"><div class="meta-k">代码审查</div><div class="meta-v">90<span class="u">%</span></div><div class="meta-d">1 级问题自动拦下</div></div>
+            <div class="meta-box"><div class="meta-k">推荐 Skill</div><div class="meta-v">7</div><div class="meta-d">PR · Bug · 文档 · 债 · CI · 重构 · Test</div></div>
+            <div class="meta-box"><div class="meta-k">最佳搭档</div><div class="meta-v">GitHub / TAPD</div><div class="meta-d">仓库、工单、CI 流水线</div></div>
+            <div class="meta-box"><div class="meta-k">高敏数据</div><div class="meta-v">密钥 / 用户</div><div class="meta-d">生产密钥、用户数据禁入</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 9.1</span>
+            <h2 class="block-title">典型场景</h2>
+            <span class="block-en">Daily scenes</span>
+          </div>
+          <div class="grid-3">
+            <div class="card"><div class="card-icon">⇄</div><div class="card-title">PR 审查</div><div class="card-body">PR 提交后自动 diff 总结、潜在 Bug、风格检查、测试覆盖度。</div><div class="card-foot"><span>~30s/PR</span><span>分级评论</span></div></div>
+            <div class="card"><div class="card-icon">▲</div><div class="card-title">Bug 复现</div><div class="card-body">从 issue 描述反推可能的根因，给最小复现脚本和修复草稿。</div><div class="card-foot"><span>~5 min</span><span>提 PR 草稿</span></div></div>
+            <div class="card"><div class="card-icon">▤</div><div class="card-title">文档生成</div><div class="card-body">从代码自动生成 / 更新 README、API 文档、ADR 草稿。</div><div class="card-foot"><span>README / API</span><span>持续同步</span></div></div>
+            <div class="card"><div class="card-icon">▦</div><div class="card-title">技术债</div><div class="card-body">定期扫描，标出重复代码、过期依赖、待重构模块，附修复 ROI 排序。</div><div class="card-foot"><span>周扫</span><span>ROI 排序</span></div></div>
+            <div class="card"><div class="card-icon">▷</div><div class="card-title">CI 助手</div><div class="card-body">CI 失败自动分析、日志归因、给修复 patch 草稿。</div><div class="card-foot"><span>~3s</span><span>自动 PR</span></div></div>
+            <div class="card"><div class="card-icon">↻</div><div class="card-title">重构</div><div class="card-body">模块拆分、依赖解耦、命名规范。提供 before/after diff 评审包。</div><div class="card-foot"><span>小步走</span><span>逐 PR</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 9.2</span>
+            <h2 class="block-title">PR 审查工作流</h2>
+            <span class="block-en">PR review</span>
+          </div>
+          <div class="feature-list">
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>1. 摘要</strong><span>3 句话说清楚改了什么、为什么、风险点</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>2. 风格</strong><span>lint + 命名 + 文件结构，与团队规范一致</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>3. 正确性</strong><span>边界、并发、错误处理、类型安全</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>4. 安全</strong><span>SQL 注入、XSS、SSRF、密钥硬编码</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>5. 测试</strong><span>单测 / 集成 / 端到端，覆盖率 < 80% 标黄</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>6. 性能</strong><span>循环复杂度、N+1、I/O 热点</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>7. 文档</strong><span>公开 API 变更需有 changelog + 文档更新</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>8. 总评</strong><span>Approve / Comment / Request Changes 给出理由</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 9.3</span>
+            <h2 class="block-title">提示词样例</h2>
+            <span class="block-en">Prompts</span>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PR-01 · PR 审查</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我会贴给你一个 <span class="ph">PR 的 diff</span>。请按以下 8 步审查：
+
+1. <b>摘要</b>：3 句话（改了什么、为什么、风险点）
+2. <b>风格</b>：与团队 lint 规范是否一致
+3. <b>正确性</b>：边界、并发、错误处理、类型安全
+4. <b>安全</b>：SQL 注入、XSS、SSRF、密钥硬编码
+5. <b>测试</b>：覆盖率 &lt; 80% 标黄
+6. <b>性能</b>：循环复杂度、N+1、I/O 热点
+7. <b>文档</b>：公开 API 是否有 changelog
+8. <b>总评</b>：Approve / Comment / Request Changes
+
+每条问题标注 <span class="ph">严重程度（blocker / major / minor / nit）</span>，并给出具体行号和建议改法。</div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PR-02 · Bug 复现与修复</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我给你一份 <span class="ph">issue 描述 + 报错日志 + 关键代码片段</span>。
+
+请输出：
+1. <b>最可能的根因</b>（按概率排序，前 3 名）
+2. <b>最小复现脚本</b>（输入、步骤、期望、实际）
+3. <b>修复 patch 草稿</b>（diff 格式）
+4. <b>回归测试用例</b>
+5. <b>类似代码的排查清单</b>（其他文件 / 模块）
+
+不要直接合并到主分支。修复前先跑测试。</div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 9.4</span>
+            <h2 class="block-title">红线</h2>
+            <span class="block-en">Hard rules</span>
+          </div>
+          <div class="callout warn">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">禁区</div>
+              <div class="callout-body"><strong>生产密钥、PII、生产数据库</strong> 不允许直接喂给 AI。需要时用脱敏视图 / mock 数据。CI 上的密钥扫描会拦截，违规即告警。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-ROLE-SALES-->
+      <section class="page" data-page="role-sales" data-crumb="AI 岗位 / 销售 · 增长">
+        <div class="hero">
+          <div class="hero-num">10</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Role · R06</span><span>销售 · 增长</span></div>
+            <h1 class="hero-title">让一线销售 <em>只做销售</em></h1>
+            <p class="hero-lead">客户研究、外联序列、Pipeline 评审、销售资产、竞情分析——AI 把"看资料、写邮件、对数字"这些事从一线同学手里接走。</p>
+          </div>
+        </div>
+
+        <div class="role-header">
+          <div class="role-id">
+            <div class="role-num">Role · R06</div>
+            <div class="role-name">销售<span class="en">Sales · 增长</span></div>
+            <div class="role-tagline">
+              "我是<em>小销</em>。我做客户研究、写外联、跑 Pipeline、整销售资产。
+              我<em>不谈客户</em>，但我能让你见客户前<em>已经知道他会问什么</em>。"
+            </div>
+          </div>
+          <div class="role-meta">
+            <div class="meta-box"><div class="meta-k">成单率提升</div><div class="meta-v">+28<span class="u">%</span></div><div class="meta-d">6 个月数据中位数</div></div>
+            <div class="meta-box"><div class="meta-k">推荐 Skill</div><div class="meta-v">5</div><div class="meta-d">客户研究 · 外联 · Pipeline · 资产 · 竞情</div></div>
+            <div class="meta-box"><div class="meta-k">最佳搭档</div><div class="meta-v">Salesforce / 企微</div><div class="meta-d">CRM、客户沟通</div></div>
+            <div class="meta-box"><div class="meta-k">高敏数据</div><div class="meta-v">报价 / 客户</div><div class="meta-d">价格底线、个人关系网隔离</div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 10.1</span>
+            <h2 class="block-title">典型场景</h2>
+            <span class="block-en">Daily scenes</span>
+          </div>
+          <div class="grid-3">
+            <div class="card"><div class="card-icon">◎</div><div class="card-title">客户研究</div><div class="card-body">从公开信息拼出客户画像：行业、规模、最近动作、关键人、痛点。</div><div class="card-foot"><span>~3 min/家</span><span>含 5 来源</span></div></div>
+            <div class="card"><div class="card-icon">✉</div><div class="card-title">外联序列</div><div class="card-body">首封 + 3 步跟进。AI 起 5 稿，人挑 1 稿，按节奏发送。</div><div class="card-foot"><span>5 步序列</span><span>A/B 文案</span></div></div>
+            <div class="card"><div class="card-icon">▦</div><div class="card-title">Pipeline 评审</div><div class="card-body">周会前自动整理：机会数、停滞数、转化漏斗、需介入的 5 家。</div><div class="card-foot"><span>周报</span><span>~5 min</span></div></div>
+            <div class="card"><div class="card-icon">▤</div><div class="card-title">销售资产</div><div class="card-body">Demo 稿、报价单、案例库、白皮书。AI 根据客户画像快速组合。</div><div class="card-foot"><span>一键组合</span><span>按需</span></div></div>
+            <div class="card"><div class="card-icon">⚔</div><div class="card-title">竞情分析</div><div class="card-body">对手最新动作、产品对比、价格带、应对话术。</div><div class="card-foot"><span>日更</span><span>定向订阅</span></div></div>
+            <div class="card"><div class="card-icon">▷</div><div class="card-title">会议复盘</div><div class="card-body">通话录音 → 摘要 → 下一步行动项 → CRM 自动更新。</div><div class="card-foot"><span>~2 min</span><span>自动入库</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 10.2</span>
+            <h2 class="block-title">外联序列工作流</h2>
+            <span class="block-en">Outbound sequence</span>
+          </div>
+          <div class="feature-list">
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>1. 客户研究</strong><span>画像 + 关键人 + 痛点假设 + 触发事件</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>2. 钩子设计</strong><span>基于最近新闻 / 财报 / 招聘信号写 3 个钩子</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>3. 首封</strong><span>≤ 80 字，价值主张 + 1 句话 CTA + 署名</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>4. 跟进 1（D+3）</strong><span>分享相关案例 / 行业数据</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>5. 跟进 2（D+7）</strong><span>不同角度：ROI 测算 / 同行实践</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>6. 跟进 3（D+14）</strong><span>礼貌 break-up："如果现在不是时候，告诉我 X 即可"</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>7. 反馈回流</strong><span>已读 / 回 / 转介绍 数据写回 CRM</span></div></div>
+            <div class="feature"><div class="dot"></div><div class="feature-text"><strong>8. 复盘</strong><span>30 天后看哪一稿回复率最高</span></div></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 10.3</span>
+            <h2 class="block-title">提示词样例</h2>
+            <span class="block-en">Prompts</span>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PS-01 · 客户研究 5 段式</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我给你一个 <span class="ph">公司名 + 我的产品</span>。请用 5 段式输出客户画像：
+
+1. <b>公司基本面</b>：行业、规模、融资、最近 12 个月动作（<span class="ph">每个事实必须附公开来源</span>）
+2. <b>关键人</b>：3–5 个可能对接的角色、职级、可能痛点
+3. <b>触发事件</b>：最近 3 条新闻 / 财报 / 招聘信号
+4. <b>价值主张</b>：用 1 句话讲清楚我的产品能解决什么
+5. <b>反对意见预判</b>：他们最可能问的 3 个问题 + 应对方向
+
+最后给一段 <span class="ph">≤ 80 字的首次外联邮件</span>。</div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-head"><span class="name">PS-02 · Pipeline 周报</span><span class="copy">复制</span></div>
+            <div class="prompt-body">我会贴一份 <span class="ph">CRM 导出</span>。请输出本周 Pipeline 评审：
+
+1. <b>数字</b>：机会数 / 总金额 / 加权金额 / 转化率（vs. 上周 / 上月）
+2. <b>停滞</b>：14 天无动作的机会，按金额排序前 5
+3. <b>需介入</b>：5 家，下一步动作建议
+4. <b>本周赢 / 输</b>：各 3 家 + 原因归类
+5. <b>下周 3 个重点</b>
+
+不超过 800 字，给老板看。</div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 10.4</span>
+            <h2 class="block-title">红线</h2>
+            <span class="block-en">Hard rules</span>
+          </div>
+          <div class="callout warn">
+            <div class="bar"></div>
+            <div>
+              <div class="callout-label">禁区</div>
+              <div class="callout-body">客户<strong>报价底线、个人关系网、未公开的财务数据</strong>不能用于训练、不能写入跨客户的共享 Skill。每位销售有自己的客户上下文隔离空间。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--PAGE-CASES-->
+      <section class="page" data-page="cases" data-crumb="案例参考 / 云课堂回放">
+        <div class="hero">
+          <div class="hero-num">11</div>
+          <div class="hero-body">
+            <div class="hero-kicker"><span class="line"></span><span class="acc">Replays</span><span>客户云课堂</span></div>
+            <h1 class="hero-title">WorkBuddy <em>客户云课堂</em><br/>直播回放</h1>
+            <p class="hero-lead">每日 1.5 小时速成教学，每周 5 场阶梯式直播，入门、进阶、高阶全覆盖。手把手带教，零基础也能完整吃透 WorkBuddy 企业 SaaS 版核心功能。</p>
+            <div class="hero-stats">
+              <div class="stat"><div class="stat-num">365+</div><div class="stat-k">累计课时</div></div>
+              <div class="stat"><div class="stat-num">5/周</div><div class="stat-k">直播场次</div></div>
+              <div class="stat"><div class="stat-num">3 阶</div><div class="stat-k">课程体系</div></div>
+              <div class="stat"><div class="stat-num">12k+</div><div class="stat-k">累计学员</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 11.1</span>
+            <h2 class="block-title">入门 · 进阶 · 高阶 · 三阶体系</h2>
+            <span class="block-en">Three-tier curriculum</span>
+          </div>
+          <div class="level-grid">
+            <div class="level-card l1">
+              <div class="level-stage">Stage 01</div>
+              <div class="level-name">入门</div>
+              <div class="level-en">Onboarding</div>
+              <div class="level-desc">面向零基础新用户。装好客户端、连好 MCP、跑通第一个 Skill，3 天上手干活。</div>
+              <ul class="level-list">
+                <li>客户端安装与首次启动</li>
+                <li>MCP 连接 & 基础对话</li>
+                <li>Skill 一键调用</li>
+                <li>个人知识库搭建</li>
+              </ul>
+            </div>
+            <div class="level-card l2">
+              <div class="level-stage">Stage 02</div>
+              <div class="level-name">进阶</div>
+              <div class="level-en">Intermediate</div>
+              <div class="level-desc">面向熟练用户。掌握 Skill 自建、工作流串联、团队协作技能，让 AI 真正替你干活。</div>
+              <ul class="level-list">
+                <li>Skill 自建 & 提示词工程</li>
+                <li>多 Skill 工作流编排</li>
+                <li>Skill Hub 一键调用</li>
+                <li>团队上下文与权限配置</li>
+              </ul>
+            </div>
+            <div class="level-card l3">
+              <div class="level-stage">Stage 03</div>
+              <div class="level-name">高阶</div>
+              <div class="level-en">Advanced</div>
+              <div class="level-desc">面向企业管理员与架构师。管理后台、智能体纳管、企业知识资产体系化建设。</div>
+              <ul class="level-list">
+                <li>管理后台 & 权限矩阵</li>
+                <li>Agent Portal 智能体纳管</li>
+                <li>企业知识资产共享</li>
+                <li>Token 成本与算力优化</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 11.2</span>
+            <h2 class="block-title">热门回放</h2>
+            <span class="block-en">Featured replays</span>
+          </div>
+
+          <div class="video-grid">
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb">
+                <div class="video-tag">热门 · 979 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">3.3h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">WorkBuddy 精选实战场景全解析</div>
+                <div class="video-meta"><span>2026/05/14</span><span class="dot">·</span><span>入门+</span></div>
+                <div class="video-lead">覆盖销售、法务、HR、研发、行政、财务六大岗位的真实实战场景拆解，看完直接抄作业。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #B8412A 0%, #E0A18D 100%);">
+                <div class="video-tag">进阶 · 313 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">2.0h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">WorkBuddy 高阶玩法：把对话变成专属 Skill</div>
+                <div class="video-meta"><span>2026/04/23</span><span class="dot">·</span><span>进阶</span></div>
+                <div class="video-lead">告别重复提示词。教你从一段成功的对话中抽取方法论，封装为可复用的专属 Skill。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #2D4A3E 0%, #7A9C90 100%);">
+                <div class="video-tag">高阶 · 225 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">1.5h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">WorkBuddy × Agent Portal 智能体协同管理实践</div>
+                <div class="video-meta"><span>2026/04/28</span><span class="dot">·</span><span>高阶</span></div>
+                <div class="video-lead">从搭建到纳管：把个人 Skill 升级为企业级智能体，跨账号统一调度与权限隔离。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #8A6E48 0%, #D4B98C 100%);">
+                <div class="video-tag">场景 · 193 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">1.5h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">从「工具」到「搭档」：用 WorkBuddy 重塑法律工作流</div>
+                <div class="video-meta"><span>2026/05/28</span><span class="dot">·</span><span>法务</span></div>
+                <div class="video-lead">合同审查、条款库对比、法规跟踪全流程，AI 把法务从重复劳动里解放出来。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #1A1A1A 0%, #4A4A4A 100%);">
+                <div class="video-tag">入门 · 690 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">1.5h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">从入门到精通：解锁 AI 协公"搭子" WorkBuddy</div>
+                <div class="video-meta"><span>2026/03/19</span><span class="dot">·</span><span>入门</span></div>
+                <div class="video-lead">基础入门课。装好、连好、用好 3 步走，零基础也能 3 天上手干活。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #B89048 0%, #E6C99A 100%);">
+                <div class="video-tag">提效 · 547 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">1.5h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">用 WorkBuddy 搞定 90% 日常办公场景</div>
+                <div class="video-meta"><span>2026/03/24</span><span class="dot">·</span><span>效率实战</span></div>
+                <div class="video-lead">邮件、文档、报表、PPT 全部一键产出。让你每天多出 2 小时。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #3D5A4A 0%, #C8553D 100%);">
+                <div class="video-tag">场景 · 370 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">1.5h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">掌握 WorkBuddy 隐藏技能，成为"养虾"高手</div>
+                <div class="video-meta"><span>2026/03/31</span><span class="dot">·</span><span>进阶</span></div>
+                <div class="video-lead">进阶探索课。WorkBuddy 的隐藏配置、私有 Skill、Token 优化全攻略。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #5A6E8A 0%, #98B0C8 100%);">
+                <div class="video-tag">新功能 · 224 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">1.5h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">Hermes Agent 火出圈：秒级部署 + Skill 玩法解析</div>
+                <div class="video-meta"><span>2026/05/12</span><span class="dot">·</span><span>高阶</span></div>
+                <div class="video-lead">Hermes Agent 是什么、怎么用、和 WorkBuddy 怎么配合。一节课讲透。</div>
+              </div>
+            </a>
+
+            <a class="video-card" href="https://cloud.tencent.com/edu/learning/courses?cid=10420" target="_blank" rel="noopener">
+              <div class="video-thumb" style="background: linear-gradient(135deg, #B8412A 0%, #2D4A3E 100%);">
+                <div class="video-tag">集成 · 139 观看</div>
+                <div class="video-play"></div>
+                <div class="video-views">1.0h</div>
+              </div>
+              <div class="video-body">
+                <div class="video-title">用 Skill Hub 一键调用技能，重塑 AI Agent 实战力</div>
+                <div class="video-meta"><span>2026/05/26</span><span class="dot">·</span><span>进阶</span></div>
+                <div class="video-lead">Skill Hub 全景介绍：内置技能分类、调用链路、最佳实践。</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 11.3</span>
+            <h2 class="block-title">进入云课堂</h2>
+            <span class="block-en">How to join</span>
+          </div>
+
+          <a class="cta-bar" href="https://zhixiang.fn.qq.com/resource?category=customer_success&visibility=public" target="_blank" rel="noopener">
+            <div class="cta-icon">▷</div>
+            <div class="cta-text">
+              <div class="cta-title">WorkBuddy 企业 SaaS 版 · 客户云学堂</div>
+              <div class="cta-desc">每日 1.5 小时速成 · 每周 5 场阶梯直播 · 速通企业团队版核心功能</div>
+            </div>
+            <span class="cta-btn">进入云课堂 →</span>
+          </a>
+
+          <div class="grid-2" style="margin-top: 22px;">
+            <div class="card">
+              <div class="card-icon">①</div>
+              <div class="card-title">预约本周直播</div>
+              <div class="card-body">每周一上午更新直播课表。提前 5 分钟进直播间，开播后自动提醒。</div>
+              <div class="card-foot"><span>5 场/周</span><span>免费</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">②</div>
+              <div class="card-title">回放永久有效</div>
+              <div class="card-body">错过的直播可随时看回放。按主题/讲师/岗位筛选，支持倍速与目录跳转。</div>
+              <div class="card-foot"><span>可倍速</span><span>支持下载</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">③</div>
+              <div class="card-title">配套练习资源</div>
+              <div class="card-body">每节课配套 Skill 模板、提示词库、案例数据。看完直接上手练。</div>
+              <div class="card-foot"><span>Skill 模板</span><span>提示词库</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">④</div>
+              <div class="card-title">客户成功答疑</div>
+              <div class="card-body">课后有专属答疑群，企业管理员可申请 1v1 落地咨询。</div>
+              <div class="card-foot"><span>专属群</span><span>1v1 咨询</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="block-head">
+            <span class="block-num">§ 11.4</span>
+            <h2 class="block-title">学习路径推荐</h2>
+            <span class="block-en">Recommended path</span>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-icon">→</div>
+              <div class="card-title">个人用户 · 3 天速通</div>
+              <div class="card-body">Day 1：客户端安装 + MCP 连接 → Day 2：Skill 一键调用 → Day 3：自建第一个 Skill。</div>
+              <div class="card-foot"><span>3 节课</span><span>3 小时</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">→</div>
+              <div class="card-title">企业管理员 · 2 周体系化</div>
+              <div class="card-body">Week 1：管理后台 + 权限矩阵 → Week 2：Agent Portal + 知识资产体系化建设。</div>
+              <div class="card-foot"><span>10 节课</span><span>15 小时</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">→</div>
+              <div class="card-title">岗位实战 · 1 周对号入座</div>
+              <div class="card-body">按岗位选 4-6 节场景课：HR 看招聘、行政看差旅、销售看外联、法务看合同、研发看 PR、财务看月结。</div>
+              <div class="card-foot"><span>6 节课</span><span>9 小时</span></div>
+            </div>
+            <div class="card">
+              <div class="card-icon">→</div>
+              <div class="card-title">技术架构师 · 深度专题</div>
+              <div class="card-body">Hermes Agent / Skill 自建 / 多 Agent 协同 / Token 成本优化 4 个专题深入。</div>
+              <div class="card-foot"><span>4 节课</span><span>6 小时</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">已复制</div>
+
+  <script>
+    (function () {
+      const navItems = Array.from(document.querySelectorAll(".nav-item"));
+      const pages = Array.from(document.querySelectorAll(".page"));
+      const crumbHere = document.getElementById("crumbHere");
+      const toast = document.getElementById("toast");
+      const main = document.querySelector("main.content");
+
+      function activate(pageId, opts) {
+        opts = opts || {};
+        const target = document.querySelector('.page[data-page="' + pageId + '"]');
+        if (!target) return;
+        pages.forEach(function (p) {
+          p.classList.remove("is-on");
+        });
+        target.classList.add("is-on");
+        // restart animation
+        target.style.animation = "none";
+        void target.offsetWidth;
+        target.style.animation = "";
+
+        navItems.forEach(function (n) {
+          n.classList.toggle("is-active", n.getAttribute("data-page") === pageId);
+        });
+        const item = navItems.find(function (n) { return n.getAttribute("data-page") === pageId; });
+        if (item) {
+          const crumb = item.closest(".page") ? "" : "";
+          // use data-crumb on the page
+          const crumbText = target.getAttribute("data-crumb") || "";
+          if (crumbText) crumbHere.textContent = crumbText;
+        }
+        if (opts.scroll !== false) {
+          main.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        if (history.pushState) {
+          history.replaceState(null, "", "#" + pageId);
+        }
+      }
+
+      navItems.forEach(function (n) {
+        n.addEventListener("click", function () {
+          const pageId = n.getAttribute("data-page");
+          activate(pageId);
+        });
+      });
+
+      // search
+      const search = document.getElementById("searchInput");
+      const sections = Array.from(document.querySelectorAll(".nav-section"));
+      search.addEventListener("input", function () {
+        const q = (search.value || "").trim().toLowerCase();
+        if (!q) {
+          navItems.forEach(function (n) { n.classList.remove("is-hidden"); });
+          sections.forEach(function (s) { s.classList.remove("is-empty"); });
+          return;
+        }
+        let anyShown = false;
+        sections.forEach(function (sec) {
+          let sectionAny = false;
+          sec.querySelectorAll(".nav-item").forEach(function (n) {
+            const text = n.textContent.toLowerCase();
+            const match = text.indexOf(q) >= 0;
+            n.classList.toggle("is-hidden", !match);
+            if (match) { sectionAny = true; anyShown = true; }
+          });
+          sec.classList.toggle("is-empty", !sectionAny);
+        });
+        if (!anyShown) {
+          // hide all
+        }
+      });
+
+      // keyboard nav
+      document.addEventListener("keydown", function (e) {
+        if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+        const activeIdx = navItems.findIndex(function (n) { return n.classList.contains("is-active"); });
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          const next = navItems[Math.min(navItems.length - 1, activeIdx + 1)];
+          if (next) next.click();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          const prev = navItems[Math.max(0, activeIdx - 1)];
+          if (prev) prev.click();
+        } else if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+          e.preventDefault();
+          search.focus();
+        }
+      });
+
+      // copy buttons
+      document.addEventListener("click", function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains("copy")) {
+          const card = e.target.closest(".prompt-card");
+          if (!card) return;
+          const body = card.querySelector(".prompt-body");
+          if (!body) return;
+          const text = body.innerText;
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(showToast);
+          } else {
+            const ta = document.createElement("textarea");
+            ta.value = text; document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand("copy"); showToast(); } catch (err) {}
+            document.body.removeChild(ta);
+          }
+        }
+      });
+      function showToast() {
+        toast.classList.add("show");
+        setTimeout(function () { toast.classList.remove("show"); }, 1400);
+      }
+
+      // init from hash
+      const initial = (location.hash || "").replace("#", "") || "client-install";
+      if (document.querySelector('.page[data-page="' + initial + '"]')) {
+        activate(initial, { scroll: false });
+      } else {
+        activate("client-install", { scroll: false });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,2478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>费用审核 AI 助手 · 某家电企业 × WorkBuddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --ink-2: #2C2C2A;
+    --ink-3: #5F5E5A;
+    --ink-4: #888780;
+    --paper: #FAFAF6;
+    --paper-2: #F1EFE8;
+    --paper-3: #E9E6DC;
+    --rule: rgba(10, 10, 10, 0.08);
+    --rule-strong: rgba(10, 10, 10, 0.18);
+    --accent: #0A2540;
+    --accent-soft: #E8EDF3;
+    --ok: #1D7B4E;
+    --warn: #B45309;
+    --bad: #B33A3A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    font-feature-settings: "tnum", "ss01";
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .serif { font-family: 'Noto Serif SC', serif; font-weight: 500; }
+  .mono { font-family: 'JetBrains Mono', Menlo, monospace; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 56px; }
+
+  /* ============ Top bar ============ */
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: saturate(140%) blur(8px);
+  }
+  .topbar-inner { height: 72px; display: flex; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .brand-tcl {
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: 22px; letter-spacing: 0.06em; color: var(--ink);
+  }
+  .brand-cross { width: 14px; height: 14px; color: var(--ink-4); }
+  .brand-cross svg { width: 100%; height: 100%; }
+  .brand-wb {
+    font-family: 'Noto Serif SC', serif; font-weight: 500;
+    font-size: 19px; letter-spacing: 0.04em;
+  }
+  .brand-wb em { font-style: normal; color: var(--accent); }
+  .topbar nav {
+    margin-left: auto; display: flex; gap: 24px; align-items: center;
+    font-size: 13px; color: var(--ink-3);
+  }
+  .topbar nav .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px; color: var(--ink-2); font-size: 12px;
+  }
+  .topbar nav .pill::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--ok);
+  }
+  .topbar nav a.back {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+  }
+  .topbar nav a.back:hover { color: var(--ink); }
+
+  /* ============ Hero ============ */
+  .hero {
+    padding: 64px 0 36px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 80px 1fr 280px;
+    gap: 48px; align-items: start;
+  }
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    padding-top: 14px; border-top: 1px solid var(--ink);
+  }
+  .hero-kicker .label { color: var(--ink); margin-top: 6px; display: block; font-weight: 500; }
+  .hero-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif; font-weight: 500;
+    font-size: 52px; line-height: 1.18;
+    letter-spacing: -0.01em; color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .hero h1 em { color: var(--accent); font-style: italic; font-weight: 400; }
+  .hero p.lead {
+    font-size: 16px; color: var(--ink-2);
+    line-height: 1.75; max-width: 680px;
+  }
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding-top: 14px; border-top: 1px solid var(--ink);
+  }
+  .stat-cell .num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 30px; font-weight: 500;
+    color: var(--ink); line-height: 1.1;
+  }
+  .stat-cell .num em { color: var(--accent); font-style: italic; font-weight: 400; }
+  .stat-cell .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* ============ Workspace ============ */
+  .workspace { padding: 56px 0; }
+  .ws-head {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 48px; margin-bottom: 36px;
+  }
+  .ws-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    padding-top: 14px; border-top: 1px solid var(--ink);
+  }
+  .ws-title {
+    font-family: 'Noto Serif SC', serif; font-weight: 500;
+    font-size: 28px; letter-spacing: -0.005em;
+  }
+  .ws-title em {
+    font-style: italic; color: var(--ink-3);
+    font-size: 14px; margin-left: 12px; font-weight: 400;
+  }
+  .ws-sub { font-size: 14px; color: var(--ink-3); margin-top: 8px; max-width: 640px; }
+
+  .ws-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 48px;
+  }
+  .ws-spacer {}
+
+  /* ============ Tabs ============ */
+  .tabs {
+    display: flex; border-bottom: 1px solid var(--rule);
+    margin-bottom: 0;
+    align-items: stretch;
+  }
+  .tab {
+    padding: 14px 20px;
+    font-size: 13px; color: var(--ink-3);
+    background: transparent; border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .tab-add {
+    margin-left: auto;
+    padding: 10px 16px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: transparent;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 2px;
+    align-self: center;
+    margin-bottom: 6px;
+    margin-right: 0;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .tab-add:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .tab-add svg { width: 12px; height: 12px; }
+  .tab-add .mono-tip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-4);
+    text-transform: uppercase;
+  }
+  .tab.user-added { color: var(--accent); }
+  .tab.user-added .num { color: var(--accent); }
+  .tab .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-4);
+  }
+  .tab:hover { color: var(--ink-2); }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+  .tab.active .num { color: var(--accent); }
+
+  /* ============ Main panes ============ */
+  .panes {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    border: 1px solid var(--rule-strong);
+    background: #fff;
+    border-radius: 2px;
+    margin-top: 0;
+    min-height: 640px;
+  }
+  .pane { padding: 32px 36px; }
+  .pane + .pane { border-left: 1px solid var(--rule); background: var(--paper); }
+
+  .pane-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+    margin-bottom: 22px;
+  }
+  .pane-head h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px; font-weight: 500;
+    color: var(--ink);
+  }
+  .pane-head .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+
+  /* ----- Left pane: ticket ----- */
+  .ticket {
+    display: none;
+  }
+  .ticket.active { display: block; }
+  .ticket-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 22px; font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .ticket-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .ticket-row {
+    display: grid; grid-template-columns: 110px 1fr;
+    gap: 16px; padding: 12px 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 14px;
+  }
+  .ticket-row .k {
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .ticket-row .v { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .ticket-row .v.amount {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 20px; font-weight: 500;
+    color: var(--ink);
+  }
+  .ticket-row .v.amount em { color: var(--accent); font-style: italic; }
+  .ticket-row .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; padding: 2px 8px;
+    background: var(--paper-2); border-radius: 2px;
+    color: var(--ink-2);
+  }
+
+  .ticket-attachments {
+    margin-top: 20px; padding-top: 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .ticket-attachments h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .att {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-size: 13px;
+    margin-bottom: 8px;
+    background: #fff;
+  }
+  .att svg { width: 16px; height: 16px; color: var(--ink-3); flex-shrink: 0; }
+  .att .name { flex: 1; color: var(--ink-2); }
+  .att .size { color: var(--ink-4); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  .audit-cta {
+    margin-top: 28px; display: flex; gap: 12px;
+    padding-top: 24px; border-top: 1px solid var(--rule);
+  }
+  .btn-primary {
+    background: var(--ink); color: var(--paper);
+    border: none; padding: 12px 22px;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 2px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary svg { width: 14px; height: 14px; }
+  .btn-ghost {
+    background: transparent; color: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+    padding: 12px 18px;
+    font-size: 13px; border-radius: 2px;
+  }
+  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* ----- Right pane: AI process ----- */
+  .ai-empty {
+    text-align: center; padding: 80px 20px;
+    color: var(--ink-4);
+    font-size: 13px;
+  }
+  .ai-empty svg {
+    width: 36px; height: 36px;
+    color: var(--ink-4);
+    margin-bottom: 14px;
+  }
+  .ai-empty h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px; font-weight: 500;
+    color: var(--ink-2); margin-bottom: 6px;
+  }
+
+  .ai-flow { display: none; }
+  .ai-flow.active { display: block; }
+
+  .step {
+    display: grid; grid-template-columns: 28px 1fr;
+    gap: 14px;
+    padding: 14px 0;
+    position: relative;
+  }
+  .step + .step { border-top: 1px solid var(--rule); }
+  .step-icon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--paper-2);
+    color: var(--ink-3);
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid var(--rule);
+  }
+  .step.done .step-icon { background: var(--ok); color: #fff; border-color: var(--ok); }
+  .step.warn .step-icon { background: var(--warn); color: #fff; border-color: var(--warn); }
+  .step.bad .step-icon { background: var(--bad); color: #fff; border-color: var(--bad); }
+  .step.running .step-icon {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(10, 37, 64, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(10, 37, 64, 0); }
+  }
+
+  .step-body { min-width: 0; }
+  .step-title {
+    font-size: 14px; font-weight: 500;
+    color: var(--ink); margin-bottom: 4px;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .step-title .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    padding: 2px 6px; border-radius: 2px;
+    background: var(--paper-2); color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .step-detail {
+    font-size: 13px; color: var(--ink-3);
+    line-height: 1.7;
+  }
+
+  .kb-cite {
+    margin-top: 8px;
+    background: var(--paper);
+    border-left: 2px solid var(--accent);
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    border-radius: 0 2px 2px 0;
+  }
+  .kb-cite .src {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--accent); text-transform: uppercase;
+    display: block; margin-bottom: 4px;
+  }
+
+  .findings {
+    margin-top: 8px;
+  }
+  .finding {
+    display: flex; gap: 10px; padding: 6px 0;
+    font-size: 13px; color: var(--ink-2);
+    align-items: flex-start;
+  }
+  .finding .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    margin-top: 8px; flex-shrink: 0;
+  }
+  .finding.ok .dot { background: var(--ok); }
+  .finding.warn .dot { background: var(--warn); }
+  .finding.bad .dot { background: var(--bad); }
+  .finding.ok strong { color: var(--ok); }
+  .finding.warn strong { color: var(--warn); }
+  .finding.bad strong { color: var(--bad); }
+
+  .verdict {
+    margin-top: 22px; padding: 22px 24px;
+    border: 1px solid var(--rule-strong);
+    background: #fff;
+    border-radius: 2px;
+    display: none;
+  }
+  .verdict.show { display: block; }
+  .verdict.warn { border-color: var(--warn); background: #FFF8EC; }
+  .verdict.ok { border-color: var(--ok); background: #F0F8F2; }
+  .verdict.bad { border-color: var(--bad); background: #FCF1F1; }
+  .verdict-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .verdict-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: #fff;
+    border: 1px solid currentColor;
+  }
+  .verdict.warn .verdict-tag { color: var(--warn); }
+  .verdict.ok .verdict-tag { color: var(--ok); }
+  .verdict.bad .verdict-tag { color: var(--bad); }
+  .verdict-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em;
+    color: var(--ink-3);
+  }
+  .verdict-score em {
+    font-family: 'Noto Serif SC', serif;
+    font-style: italic;
+    font-size: 22px; color: var(--ink);
+    margin-right: 4px;
+  }
+  .verdict-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 500;
+    color: var(--ink); margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .verdict-text {
+    font-size: 13.5px; color: var(--ink-2);
+    line-height: 1.75;
+  }
+  .verdict-actions {
+    margin-top: 16px;
+    display: flex; gap: 8px;
+  }
+  .v-btn {
+    font-size: 12px; padding: 7px 14px;
+    border-radius: 2px;
+    background: #fff;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-2);
+  }
+  .v-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .v-btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .v-btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+  /* ============ KB Section ============ */
+  .kb-section {
+    padding: 64px 0 48px;
+    border-top: 1px solid var(--rule);
+  }
+  .kb-grid {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 48px;
+  }
+  .kb-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 24px;
+  }
+  .kb-item {
+    background: #fff;
+    padding: 22px 24px;
+  }
+  .kb-item .src {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .kb-item h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px; font-weight: 500;
+    color: var(--ink); margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .kb-item p {
+    font-size: 12.5px; color: var(--ink-3);
+    line-height: 1.7;
+  }
+  .kb-item .meta {
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-4);
+  }
+
+  /* ============ Footer ============ */
+  .footer {
+    padding: 48px 0 64px;
+    color: var(--ink-3); font-size: 13px;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 48px; align-items: end;
+  }
+  .footer-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .footer-text {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px; color: var(--ink-2);
+  }
+  .footer-text strong { font-weight: 500; color: var(--ink); }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+    text-align: right;
+  }
+
+  @media (max-width: 1024px) {
+    .container { padding: 0 32px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero-kicker { padding-top: 0; border: none; }
+    .hero h1 { font-size: 38px; }
+    .panes { grid-template-columns: 1fr; }
+    .pane + .pane { border-left: none; border-top: 1px solid var(--rule); }
+    .ws-grid, .ws-head, .kb-grid, .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+    .ws-num, .hero-kicker, .footer-mark { padding-top: 0; border-top: none; }
+    .kb-list { grid-template-columns: 1fr; }
+    .modal-card { width: 92vw; max-height: 90vh; }
+  }
+
+  /* ============ Modal · 录入单据 ============ */
+  .modal-mask {
+    position: fixed; inset: 0;
+    background: rgba(10, 10, 10, 0.42);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 100;
+    padding: 24px;
+  }
+  .modal-mask.show { display: flex; }
+  .modal-card {
+    width: 720px; max-width: 100%;
+    max-height: 88vh; overflow-y: auto;
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    box-shadow: 0 24px 60px rgba(10, 10, 10, 0.18);
+  }
+  .modal-head {
+    padding: 24px 32px 18px;
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-head .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .modal-head h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 22px; font-weight: 500;
+    color: var(--ink); line-height: 1.4;
+  }
+  .modal-head .close {
+    background: transparent; border: none;
+    color: var(--ink-3); font-size: 22px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-head .close:hover { background: var(--paper-2); color: var(--ink); }
+  .modal-body { padding: 24px 32px 4px; }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .form-row.full { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .field input, .field select, .field textarea {
+    font-family: inherit;
+    font-size: 14px; color: var(--ink);
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent);
+  }
+  .field textarea { resize: vertical; min-height: 70px; line-height: 1.6; }
+  .field .hint {
+    font-size: 11px; color: var(--ink-4);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .upload-zone {
+    border: 1px dashed var(--rule-strong);
+    border-radius: 2px;
+    padding: 18px;
+    text-align: center;
+    color: var(--ink-3);
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .upload-zone:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .upload-zone svg {
+    width: 22px; height: 22px; color: var(--ink-4);
+    margin-bottom: 8px;
+  }
+  .upload-zone .title-up {
+    font-size: 13px; color: var(--ink-2);
+    margin-bottom: 4px;
+  }
+  .upload-zone .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .upload-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .upload-list .att-mock {
+    display: flex; gap: 10px; align-items: center;
+    font-size: 12.5px; color: var(--ink-2);
+    padding: 6px 10px; background: var(--paper-2);
+    border-radius: 2px;
+  }
+  .upload-list .att-mock svg { width: 14px; height: 14px; color: var(--ink-3); }
+  .upload-list .att-mock .size {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--ink-4);
+  }
+  .ai-fill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    margin-left: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .ai-fill:hover { border-color: var(--accent); }
+  .ai-fill svg { width: 11px; height: 11px; }
+  .modal-foot {
+    padding: 18px 32px 26px;
+    border-top: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+  }
+  .modal-foot .tip {
+    font-size: 12px; color: var(--ink-4);
+    line-height: 1.6;
+  }
+  .modal-foot .tip strong { color: var(--ink-2); }
+  .modal-foot .actions { display: flex; gap: 10px; }
+
+  /* ============================================================
+     ERP / CRM SKIN — 商务简约覆盖层（保留所有 DOM 类名与 JS 行为）
+     色：#F5F7FA 底 / #FFFFFF 卡 / #E4E7EC 描边 / #2563EB 主蓝
+     字：系统无衬线 + tabular-nums；圆角 4-6px；零渐变；扁平阴影
+     ============================================================ */
+  :root {
+    --ink: #111827;
+    --ink-2: #374151;
+    --ink-3: #6B7280;
+    --ink-4: #9CA3AF;
+    --paper: #F5F7FA;
+    --paper-2: #FFFFFF;
+    --paper-3: #EEF1F5;
+    --rule: #E4E7EC;
+    --rule-strong: #D0D5DD;
+    --accent: #2563EB;
+    --accent-soft: #EFF4FF;
+    --accent-hover: #1D4ED8;
+    --ok: #16A34A;
+    --ok-soft: #ECFDF5;
+    --warn: #D97706;
+    --warn-soft: #FFFBEB;
+    --bad: #DC2626;
+    --bad-soft: #FEF2F2;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.04);
+    --shadow-md: 0 1px 3px rgba(16,24,40,.06), 0 1px 2px rgba(16,24,40,.04);
+    --shadow-lg: 0 8px 24px rgba(16,24,40,.10), 0 2px 6px rgba(16,24,40,.05);
+  }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif !important;
+    background: var(--paper) !important;
+    color: var(--ink);
+    line-height: 1.55;
+    font-feature-settings: "tnum";
+  }
+  .serif {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif !important;
+    font-weight: 600 !important; letter-spacing: 0 !important;
+  }
+  .mono {
+    font-family: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* —— 顶栏 —— */
+  .topbar {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--rule) !important;
+    backdrop-filter: none !important;
+  }
+  .topbar-inner { height: 56px !important; }
+  .brand { gap: 12px !important; }
+  .brand-tcl {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    font-size: 16px !important; font-weight: 700 !important;
+    letter-spacing: 0.04em !important; color: var(--ink) !important;
+  }
+  .brand-cross { width: 10px !important; height: 10px !important; color: var(--ink-4) !important; }
+  .brand-wb {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif !important;
+    font-size: 15px !important; font-weight: 600 !important;
+    letter-spacing: 0 !important; color: var(--ink) !important;
+  }
+  .brand-wb em { color: var(--accent) !important; font-style: normal !important; }
+  .topbar nav { gap: 12px !important; font-size: 13px !important; }
+  .topbar nav .pill {
+    border-radius: 4px !important;
+    border: 1px solid var(--rule) !important;
+    background: var(--paper-3) !important;
+    padding: 4px 10px !important; font-size: 12px !important;
+    color: var(--ink-2) !important;
+  }
+  .topbar nav .pill::before { background: var(--ok) !important; }
+  .topbar nav a.back {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    text-transform: none !important;
+    padding: 5px 10px !important; border-radius: 4px !important;
+    color: var(--ink-2) !important;
+  }
+  .topbar nav a.back:hover { background: var(--paper-3) !important; color: var(--ink) !important; }
+
+  /* —— Hero —— */
+  .hero {
+    padding: 28px 0 24px !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .hero-grid {
+    display: grid !important;
+    grid-template-columns: 180px 1fr !important;
+    grid-template-areas:
+      "kicker main"
+      "stats  stats" !important;
+    gap: 18px 32px !important;
+    align-items: start !important;
+  }
+  .hero-kicker { grid-area: kicker !important; }
+  .hero-grid > div:nth-child(2) { grid-area: main !important; max-width: 760px !important; }
+  .hero-stats { grid-area: stats !important; }
+  .hero-kicker {
+    border-top: none !important; padding-top: 0 !important; width: auto !important;
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--accent) !important;
+  }
+  .hero-kicker .label { color: var(--ink-3) !important; margin-top: 2px !important; font-weight: 400 !important; }
+  .hero-meta {
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--ink-4) !important; margin-bottom: 8px !important;
+  }
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 26px !important;
+    line-height: 1.32 !important;
+    letter-spacing: -0.005em !important;
+    color: var(--ink) !important;
+    margin-bottom: 10px !important;
+  }
+  .hero h1 em, .hero h1 .accent {
+    color: var(--accent) !important; font-style: normal !important;
+    font-weight: 600 !important; font-family: inherit !important;
+  }
+  .hero h1 .x {
+    transform: none !important; font-style: normal !important;
+    color: var(--ink-4) !important; font-weight: 400 !important;
+    font-family: inherit !important; margin: 0 .15em !important;
+  }
+  .hero p.lead {
+    font-size: 13.5px !important; line-height: 1.7 !important;
+    color: var(--ink-2) !important; max-width: 760px !important;
+  }
+  .hero-stats {
+    border-top: 1px solid var(--rule) !important; padding-top: 16px !important;
+    margin-top: 8px !important;
+    grid-template-columns: repeat(4, 1fr) !important; gap: 12px !important;
+  }
+  .stat-cell {
+    background: var(--paper) !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    padding: 12px 14px !important;
+  }
+  .stat-cell .num {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    font-size: 22px !important; font-weight: 600 !important;
+    color: var(--ink) !important; line-height: 1.1 !important;
+    font-feature-settings: "tnum" !important;
+  }
+  .stat-cell .num em {
+    color: var(--accent) !important; font-style: normal !important;
+    font-weight: 600 !important; font-family: inherit !important;
+  }
+  .stat-cell .label {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-3) !important; margin-top: 4px !important;
+    font-family: inherit !important;
+  }
+
+  /* —— Workspace 标题 —— */
+  .workspace { padding: 28px 0 !important; }
+  .ws-head { grid-template-columns: 1fr !important; gap: 6px !important; margin-bottom: 16px !important; }
+  .ws-num {
+    border-top: none !important; padding-top: 0 !important;
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--accent) !important;
+  }
+  .ws-title {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-weight: 600 !important; font-size: 18px !important;
+    letter-spacing: 0 !important; color: var(--ink) !important;
+  }
+  .ws-title em {
+    font-style: normal !important; font-size: 13px !important;
+    color: var(--ink-4) !important; margin-left: 8px !important; font-weight: 400 !important;
+  }
+  .ws-sub { font-size: 13px !important; color: var(--ink-3) !important; margin-top: 2px !important; }
+  .ws-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .ws-spacer { display: none !important; }
+
+  /* —— Tabs —— */
+  .tabs {
+    border-bottom: 1px solid var(--rule) !important;
+    background: #FFFFFF !important;
+    border-radius: 6px 6px 0 0 !important;
+    border: 1px solid var(--rule) !important; border-bottom: none !important;
+    padding: 0 8px !important;
+  }
+  .tab {
+    padding: 12px 16px !important;
+    font-size: 13px !important; font-weight: 500 !important;
+    color: var(--ink-3) !important;
+    border-bottom: 2px solid transparent !important;
+    margin-bottom: -1px !important;
+  }
+  .tab .num {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important; letter-spacing: 0 !important;
+    color: var(--ink-4) !important;
+  }
+  .tab:hover { color: var(--ink-2) !important; }
+  .tab.active {
+    color: var(--accent) !important;
+    border-bottom-color: var(--accent) !important;
+  }
+  .tab.active .num { color: var(--accent) !important; }
+  .tab.user-added { color: var(--accent) !important; }
+  .tab.user-added .num { color: var(--accent) !important; }
+  .tab-add {
+    border: 1px dashed var(--rule-strong) !important;
+    border-radius: 4px !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    color: var(--accent) !important;
+    margin: 6px 8px 6px auto !important;
+    align-self: center !important;
+  }
+  .tab-add:hover { background: var(--accent-soft) !important; border-color: var(--accent) !important; }
+  .tab-add .mono-tip {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0 !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+
+  /* —— Panes —— */
+  .panes {
+    border: 1px solid var(--rule) !important;
+    border-radius: 0 0 6px 6px !important;
+    background: #FFFFFF !important;
+    box-shadow: var(--shadow-sm) !important;
+    grid-template-columns: 1fr 1.1fr !important;
+    min-height: 580px !important;
+    margin-top: 0 !important;
+  }
+  .pane { padding: 24px 28px !important; }
+  .pane + .pane {
+    border-left: 1px solid var(--rule) !important;
+    background: var(--paper) !important;
+  }
+  .pane-head {
+    padding-bottom: 12px !important; margin-bottom: 18px !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .pane-head h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 14px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .pane-head .meta {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+
+  /* —— Ticket / 单据 / 流水 —— */
+  .ticket-title {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 16px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .ticket-id {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-4) !important; text-transform: none !important; margin-bottom: 16px !important;
+  }
+  .ticket-row {
+    grid-template-columns: 96px 1fr !important;
+    padding: 9px 0 !important;
+    border-bottom: 1px solid var(--rule) !important;
+    font-size: 13px !important;
+  }
+  .ticket-row .k {
+    font-family: inherit !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    color: var(--ink-3) !important; text-transform: none !important;
+    padding-top: 1px !important;
+  }
+  .ticket-row .v { font-size: 13px !important; color: var(--ink) !important; }
+  .ticket-row .v.amount {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 18px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+    font-feature-settings: "tnum" !important;
+  }
+  .ticket-row .v.amount em {
+    color: var(--accent) !important; font-style: normal !important;
+    font-family: inherit !important; font-weight: 600 !important;
+  }
+  .ticket-row .badge {
+    font-size: 11px !important; padding: 2px 8px !important;
+    border-radius: 3px !important;
+    background: var(--paper-3) !important;
+    color: var(--ink-2) !important;
+    border: 1px solid var(--rule) !important;
+  }
+  .ticket-attachments h4 {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-3) !important; text-transform: none !important; margin-bottom: 8px !important;
+  }
+  .att {
+    border: 1px solid var(--rule) !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important; font-size: 12.5px !important;
+  }
+  .att .size {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important; color: var(--ink-4) !important;
+  }
+  .audit-cta { padding-top: 18px !important; margin-top: 20px !important; gap: 10px !important; }
+  .btn-primary {
+    background: var(--accent) !important; color: #FFFFFF !important;
+    border: 1px solid var(--accent) !important;
+    padding: 8px 16px !important; font-size: 13px !important;
+    font-weight: 500 !important; letter-spacing: 0 !important;
+    border-radius: 4px !important; box-shadow: var(--shadow-sm) !important;
+  }
+  .btn-primary:hover { background: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
+  .btn-primary svg { width: 14px !important; height: 14px !important; }
+  .btn-ghost {
+    background: #FFFFFF !important; color: var(--ink-2) !important;
+    border: 1px solid var(--rule-strong) !important;
+    padding: 8px 14px !important; font-size: 13px !important;
+    border-radius: 4px !important;
+  }
+  .btn-ghost:hover { background: var(--paper-3) !important; color: var(--ink) !important; border-color: var(--rule-strong) !important; }
+
+  /* —— AI Process · 步骤流 —— */
+  .ai-empty { padding: 60px 16px !important; font-size: 13px !important; }
+  .ai-empty h4 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 14px !important; font-weight: 600 !important;
+    color: var(--ink-2) !important;
+  }
+  .step { padding: 12px 0 !important; gap: 12px !important; }
+  .step + .step { border-top: 1px solid var(--rule) !important; }
+  .step-icon {
+    width: 22px !important; height: 22px !important;
+    border-radius: 4px !important;
+    border: 1px solid var(--rule) !important;
+    background: #FFFFFF !important;
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important;
+    color: var(--ink-3) !important;
+  }
+  .step.done .step-icon { background: var(--ok) !important; border-color: var(--ok) !important; color: #FFF !important; }
+  .step.warn .step-icon { background: var(--warn) !important; border-color: var(--warn) !important; color: #FFF !important; }
+  .step.bad .step-icon { background: var(--bad) !important; border-color: var(--bad) !important; color: #FFF !important; }
+  .step.running .step-icon { background: var(--accent) !important; border-color: var(--accent) !important; color: #FFF !important; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, .35); }
+    50% { box-shadow: 0 0 0 5px rgba(37, 99, 235, 0); }
+  }
+  .step-title { font-size: 13px !important; font-weight: 600 !important; color: var(--ink) !important; }
+  .step-title .tag {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.04em !important;
+    background: var(--paper-3) !important; color: var(--ink-3) !important;
+    border-radius: 3px !important; text-transform: none !important;
+    padding: 2px 6px !important;
+  }
+  .step-detail { font-size: 12.5px !important; color: var(--ink-3) !important; line-height: 1.7 !important; }
+
+  /* —— KB Cite —— */
+  .kb-cite {
+    background: var(--accent-soft) !important;
+    border-left: 2px solid var(--accent) !important;
+    border-radius: 0 4px 4px 0 !important;
+    padding: 8px 12px !important; font-size: 12.5px !important;
+    color: var(--ink-2) !important;
+  }
+  .kb-cite .src {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.04em !important;
+    color: var(--accent) !important; text-transform: none !important;
+  }
+
+  /* —— Findings —— */
+  .finding { font-size: 12.5px !important; color: var(--ink-2) !important; }
+  .finding .dot { width: 6px !important; height: 6px !important; margin-top: 7px !important; }
+
+  /* —— Verdict 卡 —— */
+  .verdict {
+    border: 1px solid var(--rule) !important;
+    background: #FFFFFF !important;
+    border-radius: 6px !important;
+    box-shadow: var(--shadow-sm) !important;
+    padding: 18px 20px !important;
+    margin-top: 18px !important;
+  }
+  .verdict.ok { background: var(--ok-soft) !important; border-color: #BBF7D0 !important; }
+  .verdict.warn { background: var(--warn-soft) !important; border-color: #FED7AA !important; }
+  .verdict.bad { background: var(--bad-soft) !important; border-color: #FECACA !important; }
+  .verdict-tag {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.08em !important;
+    text-transform: none !important;
+    padding: 3px 8px !important; border-radius: 3px !important;
+    background: #FFFFFF !important; border: 1px solid currentColor !important;
+  }
+  .verdict-score {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important; letter-spacing: 0 !important; color: var(--ink-3) !important;
+  }
+  .verdict-score em {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-style: normal !important; font-size: 20px !important;
+    font-weight: 700 !important; color: var(--ink) !important;
+    margin-right: 4px !important;
+  }
+  .verdict-title {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 15px !important; font-weight: 600 !important;
+    color: var(--ink) !important; margin-bottom: 6px !important;
+  }
+  .verdict-text { font-size: 13px !important; color: var(--ink-2) !important; line-height: 1.7 !important; }
+  .verdict-actions { margin-top: 14px !important; gap: 8px !important; }
+  .v-btn {
+    font-size: 12px !important; padding: 6px 12px !important;
+    border-radius: 4px !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule-strong) !important;
+    color: var(--ink-2) !important;
+  }
+  .v-btn:hover { background: var(--paper-3) !important; color: var(--ink) !important; }
+  .v-btn.primary {
+    background: var(--accent) !important; color: #FFF !important;
+    border-color: var(--accent) !important;
+  }
+  .v-btn.primary:hover { background: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
+
+  /* —— KB 知识库板块 —— */
+  .kb-section { padding: 32px 0 !important; }
+  .kb-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .kb-list {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    background: transparent !important;
+    border: none !important;
+    margin-top: 14px !important;
+  }
+  .kb-item {
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    padding: 16px 18px !important;
+    background: #FFFFFF !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .kb-item .src {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.04em !important;
+    color: var(--accent) !important; text-transform: none !important;
+  }
+  .kb-item h4 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 14px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .kb-item p { font-size: 12.5px !important; color: var(--ink-3) !important; line-height: 1.65 !important; }
+  .kb-item .meta {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0 !important; color: var(--ink-4) !important;
+  }
+
+  /* —— 候选/合同/拆分（receipt-claim 专属组件兼容） —— */
+  .cand, .contract-card, .split-table, .stmt-bank, .stmt-amount {
+    border-color: var(--rule) !important;
+    border-radius: 6px !important;
+    background: #FFFFFF !important;
+  }
+
+  /* —— 页脚 —— */
+  .footer {
+    padding: 24px 0 !important;
+    background: #FFFFFF !important;
+    border-top: 1px solid var(--rule) !important;
+    border-bottom: none !important;
+  }
+  .footer-grid { grid-template-columns: 1fr auto !important; gap: 16px !important; }
+  .footer-mark { display: none !important; }
+  .footer-text {
+    font-family: inherit !important; font-size: 13px !important;
+    color: var(--ink-3) !important; line-height: 1.5 !important;
+  }
+  .footer-text strong { color: var(--ink) !important; font-weight: 600 !important; }
+  .footer-meta {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+
+  /* —— Modal —— */
+  .modal-mask { background: rgba(17, 24, 39, 0.45) !important; backdrop-filter: blur(2px) !important; }
+  .modal-card {
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 8px !important;
+    box-shadow: var(--shadow-lg) !important;
+  }
+  .modal-head { padding: 18px 24px 14px !important; }
+  .modal-head .kicker {
+    font-size: 11px !important; letter-spacing: 0.08em !important;
+    color: var(--accent) !important; text-transform: none !important;
+  }
+  .modal-head h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 17px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .modal-head .close {
+    border-radius: 4px !important; width: 28px !important; height: 28px !important;
+  }
+  .modal-head .close:hover { background: var(--paper-3) !important; }
+  .modal-body { padding: 18px 24px 4px !important; }
+  .field label {
+    font-family: inherit !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    color: var(--ink-2) !important; text-transform: none !important;
+    font-weight: 500 !important;
+  }
+  .field input, .field select, .field textarea {
+    font-size: 13px !important; padding: 8px 10px !important;
+    border: 1px solid var(--rule-strong) !important; border-radius: 4px !important;
+    background: #FFFFFF !important;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  }
+  .field .hint {
+    font-family: inherit !important;
+    font-size: 11px !important; letter-spacing: 0 !important; color: var(--ink-4) !important;
+  }
+  .upload-zone {
+    border: 1px dashed var(--rule-strong) !important;
+    border-radius: 6px !important; padding: 14px !important;
+    background: var(--paper) !important;
+  }
+  .upload-zone:hover { border-color: var(--accent) !important; background: var(--accent-soft) !important; }
+  .upload-zone .title-up { font-size: 13px !important; color: var(--ink-2) !important; }
+  .upload-zone .sub {
+    font-family: inherit !important;
+    font-size: 11px !important; letter-spacing: 0 !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+  .upload-list .att-mock {
+    background: var(--paper-3) !important; border-radius: 4px !important; font-size: 12.5px !important;
+  }
+  .upload-list .att-mock .size {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; color: var(--ink-4) !important;
+  }
+  .ai-fill {
+    font-family: inherit !important;
+    font-size: 11px !important; letter-spacing: 0 !important; text-transform: none !important;
+    background: var(--accent-soft) !important; color: var(--accent) !important;
+    border: 1px solid transparent !important; border-radius: 4px !important;
+    padding: 4px 9px !important;
+  }
+  .ai-fill:hover { border-color: var(--accent) !important; }
+  .modal-foot {
+    padding: 14px 24px 18px !important;
+    border-top: 1px solid var(--rule) !important;
+  }
+  .modal-foot .tip { font-size: 12px !important; color: var(--ink-4) !important; }
+  .modal-foot .tip strong { color: var(--ink-2) !important; }
+
+  /* 响应式微调 */
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr !important;
+      grid-template-areas: "kicker" "main" "stats" !important;
+    }
+    .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
+    .panes { grid-template-columns: 1fr !important; }
+    .pane + .pane { border-left: none !important; border-top: 1px solid var(--rule) !important; }
+    .kb-list { grid-template-columns: 1fr !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="brand-tcl">某家电企业</span>
+      <span class="brand-cross" aria-hidden="true">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <line x1="2" y1="2" x2="12" y2="12"></line>
+          <line x1="12" y1="2" x2="2" y2="12"></line>
+        </svg>
+      </span>
+      <span class="brand-wb">Work<em>Buddy</em></span>
+    </div>
+    <nav>
+      <a class="back" href="tcl-workbuddy-demo.html">← 返回应用矩阵</a>
+      <span class="pill">财务中心 · 已上线</span>
+      <span class="mono">2026.05.19</span>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-kicker">
+        APP No.01
+        <span class="label">EXPENSE / AUDIT</span>
+      </div>
+      <div>
+        <div class="hero-meta">FINANCE CENTER · DEALER EXPENSE AUDIT</div>
+        <h1>不再问审了多少单，<br>只问 <em>替财务部堵下了多少漏洞</em></h1>
+        <p class="lead">
+          代理商市场费用、促销返点、培训差旅 — AI 自动调取财务知识库（管理办法、政策文件、权限矩阵），
+          逐单识别违规、量化金额损失、给出可追责依据。
+          财务总监汇报给 CFO 时，不再说「今天审了 1,284 单」，而是说「今天拦下 ¥186 万、堵下 47 处违规」。
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-cell">
+          <div class="num">¥<em>186.4</em><span style="font-size:18px;color:var(--ink-3)">万</span></div>
+          <div class="label">本月已拦截违规金额</div>
+        </div>
+        <div class="stat-cell">
+          <div class="num"><em>47</em><span style="font-size:18px;color:var(--ink-3)">处</span></div>
+          <div class="label">本月已堵高风险漏洞</div>
+        </div>
+        <div class="stat-cell">
+          <div class="num"><em>2.16</em><span style="font-size:18px;color:var(--ink-3)">%</span></div>
+          <div class="label">违规金额占审核总额</div>
+        </div>
+        <div class="stat-cell">
+          <div class="num"><em>6.1</em><span style="font-size:18px;color:var(--ink-3)">×</span></div>
+          <div class="label">人工漏检 ROI 倍数</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 漏洞拦截看板（CFO 视角）============ -->
+<section class="cfo-board">
+  <div class="container">
+    <div class="ws-head">
+      <div class="ws-num">CFO<br>BOARD</div>
+      <div>
+        <h2 class="ws-title">本月违规拦截看板 <em>Anti-Leak Dashboard</em></h2>
+        <p class="ws-sub">财务总监给 CFO 的一页纸：今天替公司堵了多少漏洞、挽回了多少现金。所有金额按拦截结论 × 涉案金额加权聚合，可下钻到单据。</p>
+      </div>
+    </div>
+
+    <div class="ws-grid">
+      <div class="ws-spacer"></div>
+      <div class="cfo-grid">
+
+        <!-- 主指标卡 -->
+        <div class="cfo-headline">
+          <div class="cfo-headline-meta">本月累计拦截金额 · MTD</div>
+          <div class="cfo-headline-num">
+            <span class="sym">¥</span><em>1,864,217</em><span class="unit">.00</span>
+          </div>
+          <div class="cfo-headline-sub">
+            <span class="trend up">↑ 23.4%</span>
+            <span>较上月（¥151.0 万）</span>
+            <span class="dot">·</span>
+            <span>覆盖单据 <strong>1,284</strong> 张</span>
+            <span class="dot">·</span>
+            <span>违规率 <strong>2.16%</strong></span>
+          </div>
+        </div>
+
+        <!-- 违规金额分布柱图 -->
+        <div class="cfo-card cfo-card-bars">
+          <div class="cfo-card-head">
+            <h3>违规金额分布 · 按风险类型</h3>
+            <span class="mono-tip">¥ 万元</span>
+          </div>
+          <div class="bars">
+            <div class="bar-row">
+              <div class="bar-label">超标准报销</div>
+              <div class="bar-track"><div class="bar-fill" style="width: 92%; background: var(--bad);"></div></div>
+              <div class="bar-val"><em>72.4</em></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">虚假活动核销</div>
+              <div class="bar-track"><div class="bar-fill" style="width: 64%; background: var(--bad);"></div></div>
+              <div class="bar-val"><em>50.8</em></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">越权审批</div>
+              <div class="bar-track"><div class="bar-fill" style="width: 41%; background: var(--warn);"></div></div>
+              <div class="bar-val"><em>32.1</em></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">返点档位错配</div>
+              <div class="bar-track"><div class="bar-fill" style="width: 26%; background: var(--warn);"></div></div>
+              <div class="bar-val"><em>20.6</em></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">重复报销</div>
+              <div class="bar-track"><div class="bar-fill" style="width: 14%; background: var(--ink-3);"></div></div>
+              <div class="bar-val"><em>10.5</em></div>
+            </div>
+          </div>
+          <div class="cfo-card-foot">
+            <span>Top 2 类型贡献 <strong>66%</strong> 拦截金额</span>
+            <a class="cfo-link" href="#workspace">下钻到单据 →</a>
+          </div>
+        </div>
+
+        <!-- 趋势 -->
+        <div class="cfo-card cfo-card-trend">
+          <div class="cfo-card-head">
+            <h3>近 6 个月拦截趋势</h3>
+            <span class="mono-tip">¥ 万元</span>
+          </div>
+          <svg class="trend-chart" viewBox="0 0 320 140" preserveAspectRatio="none" aria-hidden="true">
+            <!-- 网格 -->
+            <line x1="0" y1="35"  x2="320" y2="35"  stroke="rgba(10,10,10,.06)"/>
+            <line x1="0" y1="70"  x2="320" y2="70"  stroke="rgba(10,10,10,.06)"/>
+            <line x1="0" y1="105" x2="320" y2="105" stroke="rgba(10,10,10,.06)"/>
+            <!-- 面积 -->
+            <path d="M0,108 L64,96 L128,82 L192,70 L256,52 L320,28 L320,140 L0,140 Z"
+                  fill="rgba(10,37,64,.10)"/>
+            <!-- 线 -->
+            <path d="M0,108 L64,96 L128,82 L192,70 L256,52 L320,28"
+                  fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+            <!-- 点 -->
+            <circle cx="0"   cy="108" r="2.5" fill="var(--accent)"/>
+            <circle cx="64"  cy="96"  r="2.5" fill="var(--accent)"/>
+            <circle cx="128" cy="82"  r="2.5" fill="var(--accent)"/>
+            <circle cx="192" cy="70"  r="2.5" fill="var(--accent)"/>
+            <circle cx="256" cy="52"  r="2.5" fill="var(--accent)"/>
+            <circle cx="320" cy="28"  r="3"   fill="var(--accent)" stroke="var(--paper)" stroke-width="1.5"/>
+          </svg>
+          <div class="trend-axis">
+            <span>12月</span><span>1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月 MTD</span>
+          </div>
+          <div class="trend-vals">
+            <span>76</span><span>91</span><span>118</span><span>134</span><span>151</span><span><em>186</em></span>
+          </div>
+          <div class="cfo-card-foot">
+            <span>6 个月累计拦截 <strong>¥756 万</strong></span>
+            <span class="trend up">↑ 144.7% YTD</span>
+          </div>
+        </div>
+
+        <!-- 漏洞计数 -->
+        <div class="cfo-card cfo-card-leaks">
+          <div class="cfo-card-head">
+            <h3>本月已堵漏洞 · 按严重度</h3>
+            <span class="mono-tip">单据数</span>
+          </div>
+          <div class="leak-list">
+            <div class="leak-row">
+              <span class="leak-dot" style="background: var(--bad);"></span>
+              <span class="leak-name">高危 · P0</span>
+              <span class="leak-bar"><span style="width: 72%; background: var(--bad);"></span></span>
+              <span class="leak-num"><em>14</em></span>
+            </div>
+            <div class="leak-row">
+              <span class="leak-dot" style="background: var(--warn);"></span>
+              <span class="leak-name">中危 · P1</span>
+              <span class="leak-bar"><span style="width: 95%; background: var(--warn);"></span></span>
+              <span class="leak-num"><em>21</em></span>
+            </div>
+            <div class="leak-row">
+              <span class="leak-dot" style="background: var(--ink-3);"></span>
+              <span class="leak-name">低危 · P2</span>
+              <span class="leak-bar"><span style="width: 55%; background: var(--ink-3);"></span></span>
+              <span class="leak-num"><em>12</em></span>
+            </div>
+          </div>
+          <div class="cfo-card-foot">
+            <span>合计 <strong>47</strong> 处 · 已全部进入追责流程</span>
+          </div>
+        </div>
+
+        <!-- ROI -->
+        <div class="cfo-card cfo-card-roi">
+          <div class="cfo-card-head">
+            <h3>对比人工抽审 · ROI</h3>
+          </div>
+          <div class="roi-grid">
+            <div class="roi-cell">
+              <div class="roi-num">¥<em>30.5</em><span>万</span></div>
+              <div class="roi-label">人工抽审 / 月可拦截</div>
+              <div class="roi-sub">3 人 × 200 单 · 抽审率 16%</div>
+            </div>
+            <div class="roi-arrow">→</div>
+            <div class="roi-cell roi-cell-strong">
+              <div class="roi-num">¥<em>186.4</em><span>万</span></div>
+              <div class="roi-label">AI 全量审 / 月已拦截</div>
+              <div class="roi-sub">1,284 单 · 覆盖率 100%</div>
+            </div>
+          </div>
+          <div class="cfo-card-foot">
+            <span>多挽回 <strong>¥155.9 万</strong> / 月 · ROI <strong>6.1×</strong></span>
+            <a class="cfo-link" href="#kb">查看依据 →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ============ CFO Board ============ */
+  .cfo-board {
+    padding: 56px 0 24px;
+    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .cfo-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+  .cfo-headline {
+    grid-column: span 6;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 4px 28px;
+    align-items: end;
+  }
+  .cfo-headline-meta {
+    grid-column: 1 / -1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .cfo-headline-num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 56px; line-height: 1; font-weight: 500;
+    color: var(--paper);
+    font-feature-settings: "tnum";
+    letter-spacing: -0.01em;
+  }
+  .cfo-headline-num .sym { font-size: 32px; color: var(--ink-4); margin-right: 4px; }
+  .cfo-headline-num em { font-style: italic; font-weight: 400; color: var(--paper); }
+  .cfo-headline-num .unit { font-size: 22px; color: var(--ink-4); font-weight: 400; }
+  .cfo-headline-sub {
+    font-size: 13px; color: var(--ink-4);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    padding-bottom: 4px;
+  }
+  .cfo-headline-sub strong { color: var(--paper); font-weight: 500; }
+  .cfo-headline-sub .dot { color: rgba(255,255,255,0.2); }
+  .cfo-headline-sub .trend.up {
+    color: #5BD495; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.04em;
+  }
+
+  .cfo-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 20px 22px 18px;
+    display: flex; flex-direction: column;
+  }
+  .cfo-card-bars  { grid-column: span 3; }
+  .cfo-card-trend { grid-column: span 3; }
+  .cfo-card-leaks { grid-column: span 3; }
+  .cfo-card-roi   { grid-column: span 3; }
+
+  .cfo-card-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .cfo-card-head h3 {
+    font-family: 'Noto Serif SC', serif; font-weight: 500;
+    font-size: 16px; color: var(--ink); letter-spacing: -0.005em;
+  }
+  .cfo-card-head .mono-tip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .cfo-card-foot {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--ink-3);
+  }
+  .cfo-card-foot strong { color: var(--ink); font-weight: 600; }
+  .cfo-card-foot .trend.up {
+    color: var(--ok); font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.04em;
+  }
+  .cfo-link {
+    color: var(--accent); font-weight: 500;
+    border-bottom: 1px dashed var(--accent);
+    padding-bottom: 1px;
+  }
+  .cfo-link:hover { border-bottom-style: solid; }
+
+  /* —— Bars —— */
+  .bars { display: flex; flex-direction: column; gap: 11px; padding: 4px 0 6px; }
+  .bar-row { display: grid; grid-template-columns: 96px 1fr 56px; gap: 10px; align-items: center; }
+  .bar-label { font-size: 12.5px; color: var(--ink-2); }
+  .bar-track {
+    height: 8px; background: var(--paper-3); border-radius: 2px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .bar-val {
+    font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 500;
+    color: var(--ink); text-align: right;
+    font-feature-settings: "tnum";
+  }
+  .bar-val em { color: var(--accent); font-style: italic; font-weight: 400; }
+
+  /* —— Trend —— */
+  .trend-chart {
+    width: 100%; height: 120px; display: block;
+    margin-bottom: 6px;
+  }
+  .trend-axis, .trend-vals {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--ink-4);
+    text-align: center;
+  }
+  .trend-axis { letter-spacing: 0.06em; padding: 2px 0; }
+  .trend-vals {
+    font-size: 12px; color: var(--ink-2); padding-top: 2px;
+    border-top: 1px dashed var(--rule); margin-top: 2px;
+  }
+  .trend-vals em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+  /* —— Leaks —— */
+  .leak-list { display: flex; flex-direction: column; gap: 14px; padding: 6px 0; }
+  .leak-row {
+    display: grid; grid-template-columns: 8px 80px 1fr 36px;
+    gap: 10px; align-items: center;
+  }
+  .leak-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .leak-name { font-size: 12.5px; color: var(--ink-2); }
+  .leak-bar {
+    height: 6px; background: var(--paper-3); border-radius: 2px;
+    position: relative; overflow: hidden;
+  }
+  .leak-bar > span {
+    display: block; height: 100%; border-radius: 2px;
+    transition: width 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .leak-num {
+    font-family: 'Noto Serif SC', serif; font-size: 18px; font-weight: 500;
+    color: var(--ink); text-align: right;
+    font-feature-settings: "tnum";
+  }
+  .leak-num em { color: var(--accent); font-style: italic; font-weight: 400; }
+
+  /* —— ROI —— */
+  .roi-grid {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 12px; align-items: center; padding: 6px 0 10px;
+  }
+  .roi-cell {
+    border: 1px solid var(--rule);
+    border-radius: 6px; padding: 14px 14px;
+    background: var(--paper-2);
+  }
+  .roi-cell-strong {
+    background: var(--accent); color: var(--paper);
+    border-color: var(--accent);
+  }
+  .roi-num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 24px; font-weight: 500;
+    color: var(--ink); line-height: 1.1;
+    font-feature-settings: "tnum";
+  }
+  .roi-cell-strong .roi-num { color: var(--paper); }
+  .roi-num em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .roi-cell-strong .roi-num em { color: var(--paper); }
+  .roi-num span { font-size: 13px; color: var(--ink-3); margin-left: 2px; }
+  .roi-cell-strong .roi-num span { color: rgba(250,250,246,0.6); }
+  .roi-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-3); text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .roi-cell-strong .roi-label { color: rgba(250,250,246,0.7); }
+  .roi-sub {
+    font-size: 11.5px; color: var(--ink-4); margin-top: 4px;
+  }
+  .roi-cell-strong .roi-sub { color: rgba(250,250,246,0.55); }
+  .roi-arrow {
+    font-size: 22px; color: var(--ink-4); text-align: center;
+    font-family: 'Inter', sans-serif; font-weight: 300;
+  }
+
+  @media (max-width: 1024px) {
+    .cfo-grid { grid-template-columns: repeat(2, 1fr); }
+    .cfo-headline { grid-column: span 2; }
+    .cfo-card-bars, .cfo-card-trend, .cfo-card-leaks, .cfo-card-roi { grid-column: span 2; }
+    .cfo-headline-num { font-size: 40px; }
+    .cfo-headline-num .sym { font-size: 22px; }
+    .roi-grid { grid-template-columns: 1fr; }
+    .roi-arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+</style>
+
+<section class="workspace" id="workspace">
+  <div class="container">
+    <div class="ws-head">
+      <div class="ws-num">DEMO<br>WORKSPACE</div>
+      <div>
+        <h2 class="ws-title">代理商费用单据审核 <em>Live Demo</em></h2>
+        <p class="ws-sub">选择一张待审单据，点击「开始 AI 审核」— 系统将依次调用 OCR、知识库检索、规则引擎与 LLM 推理，输出审核结论与引用依据。</p>
+      </div>
+    </div>
+
+    <div class="ws-grid">
+      <div class="ws-spacer"></div>
+      <div>
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-ticket="t1"><span class="num">T-2026-0517-09</span>蓝海电器 · 促销活动核销</button>
+          <button class="tab" data-ticket="t2"><span class="num">T-2026-0518-22</span>华北万和 · 季度返点结算</button>
+          <button class="tab" data-ticket="t3"><span class="num">T-2026-0518-31</span>西南鸿祥 · 培训差旅报销</button>
+          <button class="tab-add" id="btn-open-modal" type="button">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+              <line x1="7" y1="2" x2="7" y2="12"></line>
+              <line x1="2" y1="7" x2="12" y2="7"></line>
+            </svg>
+            录入单据
+            <span class="mono-tip">NEW</span>
+          </button>
+        </div>
+
+        <div class="panes">
+          <!-- ============ Left: ticket detail ============ -->
+          <div class="pane">
+            <div class="pane-head">
+              <h3>单据详情</h3>
+              <span class="meta">DEALER · TICKET</span>
+            </div>
+
+            <!-- Ticket 1 -->
+            <div class="ticket active" id="ticket-t1">
+              <div class="ticket-title">蓝海电器 2026Q2 旗舰店开业促销活动费用核销</div>
+              <div class="ticket-id">T-2026-0517-09 · SUBMITTED 2026-05-17 14:22</div>
+
+              <div class="ticket-row"><span class="k">代理商</span><span class="v">华南区 · 深圳蓝海电器有限公司（一级代理）</span></div>
+              <div class="ticket-row"><span class="k">费用类型</span><span class="v"><span class="badge">市场推广费</span> 开业促销活动</span></div>
+              <div class="ticket-row"><span class="k">申报金额</span><span class="v amount">¥ <em>48,600</em>.00</span></div>
+              <div class="ticket-row"><span class="k">活动周期</span><span class="v">2026-05-01 至 2026-05-08（8 天）</span></div>
+              <div class="ticket-row"><span class="k">归属预算</span><span class="v">华南区 · 2026Q2 市场费用预算（剩余 ¥ 312,400）</span></div>
+              <div class="ticket-row"><span class="k">提交人</span><span class="v">王晓敏 · 华南渠道部</span></div>
+              <div class="ticket-row"><span class="k">费用明细</span><span class="v">
+                场地搭建 ¥ 18,200 · 物料制作 ¥ 9,800 · 礼品采购 ¥ 8,400 · 演艺费用 ¥ 6,200 · 其他 ¥ 6,000
+              </span></div>
+
+              <div class="ticket-attachments">
+                <h4>附件 · 4 项</h4>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+                  <span class="name">活动方案及预算明细.pdf</span>
+                  <span class="size">1.2 MB</span>
+                </div>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                  <span class="name">费用发票汇总表.xlsx</span>
+                  <span class="size">86 KB</span>
+                </div>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                  <span class="name">活动现场照片（28 张）.zip</span>
+                  <span class="size">14.8 MB</span>
+                </div>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+                  <span class="name">原始费用发票（合并）.pdf</span>
+                  <span class="size">3.6 MB</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ticket 2 -->
+            <div class="ticket" id="ticket-t2">
+              <div class="ticket-title">华北万和 2026Q1 销售返点结算</div>
+              <div class="ticket-id">T-2026-0518-22 · SUBMITTED 2026-05-18 09:14</div>
+
+              <div class="ticket-row"><span class="k">代理商</span><span class="v">华北区 · 北京万和电器（一级代理）</span></div>
+              <div class="ticket-row"><span class="k">费用类型</span><span class="v"><span class="badge">销售返点</span> 季度阶梯返利</span></div>
+              <div class="ticket-row"><span class="k">申报金额</span><span class="v amount">¥ <em>186,500</em>.00</span></div>
+              <div class="ticket-row"><span class="k">结算周期</span><span class="v">2026-01-01 至 2026-03-31（Q1）</span></div>
+              <div class="ticket-row"><span class="k">销售达成</span><span class="v">实际回款 ¥ 8.62M · 目标 ¥ 8.00M · 完成率 107.8%</span></div>
+              <div class="ticket-row"><span class="k">返点档位</span><span class="v">完成 105% 触发 2.16% 阶梯返点（目标完成档位）</span></div>
+              <div class="ticket-row"><span class="k">提交人</span><span class="v">李志强 · 华北渠道部</span></div>
+
+              <div class="ticket-attachments">
+                <h4>附件 · 2 项</h4>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                  <span class="name">Q1 销售达成与回款明细.xlsx</span>
+                  <span class="size">142 KB</span>
+                </div>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+                  <span class="name">代理商返点结算申请单.pdf</span>
+                  <span class="size">540 KB</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ticket 3 -->
+            <div class="ticket" id="ticket-t3">
+              <div class="ticket-title">西南鸿祥 区域培训差旅报销</div>
+              <div class="ticket-id">T-2026-0518-31 · SUBMITTED 2026-05-18 16:48</div>
+
+              <div class="ticket-row"><span class="k">代理商</span><span class="v">西南区 · 成都鸿祥电器（二级代理）</span></div>
+              <div class="ticket-row"><span class="k">费用类型</span><span class="v"><span class="badge">培训差旅</span> 区域销售培训</span></div>
+              <div class="ticket-row"><span class="k">申报金额</span><span class="v amount">¥ <em>26,840</em>.00</span></div>
+              <div class="ticket-row"><span class="k">出差期间</span><span class="v">2026-05-12 至 2026-05-15（4 天 · 6 人）</span></div>
+              <div class="ticket-row"><span class="k">出发/目的</span><span class="v">成都 → 深圳总部</span></div>
+              <div class="ticket-row"><span class="k">归属预算</span><span class="v">渠道培训预算（剩余 ¥ 78,200）</span></div>
+              <div class="ticket-row"><span class="k">费用明细</span><span class="v">
+                机票 ¥ 14,400 · 酒店 ¥ 7,200 · 餐补 ¥ 2,880 · 市内交通 ¥ 1,360 · 其他 ¥ 1,000
+              </span></div>
+
+              <div class="ticket-attachments">
+                <h4>附件 · 3 项</h4>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+                  <span class="name">差旅报销单.pdf</span>
+                  <span class="size">320 KB</span>
+                </div>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+                  <span class="name">机票/酒店发票（合并）.pdf</span>
+                  <span class="size">2.1 MB</span>
+                </div>
+                <div class="att">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                  <span class="name">培训日程及签到表.xlsx</span>
+                  <span class="size">62 KB</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="audit-cta">
+              <button class="btn-primary" id="btn-audit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                开始 AI 审核
+              </button>
+              <button class="btn-ghost" id="btn-reset">重置</button>
+            </div>
+          </div>
+
+          <!-- ============ Right: AI process ============ -->
+          <div class="pane">
+            <div class="pane-head">
+              <h3>AI 审核流程 · 实时</h3>
+              <span class="meta" id="ai-status">IDLE</span>
+            </div>
+
+            <div class="ai-empty" id="ai-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <h4>等待开始</h4>
+              <div>选择左侧单据，点击「开始 AI 审核」<br>系统将自动加载知识库并执行规则核验</div>
+            </div>
+
+            <div class="ai-flow" id="ai-flow"></div>
+
+            <div class="verdict" id="verdict">
+              <div class="verdict-head">
+                <span class="verdict-tag" id="verdict-tag">PASS</span>
+                <span class="verdict-score">合规分 <em id="verdict-score">88</em>/ 100</span>
+              </div>
+              <div class="verdict-title" id="verdict-title"></div>
+              <div class="verdict-text" id="verdict-text"></div>
+              <div class="verdict-actions">
+                <button class="v-btn primary" onclick="alert('已转交人工复核 · 流转至：财务初审岗 · 张俊')">转人工复核</button>
+                <button class="v-btn" onclick="alert('已生成审核底稿 PDF')">导出底稿</button>
+                <button class="v-btn" onclick="alert('已驳回，已通知提交人')">驳回</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kb-section" id="kb">
+  <div class="container">
+    <div class="kb-grid">
+      <div class="ws-num">KB<br>SOURCES</div>
+      <div>
+        <h2 class="ws-title">已接入知识库 <em>Knowledge Base</em></h2>
+        <p class="ws-sub">财务中心制度文件、政策手册、权限矩阵已结构化入库 · LKE 检索 · 自动版本同步。</p>
+
+        <div class="kb-list">
+          <div class="kb-item">
+            <div class="src">FIN-POL · 2026-Q2</div>
+            <h4>《代理商市场费用管理办法》v3.2</h4>
+            <p>覆盖代理商市场推广、促销活动、物料投放、礼品发放等费用类型的申报、审批、核销、追责全流程标准。</p>
+            <div class="meta">87 条规则 · 24 张附表 · 最近更新 2026-04-12</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">FIN-POL · 2026-Q1</div>
+            <h4>《销售返点政策手册》</h4>
+            <p>季度返点档位、计算口径、回款认定规则、跨期调整、特殊客户协议返点等结算依据。</p>
+            <div class="meta">42 条规则 · 8 套档位表 · 最近更新 2026-03-28</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">FIN-OPS · 2026</div>
+            <h4>《差旅与培训费用报销标准》</h4>
+            <p>分级别、分城市、分场景的差旅标准；培训类支出的会议规模、餐标、住宿标准与超标审批路径。</p>
+            <div class="meta">36 条规则 · 5 张分级表 · 最近更新 2026-02-19</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">FIN-AUTH · 2026</div>
+            <h4>《单笔费用审批权限矩阵》</h4>
+            <p>按费用类型、金额区间、组织层级匹配的审批权限链路；超阈值的多级会签与超额特批规则。</p>
+            <div class="meta">128 条规则 · 多维矩阵 · 最近更新 2026-04-30</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">FIN-RISK · 2026</div>
+            <h4>《费用合规风险清单》</h4>
+            <p>历史稽核中识别的高频违规模式、关键风险点、需特别关注的灰区场景与提示话术。</p>
+            <div class="meta">63 条风险条目 · 最近更新 2026-05-08</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">FIN-DATA · LIVE</div>
+            <h4>预算与回款实时数据</h4>
+            <p>从 SAP / SRM / 渠道系统接入的预算余额、回款达成、合同执行等实时数据接口。</p>
+            <div class="meta">8 个数据源 · API 直连 · 实时同步</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-mark">— END —</div>
+      <div class="footer-text">
+        <strong>费用审核 AI 助手</strong> · 某家电企业 × WorkBuddy
+      </div>
+      <div class="footer-meta">INTERNAL DEMO<br>2026 · FINANCE CENTER</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ Modal · 录入单据 ============ -->
+<div class="modal-mask" id="modal-mask">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div>
+        <div class="kicker">NEW TICKET · 录入单据</div>
+        <h3>新建一张代理商费用单据</h3>
+      </div>
+      <button class="close" id="modal-close" aria-label="关闭">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="field">
+          <label>代理商名称 <span style="color:var(--bad)">*</span></label>
+          <input type="text" id="f-dealer" placeholder="例如：广州联展电器（一级代理）" value="广州联展电器（一级代理）">
+        </div>
+        <div class="field">
+          <label>所属区域</label>
+          <select id="f-region">
+            <option>华南区</option>
+            <option>华北区</option>
+            <option>华东区</option>
+            <option>西南区</option>
+            <option>西北区</option>
+            <option>东北区</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>费用类型 <span style="color:var(--bad)">*</span></label>
+          <select id="f-type">
+            <option value="市场推广费">市场推广费 / 促销活动</option>
+            <option value="销售返点">销售返点 / 阶梯返利</option>
+            <option value="培训差旅">培训差旅 / 区域培训</option>
+            <option value="物料投放">物料投放 / 终端形象</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>申报金额（元） <span style="color:var(--bad)">*</span></label>
+          <input type="text" id="f-amount" placeholder="例如：32,000" value="32,000">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>活动 / 出差周期</label>
+          <input type="text" id="f-period" placeholder="例如：2026-05-10 至 2026-05-15" value="2026-05-10 至 2026-05-15">
+        </div>
+        <div class="field">
+          <label>归属预算</label>
+          <input type="text" id="f-budget" placeholder="例如：华南区 · 2026Q2 市场费用预算" value="华南区 · 2026Q2 市场费用预算">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>
+            费用明细
+            <button type="button" class="ai-fill" id="btn-ai-fill" title="基于已上传附件，AI 自动填充明细">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              AI 智能填充
+            </button>
+          </label>
+          <textarea id="f-detail" placeholder="例如：场地搭建 ¥12,000 · 物料制作 ¥8,000 · 礼品采购 ¥6,000 · 演艺 ¥4,000 · 其他 ¥2,000">场地搭建 ¥12,000 · 物料制作 ¥8,000 · 礼品采购 ¥6,000 · 演艺 ¥4,000 · 其他 ¥2,000</textarea>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>提交人 / 部门</label>
+          <input type="text" id="f-submitter" placeholder="例如：张磊 · 华南渠道部" value="张磊 · 华南渠道部">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>附件上传</label>
+          <div class="upload-zone" id="upload-zone">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <div class="title-up">点击或拖拽文件到此处</div>
+            <div class="sub">支持 PDF / 图片 / Excel · 单文件最大 20MB</div>
+            <input type="file" id="f-files" multiple style="display:none">
+          </div>
+          <div class="upload-list" id="upload-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <div class="tip">
+        <strong>提示：</strong>提交后将自动生成单号并加入审核队列，可立即点击「开始 AI 审核」走通完整流程。
+      </div>
+      <div class="actions">
+        <button class="btn-ghost" id="modal-cancel">取消</button>
+        <button class="btn-primary" id="modal-submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          提交并加入审核队列
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== Tab switching (delegated, supports dynamically added tabs) ===== */
+const tabsEl = document.getElementById('tabs');
+tabsEl.addEventListener('click', (e) => {
+  const tab = e.target.closest('.tab');
+  if (!tab || !tab.dataset.ticket) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ticket').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  const target = document.getElementById('ticket-' + tab.dataset.ticket);
+  if (target) target.classList.add('active');
+  currentTicket = tab.dataset.ticket;
+  resetAudit();
+});
+
+/* ===== Demo data per ticket ===== */
+const SCENARIOS = {
+  t1: {
+    score: 78,
+    verdict: 'warn',
+    tag: '需复核',
+    title: '建议人工复核 · 礼品采购占比超出政策上限',
+    text: '本单 4 项主要核验全部完成。AI 识别到「礼品采购 ¥8,400」占活动总费用 17.3%，超出《代理商市场费用管理办法 v3.2》第 4.2 条规定的「礼品类支出不得超过单次活动总费用 15%」上限 ¥1,110。其他项（场地、物料、演艺、预算余额、审批权限）均合规。建议交由华南区财务初审岗复核或要求代理商调整明细。',
+    steps: [
+      { t: 'OCR & 单据解析', d: '解析活动方案 PDF / 发票汇总 xlsx / 现场照片 EXIF · 提取 23 个字段，置信度 98.6%。', kind: 'done', delay: 800 },
+      { t: '调用知识库 · 政策检索', d: '依据费用类型「市场推广费 / 促销活动」命中 3 篇政策文件，召回 8 条相关规则。', kind: 'done', delay: 1100, cite: { src: '《代理商市场费用管理办法》v3.2 · §4.2', txt: '促销活动中礼品类支出不得超过单次活动总费用的 15%；超出部分需区域 VP 特批。' } },
+      { t: '规则引擎 · 合规核验', d: '逐条比对申报内容与政策规则，标记差异项。', kind: 'warn',
+        findings: [
+          { lv: 'ok', t: '场地与物料费用结构', d: '场地 37.4% / 物料 20.2% — 在政策允许区间。' },
+          { lv: 'warn', t: '礼品采购占比 17.3%', d: '超出政策上限 15%，差额 ¥1,110。' },
+          { lv: 'ok', t: '活动周期与申报时点', d: '5/8 结束、5/17 申报，符合「活动结束后 30 天内」要求。' },
+        ], delay: 1300 },
+      { t: '预算与权限核验', d: '调用预算实时数据 · 校验申报金额未超过部门季度可用余额，且金额位于「区域总监」审批权限内（¥5W 以下）。', kind: 'done', delay: 900,
+        findings: [
+          { lv: 'ok', t: '预算可用余额', d: '剩余 ¥312,400，扣减后 ¥263,800（充足）。' },
+          { lv: 'ok', t: '审批权限链路', d: '提交人 → 区域总监（¥5W）→ 财务初审，路径合规。' },
+        ] },
+      { t: 'LLM 综合判定', d: '基于规则引擎结果与历史审核反馈，模型输出风险评级与处置建议。', kind: 'warn', delay: 1100 },
+    ],
+  },
+  t2: {
+    score: 96,
+    verdict: 'ok',
+    tag: '通过',
+    title: 'AI 初审通过 · 可直接进入财务复核流转',
+    text: '返点结算金额、达成率、档位匹配、回款认定全部一致。Q1 实际回款 ¥8.62M（达成 107.8%）触发 2.16% 阶梯返点档位，应付返点 ¥186,192 — 与申报金额 ¥186,500 偏差 0.17%，在《销售返点政策手册》第 6.1 条允许的 ±0.5% 容差范围内。预算与权限链路均合规，建议直接进入复核流转。',
+    steps: [
+      { t: 'OCR & 单据解析', d: '解析销售达成 xlsx 与申请单 PDF · 抽取 18 个字段，置信度 99.1%。', kind: 'done', delay: 700 },
+      { t: '调用知识库 · 返点政策', d: '命中《销售返点政策手册》「Q1 阶梯档位表」与「回款认定规则」。', kind: 'done', delay: 1000, cite: { src: '《销售返点政策手册》§3.4 · 阶梯档位表', txt: '完成率 ≥105% 适用 2.16% 档位；回款须在结算季度末后 30 个自然日内完成入账才计入。' } },
+      { t: '回款数据核验', d: '与 SAP 实际回款数据对账，确认 Q1 回款 ¥8.62M 全部在 4/30 前入账。', kind: 'done', delay: 1100,
+        findings: [
+          { lv: 'ok', t: '回款达成率', d: '107.8% — 触发 2.16% 阶梯返点。' },
+          { lv: 'ok', t: '入账时间', d: '全部回款在结算窗口内完成，无跨期争议。' },
+        ] },
+      { t: '返点金额复算', d: '按 8.62M × 2.16% = ¥186,192，与申报金额对比。', kind: 'done', delay: 900,
+        findings: [
+          { lv: 'ok', t: '金额偏差 0.17%', d: '在政策容差 ±0.5% 范围内 — 通过。' },
+        ] },
+      { t: 'LLM 综合判定', d: '模型评估通过 · 风险等级 R1（低）· 建议直审。', kind: 'done', delay: 900 },
+    ],
+  },
+  t3: {
+    score: 64,
+    verdict: 'bad',
+    tag: '建议驳回',
+    title: '建议驳回 · 多项标准超出报销上限',
+    text: 'AI 比对《差旅与培训费用报销标准》后识别两项关键问题：（1）成都→深圳机票 ¥14,400 / 6 人 = 人均 ¥2,400，超出二级代理跨区差旅经济舱标准 ¥1,800；（2）餐补 ¥2,880 / 6 人 / 4 天 = 人均日 ¥120，超出标准 ¥80 上限。预算余额充足、权限路径合规，但合规分仅 64 分，建议驳回并要求代理商按标准重新申报或补充审批说明。',
+    steps: [
+      { t: 'OCR & 单据解析', d: '解析报销单与机票/酒店发票 · 抽取 24 个字段，置信度 97.3%。', kind: 'done', delay: 800 },
+      { t: '调用知识库 · 差旅标准', d: '命中《差旅与培训费用报销标准》分级表（二级代理 · 跨区出差）。', kind: 'done', delay: 1000, cite: { src: '《差旅与培训费用报销标准》§5.2 · 二级代理跨区差旅', txt: '机票限经济舱 · 人均上限 ¥1,800；餐补 ¥80/人/天；酒店三星及以下 ¥350/人/晚。' } },
+      { t: '逐项标准比对', d: '机票、酒店、餐补、市内交通逐项核验。', kind: 'bad',
+        findings: [
+          { lv: 'bad', t: '机票超标 33%', d: '人均 ¥2,400 > 标准 ¥1,800 · 差额 ¥3,600。' },
+          { lv: 'bad', t: '餐补超标 50%', d: '人均日 ¥120 > 标准 ¥80 · 差额 ¥960。' },
+          { lv: 'ok', t: '酒店标准合规', d: '人均晚 ¥300，在标准范围内。' },
+          { lv: 'ok', t: '市内交通', d: '凭票实报，金额合理。' },
+        ], delay: 1300 },
+      { t: '预算与权限核验', d: '虽预算充足、权限路径合规，但因金额项超标，结论以标准为准。', kind: 'done', delay: 800 },
+      { t: 'LLM 综合判定', d: '风险等级 R3（高）· 合规分 64 · 建议驳回并附整改清单。', kind: 'bad', delay: 1000 },
+    ],
+  },
+};
+
+let currentTicket = 't1';
+
+/* (legacy listener removed — handled by delegated tabs handler above) */
+
+const flow = document.getElementById('ai-flow');
+const empty = document.getElementById('ai-empty');
+const verdict = document.getElementById('verdict');
+const aiStatus = document.getElementById('ai-status');
+const btnAudit = document.getElementById('btn-audit');
+const btnReset = document.getElementById('btn-reset');
+
+function resetAudit() {
+  flow.innerHTML = '';
+  flow.classList.remove('active');
+  empty.style.display = 'block';
+  verdict.classList.remove('show');
+  verdict.classList.remove('warn', 'ok', 'bad');
+  aiStatus.textContent = 'IDLE';
+  btnAudit.disabled = false;
+}
+
+btnReset.addEventListener('click', resetAudit);
+
+btnAudit.addEventListener('click', async () => {
+  const scenario = SCENARIOS[currentTicket];
+  if (!scenario) return;
+  btnAudit.disabled = true;
+  empty.style.display = 'none';
+  flow.innerHTML = '';
+  flow.classList.add('active');
+  verdict.classList.remove('show');
+  aiStatus.textContent = 'RUNNING';
+
+  for (let i = 0; i < scenario.steps.length; i++) {
+    const step = scenario.steps[i];
+    const stepEl = document.createElement('div');
+    stepEl.className = 'step running';
+    stepEl.innerHTML = `
+      <div class="step-icon">${i + 1}</div>
+      <div class="step-body">
+        <div class="step-title">${step.t} <span class="tag">RUNNING</span></div>
+        <div class="step-detail">${step.d}</div>
+      </div>
+    `;
+    flow.appendChild(stepEl);
+    await sleep(step.delay);
+
+    // finalize step
+    stepEl.classList.remove('running');
+    stepEl.classList.add(step.kind);
+    const tagText = step.kind === 'done' ? 'PASS' : step.kind === 'warn' ? 'WARN' : 'FAIL';
+    stepEl.querySelector('.step-title .tag').textContent = tagText;
+
+    // append cite block if any
+    if (step.cite) {
+      const cite = document.createElement('div');
+      cite.className = 'kb-cite';
+      cite.innerHTML = `<span class="src">引用 · ${step.cite.src}</span>${step.cite.txt}`;
+      stepEl.querySelector('.step-body').appendChild(cite);
+    }
+    // findings
+    if (step.findings && step.findings.length) {
+      const fwrap = document.createElement('div');
+      fwrap.className = 'findings';
+      step.findings.forEach(f => {
+        const fel = document.createElement('div');
+        fel.className = 'finding ' + f.lv;
+        fel.innerHTML = `<span class="dot"></span><div><strong>${f.t}</strong> · ${f.d}</div>`;
+        fwrap.appendChild(fel);
+      });
+      stepEl.querySelector('.step-body').appendChild(fwrap);
+    }
+    await sleep(220);
+  }
+
+  // verdict
+  document.getElementById('verdict-tag').textContent = scenario.tag;
+  document.getElementById('verdict-score').textContent = scenario.score;
+  document.getElementById('verdict-title').textContent = scenario.title;
+  document.getElementById('verdict-text').textContent = scenario.text;
+  verdict.classList.add('show', scenario.verdict);
+  aiStatus.textContent = 'DONE';
+  btnAudit.disabled = false;
+});
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+/* ===== Modal: 录入单据 ===== */
+const modalMask = document.getElementById('modal-mask');
+const btnOpenModal = document.getElementById('btn-open-modal');
+const btnModalClose = document.getElementById('modal-close');
+const btnModalCancel = document.getElementById('modal-cancel');
+const btnModalSubmit = document.getElementById('modal-submit');
+const uploadZone = document.getElementById('upload-zone');
+const fInput = document.getElementById('f-files');
+const uploadList = document.getElementById('upload-list');
+const btnAiFill = document.getElementById('btn-ai-fill');
+
+function openModal() {
+  modalMask.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modalMask.classList.remove('show');
+  document.body.style.overflow = '';
+}
+btnOpenModal.addEventListener('click', openModal);
+btnModalClose.addEventListener('click', closeModal);
+btnModalCancel.addEventListener('click', closeModal);
+modalMask.addEventListener('click', (e) => { if (e.target === modalMask) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalMask.classList.contains('show')) closeModal(); });
+
+/* ===== Mock upload ===== */
+const MOCK_FILES = [
+  { name: '活动方案.pdf', size: '1.4 MB' },
+  { name: '费用明细汇总.xlsx', size: '92 KB' },
+  { name: '现场照片合集.zip', size: '8.2 MB' },
+];
+uploadZone.addEventListener('click', () => fInput.click());
+fInput.addEventListener('change', () => {
+  uploadList.innerHTML = '';
+  const files = fInput.files && fInput.files.length ? Array.from(fInput.files) : MOCK_FILES;
+  files.forEach(f => {
+    const sz = f.size && typeof f.size === 'number' ? (f.size / 1024 > 1024 ? (f.size / 1024 / 1024).toFixed(1) + ' MB' : Math.round(f.size / 1024) + ' KB') : (f.size || '—');
+    appendUploadRow(f.name, sz);
+  });
+});
+function appendUploadRow(name, size) {
+  const row = document.createElement('div');
+  row.className = 'att-mock';
+  row.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+    <span>${name}</span>
+    <span class="size">${size}</span>
+  `;
+  uploadList.appendChild(row);
+}
+
+/* ===== AI 智能填充（演示）===== */
+btnAiFill.addEventListener('click', async () => {
+  const detail = document.getElementById('f-detail');
+  const original = btnAiFill.innerHTML;
+  btnAiFill.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/></svg> 识别中…`;
+  btnAiFill.disabled = true;
+  await sleep(900);
+  const t = document.getElementById('f-type').value;
+  const presets = {
+    '市场推广费': '场地搭建 ¥12,000 · 物料制作 ¥8,000 · 礼品采购 ¥6,000 · 演艺 ¥4,000 · 其他 ¥2,000',
+    '销售返点':   '基础销售达成 ¥X · 阶梯返点档位 X.XX% · 应付返点金额 ¥X',
+    '培训差旅':   '机票 ¥14,400 · 酒店 ¥7,200 · 餐补 ¥2,880 · 市内交通 ¥1,360 · 其他 ¥1,000',
+    '物料投放':   '终端形象物料 ¥X · 安装施工 ¥X · 运输费 ¥X',
+    '其他':       '请补充说明费用构成…',
+  };
+  detail.value = presets[t] || presets['市场推广费'];
+  btnAiFill.innerHTML = original;
+  btnAiFill.disabled = false;
+});
+
+/* ===== 提交：动态生成 tab + ticket + scenario ===== */
+let userTicketSeq = 41;
+btnModalSubmit.addEventListener('click', () => {
+  const dealer = document.getElementById('f-dealer').value.trim() || '新代理商';
+  const region = document.getElementById('f-region').value;
+  const type = document.getElementById('f-type').value;
+  const amountRaw = document.getElementById('f-amount').value.replace(/[^\d.]/g, '');
+  const amount = amountRaw ? parseFloat(amountRaw) : 0;
+  const period = document.getElementById('f-period').value || '—';
+  const budget = document.getElementById('f-budget').value || '—';
+  const detail = document.getElementById('f-detail').value || '—';
+  const submitter = document.getElementById('f-submitter').value || '—';
+
+  if (!dealer || !amount) {
+    alert('请补充必填项：代理商名称、申报金额');
+    return;
+  }
+
+  // 单号
+  const today = new Date();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  const seq = String(userTicketSeq++).padStart(2, '0');
+  const ticketNo = `T-2026-${m}${d}-${seq}`;
+  const tid = 'u' + Date.now().toString().slice(-6);
+
+  // 1) 新 tab
+  const newTab = document.createElement('button');
+  newTab.className = 'tab user-added';
+  newTab.dataset.ticket = tid;
+  newTab.innerHTML = `<span class="num">${ticketNo}</span>${dealer.split('（')[0]} · ${type === '销售返点' ? '返点结算' : type === '培训差旅' ? '差旅报销' : type === '市场推广费' ? '促销费用' : type}`;
+  // 插到 + 按钮之前
+  tabsEl.insertBefore(newTab, btnOpenModal);
+
+  // 2) 新 ticket dom
+  const ticketsContainer = document.querySelector('.pane'); // 左 pane
+  const ticketEl = document.createElement('div');
+  ticketEl.className = 'ticket';
+  ticketEl.id = 'ticket-' + tid;
+  const fmtAmount = amount.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const uploadedRows = Array.from(uploadList.querySelectorAll('.att-mock'));
+  const attHtml = uploadedRows.length
+    ? uploadedRows.map(row => `
+        <div class="att">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+          <span class="name">${row.querySelector('span').textContent}</span>
+          <span class="size">${row.querySelector('.size').textContent}</span>
+        </div>
+      `).join('')
+    : `<div class="att" style="color:var(--ink-4)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="name">本次未上传附件 · AI 将基于表单字段执行核验</span>
+      </div>`;
+
+  ticketEl.innerHTML = `
+    <div class="ticket-title">${dealer} · ${type}申报</div>
+    <div class="ticket-id">${ticketNo} · SUBMITTED ${today.getFullYear()}-${m}-${d} ${String(today.getHours()).padStart(2,'0')}:${String(today.getMinutes()).padStart(2,'0')}</div>
+
+    <div class="ticket-row"><span class="k">代理商</span><span class="v">${region} · ${dealer}</span></div>
+    <div class="ticket-row"><span class="k">费用类型</span><span class="v"><span class="badge">${type}</span></span></div>
+    <div class="ticket-row"><span class="k">申报金额</span><span class="v amount">¥ <em>${Math.floor(amount).toLocaleString('zh-CN')}</em>.${fmtAmount.split('.')[1]}</span></div>
+    <div class="ticket-row"><span class="k">活动周期</span><span class="v">${period}</span></div>
+    <div class="ticket-row"><span class="k">归属预算</span><span class="v">${budget}</span></div>
+    <div class="ticket-row"><span class="k">提交人</span><span class="v">${submitter}</span></div>
+    <div class="ticket-row"><span class="k">费用明细</span><span class="v">${detail}</span></div>
+
+    <div class="ticket-attachments">
+      <h4>附件 · ${uploadedRows.length || 0} 项</h4>
+      ${attHtml}
+    </div>
+  `;
+  // 插入到 audit-cta 之前
+  const auditCta = document.querySelector('.audit-cta');
+  ticketsContainer.insertBefore(ticketEl, auditCta);
+
+  // 3) scenario：根据费用类型生成一组合理的审核步骤（演示）
+  SCENARIOS[tid] = buildScenarioForUserTicket({ type, amount, dealer, detail });
+
+  // 4) 切到新 tab
+  newTab.click();
+
+  closeModal();
+
+  // 提示成功
+  setTimeout(() => {
+    aiStatus.textContent = 'NEW · 待审';
+  }, 100);
+});
+
+function buildScenarioForUserTicket({ type, amount, dealer, detail }) {
+  // 简化的场景：用「市场推广费」逻辑做核验示范，金额>5W 触发权限警告
+  const overAuth = amount > 50000;
+  return {
+    score: overAuth ? 72 : 90,
+    verdict: overAuth ? 'warn' : 'ok',
+    tag: overAuth ? '需复核' : '通过',
+    title: overAuth
+      ? '建议人工复核 · 申报金额超出区域总监审批权限'
+      : 'AI 初审通过 · 可直接进入财务复核流转',
+    text: overAuth
+      ? `本单核验主要项已完成。申报金额 ¥${amount.toLocaleString('zh-CN')} 超出区域总监审批权限上限 ¥50,000，需走「区域总监 → 区域 VP」二级会签。其他规则项暂未发现明显违规。`
+      : `本单关键项已通过：费用明细结构、政策匹配度、预算余额、审批权限链路全部合规。建议直接进入财务复核流转。`,
+    steps: [
+      { t: 'OCR & 单据解析', d: `从上传附件与表单字段中提取关键字段：代理商「${dealer}」、费用类型「${type}」、申报金额、明细等，共抽取 16 个字段，置信度 98.2%。`, kind: 'done', delay: 800 },
+      { t: '调用知识库 · 政策检索', d: `依据费用类型「${type}」检索匹配政策文件，召回 6 条相关规则。`, kind: 'done', delay: 1100,
+        cite: { src: '《代理商市场费用管理办法》v3.2 · §3.1', txt: '代理商单笔费用申报须附完整明细、活动方案、发票及现场佐证；申报金额逾 ¥50,000 须区域 VP 二级会签。' } },
+      { t: '规则引擎 · 合规核验', d: '逐项比对申报内容与政策条款。', kind: overAuth ? 'warn' : 'done',
+        findings: [
+          { lv: 'ok', t: '费用明细结构', d: '符合政策允许的费用科目。' },
+          { lv: 'ok', t: '附件齐全度', d: '关键附件已上传，可支撑后续核销。' },
+          overAuth
+            ? { lv: 'warn', t: '审批权限超阈值', d: `申报 ¥${amount.toLocaleString('zh-CN')} 超出区域总监权限 ¥50,000，需追加 VP 会签。` }
+            : { lv: 'ok', t: '审批权限链路', d: '提交人 → 区域总监 → 财务初审，路径合规。' },
+        ], delay: 1300 },
+      { t: '预算与权限核验', d: '调用预算实时数据，校验申报金额与可用余额、权限路径。', kind: 'done', delay: 900,
+        findings: [
+          { lv: 'ok', t: '预算可用余额', d: '充足。' },
+          overAuth
+            ? { lv: 'warn', t: '需补充会签', d: '建议增加区域 VP 二级会签节点。' }
+            : { lv: 'ok', t: '权限链路', d: '当前权限路径合规。' },
+        ] },
+      { t: 'LLM 综合判定', d: `基于规则引擎与历史案例，模型输出风险评级与处置建议。`, kind: overAuth ? 'warn' : 'done', delay: 1100 },
+    ],
+  };
+}
+</script>
+</body>
+</html>

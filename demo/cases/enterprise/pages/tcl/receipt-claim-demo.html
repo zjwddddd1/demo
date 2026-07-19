@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>回款认领智能体 · 某家电企业 × WorkBuddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --ink-2: #2C2C2A;
+    --ink-3: #5F5E5A;
+    --ink-4: #888780;
+    --paper: #FAFAF6;
+    --paper-2: #F1EFE8;
+    --paper-3: #E9E6DC;
+    --rule: rgba(10, 10, 10, 0.08);
+    --rule-strong: rgba(10, 10, 10, 0.18);
+    --accent: #0A2540;
+    --accent-soft: #E8EDF3;
+    --ok: #1D7B4E;
+    --warn: #B45309;
+    --bad: #B33A3A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    font-feature-settings: "tnum", "ss01";
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .serif { font-family: 'Noto Serif SC', serif; font-weight: 500; }
+  .mono { font-family: 'JetBrains Mono', Menlo, monospace; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 56px; }
+
+  /* ============ Top bar ============ */
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: saturate(140%) blur(8px);
+  }
+  .topbar-inner { height: 72px; display: flex; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .brand-tcl {
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: 22px; letter-spacing: 0.06em; color: var(--ink);
+  }
+  .brand-cross { width: 14px; height: 14px; color: var(--ink-4); }
+  .brand-cross svg { width: 100%; height: 100%; }
+  .brand-wb {
+    font-family: 'Noto Serif SC', serif; font-weight: 500;
+    font-size: 19px; letter-spacing: 0.04em;
+  }
+  .brand-wb em { font-style: normal; color: var(--accent); }
+  .topbar nav {
+    margin-left: auto; display: flex; gap: 24px; align-items: center;
+    font-size: 13px; color: var(--ink-3);
+  }
+  .topbar nav .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px; color: var(--ink-2); font-size: 12px;
+  }
+  .topbar nav .pill::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--ok);
+  }
+  .topbar nav a.back {
+    font-size: 12px; letter-spacing: 0.1em;
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+  }
+  .topbar nav a.back:hover { color: var(--ink); }
+  .topbar nav .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+  /* ============ Hero ============ */
+  .hero {
+    padding: 64px 0 36px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 80px 1fr 280px;
+    gap: 48px; align-items: start;
+  }
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    padding-top: 14px; border-top: 1px solid var(--ink);
+  }
+  .hero-kicker .label { color: var(--ink); margin-top: 6px; display: block; font-weight: 500; }
+  .hero-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif; font-weight: 500;
+    font-size: 52px; line-height: 1.18;
+    letter-spacing: -0.01em; color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .hero h1 em { color: var(--accent); font-style: italic; font-weight: 400; }
+  .hero p.lead {
+    font-size: 16px; color: var(--ink-2);
+    line-height: 1.75; max-width: 680px;
+  }
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding-top: 14px; border-top: 1px solid var(--ink);
+  }
+  .stat-cell .num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 30px; font-weight: 500;
+    color: var(--ink); line-height: 1.1;
+  }
+  .stat-cell .num em { color: var(--accent); font-style: italic; font-weight: 400; }
+  .stat-cell .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* ============ Workspace ============ */
+  .workspace { padding: 56px 0; }
+  .ws-head {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 48px; margin-bottom: 36px;
+  }
+  .ws-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    padding-top: 14px; border-top: 1px solid var(--ink);
+  }
+  .ws-title {
+    font-family: 'Noto Serif SC', serif; font-weight: 500;
+    font-size: 28px; letter-spacing: -0.005em;
+  }
+  .ws-title em {
+    font-style: italic; color: var(--ink-3);
+    font-size: 14px; margin-left: 12px; font-weight: 400;
+  }
+  .ws-sub { font-size: 14px; color: var(--ink-3); margin-top: 8px; max-width: 640px; }
+
+  .ws-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 48px;
+  }
+
+  /* ============ Tabs ============ */
+  .tabs {
+    display: flex; border-bottom: 1px solid var(--rule);
+    margin-bottom: 0; align-items: stretch;
+  }
+  .tab {
+    padding: 14px 20px;
+    font-size: 13px; color: var(--ink-3);
+    background: transparent; border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .tab-add {
+    margin-left: auto;
+    padding: 10px 16px;
+    font-size: 12px; letter-spacing: 0.04em;
+    color: var(--accent);
+    background: transparent;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 2px;
+    align-self: center;
+    margin-bottom: 6px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .tab-add:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .tab-add svg { width: 12px; height: 12px; }
+  .tab-add .mono-tip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .tab .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-4);
+  }
+  .tab .badge-cap {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.12em;
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .tab .badge-cap.ok { background: rgba(29, 123, 78, 0.1); color: var(--ok); }
+  .tab .badge-cap.warn { background: rgba(180, 83, 9, 0.1); color: var(--warn); }
+  .tab .badge-cap.bad { background: rgba(179, 58, 58, 0.1); color: var(--bad); }
+  .tab:hover { color: var(--ink-2); }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+  .tab.active .num { color: var(--accent); }
+
+  /* ============ Panes ============ */
+  .panes {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    border: 1px solid var(--rule-strong);
+    background: #fff;
+    border-radius: 2px;
+    min-height: 700px;
+  }
+  .pane { padding: 32px 36px; }
+  .pane + .pane { border-left: 1px solid var(--rule); background: var(--paper); }
+
+  .pane-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+    margin-bottom: 22px;
+  }
+  .pane-head h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px; font-weight: 500; color: var(--ink);
+  }
+  .pane-head .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+
+  /* ----- Bank statement card ----- */
+  .stmt { display: none; }
+  .stmt.active { display: block; }
+  .stmt-bank {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  .stmt-bank .bank-name {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500; font-size: 15px;
+  }
+  .stmt-bank .acct {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+  .stmt-bank svg { width: 22px; height: 22px; opacity: 0.9; }
+
+  .stmt-amount-wrap {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .stmt-amount {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 38px; font-weight: 500;
+    color: var(--ok); letter-spacing: -0.01em;
+  }
+  .stmt-amount .sym { font-size: 22px; margin-right: 4px; opacity: 0.7; }
+  .stmt-direction {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: rgba(29, 123, 78, 0.1);
+    color: var(--ok);
+    border-radius: 2px;
+  }
+
+  .stmt-row {
+    display: grid; grid-template-columns: 110px 1fr;
+    gap: 16px; padding: 12px 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 14px;
+  }
+  .stmt-row .k {
+    color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .stmt-row .v { color: var(--ink); font-size: 14px; line-height: 1.6; }
+  .stmt-row .v.note {
+    background: var(--paper-2);
+    padding: 8px 12px;
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .stmt-row .v.warning { color: var(--warn); font-weight: 500; }
+  .stmt-row .v.muted { color: var(--ink-4); font-style: italic; }
+
+  .stmt-tags {
+    margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .stmt-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 4px 10px;
+    background: var(--paper-2); color: var(--ink-2);
+    border-radius: 2px; letter-spacing: 0.04em;
+  }
+  .stmt-tag.alert {
+    background: #FFF8EC; color: var(--warn);
+  }
+
+  .audit-cta {
+    margin-top: 28px; display: flex; gap: 12px;
+    padding-top: 24px; border-top: 1px solid var(--rule);
+  }
+  .btn-primary {
+    background: var(--ink); color: var(--paper);
+    border: none; padding: 12px 22px;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 2px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background 0.2s ease;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary svg { width: 14px; height: 14px; }
+  .btn-ghost {
+    background: transparent; color: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+    padding: 12px 18px;
+    font-size: 13px; border-radius: 2px;
+  }
+  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* ----- AI process ----- */
+  .ai-empty {
+    text-align: center; padding: 80px 20px;
+    color: var(--ink-4); font-size: 13px;
+  }
+  .ai-empty svg {
+    width: 36px; height: 36px;
+    color: var(--ink-4); margin-bottom: 14px;
+  }
+  .ai-empty h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px; font-weight: 500;
+    color: var(--ink-2); margin-bottom: 6px;
+  }
+
+  .ai-flow { display: none; }
+  .ai-flow.active { display: block; }
+
+  .step {
+    display: grid; grid-template-columns: 28px 1fr;
+    gap: 14px; padding: 14px 0;
+    position: relative;
+  }
+  .step + .step { border-top: 1px solid var(--rule); }
+  .step-icon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--paper-2);
+    color: var(--ink-3);
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid var(--rule);
+  }
+  .step.done .step-icon { background: var(--ok); color: #fff; border-color: var(--ok); }
+  .step.warn .step-icon { background: var(--warn); color: #fff; border-color: var(--warn); }
+  .step.bad .step-icon { background: var(--bad); color: #fff; border-color: var(--bad); }
+  .step.running .step-icon {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(10, 37, 64, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(10, 37, 64, 0); }
+  }
+
+  .step-body { min-width: 0; }
+  .step-title {
+    font-size: 14px; font-weight: 500;
+    color: var(--ink); margin-bottom: 4px;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .step-title .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    padding: 2px 6px; border-radius: 2px;
+    background: var(--paper-2); color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .step-detail {
+    font-size: 13px; color: var(--ink-3);
+    line-height: 1.7;
+  }
+
+  /* candidate match list */
+  .cand-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .cand {
+    display: grid;
+    grid-template-columns: 1fr 100px 70px;
+    gap: 12px; align-items: center;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-size: 12.5px;
+  }
+  .cand.win { border-color: var(--ok); background: #F4FAF6; }
+  .cand .name { color: var(--ink-2); }
+  .cand .name strong { color: var(--ink); font-weight: 500; }
+  .cand .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.06em;
+    padding: 2px 6px; border-radius: 2px;
+    background: var(--paper-2); color: var(--ink-3);
+  }
+  .cand .score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--ink-3);
+    text-align: right;
+  }
+  .cand.win .score { color: var(--ok); font-weight: 500; }
+  .cand .why { color: var(--ink-4); font-size: 11.5px; margin-top: 2px; }
+
+  /* contract / order panel */
+  .contract-card {
+    margin-top: 8px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .contract-card .head {
+    padding: 10px 14px;
+    background: var(--accent-soft);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .contract-card .head .no {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .contract-card .head .stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-3); text-transform: uppercase;
+  }
+  .contract-card .body {
+    padding: 12px 14px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .contract-card .body .row {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 8px; padding: 3px 0;
+  }
+  .contract-card .body .row .lk {
+    color: var(--ink-4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .contract-card .body .amount {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--ink); font-size: 14px; font-weight: 500;
+  }
+  .contract-card .body .amount em { color: var(--accent); font-style: italic; }
+  .progress-line {
+    height: 4px; background: var(--paper-2);
+    border-radius: 2px; overflow: hidden;
+    margin-top: 4px;
+  }
+  .progress-line .fill {
+    height: 100%; background: var(--accent);
+    transition: width 0.6s ease;
+  }
+
+  /* split table for merged payments */
+  .split-table {
+    margin-top: 10px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: #fff;
+    overflow: hidden;
+    font-size: 12.5px;
+  }
+  .split-table .row {
+    display: grid;
+    grid-template-columns: 1fr 90px 100px;
+    gap: 10px;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+  }
+  .split-table .row:last-child { border-bottom: none; }
+  .split-table .row.head {
+    background: var(--paper-2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .split-table .row.total {
+    background: var(--accent-soft);
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .split-table .row .obj { color: var(--ink-2); }
+  .split-table .row .obj small {
+    display: block;
+    color: var(--ink-4); font-size: 11px; margin-top: 2px;
+  }
+  .split-table .row .typ {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .split-table .row .amt {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--ink); text-align: right;
+  }
+
+  .findings { margin-top: 8px; }
+  .finding {
+    display: flex; gap: 10px; padding: 5px 0;
+    font-size: 13px; color: var(--ink-2);
+    align-items: flex-start; line-height: 1.65;
+  }
+  .finding .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    margin-top: 8px; flex-shrink: 0;
+  }
+  .finding.ok .dot { background: var(--ok); }
+  .finding.warn .dot { background: var(--warn); }
+  .finding.bad .dot { background: var(--bad); }
+  .finding.ok strong { color: var(--ok); }
+  .finding.warn strong { color: var(--warn); }
+  .finding.bad strong { color: var(--bad); }
+
+  /* verdict block */
+  .verdict {
+    margin-top: 22px; padding: 22px 24px;
+    border: 1px solid var(--rule-strong);
+    background: #fff;
+    border-radius: 2px;
+    display: none;
+  }
+  .verdict.show { display: block; }
+  .verdict.warn { border-color: var(--warn); background: #FFF8EC; }
+  .verdict.ok { border-color: var(--ok); background: #F0F8F2; }
+  .verdict.bad { border-color: var(--bad); background: #FCF1F1; }
+  .verdict-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .verdict-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 10px; border-radius: 2px;
+    background: #fff; border: 1px solid currentColor;
+  }
+  .verdict.warn .verdict-tag { color: var(--warn); }
+  .verdict.ok .verdict-tag { color: var(--ok); }
+  .verdict.bad .verdict-tag { color: var(--bad); }
+  .verdict-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em;
+    color: var(--ink-3);
+  }
+  .verdict-score em {
+    font-family: 'Noto Serif SC', serif;
+    font-style: italic;
+    font-size: 22px; color: var(--ink);
+    margin-right: 4px;
+  }
+  .verdict-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 500;
+    color: var(--ink); margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .verdict-text {
+    font-size: 13.5px; color: var(--ink-2);
+    line-height: 1.75;
+  }
+  .verdict-actions {
+    margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .v-btn {
+    font-size: 12px; padding: 7px 14px;
+    border-radius: 2px;
+    background: #fff;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-2);
+  }
+  .v-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .v-btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .v-btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+  /* ============ Pipeline section ============ */
+  .pipeline-section {
+    padding: 64px 0 48px;
+    border-top: 1px solid var(--rule);
+  }
+  .pipeline-grid {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 48px;
+  }
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 24px;
+  }
+  .pipeline-step {
+    background: #fff;
+    padding: 22px 22px;
+    position: relative;
+  }
+  .pipeline-step .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .pipeline-step h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px; font-weight: 500;
+    color: var(--ink); margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .pipeline-step p {
+    font-size: 12px; color: var(--ink-3);
+    line-height: 1.7;
+  }
+
+  /* ============ KB / Sources section ============ */
+  .kb-section {
+    padding: 0 0 64px;
+  }
+  .kb-grid { display: grid; grid-template-columns: 80px 1fr; gap: 48px; }
+  .kb-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 24px;
+  }
+  .kb-item { background: #fff; padding: 22px 24px; }
+  .kb-item .src {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .kb-item h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px; font-weight: 500;
+    color: var(--ink); margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .kb-item p {
+    font-size: 12.5px; color: var(--ink-3);
+    line-height: 1.7;
+  }
+  .kb-item .meta {
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-4);
+  }
+
+  /* ============ Footer ============ */
+  .footer {
+    padding: 48px 0 64px;
+    color: var(--ink-3); font-size: 13px;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 80px 1fr auto;
+    gap: 48px; align-items: end;
+  }
+  .footer-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .footer-text {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px; color: var(--ink-2);
+  }
+  .footer-text strong { font-weight: 500; color: var(--ink); }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+    text-align: right;
+  }
+
+  /* ============ Modal · 上传流水 ============ */
+  .modal-mask {
+    position: fixed; inset: 0;
+    background: rgba(10, 10, 10, 0.42);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 100; padding: 24px;
+  }
+  .modal-mask.show { display: flex; }
+  .modal-card {
+    width: 720px; max-width: 100%;
+    max-height: 88vh; overflow-y: auto;
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    box-shadow: 0 24px 60px rgba(10, 10, 10, 0.18);
+  }
+  .modal-head {
+    padding: 24px 32px 18px;
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-head .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    color: var(--ink-4); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .modal-head h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 22px; font-weight: 500;
+    color: var(--ink); line-height: 1.4;
+  }
+  .modal-head .close {
+    background: transparent; border: none;
+    color: var(--ink-3); font-size: 22px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-head .close:hover { background: var(--paper-2); color: var(--ink); }
+  .modal-body { padding: 24px 32px 4px; }
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px 18px; margin-bottom: 14px;
+  }
+  .form-row.full { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--ink-4); text-transform: uppercase;
+  }
+  .field input, .field select, .field textarea {
+    font-family: inherit;
+    font-size: 14px; color: var(--ink);
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent);
+  }
+  .field textarea { resize: vertical; min-height: 70px; line-height: 1.6; }
+  .ai-fill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    margin-left: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .ai-fill:hover { border-color: var(--accent); }
+  .ai-fill svg { width: 11px; height: 11px; }
+  .modal-foot {
+    padding: 18px 32px 26px;
+    border-top: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+  }
+  .modal-foot .tip {
+    font-size: 12px; color: var(--ink-4); line-height: 1.6;
+  }
+  .modal-foot .tip strong { color: var(--ink-2); }
+  .modal-foot .actions { display: flex; gap: 10px; }
+
+  @media (max-width: 1024px) {
+    .container { padding: 0 32px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero-kicker { padding-top: 0; border: none; }
+    .hero h1 { font-size: 38px; }
+    .panes { grid-template-columns: 1fr; }
+    .pane + .pane { border-left: none; border-top: 1px solid var(--rule); }
+    .ws-grid, .ws-head, .kb-grid, .pipeline-grid, .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+    .ws-num, .hero-kicker, .footer-mark { padding-top: 0; border-top: none; }
+    .pipeline { grid-template-columns: 1fr 1fr; }
+    .kb-list { grid-template-columns: 1fr; }
+    .modal-card { width: 92vw; max-height: 90vh; }
+  }
+
+  /* ============================================================
+     ERP / CRM SKIN — 商务简约覆盖层（保留所有 DOM 类名与 JS 行为）
+     色：#F5F7FA 底 / #FFFFFF 卡 / #E4E7EC 描边 / #2563EB 主蓝
+     字：系统无衬线 + tabular-nums；圆角 4-6px；零渐变；扁平阴影
+     ============================================================ */
+  :root {
+    --ink: #111827;
+    --ink-2: #374151;
+    --ink-3: #6B7280;
+    --ink-4: #9CA3AF;
+    --paper: #F5F7FA;
+    --paper-2: #FFFFFF;
+    --paper-3: #EEF1F5;
+    --rule: #E4E7EC;
+    --rule-strong: #D0D5DD;
+    --accent: #2563EB;
+    --accent-soft: #EFF4FF;
+    --accent-hover: #1D4ED8;
+    --ok: #16A34A;
+    --ok-soft: #ECFDF5;
+    --warn: #D97706;
+    --warn-soft: #FFFBEB;
+    --bad: #DC2626;
+    --bad-soft: #FEF2F2;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.04);
+    --shadow-md: 0 1px 3px rgba(16,24,40,.06), 0 1px 2px rgba(16,24,40,.04);
+    --shadow-lg: 0 8px 24px rgba(16,24,40,.10), 0 2px 6px rgba(16,24,40,.05);
+  }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif !important;
+    background: var(--paper) !important;
+    color: var(--ink);
+    line-height: 1.55;
+    font-feature-settings: "tnum";
+  }
+  .serif {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif !important;
+    font-weight: 600 !important; letter-spacing: 0 !important;
+  }
+  .mono {
+    font-family: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* 顶栏 */
+  .topbar {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--rule) !important;
+    backdrop-filter: none !important;
+  }
+  .topbar-inner { height: 56px !important; }
+  .brand { gap: 12px !important; }
+  .brand-tcl {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 16px !important; font-weight: 700 !important;
+    letter-spacing: 0.04em !important; color: var(--ink) !important;
+  }
+  .brand-cross { width: 10px !important; height: 10px !important; color: var(--ink-4) !important; }
+  .brand-wb {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 15px !important; font-weight: 600 !important;
+    letter-spacing: 0 !important; color: var(--ink) !important;
+  }
+  .brand-wb em { color: var(--accent) !important; font-style: normal !important; }
+  .topbar nav { gap: 12px !important; font-size: 13px !important; }
+  .topbar nav .pill {
+    border-radius: 4px !important;
+    border: 1px solid var(--rule) !important;
+    background: var(--paper-3) !important;
+    padding: 4px 10px !important; font-size: 12px !important;
+    color: var(--ink-2) !important;
+  }
+  .topbar nav .pill::before { background: var(--ok) !important; }
+  .topbar nav a.back {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    text-transform: none !important;
+    padding: 5px 10px !important; border-radius: 4px !important;
+    color: var(--ink-2) !important;
+  }
+  .topbar nav a.back:hover { background: var(--paper-3) !important; color: var(--ink) !important; }
+
+  /* Hero */
+  .hero {
+    padding: 28px 0 24px !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .hero-grid {
+    display: grid !important;
+    grid-template-columns: 180px 1fr !important;
+    grid-template-areas:
+      "kicker main"
+      "stats  stats" !important;
+    gap: 18px 32px !important;
+    align-items: start !important;
+  }
+  .hero-kicker { grid-area: kicker !important; }
+  .hero-grid > div:nth-child(2) { grid-area: main !important; max-width: 760px !important; }
+  .hero-stats { grid-area: stats !important; }
+  .hero-kicker {
+    border-top: none !important; padding-top: 0 !important; width: auto !important;
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--accent) !important;
+  }
+  .hero-kicker .label { color: var(--ink-3) !important; margin-top: 2px !important; font-weight: 400 !important; }
+  .hero-meta {
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--ink-4) !important; margin-bottom: 8px !important;
+  }
+  .hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 26px !important;
+    line-height: 1.32 !important;
+    letter-spacing: -0.005em !important;
+    color: var(--ink) !important;
+    margin-bottom: 10px !important;
+  }
+  .hero h1 em, .hero h1 .accent {
+    color: var(--accent) !important; font-style: normal !important;
+    font-weight: 600 !important; font-family: inherit !important;
+  }
+  .hero h1 .x {
+    transform: none !important; font-style: normal !important;
+    color: var(--ink-4) !important; font-weight: 400 !important;
+    font-family: inherit !important; margin: 0 .15em !important;
+  }
+  .hero p.lead {
+    font-size: 13.5px !important; line-height: 1.7 !important;
+    color: var(--ink-2) !important; max-width: 760px !important;
+  }
+  .hero-stats {
+    border-top: 1px solid var(--rule) !important; padding-top: 16px !important;
+    margin-top: 8px !important;
+    grid-template-columns: repeat(4, 1fr) !important; gap: 12px !important;
+  }
+  .stat-cell {
+    background: var(--paper) !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    padding: 12px 14px !important;
+  }
+  .stat-cell .num {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 22px !important; font-weight: 600 !important;
+    color: var(--ink) !important; line-height: 1.1 !important;
+    font-feature-settings: "tnum" !important;
+  }
+  .stat-cell .num em {
+    color: var(--accent) !important; font-style: normal !important;
+    font-weight: 600 !important; font-family: inherit !important;
+  }
+  .stat-cell .label {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-3) !important; margin-top: 4px !important;
+    font-family: inherit !important;
+  }
+
+  /* 章节标题 */
+  .workspace { padding: 28px 0 !important; }
+  .ws-head { grid-template-columns: 1fr !important; gap: 6px !important; margin-bottom: 16px !important; }
+  .ws-num {
+    border-top: none !important; padding-top: 0 !important;
+    font-size: 11px !important; letter-spacing: 0.12em !important;
+    color: var(--accent) !important;
+  }
+  .ws-title {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-weight: 600 !important; font-size: 18px !important;
+    letter-spacing: 0 !important; color: var(--ink) !important;
+  }
+  .ws-title em {
+    font-style: normal !important; font-size: 13px !important;
+    color: var(--ink-4) !important; margin-left: 8px !important; font-weight: 400 !important;
+  }
+  .ws-sub { font-size: 13px !important; color: var(--ink-3) !important; margin-top: 2px !important; }
+  .ws-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .ws-spacer { display: none !important; }
+
+  /* Tabs */
+  .tabs {
+    border-bottom: 1px solid var(--rule) !important;
+    background: #FFFFFF !important;
+    border-radius: 6px 6px 0 0 !important;
+    border: 1px solid var(--rule) !important; border-bottom: none !important;
+    padding: 0 8px !important;
+  }
+  .tab {
+    padding: 12px 16px !important;
+    font-size: 13px !important; font-weight: 500 !important;
+    color: var(--ink-3) !important;
+    border-bottom: 2px solid transparent !important;
+    margin-bottom: -1px !important;
+  }
+  .tab .num {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important; letter-spacing: 0 !important;
+    color: var(--ink-4) !important;
+  }
+  .tab:hover { color: var(--ink-2) !important; }
+  .tab.active {
+    color: var(--accent) !important;
+    border-bottom-color: var(--accent) !important;
+  }
+  .tab.active .num { color: var(--accent) !important; }
+  .tab.user-added { color: var(--accent) !important; }
+  .tab.user-added .num { color: var(--accent) !important; }
+  .tab-add {
+    border: 1px dashed var(--rule-strong) !important;
+    border-radius: 4px !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    color: var(--accent) !important;
+    margin: 6px 8px 6px auto !important;
+    align-self: center !important;
+  }
+  .tab-add:hover { background: var(--accent-soft) !important; border-color: var(--accent) !important; }
+  .tab-add .mono-tip {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0 !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+
+  /* Panes */
+  .panes {
+    border: 1px solid var(--rule) !important;
+    border-radius: 0 0 6px 6px !important;
+    background: #FFFFFF !important;
+    box-shadow: var(--shadow-sm) !important;
+    grid-template-columns: 1fr 1.1fr !important;
+    min-height: 580px !important;
+    margin-top: 0 !important;
+  }
+  .pane { padding: 24px 28px !important; }
+  .pane + .pane {
+    border-left: 1px solid var(--rule) !important;
+    background: var(--paper) !important;
+  }
+  .pane-head {
+    padding-bottom: 12px !important; margin-bottom: 18px !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .pane-head h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 14px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .pane-head .meta {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+
+  /* Statement / 银行流水卡 */
+  .stmt-bank {
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .stmt-bank .head, .stmt-bank > div:first-child {
+    background: var(--accent-soft) !important;
+    color: var(--ink) !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .stmt-amount {
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    padding: 14px 16px !important;
+  }
+  .stmt-amount .ok, .stmt-amount strong {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-weight: 600 !important; color: var(--ok) !important;
+    font-feature-settings: "tnum" !important;
+  }
+
+  /* Ticket rows */
+  .ticket-title {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 16px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .ticket-id {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-4) !important; text-transform: none !important; margin-bottom: 16px !important;
+  }
+  .ticket-row {
+    grid-template-columns: 96px 1fr !important;
+    padding: 9px 0 !important;
+    border-bottom: 1px solid var(--rule) !important;
+    font-size: 13px !important;
+  }
+  .ticket-row .k {
+    font-family: inherit !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    color: var(--ink-3) !important; text-transform: none !important;
+  }
+  .ticket-row .v { font-size: 13px !important; color: var(--ink) !important; }
+  .ticket-row .v.amount {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 18px !important; font-weight: 600 !important;
+    color: var(--ink) !important; font-feature-settings: "tnum" !important;
+  }
+  .ticket-row .v.amount em {
+    color: var(--accent) !important; font-style: normal !important;
+    font-family: inherit !important; font-weight: 600 !important;
+  }
+  .ticket-row .badge {
+    font-size: 11px !important; padding: 2px 8px !important;
+    border-radius: 3px !important;
+    background: var(--paper-3) !important;
+    color: var(--ink-2) !important;
+    border: 1px solid var(--rule) !important;
+  }
+  .ticket-attachments h4 {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-3) !important; text-transform: none !important; margin-bottom: 8px !important;
+  }
+  .att {
+    border: 1px solid var(--rule) !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important; font-size: 12.5px !important;
+  }
+  .att .size {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important; color: var(--ink-4) !important;
+  }
+  .audit-cta { padding-top: 18px !important; margin-top: 20px !important; gap: 10px !important; }
+  .btn-primary {
+    background: var(--accent) !important; color: #FFFFFF !important;
+    border: 1px solid var(--accent) !important;
+    padding: 8px 16px !important; font-size: 13px !important;
+    font-weight: 500 !important; letter-spacing: 0 !important;
+    border-radius: 4px !important; box-shadow: var(--shadow-sm) !important;
+  }
+  .btn-primary:hover { background: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
+  .btn-primary svg { width: 14px !important; height: 14px !important; }
+  .btn-ghost {
+    background: #FFFFFF !important; color: var(--ink-2) !important;
+    border: 1px solid var(--rule-strong) !important;
+    padding: 8px 14px !important; font-size: 13px !important;
+    border-radius: 4px !important;
+  }
+  .btn-ghost:hover { background: var(--paper-3) !important; color: var(--ink) !important; border-color: var(--rule-strong) !important; }
+
+  /* AI Process */
+  .ai-empty { padding: 60px 16px !important; font-size: 13px !important; }
+  .ai-empty h4 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 14px !important; font-weight: 600 !important;
+    color: var(--ink-2) !important;
+  }
+  .step { padding: 12px 0 !important; gap: 12px !important; }
+  .step + .step { border-top: 1px solid var(--rule) !important; }
+  .step-icon {
+    width: 22px !important; height: 22px !important;
+    border-radius: 4px !important;
+    border: 1px solid var(--rule) !important;
+    background: #FFFFFF !important;
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important;
+    color: var(--ink-3) !important;
+  }
+  .step.done .step-icon { background: var(--ok) !important; border-color: var(--ok) !important; color: #FFF !important; }
+  .step.warn .step-icon { background: var(--warn) !important; border-color: var(--warn) !important; color: #FFF !important; }
+  .step.bad .step-icon { background: var(--bad) !important; border-color: var(--bad) !important; color: #FFF !important; }
+  .step.running .step-icon { background: var(--accent) !important; border-color: var(--accent) !important; color: #FFF !important; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, .35); }
+    50% { box-shadow: 0 0 0 5px rgba(37, 99, 235, 0); }
+  }
+  .step-title { font-size: 13px !important; font-weight: 600 !important; color: var(--ink) !important; }
+  .step-title .tag {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.04em !important;
+    background: var(--paper-3) !important; color: var(--ink-3) !important;
+    border-radius: 3px !important; text-transform: none !important;
+    padding: 2px 6px !important;
+  }
+  .step-detail { font-size: 12.5px !important; color: var(--ink-3) !important; line-height: 1.7 !important; }
+
+  /* KB Cite */
+  .kb-cite {
+    background: var(--accent-soft) !important;
+    border-left: 2px solid var(--accent) !important;
+    border-radius: 0 4px 4px 0 !important;
+    padding: 8px 12px !important; font-size: 12.5px !important;
+    color: var(--ink-2) !important;
+  }
+  .kb-cite .src {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.04em !important;
+    color: var(--accent) !important; text-transform: none !important;
+  }
+
+  /* Findings */
+  .finding { font-size: 12.5px !important; color: var(--ink-2) !important; }
+  .finding .dot { width: 6px !important; height: 6px !important; margin-top: 7px !important; }
+
+  /* Verdict */
+  .verdict {
+    border: 1px solid var(--rule) !important;
+    background: #FFFFFF !important;
+    border-radius: 6px !important;
+    box-shadow: var(--shadow-sm) !important;
+    padding: 18px 20px !important;
+    margin-top: 18px !important;
+  }
+  .verdict.ok { background: var(--ok-soft) !important; border-color: #BBF7D0 !important; }
+  .verdict.warn { background: var(--warn-soft) !important; border-color: #FED7AA !important; }
+  .verdict.bad { background: var(--bad-soft) !important; border-color: #FECACA !important; }
+  .verdict-tag {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.08em !important;
+    text-transform: none !important;
+    padding: 3px 8px !important; border-radius: 3px !important;
+    background: #FFFFFF !important; border: 1px solid currentColor !important;
+  }
+  .verdict-score {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 11px !important; letter-spacing: 0 !important; color: var(--ink-3) !important;
+  }
+  .verdict-score em {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-style: normal !important; font-size: 20px !important;
+    font-weight: 700 !important; color: var(--ink) !important;
+    margin-right: 4px !important;
+  }
+  .verdict-title {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 15px !important; font-weight: 600 !important;
+    color: var(--ink) !important; margin-bottom: 6px !important;
+  }
+  .verdict-text { font-size: 13px !important; color: var(--ink-2) !important; line-height: 1.7 !important; }
+  .verdict-actions { margin-top: 14px !important; gap: 8px !important; }
+  .v-btn {
+    font-size: 12px !important; padding: 6px 12px !important;
+    border-radius: 4px !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule-strong) !important;
+    color: var(--ink-2) !important;
+  }
+  .v-btn:hover { background: var(--paper-3) !important; color: var(--ink) !important; }
+  .v-btn.primary {
+    background: var(--accent) !important; color: #FFF !important;
+    border-color: var(--accent) !important;
+  }
+  .v-btn.primary:hover { background: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
+
+  /* 候选打分 / 合同卡 / 拆分表 — receipt 专属 */
+  .cand {
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    background: #FFFFFF !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .cand.win {
+    border-color: var(--ok) !important;
+    background: var(--ok-soft) !important;
+  }
+  .contract-card {
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    background: #FFFFFF !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .contract-card .head, .contract-card > div:first-child {
+    background: var(--accent-soft) !important;
+    color: var(--ink) !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .contract-card .row, .contract-card > div + div {
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  .contract-card .amount {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-weight: 600 !important;
+    color: var(--ink) !important;
+    font-feature-settings: "tnum" !important;
+  }
+  .split-table {
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    background: #FFFFFF !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .split-table > div { border-bottom: 1px solid var(--rule) !important; }
+  .split-table .total {
+    background: var(--accent-soft) !important;
+    color: var(--ink) !important;
+    font-weight: 600 !important;
+  }
+
+  /* KB 知识库板块 */
+  .kb-section { padding: 32px 0 !important; }
+  .kb-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .kb-list {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    background: transparent !important;
+    border: none !important;
+    margin-top: 14px !important;
+  }
+  .kb-item {
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    padding: 16px 18px !important;
+    background: #FFFFFF !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .kb-item .src {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0.04em !important;
+    color: var(--accent) !important; text-transform: none !important;
+  }
+  .kb-item h4 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 14px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .kb-item p { font-size: 12.5px !important; color: var(--ink-3) !important; line-height: 1.65 !important; }
+  .kb-item .meta {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; letter-spacing: 0 !important; color: var(--ink-4) !important;
+  }
+
+  /* Pipeline (receipt) */
+  .pipeline {
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 6px !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .pipeline > div {
+    border-right: 1px solid var(--rule) !important;
+  }
+
+  /* 页脚 */
+  .footer {
+    padding: 24px 0 !important;
+    background: #FFFFFF !important;
+    border-top: 1px solid var(--rule) !important;
+    border-bottom: none !important;
+  }
+  .footer-grid { grid-template-columns: 1fr auto !important; gap: 16px !important; }
+  .footer-mark { display: none !important; }
+  .footer-text {
+    font-family: inherit !important; font-size: 13px !important;
+    color: var(--ink-3) !important; line-height: 1.5 !important;
+  }
+  .footer-text strong { color: var(--ink) !important; font-weight: 600 !important; }
+  .footer-meta {
+    font-size: 11px !important; letter-spacing: 0.04em !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+
+  /* Modal */
+  .modal-mask { background: rgba(17, 24, 39, 0.45) !important; backdrop-filter: blur(2px) !important; }
+  .modal-card {
+    background: #FFFFFF !important;
+    border: 1px solid var(--rule) !important;
+    border-radius: 8px !important;
+    box-shadow: var(--shadow-lg) !important;
+  }
+  .modal-head { padding: 18px 24px 14px !important; }
+  .modal-head .kicker {
+    font-size: 11px !important; letter-spacing: 0.08em !important;
+    color: var(--accent) !important; text-transform: none !important;
+  }
+  .modal-head h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif !important;
+    font-size: 17px !important; font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+  .modal-head .close {
+    border-radius: 4px !important; width: 28px !important; height: 28px !important;
+  }
+  .modal-head .close:hover { background: var(--paper-3) !important; }
+  .modal-body { padding: 18px 24px 4px !important; }
+  .field label {
+    font-family: inherit !important;
+    font-size: 12px !important; letter-spacing: 0 !important;
+    color: var(--ink-2) !important; text-transform: none !important;
+    font-weight: 500 !important;
+  }
+  .field input, .field select, .field textarea {
+    font-size: 13px !important; padding: 8px 10px !important;
+    border: 1px solid var(--rule-strong) !important; border-radius: 4px !important;
+    background: #FFFFFF !important;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  }
+  .field .hint {
+    font-family: inherit !important;
+    font-size: 11px !important; letter-spacing: 0 !important; color: var(--ink-4) !important;
+  }
+  .upload-zone {
+    border: 1px dashed var(--rule-strong) !important;
+    border-radius: 6px !important; padding: 14px !important;
+    background: var(--paper) !important;
+  }
+  .upload-zone:hover { border-color: var(--accent) !important; background: var(--accent-soft) !important; }
+  .upload-zone .title-up { font-size: 13px !important; color: var(--ink-2) !important; }
+  .upload-zone .sub {
+    font-family: inherit !important;
+    font-size: 11px !important; letter-spacing: 0 !important;
+    color: var(--ink-4) !important; text-transform: none !important;
+  }
+  .upload-list .att-mock {
+    background: var(--paper-3) !important; border-radius: 4px !important; font-size: 12.5px !important;
+  }
+  .upload-list .att-mock .size {
+    font-family: "SF Mono", ui-monospace, monospace !important;
+    font-size: 10px !important; color: var(--ink-4) !important;
+  }
+  .ai-fill {
+    font-family: inherit !important;
+    font-size: 11px !important; letter-spacing: 0 !important; text-transform: none !important;
+    background: var(--accent-soft) !important; color: var(--accent) !important;
+    border: 1px solid transparent !important; border-radius: 4px !important;
+    padding: 4px 9px !important;
+  }
+  .ai-fill:hover { border-color: var(--accent) !important; }
+  .modal-foot {
+    padding: 14px 24px 18px !important;
+    border-top: 1px solid var(--rule) !important;
+  }
+  .modal-foot .tip { font-size: 12px !important; color: var(--ink-4) !important; }
+  .modal-foot .tip strong { color: var(--ink-2) !important; }
+
+  /* 响应式微调 */
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr !important;
+      grid-template-areas: "kicker" "main" "stats" !important;
+    }
+    .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
+    .panes { grid-template-columns: 1fr !important; }
+    .pane + .pane { border-left: none !important; border-top: 1px solid var(--rule) !important; }
+    .kb-list { grid-template-columns: 1fr !important; }
+    .pipeline > div { border-right: none !important; border-bottom: 1px solid var(--rule) !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="brand-tcl">某家电企业</span>
+      <span class="brand-cross" aria-hidden="true">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <line x1="2" y1="2" x2="12" y2="12"></line>
+          <line x1="12" y1="2" x2="2" y2="12"></line>
+        </svg>
+      </span>
+      <span class="brand-wb">Work<em>Buddy</em></span>
+    </div>
+    <nav>
+      <a class="back" href="tcl-workbuddy-demo.html">← 返回应用矩阵</a>
+      <span class="pill">财务中心 · 已上线</span>
+      <span class="mono">2026.05.19</span>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-kicker">
+        APP No.02
+        <span class="label">CASH / CLAIM</span>
+      </div>
+      <div>
+        <div class="hero-meta">FINANCE CENTER · INCOMING PAYMENT CLAIM</div>
+        <h1>把每一笔银行入账，<br>认到 <em>客户 · 合同 · 订单</em>。</h1>
+        <p class="lead">
+          智能体对接银行流水网关与客户主数据/合同/订单库，
+          自动解析摘要附言、识别同名异体与合并打款，把模糊的「未识别款项」收敛回客户账面 —
+          让财务专注例外处理，账龄不再卡在「钱进来了，认不上」。
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-cell">
+          <div class="num"><em>87.6</em><span style="font-size:18px;color:var(--ink-3)">%</span></div>
+          <div class="label">流水自动认领率</div>
+        </div>
+        <div class="stat-cell">
+          <div class="num"><em>1.4</em><span style="font-size:18px;color:var(--ink-3)">min</span></div>
+          <div class="label">单笔平均认领耗时</div>
+        </div>
+        <div class="stat-cell">
+          <div class="num"><em>D+0</em></div>
+          <div class="label">回款入账到认领时延</div>
+        </div>
+        <div class="stat-cell">
+          <div class="num"><em>1,268</em></div>
+          <div class="label">本月已认领流水</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="workspace">
+  <div class="container">
+    <div class="ws-head">
+      <div class="ws-num">DEMO<br>WORKSPACE</div>
+      <div>
+        <h2 class="ws-title">银行流水回款认领 <em>Live Demo</em></h2>
+        <p class="ws-sub">选择一笔流水，点击「开始 AI 认领」 — 系统将依次调用流水解析、客户主数据匹配、合同/订单关联、金额对账与 LLM 推理，输出认领结论。</p>
+      </div>
+    </div>
+
+    <div class="ws-grid">
+      <div></div>
+      <div>
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-stmt="s1">
+            <span class="num">F-2026-0519-201</span>
+            蓝海电器 · 单合同
+            <span class="badge-cap ok">CLEAN</span>
+          </button>
+          <button class="tab" data-stmt="s2">
+            <span class="num">F-2026-0519-208</span>
+            鸿祥 · 同名异体
+            <span class="badge-cap warn">FUZZY</span>
+          </button>
+          <button class="tab" data-stmt="s3">
+            <span class="num">F-2026-0519-217</span>
+            万和 · 合并打款
+            <span class="badge-cap warn">SPLIT</span>
+          </button>
+          <button class="tab" data-stmt="s4">
+            <span class="num">F-2026-0519-226</span>
+            未署名 · 私户回款
+            <span class="badge-cap bad">ANON</span>
+          </button>
+          <button class="tab-add" id="btn-open-modal" type="button">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+              <line x1="7" y1="2" x2="7" y2="12"></line>
+              <line x1="2" y1="7" x2="12" y2="7"></line>
+            </svg>
+            手工录入
+            <span class="mono-tip">NEW</span>
+          </button>
+        </div>
+
+        <div class="panes">
+          <!-- ============ Left: bank statement ============ -->
+          <div class="pane">
+            <div class="pane-head">
+              <h3>银行流水明细</h3>
+              <span class="meta">CMB / ICBC NETWORK</span>
+            </div>
+
+            <!-- Statement 1 · 清晰匹配 -->
+            <div class="stmt active" id="stmt-s1">
+              <div class="stmt-bank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="bank-name">招商银行 · 深圳分行</span>
+                <span class="acct">7559 **** **** 8801</span>
+              </div>
+              <div class="stmt-amount-wrap">
+                <span class="stmt-amount"><span class="sym">¥</span>480,000.00</span>
+                <span class="stmt-direction">CREDIT · 贷方入账</span>
+              </div>
+
+              <div class="stmt-row"><span class="k">流水号</span><span class="v">F-2026-0519-201 · CMB202605191045</span></div>
+              <div class="stmt-row"><span class="k">入账时间</span><span class="v">2026-05-19 10:45:32</span></div>
+              <div class="stmt-row"><span class="k">对方户名</span><span class="v">深圳市蓝海电器有限公司</span></div>
+              <div class="stmt-row"><span class="k">对方账号</span><span class="v">3602 **** **** 6217（中国工商银行）</span></div>
+              <div class="stmt-row"><span class="k">交易摘要</span><span class="v">货款</span></div>
+              <div class="stmt-row"><span class="k">附言/备注</span><span class="v note">采购货款 PO-2026-CN-0315 蓝海电器 4 月订单结算</span></div>
+              <div class="stmt-tags">
+                <span class="stmt-tag">摘要清晰</span>
+                <span class="stmt-tag">户名可查</span>
+                <span class="stmt-tag">PO编号匹配</span>
+              </div>
+            </div>
+
+            <!-- Statement 2 · 同名异体 -->
+            <div class="stmt" id="stmt-s2">
+              <div class="stmt-bank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="bank-name">中国工商银行 · 深圳分行</span>
+                <span class="acct">3602 **** **** 0019</span>
+              </div>
+              <div class="stmt-amount-wrap">
+                <span class="stmt-amount"><span class="sym">¥</span>168,720.00</span>
+                <span class="stmt-direction">CREDIT · 贷方入账</span>
+              </div>
+
+              <div class="stmt-row"><span class="k">流水号</span><span class="v">F-2026-0519-208 · ICBC202605191338</span></div>
+              <div class="stmt-row"><span class="k">入账时间</span><span class="v">2026-05-19 13:38:14</span></div>
+              <div class="stmt-row"><span class="k">对方户名</span><span class="v warning">深圳鸿祥商贸有限公司</span></div>
+              <div class="stmt-row"><span class="k">对方账号</span><span class="v">6228 **** **** 4422（建设银行）</span></div>
+              <div class="stmt-row"><span class="k">交易摘要</span><span class="v">货款</span></div>
+              <div class="stmt-row"><span class="k">附言/备注</span><span class="v note muted">— （摘要为空，仅有"货款"两字）</span></div>
+              <div class="stmt-tags">
+                <span class="stmt-tag alert">主数据有 2 家同名公司</span>
+                <span class="stmt-tag alert">附言缺失</span>
+                <span class="stmt-tag">需消歧</span>
+              </div>
+            </div>
+
+            <!-- Statement 3 · 合并打款 -->
+            <div class="stmt" id="stmt-s3">
+              <div class="stmt-bank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="bank-name">招商银行 · 深圳分行</span>
+                <span class="acct">7559 **** **** 8801</span>
+              </div>
+              <div class="stmt-amount-wrap">
+                <span class="stmt-amount"><span class="sym">¥</span>2,150,000.00</span>
+                <span class="stmt-direction">CREDIT · 贷方入账</span>
+              </div>
+
+              <div class="stmt-row"><span class="k">流水号</span><span class="v">F-2026-0519-217 · CMB202605191602</span></div>
+              <div class="stmt-row"><span class="k">入账时间</span><span class="v">2026-05-19 16:02:08</span></div>
+              <div class="stmt-row"><span class="k">对方户名</span><span class="v">北京万和电器有限公司</span></div>
+              <div class="stmt-row"><span class="k">对方账号</span><span class="v">9558 **** **** 1133（中国银行）</span></div>
+              <div class="stmt-row"><span class="k">交易摘要</span><span class="v">货款合并</span></div>
+              <div class="stmt-row"><span class="k">附言/备注</span><span class="v note">PO-2026-BJ-0211/0258/0312 三单合并支付，详见对账单</span></div>
+              <div class="stmt-tags">
+                <span class="stmt-tag alert">金额含 3 张订单</span>
+                <span class="stmt-tag">需拆分认领</span>
+                <span class="stmt-tag">PO列表可解析</span>
+              </div>
+            </div>
+
+            <!-- Statement 4 · 私户匿名 -->
+            <div class="stmt" id="stmt-s4">
+              <div class="stmt-bank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+                <span class="bank-name">招商银行 · 深圳分行</span>
+                <span class="acct">7559 **** **** 8801</span>
+              </div>
+              <div class="stmt-amount-wrap">
+                <span class="stmt-amount"><span class="sym">¥</span>53,200.00</span>
+                <span class="stmt-direction">CREDIT · 贷方入账</span>
+              </div>
+
+              <div class="stmt-row"><span class="k">流水号</span><span class="v">F-2026-0519-226 · CMB202605191750</span></div>
+              <div class="stmt-row"><span class="k">入账时间</span><span class="v">2026-05-19 17:50:21</span></div>
+              <div class="stmt-row"><span class="k">对方户名</span><span class="v warning">王*军（个人账户）</span></div>
+              <div class="stmt-row"><span class="k">对方账号</span><span class="v">6225 **** **** 9011（招商银行）</span></div>
+              <div class="stmt-row"><span class="k">交易摘要</span><span class="v">汇款</span></div>
+              <div class="stmt-row"><span class="k">附言/备注</span><span class="v note">鸿祥 4 月尾款</span></div>
+              <div class="stmt-tags">
+                <span class="stmt-tag alert">个人账户打款</span>
+                <span class="stmt-tag alert">户名非主体</span>
+                <span class="stmt-tag">附言含线索词</span>
+              </div>
+            </div>
+
+            <div class="audit-cta">
+              <button class="btn-primary" id="btn-claim">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                开始 AI 认领
+              </button>
+              <button class="btn-ghost" id="btn-reset">重置</button>
+            </div>
+          </div>
+
+          <!-- ============ Right: AI process ============ -->
+          <div class="pane">
+            <div class="pane-head">
+              <h3>AI 认领流程 · 实时</h3>
+              <span class="meta" id="ai-status">IDLE</span>
+            </div>
+
+            <div class="ai-empty" id="ai-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <h4>等待开始</h4>
+              <div>选择左侧流水，点击「开始 AI 认领」<br>系统将自动连接客户/合同/订单库进行匹配</div>
+            </div>
+
+            <div class="ai-flow" id="ai-flow"></div>
+
+            <div class="verdict" id="verdict">
+              <div class="verdict-head">
+                <span class="verdict-tag" id="verdict-tag">CLAIMED</span>
+                <span class="verdict-score">置信度 <em id="verdict-score">96</em>/ 100</span>
+              </div>
+              <div class="verdict-title" id="verdict-title"></div>
+              <div class="verdict-text" id="verdict-text"></div>
+              <div class="verdict-actions">
+                <button class="v-btn primary" onclick="alert('已确认认领 · 写回应收账款系统 + 关闭对应应收科目')">确认认领</button>
+                <button class="v-btn" onclick="alert('已生成认领底稿 · 已推送至 OA')">导出底稿</button>
+                <button class="v-btn" onclick="alert('已转人工核实 · 流转至：资金会计岗 · 陈思')">转人工核实</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pipeline-section">
+  <div class="container">
+    <div class="pipeline-grid">
+      <div class="ws-num">PIPELINE</div>
+      <div>
+        <h2 class="ws-title">认领链路 <em>5-Step Pipeline</em></h2>
+        <p class="ws-sub">每一笔流水都会跑一遍这五个步骤 — 透明可追溯，例外回流人工。</p>
+        <div class="pipeline">
+          <div class="pipeline-step">
+            <span class="num">01</span>
+            <h4>流水接入与解析</h4>
+            <p>对接银企直联（招行/工行/中行/建行）拉取流水，OCR 摘要/附言、抽取户名、账号、PO、合同号等关键实体。</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="num">02</span>
+            <h4>客户主数据匹配</h4>
+            <p>对方户名 → 客户主数据，模糊匹配 + 历史回款账户白名单，识别同名异体 / 关联公司 / 子公司打款。</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="num">03</span>
+            <h4>合同/订单关联</h4>
+            <p>从附言抽取 PO、合同号、发票号；按客户检索未结合同与未核销订单，输出候选清单与匹配置信度。</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="num">04</span>
+            <h4>金额对账与拆分</h4>
+            <p>校验流水金额 vs 应收余额；遇合并打款自动拆分到多张订单/发票，遇尾差自动比对税点/折让规则。</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="num">05</span>
+            <h4>结论生成与回写</h4>
+            <p>自动认领 → 写回 ERP 应收科目 / 关闭对应订单状态；低置信度回流人工，并将处理结果反哺主数据。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kb-section">
+  <div class="container">
+    <div class="kb-grid">
+      <div class="ws-num">KB &<br>SOURCES</div>
+      <div>
+        <h2 class="ws-title">已对接系统与知识库 <em>Connectors</em></h2>
+        <p class="ws-sub">银行流水网关 + 客户/合同/订单主数据 + 财务规则手册，统一服务于回款认领智能体。</p>
+
+        <div class="kb-list">
+          <div class="kb-item">
+            <div class="src">BANK · 银企直联</div>
+            <h4>银行流水网关</h4>
+            <p>对接招行、工行、中行、建行 4 大主账户银企直联接口，分钟级拉取贷方入账流水（已脱敏）。</p>
+            <div class="meta">4 家银行 · 12 个收款账户 · D+0 实时同步</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">MDM · 客户主数据</div>
+            <h4>客户/经销商主数据</h4>
+            <p>覆盖一级/二级代理商、KA 客户、海外子公司，含历史回款账户白名单与关联公司图谱。</p>
+            <div class="meta">3,840 个主体 · 9,260 个回款账户白名单</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">SAP · 合同 / 订单</div>
+            <h4>合同库 + 销售订单</h4>
+            <p>实时对接 SAP，按客户检索未结合同、未核销订单与发票余额，支持金额拆分与税点校验。</p>
+            <div class="meta">在执行合同 12,300 份 · 未核销订单 4,580 笔</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">FIN-POL · 2026-Q2</div>
+            <h4>《回款认领与差异处理办法》v2.1</h4>
+            <p>规定金额尾差容忍区间、私户回款合规边界、跨主体打款的认领规则与升级路径。</p>
+            <div class="meta">36 条规则 · 12 张附表 · 最近更新 2026-04-22</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">RULES · 引擎</div>
+            <h4>回款匹配规则引擎</h4>
+            <p>姓名相似度 / 金额匹配 / 历史账户白名单 / 摘要关键词等 28 条规则，支持权重热更新。</p>
+            <div class="meta">28 条规则 · v1.7 · 自动 A/B 评估</div>
+          </div>
+          <div class="kb-item">
+            <div class="src">LLM · 推理</div>
+            <h4>WorkBuddy 智能体框架</h4>
+            <p>支持复合判断、跨证据推理、多候选消歧；低置信度自动落库待复核，并把人工答复反哺训练。</p>
+            <div class="meta">基于 WorkBuddy Agent · 私有化部署</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-mark">— END —</div>
+      <div class="footer-text">
+        <strong>某家电企业 × WorkBuddy</strong> · 回款认领智能体（CASH·CLAIM）<br>
+        AI 替你把每一笔银行入账，认到客户 · 合同 · 订单。
+      </div>
+      <div class="footer-meta">INTERNAL DEMO<br>2026 · FINANCE CENTER</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ Modal · 手工录入 ============ -->
+<div class="modal-mask" id="modal-mask">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <div class="kicker">MANUAL INPUT</div>
+        <h3>手工录入一笔银行流水</h3>
+      </div>
+      <button class="close" id="btn-close-modal">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="field">
+          <label>开户行</label>
+          <select id="f-bank">
+            <option>招商银行 · 深圳分行</option>
+            <option>中国工商银行 · 深圳分行</option>
+            <option>中国银行 · 深圳分行</option>
+            <option>中国建设银行 · 深圳分行</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>收款账户</label>
+          <select id="f-acct">
+            <option>7559 **** **** 8801</option>
+            <option>3602 **** **** 0019</option>
+            <option>9558 **** **** 1133</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>对方户名</label>
+          <input id="f-payer" type="text" value="深圳市蓝海电器有限公司">
+        </div>
+        <div class="field">
+          <label>对方账号</label>
+          <input id="f-payer-acct" type="text" value="3602 **** **** 6217">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>金额（元）</label>
+          <input id="f-amount" type="text" value="320,000">
+        </div>
+        <div class="field">
+          <label>入账时间</label>
+          <input id="f-time" type="text" value="2026-05-19 18:20">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>交易摘要</label>
+          <input id="f-summary" type="text" value="货款">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="field">
+          <label>
+            附言 / 备注
+            <button class="ai-fill" id="btn-ai-fill" type="button">
+              <svg viewBox="0 0 14 14" fill="currentColor"><path d="M7 0L8.5 5.5L14 7L8.5 8.5L7 14L5.5 8.5L0 7L5.5 5.5L7 0z"/></svg>
+              AI 智能填充
+            </button>
+          </label>
+          <textarea id="f-note">采购货款 PO-2026-CN-0419 蓝海电器</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <div class="tip">
+        系统将以「<strong>新增流水</strong>」方式插入，并立即可启动 AI 认领。
+      </div>
+      <div class="actions">
+        <button class="btn-ghost" id="btn-cancel">取消</button>
+        <button class="btn-primary" id="btn-submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          录入并切换
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ====================================================================== */
+/* SCENARIOS · 4 张预置流水 + 录入流水时的动态生成                              */
+/* ====================================================================== */
+const SCENARIOS = {
+  s1: {
+    title: '蓝海电器 4 月订单回款 · 480,000.00',
+    verdict: 'ok',
+    verdictTag: 'CLAIMED',
+    score: 96,
+    verdictTitle: '高置信度 · 已自动认领到 1 张订单',
+    verdictText: '流水户名命中客户主数据；附言中的 PO-2026-CN-0315 对应一笔未核销销售订单，订单余额 ¥ 480,000.00 与流水金额一致 — 系统已自动写回应收科目并关闭订单状态，无需人工干预。',
+    steps: [
+      {
+        title: '流水接入与解析',
+        tag: 'PARSE',
+        detail: '从招商银行银企直联拉取流水 F-2026-0519-201；对附言执行 NER + 实体抽取，命中 1 个 PO 编号、1 个客户简称。',
+        kvs: [
+          ['对方户名', '深圳市蓝海电器有限公司'],
+          ['抽取实体', 'PO-2026-CN-0315 · 蓝海电器 · 4月订单'],
+          ['金额', '¥ 480,000.00（贷方）']
+        ]
+      },
+      {
+        title: '客户主数据匹配',
+        tag: 'MDM',
+        detail: '对方户名与主数据精确匹配，且对方账号已在该客户的回款账户白名单中（最近 90 天内 7 次回款）。',
+        candidates: [
+          { name: '深圳市蓝海电器有限公司', tag: '一级代理 · 华南', score: 100, win: true, why: '户名精确 + 账户白名单 + 历史回款 7 次' }
+        ]
+      },
+      {
+        title: '合同/订单关联',
+        tag: 'SAP',
+        detail: '在 SAP 中检索 PO-2026-CN-0315，命中 1 张未核销订单；订单状态 = 已发货已开票，剩余应收 ¥ 480,000.00。',
+        contract: {
+          no: 'PO-2026-CN-0315',
+          status: '待回款',
+          rows: [
+            ['客户', '深圳市蓝海电器有限公司'],
+            ['合同号', 'CT-CN-2026-0042'],
+            ['订单金额', '¥ 480,000.00'],
+            ['已开票', '¥ 480,000.00'],
+            ['应收余额', '¥ 480,000.00']
+          ],
+          progress: 0
+        }
+      },
+      {
+        title: '金额对账',
+        tag: 'RULE',
+        detail: '流水金额 ¥ 480,000.00 == 应收余额 ¥ 480,000.00；尾差 = 0；命中规则 R-101「单订单金额精确匹配」。',
+        findings: [
+          { lvl: 'ok', label: '金额一致：', text: '流水金额 = 应收余额，尾差 ¥ 0.00。' },
+          { lvl: 'ok', label: '账户白名单：', text: '对方账号在客户白名单中，无异常。' },
+          { lvl: 'ok', label: '时效合规：', text: '回款日 2026-05-19 在订单账期 2026-05-31 之前，账龄正常。' }
+        ]
+      },
+      {
+        title: '结论生成 · LLM 推理',
+        tag: 'LLM',
+        detail: '所有维度高置信度通过，自动认领到订单 PO-2026-CN-0315；写回 SAP 应收科目并关闭订单状态。',
+        cite: { src: 'FIN-POL · v2.1 · §2.1 自动认领条件', text: '同时满足「户名匹配 ≥ 95% + 金额尾差 ≤ ¥ 1.00 + 账户白名单 + 单一未结订单匹配」时，系统可自动认领无需人工复核。' }
+      }
+    ]
+  },
+
+  s2: {
+    title: '鸿祥 · 同名异体 · 168,720.00',
+    verdict: 'warn',
+    verdictTag: 'NEEDS REVIEW',
+    score: 78,
+    verdictTitle: '中置信度 · 推荐认领，建议人工确认',
+    verdictText: 'AI 综合户名 + 历史回款 + 金额匹配，倾向于「成都鸿祥电器（一级代理）」。但同名公司「深圳鸿祥商贸（KA客户）」也存在 1 笔同金额未结订单 — 由于附言为空，系统不自动写回，已落入「待人工确认」队列。',
+    steps: [
+      {
+        title: '流水接入与解析',
+        tag: 'PARSE',
+        detail: '工行流水 F-2026-0519-208；附言为空，无 PO/合同号可抽取；仅命中户名实体「深圳鸿祥商贸」。',
+        kvs: [
+          ['对方户名', '深圳鸿祥商贸有限公司'],
+          ['抽取实体', '（仅户名，无 PO/合同号）'],
+          ['金额', '¥ 168,720.00（贷方）']
+        ]
+      },
+      {
+        title: '客户主数据匹配 · 同名异体',
+        tag: 'MDM',
+        detail: '主数据中匹配到 2 家同名/近似公司；进一步对账户白名单与历史回款记录交叉验证。',
+        candidates: [
+          { name: '成都鸿祥电器（一级代理）', tag: '西南区 · 二级代理', score: 86, win: true, why: '该账户曾以「深圳鸿祥商贸」名义打款 12 次（其上游集采公司）' },
+          { name: '深圳鸿祥商贸有限公司', tag: 'KA · 华南区', score: 64, win: false, why: '户名精确，但对方账号不在白名单（首次出现）' }
+        ]
+      },
+      {
+        title: '合同/订单关联',
+        tag: 'SAP',
+        detail: '分别在两个候选客户下检索未核销订单，发现两侧都有金额接近的订单 — 触发同名异体歧义。',
+        contract: {
+          no: 'PO-2026-SW-0411（首选 · 成都鸿祥）',
+          status: '高置信候选',
+          rows: [
+            ['客户', '成都鸿祥电器有限公司'],
+            ['合同号', 'CT-SW-2026-0089'],
+            ['订单金额', '¥ 168,720.00'],
+            ['已开票', '¥ 168,720.00'],
+            ['应收余额', '¥ 168,720.00']
+          ],
+          progress: 0
+        }
+      },
+      {
+        title: '金额对账与消歧',
+        tag: 'RULE',
+        detail: '两候选订单金额都精确等于 ¥ 168,720.00；通过历史回款账户白名单 + 关联公司图谱，倾向「成都鸿祥」(权重 0.86)；但因附言为空、首次出现该工行账户，触发"中置信"阈值。',
+        findings: [
+          { lvl: 'ok', label: '金额一致：', text: '两候选订单余额均 = ¥ 168,720.00。' },
+          { lvl: 'warn', label: '主体歧义：', text: '"深圳鸿祥商贸"在主数据中存在 KA 客户档案，需排除。' },
+          { lvl: 'warn', label: '附言缺失：', text: '无 PO/合同号可二次校验，仅靠主体推断。' }
+        ]
+      },
+      {
+        title: '结论生成 · LLM 推理',
+        tag: 'LLM',
+        detail: '推荐认领到「成都鸿祥电器」PO-2026-SW-0411，但不自动写回 — 已生成认领建议待人工确认；若 24h 内无操作，自动转资金会计岗。',
+        cite: { src: 'FIN-POL · v2.1 · §3.2 同名异体处理', text: '当主数据存在 ≥ 2 家近似主体且附言不含唯一标识时，AI 仅生成建议、不直接写回；超时 24 小时升级至资金会计岗复核。' }
+      }
+    ]
+  },
+
+  s3: {
+    title: '万和 · 三单合并打款 · 2,150,000.00',
+    verdict: 'ok',
+    verdictTag: 'CLAIMED · SPLIT',
+    score: 92,
+    verdictTitle: '高置信度 · 已自动拆分到 3 张订单',
+    verdictText: 'AI 从附言抽取 3 个 PO 编号，对照 SAP 未核销订单库，三笔金额合计精确等于流水金额 — 已按订单逐张拆分认领并写回 ERP；客户「北京万和电器」回款进度本月已 100%，无尾差。',
+    steps: [
+      {
+        title: '流水接入与解析',
+        tag: 'PARSE',
+        detail: '从招行流水 F-2026-0519-217 抽取 3 个 PO 编号；通过分隔符与正则规则确认为「合并打款」场景。',
+        kvs: [
+          ['对方户名', '北京万和电器有限公司'],
+          ['抽取 PO', 'PO-2026-BJ-0211, PO-2026-BJ-0258, PO-2026-BJ-0312'],
+          ['金额', '¥ 2,150,000.00（贷方）']
+        ]
+      },
+      {
+        title: '客户主数据匹配',
+        tag: 'MDM',
+        detail: '户名精确匹配「北京万和电器」（华北一级代理）；对方账号在白名单中，最近 90 天打款 14 次。',
+        candidates: [
+          { name: '北京万和电器有限公司', tag: '一级代理 · 华北', score: 100, win: true, why: '户名精确 + 账户白名单 + 历史回款 14 次' }
+        ]
+      },
+      {
+        title: '订单拆分关联',
+        tag: 'SAP',
+        detail: '在 SAP 中检索 3 个 PO 编号，全部命中且均为「待回款」状态；金额合计精确等于流水金额。',
+        split: {
+          rows: [
+            { obj: 'PO-2026-BJ-0211', sub: '合同 CT-BJ-2026-0211 · 4月家电采购', typ: '订单', amt: '¥ 720,000.00' },
+            { obj: 'PO-2026-BJ-0258', sub: '合同 CT-BJ-2026-0258 · 4月空调采购', typ: '订单', amt: '¥ 880,000.00' },
+            { obj: 'PO-2026-BJ-0312', sub: '合同 CT-BJ-2026-0312 · 5月配件补单', typ: '订单', amt: '¥ 550,000.00' }
+          ],
+          total: '¥ 2,150,000.00'
+        }
+      },
+      {
+        title: '金额对账',
+        tag: 'RULE',
+        detail: '720,000 + 880,000 + 550,000 = 2,150,000；命中规则 R-204「附言含多 PO 且金额合计 = 流水金额」自动拆分。',
+        findings: [
+          { lvl: 'ok', label: '合计一致：', text: '3 张订单合计 = 流水金额，尾差 ¥ 0.00。' },
+          { lvl: 'ok', label: '订单状态：', text: '3 张订单状态均为「已发货已开票」，可立即核销。' },
+          { lvl: 'ok', label: '客户额度：', text: '回款后客户授信占用率从 78% 降至 42%，无额度风险。' }
+        ]
+      },
+      {
+        title: '结论生成 · LLM 推理',
+        tag: 'LLM',
+        detail: '自动按订单逐张拆分写回 SAP，关闭 3 张订单的应收科目；同步推送回款通知至代理商小程序。',
+        cite: { src: 'FIN-POL · v2.1 · §4.1 合并打款拆分规则', text: '附言中可解析的 PO 列表，且各 PO 应收余额合计 == 流水金额时，按 PO 顺序逐张全额核销；金额顺序与附言顺序一致即可。' }
+      }
+    ]
+  },
+
+  s4: {
+    title: '王*军 · 私户回款 · 53,200.00',
+    verdict: 'bad',
+    verdictTag: 'BLOCKED',
+    score: 42,
+    verdictTitle: '私户回款 · 自动拦截，建议驳回或要求换主体打款',
+    verdictText: '对方为个人账户「王*军」，户名不在客户主数据中；附言含线索词"鸿祥 4 月尾款"指向「成都鸿祥电器」，但根据《回款认领与差异处理办法》§5.1，禁止接收个人账户回款 — 智能体已自动拦截并通知销售联系经销商使用对公账户重打。',
+    steps: [
+      {
+        title: '流水接入与解析',
+        tag: 'PARSE',
+        detail: '招行流水 F-2026-0519-226；对方户名为个人账户（脱敏后王*军），附言抽取到候选客户线索词。',
+        kvs: [
+          ['对方户名', '王*军（个人账户 · 招行）'],
+          ['附言线索', '"鸿祥" + "4 月尾款"'],
+          ['金额', '¥ 53,200.00（贷方）']
+        ]
+      },
+      {
+        title: '客户主数据匹配 · 私户排查',
+        tag: 'MDM',
+        detail: '该姓名在主数据「联系人」表中匹配到 1 条记录：成都鸿祥电器·业务员王建军；但其个人账户未登记为合规回款渠道。',
+        candidates: [
+          { name: '王建军（成都鸿祥业务员）', tag: '联系人 · 非主体', score: 58, win: false, why: '附言含"鸿祥"且姓名匹配，但非合规回款渠道' },
+          { name: '成都鸿祥电器（推断）', tag: '一级代理 · 西南', score: 50, win: false, why: '通过附言推断，证据强度不足' }
+        ]
+      },
+      {
+        title: '合规规则校验',
+        tag: 'POLICY',
+        detail: '触发硬规则 R-301「禁止接收个人账户回款」；自动落入待处理队列，并通知销售联系经销商使用对公账户重打。',
+        cite: { src: 'FIN-POL · v2.1 · §5.1 合规边界', text: '严禁以个人账户名义结算货款；如发现私户回款应在 1 个工作日内退款或要求经销商换对公账户重打，否则计入合规风险事件。' }
+      },
+      {
+        title: '金额对账',
+        tag: 'RULE',
+        detail: '即使按推断认领到「成都鸿祥」，未结订单余额最低 ¥ 87,400 > 流水 ¥ 53,200，无法精确匹配单一订单 — 增大不确定性。',
+        findings: [
+          { lvl: 'bad', label: '渠道不合规：', text: '个人账户打款，触发 R-301 强制拦截。' },
+          { lvl: 'warn', label: '金额无法对账：', text: '推断主体下无对应金额订单。' },
+          { lvl: 'warn', label: '证据强度不足：', text: '仅有姓名 + 附言两条弱证据。' }
+        ]
+      },
+      {
+        title: '结论生成 · LLM 推理',
+        tag: 'LLM',
+        detail: '智能体输出建议：1) 暂存挂账「未识别款项」；2) 通知华南销售经理联系成都鸿祥；3) 24h 未确认则按合规流程退款。',
+        cite: { src: 'FIN-POL · v2.1 · §5.3 私户处理 SOP', text: '私户回款一律暂挂"未识别款项"科目；销售须 24 小时内提供经销商对公账户证明并重打，否则原路退回。' }
+      }
+    ]
+  }
+};
+
+/* ====================================================================== */
+/* RENDER 一个 step                                                          */
+/* ====================================================================== */
+function renderStep(idx, total, step, state) {
+  const stateClass = state || '';
+  const idText = state === 'done' ? '✓' : state === 'warn' ? '!' : state === 'bad' ? '×' : (idx + 1);
+
+  let body = `<div class="step-title">${escapeHtml(step.title)}<span class="tag">${step.tag}</span></div>`;
+  body += `<div class="step-detail">${escapeHtml(step.detail)}</div>`;
+
+  if (step.kvs) {
+    body += '<div class="findings">';
+    step.kvs.forEach(([k, v]) => {
+      body += `<div class="finding ok"><span class="dot"></span><div><strong>${escapeHtml(k)}：</strong>${escapeHtml(v)}</div></div>`;
+    });
+    body += '</div>';
+  }
+
+  if (step.candidates) {
+    body += '<div class="cand-list">';
+    step.candidates.forEach(c => {
+      body += `<div class="cand ${c.win ? 'win' : ''}">
+        <div>
+          <div class="name"><strong>${escapeHtml(c.name)}</strong> <span class="badge">${escapeHtml(c.tag)}</span></div>
+          <div class="why">${escapeHtml(c.why)}</div>
+        </div>
+        <div></div>
+        <div class="score">${c.score}</div>
+      </div>`;
+    });
+    body += '</div>';
+  }
+
+  if (step.contract) {
+    body += `<div class="contract-card">
+      <div class="head">
+        <span class="no">${escapeHtml(step.contract.no)}</span>
+        <span class="stat">${escapeHtml(step.contract.status)}</span>
+      </div>
+      <div class="body">`;
+    step.contract.rows.forEach(([k, v]) => {
+      const isAmount = /金额|应收|开票/.test(k);
+      body += `<div class="row"><span class="lk">${escapeHtml(k)}</span><span class="${isAmount ? 'amount' : ''}">${v.replace(/¥ ([\d,\.]+)/, '¥ <em>$1</em>')}</span></div>`;
+    });
+    body += '</div></div>';
+  }
+
+  if (step.split) {
+    body += `<div class="split-table">
+      <div class="row head"><div>订单 / 合同</div><div class="typ">类型</div><div class="amt">金额</div></div>`;
+    step.split.rows.forEach(r => {
+      body += `<div class="row">
+        <div class="obj">${escapeHtml(r.obj)}<small>${escapeHtml(r.sub)}</small></div>
+        <div class="typ">${escapeHtml(r.typ)}</div>
+        <div class="amt">${r.amt}</div>
+      </div>`;
+    });
+    body += `<div class="row total"><div>合计 · 自动拆分</div><div></div><div class="amt">${step.split.total}</div></div>`;
+    body += '</div>';
+  }
+
+  if (step.findings) {
+    body += '<div class="findings">';
+    step.findings.forEach(f => {
+      body += `<div class="finding ${f.lvl}"><span class="dot"></span><div><strong>${escapeHtml(f.label)}</strong>${escapeHtml(f.text)}</div></div>`;
+    });
+    body += '</div>';
+  }
+
+  if (step.cite) {
+    body += `<div class="kb-cite" style="margin-top:8px;background:var(--paper);border-left:2px solid var(--accent);padding:10px 14px;font-size:12.5px;color:var(--ink-2);border-radius:0 2px 2px 0;">
+      <span class="src" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;display:block;margin-bottom:4px;">${escapeHtml(step.cite.src)}</span>
+      ${escapeHtml(step.cite.text)}
+    </div>`;
+  }
+
+  return `<div class="step ${stateClass}"><div class="step-icon">${idText}</div><div class="step-body">${body}</div></div>`;
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+}
+
+/* ====================================================================== */
+/* 状态 & 事件                                                                */
+/* ====================================================================== */
+let currentStmt = 's1';
+let isRunning = false;
+
+const tabsEl = document.getElementById('tabs');
+const aiEmpty = document.getElementById('ai-empty');
+const aiFlow = document.getElementById('ai-flow');
+const verdict = document.getElementById('verdict');
+const aiStatus = document.getElementById('ai-status');
+const btnClaim = document.getElementById('btn-claim');
+const btnReset = document.getElementById('btn-reset');
+
+/* tab 切换 — 委托 */
+tabsEl.addEventListener('click', e => {
+  const t = e.target.closest('.tab');
+  if (!t) return;
+  if (isRunning) return;
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  document.querySelectorAll('.stmt').forEach(x => x.classList.remove('active'));
+  const sid = t.dataset.stmt;
+  currentStmt = sid;
+  document.getElementById('stmt-' + sid).classList.add('active');
+  resetAI();
+});
+
+btnReset.addEventListener('click', () => {
+  if (isRunning) return;
+  resetAI();
+});
+
+function resetAI() {
+  aiEmpty.style.display = 'block';
+  aiFlow.classList.remove('active');
+  aiFlow.innerHTML = '';
+  verdict.classList.remove('show', 'ok', 'warn', 'bad');
+  aiStatus.textContent = 'IDLE';
+  btnClaim.disabled = false;
+}
+
+btnClaim.addEventListener('click', async () => {
+  if (isRunning) return;
+  const sc = SCENARIOS[currentStmt];
+  if (!sc) return;
+  isRunning = true;
+  btnClaim.disabled = true;
+  aiEmpty.style.display = 'none';
+  aiFlow.classList.add('active');
+  aiFlow.innerHTML = '';
+  verdict.classList.remove('show', 'ok', 'warn', 'bad');
+  aiStatus.textContent = 'RUNNING · 0/' + sc.steps.length;
+
+  for (let i = 0; i < sc.steps.length; i++) {
+    const step = sc.steps[i];
+    // running
+    aiFlow.insertAdjacentHTML('beforeend', renderStep(i, sc.steps.length, step, 'running'));
+    aiStatus.textContent = `RUNNING · ${i + 1}/${sc.steps.length}`;
+    await sleep(900 + Math.random() * 400);
+
+    // pick state
+    let state = 'done';
+    if (step.findings) {
+      if (step.findings.some(f => f.lvl === 'bad')) state = 'bad';
+      else if (step.findings.some(f => f.lvl === 'warn')) state = 'warn';
+    }
+    // last step inherit verdict
+    if (i === sc.steps.length - 1) {
+      state = sc.verdict === 'bad' ? 'bad' : sc.verdict === 'warn' ? 'warn' : 'done';
+    }
+    // bad scenario step 3 mark bad
+    if (currentStmt === 's4' && i === 2) state = 'bad';
+
+    // replace
+    const last = aiFlow.lastElementChild;
+    last.outerHTML = renderStep(i, sc.steps.length, step, state);
+  }
+
+  // verdict
+  verdict.classList.add('show', sc.verdict);
+  document.getElementById('verdict-tag').textContent = sc.verdictTag;
+  document.getElementById('verdict-score').textContent = sc.score;
+  document.getElementById('verdict-title').textContent = sc.verdictTitle;
+  document.getElementById('verdict-text').textContent = sc.verdictText;
+  aiStatus.textContent = 'DONE · ' + sc.verdictTag;
+
+  isRunning = false;
+  btnClaim.disabled = false;
+});
+
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+/* ====================================================================== */
+/* Modal · 手工录入流水                                                       */
+/* ====================================================================== */
+const modal = document.getElementById('modal-mask');
+const btnOpenModal = document.getElementById('btn-open-modal');
+const btnCloseModal = document.getElementById('btn-close-modal');
+const btnCancel = document.getElementById('btn-cancel');
+const btnSubmit = document.getElementById('btn-submit');
+const btnAiFill = document.getElementById('btn-ai-fill');
+
+function openModal() {
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+}
+btnOpenModal.addEventListener('click', openModal);
+btnCloseModal.addEventListener('click', closeModal);
+btnCancel.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
+
+/* AI 智能填充 — 模拟从历史流水中识别附言模板 */
+btnAiFill.addEventListener('click', () => {
+  const orig = btnAiFill.innerHTML;
+  btnAiFill.innerHTML = '识别中...';
+  btnAiFill.disabled = true;
+  setTimeout(() => {
+    document.getElementById('f-payer').value = '北京万和电器有限公司';
+    document.getElementById('f-payer-acct').value = '9558 **** **** 1133';
+    document.getElementById('f-amount').value = '1,440,000';
+    document.getElementById('f-summary').value = '货款合并';
+    document.getElementById('f-note').value = 'PO-2026-BJ-0418/0421 两单合并支付，含 5 月新订单';
+    btnAiFill.innerHTML = orig;
+    btnAiFill.disabled = false;
+  }, 900);
+});
+
+/* 提交 — 生成新流水 + 动态 scenario */
+btnSubmit.addEventListener('click', () => {
+  const bank = document.getElementById('f-bank').value;
+  const acct = document.getElementById('f-acct').value;
+  const payer = document.getElementById('f-payer').value.trim();
+  const payerAcct = document.getElementById('f-payer-acct').value.trim();
+  const amountStr = document.getElementById('f-amount').value.trim();
+  const time = document.getElementById('f-time').value.trim();
+  const summary = document.getElementById('f-summary').value.trim();
+  const note = document.getElementById('f-note').value.trim();
+
+  if (!payer || !amountStr) {
+    alert('请填写对方户名与金额');
+    return;
+  }
+
+  const now = new Date();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  const seq = String(Math.floor(Math.random() * 900) + 100);
+  const fno = `F-2026-${m}${d}-${seq}`;
+  const sid = 'u' + String(Date.now()).slice(-6);
+
+  /* 1. 在 SCENARIOS 注入新 scenario */
+  SCENARIOS[sid] = buildScenarioForUserStmt({ payer, amountStr, note });
+
+  /* 2. 创建 stmt DOM */
+  const stmtHtml = `
+    <div class="stmt" id="stmt-${sid}">
+      <div class="stmt-bank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+        <span class="bank-name">${escapeHtml(bank)}</span>
+        <span class="acct">${escapeHtml(acct)}</span>
+      </div>
+      <div class="stmt-amount-wrap">
+        <span class="stmt-amount"><span class="sym">¥</span>${escapeHtml(amountStr)}.00</span>
+        <span class="stmt-direction">CREDIT · 贷方入账</span>
+      </div>
+      <div class="stmt-row"><span class="k">流水号</span><span class="v">${fno} · MANUAL</span></div>
+      <div class="stmt-row"><span class="k">入账时间</span><span class="v">${escapeHtml(time)}</span></div>
+      <div class="stmt-row"><span class="k">对方户名</span><span class="v">${escapeHtml(payer)}</span></div>
+      <div class="stmt-row"><span class="k">对方账号</span><span class="v">${escapeHtml(payerAcct)}</span></div>
+      <div class="stmt-row"><span class="k">交易摘要</span><span class="v">${escapeHtml(summary)}</span></div>
+      <div class="stmt-row"><span class="k">附言/备注</span><span class="v note">${escapeHtml(note)}</span></div>
+      <div class="stmt-tags">
+        <span class="stmt-tag">手工录入</span>
+        <span class="stmt-tag">待 AI 认领</span>
+      </div>
+    </div>
+  `;
+  document.querySelector('.pane').insertAdjacentHTML('beforeend', stmtHtml);
+  // move audit-cta to end
+  const audit = document.querySelector('.audit-cta');
+  audit.parentNode.appendChild(audit);
+
+  /* 3. 创建 tab，插到 + 按钮前 */
+  const newTab = document.createElement('button');
+  newTab.className = 'tab user-added';
+  newTab.dataset.stmt = sid;
+  newTab.innerHTML = `<span class="num">${fno}</span>${escapeHtml(payer.length > 8 ? payer.slice(0, 8) + '…' : payer)} · 手工录入`;
+  tabsEl.insertBefore(newTab, btnOpenModal);
+
+  closeModal();
+  newTab.click();
+});
+
+/* 根据手工录入数据，构造一个 5 步 scenario */
+function buildScenarioForUserStmt({ payer, amountStr, note }) {
+  const amount = parseFloat(amountStr.replace(/,/g, '')) || 0;
+  const hasPO = /PO-?\d/i.test(note);
+  const isPersonal = /^([\u4e00-\u9fa5\*]+)$/.test(payer) && payer.length <= 4;
+
+  let verdict, score, vTag, vTitle, vText, lastFindings;
+
+  if (isPersonal) {
+    verdict = 'bad'; score = 45; vTag = 'BLOCKED';
+    vTitle = '私户回款 · 自动拦截';
+    vText = `对方为个人账户「${payer}」，触发合规硬规则 R-301；已落入"未识别款项"科目，并通知销售联系经销商使用对公账户重打。`;
+    lastFindings = [
+      { lvl: 'bad', label: '渠道不合规：', text: '个人账户打款，禁止直接认领。' },
+      { lvl: 'warn', label: '需销售介入：', text: '24h 内未提供对公账户证明则原路退回。' }
+    ];
+  } else if (hasPO) {
+    verdict = 'ok'; score = 95; vTag = 'CLAIMED';
+    vTitle = '高置信度 · 已自动认领';
+    vText = `户名「${payer}」命中客户主数据；附言含 PO 编号且金额 ¥${amount.toLocaleString()} 与未核销订单余额一致 — 已自动写回 ERP。`;
+    lastFindings = [
+      { lvl: 'ok', label: '户名匹配：', text: '客户主数据精确命中。' },
+      { lvl: 'ok', label: 'PO 可解析：', text: '附言中 PO 编号唯一，定位单笔订单。' },
+      { lvl: 'ok', label: '金额一致：', text: '流水金额 = 应收余额。' }
+    ];
+  } else {
+    verdict = 'warn'; score = 76; vTag = 'NEEDS REVIEW';
+    vTitle = '中置信度 · 推荐认领，建议人工确认';
+    vText = `户名「${payer}」可匹配主数据，但附言无 PO/合同号，仅靠主体推断 — 已生成认领建议，待资金会计岗确认。`;
+    lastFindings = [
+      { lvl: 'ok', label: '户名匹配：', text: '主数据中存在该客户。' },
+      { lvl: 'warn', label: '附言信息不足：', text: '无 PO/合同号可二次校验。' },
+      { lvl: 'warn', label: '建议人工核对：', text: '匹配单笔最大未结订单作为候选。' }
+    ];
+  }
+
+  return {
+    title: `${payer} · ¥${amount.toLocaleString()}`,
+    verdict, score, verdictTag: vTag, verdictTitle: vTitle, verdictText: vText,
+    steps: [
+      {
+        title: '流水接入与解析',
+        tag: 'PARSE',
+        detail: `对手工录入的流水执行 NER + 实体抽取；附言识别 ${hasPO ? '到 PO 编号' : '中未发现明确订单标识'}。`,
+        kvs: [
+          ['对方户名', payer],
+          ['抽取实体', hasPO ? note.match(/PO-?[A-Z0-9-]+/i)?.[0] || 'PO（未解析）' : '（无 PO/合同号）'],
+          ['金额', `¥ ${amount.toLocaleString()}.00（贷方）`]
+        ]
+      },
+      {
+        title: '客户主数据匹配',
+        tag: 'MDM',
+        detail: isPersonal ? '对方为个人账户，主数据中未匹配到对应主体。' : '对方户名与客户主数据匹配，置信度待历史回款记录验证。',
+        candidates: isPersonal ? [
+          { name: payer + '（个人账户）', tag: '联系人 · 非主体', score: 40, win: false, why: '非合规回款渠道' }
+        ] : [
+          { name: payer, tag: '客户主数据', score: 92, win: true, why: '户名精确匹配' }
+        ]
+      },
+      isPersonal ? {
+        title: '合规规则校验',
+        tag: 'POLICY',
+        detail: '触发硬规则 R-301「禁止接收个人账户回款」；自动落入待处理队列。',
+        cite: { src: 'FIN-POL · v2.1 · §5.1 合规边界', text: '严禁以个人账户名义结算货款；如发现私户回款应在 1 个工作日内退款或要求经销商换对公账户重打。' }
+      } : {
+        title: '合同/订单关联',
+        tag: 'SAP',
+        detail: hasPO ? '在 SAP 中检索 PO 编号，命中 1 张未核销订单。' : '在 SAP 中按客户检索未核销订单，匹配最接近金额的候选。',
+        contract: {
+          no: hasPO ? (note.match(/PO-?[A-Z0-9-]+/i)?.[0] || 'PO-AUTO') : 'PO-CANDIDATE-01',
+          status: hasPO ? '高置信' : '候选',
+          rows: [
+            ['客户', payer],
+            ['订单金额', `¥ ${amount.toLocaleString()}.00`],
+            ['已开票', `¥ ${amount.toLocaleString()}.00`],
+            ['应收余额', `¥ ${amount.toLocaleString()}.00`]
+          ]
+        }
+      },
+      {
+        title: '金额对账',
+        tag: 'RULE',
+        detail: isPersonal
+          ? '即使按附言推断，私户渠道已被强制拦截，金额对账步骤不影响最终结论。'
+          : '校验流水金额 vs 应收余额；命中规则 R-101 / R-202。',
+        findings: lastFindings
+      },
+      {
+        title: '结论生成 · LLM 推理',
+        tag: 'LLM',
+        detail: vText,
+        cite: hasPO && !isPersonal
+          ? { src: 'FIN-POL · v2.1 · §2.1 自动认领条件', text: '同时满足户名匹配 + 金额一致 + PO 唯一时，系统可自动认领。' }
+          : { src: 'FIN-POL · v2.1 · §3.2 同名异体处理', text: '附言信息不足时，AI 仅生成建议、不直接写回；超时 24 小时升级。' }
+      }
+    ]
+  };
+}
+</script>
+
+</body>
+</html>

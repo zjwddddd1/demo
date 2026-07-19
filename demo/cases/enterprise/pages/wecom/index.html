@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy × 企业微信文档 — 打通与场景</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* 蓝白商务 · 有限调色板 */
+  --blue:        #1A6DFF;
+  --blue-deep:   #0B4FCC;
+  --blue-ink:    #07307E;
+  --blue-soft:   #EAF1FF;
+  --blue-mist:   #F4F8FF;
+  --line-blue:   #DCE7FA;
+
+  --ink:   #0C1B33;
+  --gray-800: #1F2D45;
+  --gray-700: #36465E;
+  --gray-600: #5A6B83;
+  --gray-500: #8493A8;
+  --gray-400: #A9B5C7;
+  --line:  #E8ECF3;
+  --line-soft: #F0F3F8;
+  --paper: #FCFDFF;
+  --white: #FFFFFF;
+
+  --ok:    #128A5B;
+  --ok-bg: #E7F6EF;
+  --warn:  #C77A12;
+  --warn-bg: #FCF3E4;
+
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+
+  --shadow-xs: 0 1px 2px rgba(12,27,51,.04);
+  --shadow-sm: 0 2px 10px rgba(12,27,51,.05);
+  --shadow-md: 0 8px 28px rgba(12,27,51,.08);
+  --shadow-blue: 0 14px 40px rgba(26,109,255,.18);
+
+  --font: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  --maxw: 1080px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:var(--font);
+  background:var(--paper);
+  color:var(--gray-700);
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:.01em;
+}
+::selection { background:var(--blue); color:#fff; }
+
+/* ── 顶部导航 ── */
+.nav {
+  position:fixed; inset:0 0 auto 0; z-index:100;
+  background:rgba(252,253,255,.82);
+  backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in {
+  max-width:var(--maxw); margin:0 auto; height:60px;
+  padding:0 28px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.brand { display:flex; align-items:center; gap:11px; }
+.brand .mark {
+  width:30px; height:30px; border-radius:8px;
+  background:linear-gradient(135deg,var(--blue),var(--blue-deep));
+  display:grid; place-items:center; color:#fff; font-weight:900; font-size:15px;
+  box-shadow:0 4px 12px rgba(26,109,255,.3);
+}
+.brand b { font-size:15px; font-weight:700; color:var(--ink); letter-spacing:.02em; }
+.brand b span { color:var(--gray-400); font-weight:400; }
+.nav-links { display:flex; gap:6px; }
+.nav-links a {
+  text-decoration:none; color:var(--gray-600);
+  font-size:13.5px; font-weight:500; padding:7px 14px;
+  border-radius:var(--r-sm); transition:.2s;
+}
+.nav-links a:hover { color:var(--blue); background:var(--blue-soft); }
+
+/* ── Hero ── */
+.hero {
+  margin-top:60px; position:relative; overflow:hidden;
+  background:
+    radial-gradient(900px 500px at 78% -10%, rgba(26,109,255,.10), transparent 60%),
+    radial-gradient(700px 400px at 10% 120%, rgba(11,79,204,.07), transparent 55%),
+    linear-gradient(180deg, var(--blue-mist), var(--paper));
+  border-bottom:1px solid var(--line);
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(var(--line-blue) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-blue) 1px, transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(700px 380px at 70% 0%, #000 0%, transparent 70%);
+          mask-image:radial-gradient(700px 380px at 70% 0%, #000 0%, transparent 70%);
+  opacity:.5;
+}
+.hero-in {
+  position:relative; z-index:1;
+  max-width:var(--maxw); margin:0 auto; padding:84px 28px 72px;
+}
+.eyebrow {
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--blue-deep);
+  background:rgba(255,255,255,.7); border:1px solid var(--line-blue);
+  padding:7px 16px; border-radius:var(--r-xl); margin-bottom:26px;
+  box-shadow:var(--shadow-xs);
+}
+.eyebrow .dot { width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 3px rgba(18,138,91,.18); animation:breathe 2.4s infinite; }
+@keyframes breathe { 0%,100%{opacity:1} 50%{opacity:.35} }
+.hero h1 {
+  font-size:46px; font-weight:900; line-height:1.18; color:var(--ink);
+  letter-spacing:-.01em; margin-bottom:22px; max-width:18ch;
+}
+.hero h1 em { font-style:normal; color:var(--blue); }
+.hero .lead {
+  font-size:17px; color:var(--gray-600); max-width:60ch; line-height:1.9;
+}
+.hero-stats {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; margin-top:50px;
+  background:var(--line); border:1px solid var(--line);
+  border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-sm);
+}
+.hstat { background:var(--white); padding:26px 24px; text-align:center; transition:.25s; }
+.hstat:hover { background:var(--blue-mist); }
+.hstat .n {
+  font-size:40px; font-weight:900; color:var(--blue-deep); line-height:1;
+  font-variant-numeric:tabular-nums; letter-spacing:-.02em;
+}
+.hstat .l { font-size:13px; color:var(--gray-500); margin-top:10px; font-weight:500; }
+
+/* ── 通用 section ── */
+.wrap { max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+.section { padding:88px 0; }
+.section.alt { background:var(--white); border-block:1px solid var(--line); }
+.s-head { margin-bottom:52px; max-width:64ch; }
+.s-kicker {
+  font-family:var(--mono); font-size:12px; font-weight:500; letter-spacing:.18em;
+  color:var(--blue); text-transform:uppercase; margin-bottom:14px;
+  display:flex; align-items:center; gap:12px;
+}
+.s-kicker::before { content:''; width:28px; height:2px; background:var(--blue); border-radius:2px; }
+.s-title { font-size:30px; font-weight:800; color:var(--ink); line-height:1.32; letter-spacing:-.005em; }
+.s-desc { font-size:15.5px; color:var(--gray-600); margin-top:14px; line-height:1.85; }
+
+/* ── 架构流 ── */
+.arch {
+  display:flex; align-items:stretch; justify-content:center;
+  gap:0; flex-wrap:wrap;
+}
+.anode {
+  flex:1; min-width:150px;
+  background:var(--white); border:1px solid var(--line);
+  border-radius:var(--r-md); padding:24px 18px; text-align:center;
+  position:relative; transition:.3s;
+}
+.anode + .anode { margin-left:34px; }
+.anode + .anode::before {
+  content:'→'; position:absolute; left:-30px; top:50%; transform:translateY(-50%);
+  color:var(--blue); font-size:20px; font-weight:700;
+}
+.anode:hover { border-color:var(--blue); box-shadow:var(--shadow-md); transform:translateY(-4px); }
+.anode.key { background:linear-gradient(180deg,var(--blue-soft),var(--white)); border-color:var(--line-blue); }
+.anode .ic {
+  width:46px; height:46px; margin:0 auto 14px; border-radius:12px;
+  display:grid; place-items:center; font-size:22px;
+  background:var(--blue-mist); border:1px solid var(--line-blue);
+}
+.anode.key .ic { background:var(--blue); color:#fff; border-color:var(--blue); box-shadow:0 6px 16px rgba(26,109,255,.32); }
+.anode h4 { font-size:14.5px; font-weight:600; color:var(--ink); }
+.anode p { font-size:12px; color:var(--gray-500); margin-top:4px; }
+
+/* ── 权限模型 ── */
+.perm {
+  margin-top:56px;
+  background:var(--white); border:1px solid var(--line);
+  border-radius:var(--r-lg); padding:44px 36px; box-shadow:var(--shadow-sm);
+}
+.perm-title { text-align:center; font-size:17px; font-weight:700; color:var(--gray-700); margin-bottom:30px; }
+.perm-title span { color:var(--blue); }
+.perm-row { display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap; }
+.pbox {
+  min-width:148px; padding:18px 20px; text-align:center;
+  border-radius:var(--r-md); border:1px solid;
+}
+.pbox .t { font-weight:700; font-size:15px; margin-bottom:3px; }
+.pbox .d { font-size:11.5px; opacity:.8; }
+.pbox.u { background:var(--blue-soft); color:var(--blue-deep); border-color:var(--line-blue); }
+.pbox.b { background:#F1EEFF; color:#5B45D6; border-color:#E2DCFB; }
+.pbox.v { background:var(--ok-bg); color:var(--ok); border-color:#CFEEDF; }
+.pbox.d { background:var(--warn-bg); color:var(--warn); border-color:#F6E6CB; }
+.parrow { color:var(--gray-400); font-size:18px; font-weight:700; }
+.perm-note {
+  text-align:center; max-width:66ch; margin:30px auto 0;
+  font-size:14px; color:var(--gray-600); line-height:1.9;
+  padding-top:26px; border-top:1px dashed var(--line);
+}
+.perm-note b { color:var(--ink); }
+
+/* ── 工作流 ── */
+.flow { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.fstep {
+  background:var(--white); border:1px solid var(--line);
+  border-radius:var(--r-md); padding:30px 24px; position:relative;
+  transition:.3s;
+}
+.fstep:hover { border-color:var(--line-blue); box-shadow:var(--shadow-sm); transform:translateY(-3px); }
+.fstep .idx {
+  font-family:var(--mono); font-size:13px; font-weight:600; color:var(--blue);
+  background:var(--blue-soft); width:34px; height:34px; border-radius:9px;
+  display:grid; place-items:center; margin-bottom:18px;
+}
+.fstep h4 { font-size:16px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+.fstep p { font-size:13.5px; color:var(--gray-600); line-height:1.8; }
+
+/* ── 实战案例 ── */
+.cases { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.case {
+  background:var(--white); border:1px solid var(--line);
+  border-radius:var(--r-lg); overflow:hidden; transition:.3s;
+  display:flex; flex-direction:column;
+}
+.case:hover { box-shadow:var(--shadow-md); transform:translateY(-4px); border-color:var(--line-blue); }
+.case-top {
+  padding:24px 28px 0;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.case-top h4 { font-size:18px; font-weight:800; color:var(--ink); letter-spacing:-.005em; }
+.chip {
+  flex-shrink:0; font-size:11.5px; font-weight:600; padding:5px 12px; border-radius:var(--r-xl);
+  white-space:nowrap;
+}
+.chip.read { background:var(--blue-soft); color:var(--blue-deep); }
+.chip.ana  { background:#F1EEFF; color:#5B45D6; }
+.chip.auto { background:#E7F6EF; color:var(--ok); }
+.case-body { padding:16px 28px 26px; display:flex; flex-direction:column; flex:1; }
+.case-body > p { font-size:14px; color:var(--gray-600); line-height:1.85; }
+.kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:22px; }
+.kpi { background:var(--blue-mist); border:1px solid var(--line-soft); border-radius:var(--r-md); padding:16px 10px; text-align:center; }
+.kpi .v { font-size:22px; font-weight:900; color:var(--blue-deep); line-height:1; font-variant-numeric:tabular-nums; }
+.kpi .l { font-size:11px; color:var(--gray-500); margin-top:7px; }
+.links { margin-top:auto; padding-top:22px; border-top:1px solid var(--line-soft); }
+.links .lab { font-size:11.5px; color:var(--gray-400); letter-spacing:.04em; margin-bottom:10px; }
+.btns { display:flex; flex-wrap:wrap; gap:10px; }
+.lbtn {
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:13px; font-weight:600; text-decoration:none;
+  padding:9px 15px; border-radius:var(--r-sm); transition:.2s;
+}
+.lbtn.ghost { color:var(--blue-deep); background:var(--blue-soft); border:1px solid var(--line-blue); }
+.lbtn.ghost:hover { background:var(--blue); color:#fff; }
+.lbtn.solid { color:#fff; background:linear-gradient(135deg,var(--blue),var(--blue-deep)); box-shadow:0 6px 16px rgba(26,109,255,.25); }
+.lbtn.solid:hover { transform:translateY(-1px); box-shadow:var(--shadow-blue); }
+
+/* ── CLI ── */
+.cli {
+  background:var(--blue-ink);
+  border-radius:var(--r-lg); padding:8px; box-shadow:var(--shadow-md);
+  background-image:linear-gradient(180deg, #0A3A91, #07307E);
+}
+.cli-bar { display:flex; align-items:center; gap:7px; padding:14px 18px 12px; }
+.cli-bar i { width:11px; height:11px; border-radius:50%; display:inline-block; }
+.cli-bar i:nth-child(1){background:#FF5F57} .cli-bar i:nth-child(2){background:#FEBC2E} .cli-bar i:nth-child(3){background:#28C840}
+.cli-bar span { margin-left:10px; font-family:var(--mono); font-size:12px; color:rgba(255,255,255,.5); }
+.cli pre {
+  margin:0; padding:8px 24px 26px; overflow-x:auto;
+  font-family:var(--mono); font-size:12.5px; line-height:1.95; color:#C7D6F5; white-space:pre;
+}
+.cli .c { color:#5FA8FF; }      /* comment header */
+.cli .m { color:#7E95C4; }      /* inline note */
+
+/* ── 踩坑 ── */
+.pits { display:flex; flex-direction:column; gap:14px; }
+.pit {
+  display:flex; gap:22px; align-items:flex-start;
+  background:var(--white); border:1px solid var(--line);
+  border-radius:var(--r-md); padding:24px 28px; transition:.25s;
+}
+.pit:hover { border-color:#F6E6CB; box-shadow:var(--shadow-sm); }
+.pit .no {
+  flex-shrink:0; width:38px; height:38px; border-radius:10px;
+  background:var(--warn-bg); color:var(--warn);
+  display:grid; place-items:center; font-family:var(--mono); font-size:15px; font-weight:600;
+}
+.pit h4 { font-size:15.5px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+.pit p { font-size:13.5px; color:var(--gray-600); line-height:1.8; }
+.pit code { font-family:var(--mono); font-size:12.5px; background:var(--blue-mist); color:var(--blue-deep); padding:1px 6px; border-radius:4px; }
+.fix {
+  margin-top:12px; display:inline-flex; gap:8px; align-items:flex-start;
+  background:var(--ok-bg); border:1px solid #CFEEDF; color:var(--ok);
+  font-size:13px; font-weight:500; padding:9px 14px; border-radius:var(--r-sm); line-height:1.7;
+}
+.fix::before { content:'✓'; font-weight:800; }
+
+/* ── 页脚 ── */
+.footer {
+  background:var(--ink); color:rgba(255,255,255,.55);
+  padding:48px 28px; text-align:center; font-size:13px;
+}
+.footer .fbrand { display:inline-flex; align-items:center; gap:9px; color:#fff; font-weight:700; margin-bottom:14px; font-size:15px; }
+.footer .fbrand .m { width:26px; height:26px; border-radius:7px; background:var(--blue); display:grid; place-items:center; font-weight:900; font-size:13px; }
+.footer a { color:rgba(255,255,255,.78); text-decoration:none; }
+.footer a:hover { color:#fff; }
+.footer .sep { color:rgba(255,255,255,.2); margin:0 8px; }
+
+/* ── 进入动画 ── */
+.reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity:1; transform:none; }
+
+@media (max-width:1024px){
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .cases{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .hero h1{font-size:32px}
+  .hero-stats{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .arch{flex-direction:column}
+  .anode+.anode{margin-left:0; margin-top:34px}
+  .anode+.anode::before{left:50%; top:-30px; transform:translateX(-50%); content:'↓'}
+  .section{padding:60px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand">
+      <div class="mark">W</div>
+      <b>WorkBuddy <span>×</span> 企业微信文档</b>
+    </div>
+    <div class="nav-links">
+      <a href="#arch">怎么通的</a>
+      <a href="#flow">怎么用</a>
+      <a href="#cases">真实案例</a>
+      <a href="#pits">踩坑记录</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-in">
+    <div class="eyebrow"><span class="dot"></span> 已上线 · wecom-cli 已就绪</div>
+    <h1>把企微文档丢给 AI，<br><em>读数据、做分析、出报告</em></h1>
+    <p class="lead">一句话的事：你把企业微信文档或智能表格的链接发过来，AI 自动读取内容、交叉分析、生成可视化报告。不用导出 Excel，不用手动整理。下面是已经跑通的路径，以及踩过的坑。</p>
+    <div class="hero-stats">
+      <div class="hstat reveal"><div class="n">6</div><div class="l">支持的文档类型</div></div>
+      <div class="hstat reveal"><div class="n">85</div><div class="l">真实验证行数</div></div>
+      <div class="hstat reveal"><div class="n">3</div><div class="l">跑通的案例</div></div>
+      <div class="hstat reveal"><div class="n">5</div><div class="l">踩过的坑</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- 架构 -->
+<section id="arch" class="section">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">How it works</div>
+      <h2 class="s-title">怎么通的？机器人帮你「刷卡进门」</h2>
+      <p class="s-desc">企微的文档锁在企业内部，外面的程序读不了。机器人就是那张门禁卡——它替 AI 证明「这次访问是企业授权的」，企微才放行。</p>
+    </div>
+
+    <div class="arch reveal">
+      <div class="anode"><div class="ic">💬</div><h4>你说一句话</h4><p>"分析这张表"</p></div>
+      <div class="anode key"><div class="ic">🤖</div><h4>机器人敲门</h4><p>带着企业身份</p></div>
+      <div class="anode"><div class="ic">🔑</div><h4>企微验身份</h4><p>核实身份+权限</p></div>
+      <div class="anode"><div class="ic">📊</div><h4>数据出来了</h4><p>表格/文档内容</p></div>
+      <div class="anode key"><div class="ic">🧠</div><h4>AI 帮你分析</h4><p>出洞察、出报告</p></div>
+    </div>
+
+    <div class="perm reveal">
+      <div class="perm-title">🔐 为什么<span>非得</span>要机器人？</div>
+      <div class="perm-row">
+        <div class="pbox u"><div class="t">👤 你</div><div class="d">告诉 AI 要干嘛</div></div>
+        <div class="parrow">→</div>
+        <div class="pbox b"><div class="t">🤖 机器人</div><div class="d">你的企业门禁卡</div></div>
+        <div class="parrow">→</div>
+        <div class="pbox v"><div class="t">🔐 企微验证</div><div class="d">核实身份+权限</div></div>
+        <div class="parrow">→</div>
+        <div class="pbox d"><div class="t">📊 企业数据</div><div class="d">文档/表格放行</div></div>
+      </div>
+      <p class="perm-note">打个比方：企微文档是公司保险柜里的文件，AI 是请来的顾问。顾问不能自己翻保险柜，但你可以给他一张<b>你名下的门禁卡</b>（机器人），他刷卡进去帮你取文件。卡必须是你发的——只有卡的主人能决定它的权限。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 工作流 -->
+<section id="flow" class="section alt">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Workflow</div>
+      <h2 class="s-title">怎么用？四步，从链接到报告</h2>
+      <p class="s-desc">全程不需要导出 Excel，不需要手动整理。普通用户只管说需求，剩下交给 AI。</p>
+    </div>
+    <div class="flow">
+      <div class="fstep reveal"><div class="idx">01</div><h4>丢链接</h4><p>把企微文档 / 智能表格链接直接发给 AI</p></div>
+      <div class="fstep reveal"><div class="idx">02</div><h4>自动读</h4><p>机器人刷卡进去，把数据完整读出来</p></div>
+      <div class="fstep reveal"><div class="idx">03</div><h4>AI 分析</h4><p>自动交叉对比、找异常、发现机会</p></div>
+      <div class="fstep reveal"><div class="idx">04</div><h4>出报告</h4><p>生成可视化 HTML / 导出 Excel / 直接给结论</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 实战案例 -->
+<section id="cases" class="section">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Real cases</div>
+      <h2 class="s-title">真实案例：拿 85 条客户数据跑出来的</h2>
+      <p class="s-desc">不是纸上谈兵。下面两个案例都基于同一张真实的企微智能表格（85 条客户线索），附上了原始文档和生成结果，点开即可对照。</p>
+    </div>
+
+    <div class="cases">
+      <!-- 案例1 -->
+      <div class="case reveal">
+        <div class="case-top">
+          <h4>销售跟进分析</h4>
+          <span class="chip read">读数据 · 分析</span>
+        </div>
+        <div class="case-body">
+          <p>一句"分析各销售的客户跟进情况"，AI 读完全表后发现：85 条线索里 76% 阶段空白——大多数人录了客户就没下文。15 个最高优先级的 P0 客户，竟有 12 个完全无人推进。</p>
+          <div class="kpis">
+            <div class="kpi"><div class="v">19%</div><div class="l">整体跟进率</div></div>
+            <div class="kpi"><div class="v">12/15</div><div class="l">P0 零推进</div></div>
+            <div class="kpi"><div class="v">33人</div><div class="l">覆盖销售</div></div>
+          </div>
+          <div class="links">
+            <div class="lab">📎 原始文档 + 生成结果</div>
+            <div class="btns">
+              <a class="lbtn ghost" href="https://doc.weixin.qq.com/smartsheet/s3_AKwAiAYdACoCN8ZrBNOnPQiysXFQA?scode=AJEAIQdfAAoD2QQTlLAKwAiAYdACo&tab=q979lj&viewId=vukaF8" target="_blank">🔗 企微智能表格</a>
+              <a class="lbtn solid" href="./sales_followup_report.html" target="_blank">📊 销售跟进报告</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 案例2 -->
+      <div class="case reveal">
+        <div class="case-top">
+          <h4>业务场景洞察</h4>
+          <span class="chip ana">交叉分析 · 推荐</span>
+        </div>
+        <div class="case-body">
+          <p>AI 从场景 × 行业 × 产品三维交叉，挖出一个反直觉的事实：需求最大的场景（游戏美术、3D 建模）反而无人跟进；需求最小的视频场景反而已跑到付费。结论——优先推「营销素材」，唯一"需求大 + 已跑通"的场景。</p>
+          <div class="kpis">
+            <div class="kpi"><div class="v">28</div><div class="l">3D建模需求</div></div>
+            <div class="kpi"><div class="v">0%</div><div class="l">跟进率</div></div>
+            <div class="kpi"><div class="v">营销</div><div class="l">最该先推</div></div>
+          </div>
+          <div class="links">
+            <div class="lab">📎 原始文档 + 生成结果</div>
+            <div class="btns">
+              <a class="lbtn ghost" href="https://doc.weixin.qq.com/smartsheet/s3_AKwAiAYdACoCN8ZrBNOnPQiysXFQA?scode=AJEAIQdfAAoD2QQTlLAKwAiAYdACo&tab=q979lj&viewId=vukaF8" target="_blank">🔗 企微智能表格</a>
+              <a class="lbtn solid" href="./scene_insight_report.html" target="_blank">📊 场景洞察报告</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 案例3 -->
+      <div class="case reveal">
+        <div class="case-top">
+          <h4>每周一自动出周报</h4>
+          <span class="chip auto">定时任务 · 自动化</span>
+        </div>
+        <div class="case-body">
+          <p>设了一个定时任务：每周一早上 9 点，AI 自动读一遍企微智能表格，拉最新数据，生成带图表的 HTML 周报——不用你催、不用你点，到点就出。跟进率变了、P0 客户动了、新线索来了，一目了然。</p>
+          <div class="kpis">
+            <div class="kpi"><div class="v">周一</div><div class="l">自动触发</div></div>
+            <div class="kpi"><div class="v">9:00</div><div class="l">出报告</div></div>
+            <div class="kpi"><div class="v">HTML</div><div class="l">可视化周报</div></div>
+          </div>
+          <div class="links">
+            <div class="lab">📎 定时任务 + 周报样例</div>
+            <div class="btns">
+              <a class="lbtn ghost" href="https://doc.weixin.qq.com/smartsheet/s3_AKwAiAYdACoCN8ZrBNOnPQiysXFQA?scode=AJEAIQdfAAoD2QQTlLAKwAiAYdACo&tab=q979lj&viewId=vukaF8" target="_blank">🔗 企微智能表格</a>
+              <a class="lbtn solid" href="./weekly_report_sample.html" target="_blank">📊 周报样例</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLI -->
+<section class="section alt">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">CLI reference</div>
+      <h2 class="s-title">wecom-cli 命令速查</h2>
+      <p class="s-desc">给开发同学的底层命令。普通用户不必关心，直接跟 AI 说需求即可。</p>
+    </div>
+    <div class="cli reveal">
+      <div class="cli-bar"><i></i><i></i><i></i><span>wecom-cli — 企业微信文档命令行</span></div>
+      <pre><span class="c"># ── 智能表格 SmartSheet ──</span>
+wecom-cli doc smartsheet_get_sheet      <span class="m"># 获取子表列表</span>
+wecom-cli doc smartsheet_get_fields     <span class="m"># 读取字段定义</span>
+wecom-cli doc smartsheet_get_records    <span class="m"># 读取全部记录</span>
+wecom-cli doc smartsheet_update_records <span class="m"># 更新记录（仅自建表）</span>
+wecom-cli doc smartsheet_add_records    <span class="m"># 新增记录（仅自建表）</span>
+
+<span class="c"># ── 电子表格 Sheet ──</span>
+wecom-cli doc sheet_get_info            <span class="m"># 获取工作表信息</span>
+wecom-cli doc sheet_get_cell_data       <span class="m"># 读取单元格</span>
+wecom-cli doc sheet_set_cell_value      <span class="m"># 写入单元格</span>
+wecom-cli doc sheet_set_range_value     <span class="m"># 批量写入范围</span>
+
+<span class="c"># ── 文档 Doc ──</span>
+wecom-cli doc get_content               <span class="m"># 读取文档内容</span>
+wecom-cli doc insert_text               <span class="m"># 插入文本</span>
+wecom-cli doc insert_table              <span class="m"># 插入表格</span>
+wecom-cli doc replace_text              <span class="m"># 查找替换</span>
+
+<span class="c"># ── 鉴权 ──</span>
+wecom-cli auth show                     <span class="m"># 查看当前授权状态</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- 踩坑 -->
+<section id="pits" class="section">
+  <div class="wrap">
+    <div class="s-head reveal">
+      <div class="s-kicker">Pitfalls</div>
+      <h2 class="s-title">踩坑记录</h2>
+      <p class="s-desc">实际用的时候踩过的坑，提前知道能省不少时间。</p>
+    </div>
+    <div class="pits">
+      <div class="pit reveal">
+        <div class="no">1</div>
+        <div>
+          <h4>机器人权限过期：突然就"读不了"了</h4>
+          <p>某天调接口突然报"机器人使用权限已过期"。不是你代码的问题，是企微那边过期了。而且只有机器人的创建者能重新授权，别人扫码会被拒。</p>
+          <div class="fix">在 WorkBuddy 连接器里重新扫码绑定；或换成你自己创建的机器人</div>
+        </div>
+      </div>
+      <div class="pit reveal">
+        <div class="no">2</div>
+        <div>
+          <h4>写入报 <code>851003</code>：别人建的表写不进去</h4>
+          <p>想往智能表里填日期，怎么都写不进去。一开始以为是日期格式问题，试了 3 种格式都不行——最后测了一下，连普通的数字字段也写不了。真相是企微的硬规则：<b>机器人只能写自己创建的文档</b>，别人建的表只有只读权限。</p>
+          <div class="fix">兜底：①导出 Excel 改完手动粘贴回去；②让机器人自己新建一张表写入；③配 Webhook 通道</div>
+        </div>
+      </div>
+      <div class="pit reveal">
+        <div class="no">3</div>
+        <div>
+          <h4>日期字段格式：别在格式上浪费时间</h4>
+          <p>智能表的日期字段（DATE_TIME）只接受数字或字符串，传 <code>{timestamp: xxx}</code> 这种 dict 会直接报类型错误，纯毫秒时间戳报 <code>2640027</code>。这俩错误码都不直白，难分清是格式还是权限。</p>
+          <div class="fix">遇到写入失败，先拿一个普通字段（如数字）试——能写再调格式，写不了就是权限问题</div>
+        </div>
+      </div>
+      <div class="pit reveal">
+        <div class="no">4</div>
+        <div>
+          <h4>"加机器人为协作者"——找不到是正常的</h4>
+          <p>曾误导用户去"文档分享设置里把机器人加为协作者"，结果翻遍也没找到。不是不会操作，是企微根本没设计这个入口——机器人不会出现在协作者列表里。这条指引本身就是错的。</p>
+          <div class="fix">机器人的写权限只跟"谁创建了文档"绑定，不是文档级协作权限能控制的</div>
+        </div>
+      </div>
+      <div class="pit reveal">
+        <div class="no">5</div>
+        <div>
+          <h4>选项值乱写，统计结果不准</h4>
+          <p>比如"二级行业"字段，有人填"通用saas"、有人填"通用SaaS"、有人填"saas"——系统当三个不同值统计，结果就偏了。项目阶段也有大量空行。</p>
+          <div class="fix">分析前先做归一化（AI 会自动处理）；建表时就设好"下拉选项"，从源头约束</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="fbrand"><span class="m">W</span> WorkBuddy × 企业微信文档</div>
+  <p>基于 wecom-cli + 智能机器人鉴权<span class="sep">·</span>2026</p>
+  <p style="margin-top:10px;">参考：<a href="https://developer.work.weixin.qq.com/document/path/101468" target="_blank">企微文档开发文档</a></p>
+</footer>
+
+<script>
+const io = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*0.06)+'s'; io.observe(el); });
+</script>
+</body>
+</html>
+

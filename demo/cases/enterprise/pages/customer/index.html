@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>用户数据看板 · 累计下单企业明细</title>
+<style>
+  :root{
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#F8FAFC;
+    --border:#E5E9F0;
+    --border-strong:#CBD5E1;
+    --text-1:#0F172A;
+    --text-2:#475569;
+    --text-3:#94A3B8;
+    --primary:#1E40AF;
+    --primary-soft:#E0E7FF;
+    --primary-hover:#1E3A8A;
+    --gold:#B45309;
+    --gold-bg:#FEF3C7;
+    --navy:#1E3A8A;
+    --navy-bg:#DBEAFE;
+    --blue:#2563EB;
+    --blue-bg:#DBEAFE;
+    --gray:#475569;
+    --gray-bg:#E2E8F0;
+    --silver:#64748B;
+    --silver-bg:#F1F5F9;
+    --teal:#0F766E;
+    --teal-bg:#CCFBF1;
+    --purple:#6D28D9;
+    --purple-bg:#EDE9FE;
+    --amber:#B45309;
+    --amber-bg:#FEF3C7;
+    --red:#B91C1C;
+    --red-bg:#FEE2E2;
+    --green:#15803D;
+    --green-bg:#DCFCE7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--text-1);font-size:14px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .container{max-width:1440px;margin:0 auto;padding:24px;}
+
+  /* Header */
+  .header{
+    background:var(--surface);border:1px solid var(--border);border-radius:4px;
+    padding:24px 28px;margin-bottom:16px;
+  }
+  .header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:16px;}
+  .title{font-size:20px;font-weight:600;color:var(--text-1);letter-spacing:-0.01em;}
+  .subtitle{font-size:13px;color:var(--text-3);margin-top:4px;}
+  .meta{font-size:12px;color:var(--text-3);text-align:right;line-height:1.7;}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+  .kpi{background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;}
+  .kpi-label{font-size:12px;color:var(--text-3);font-weight:500;letter-spacing:0.02em;}
+  .kpi-value{font-size:22px;font-weight:600;color:var(--text-1);margin-top:6px;font-variant-numeric:tabular-nums;}
+  .kpi-sub{font-size:11px;color:var(--text-3);margin-top:4px;}
+
+  /* Filter panel */
+  .filter-panel{
+    background:var(--surface);border:1px solid var(--border);border-radius:4px;
+    padding:18px 20px;margin-bottom:16px;
+  }
+  .filter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 16px;}
+  .filter-item label{display:block;font-size:12px;color:var(--text-2);font-weight:500;margin-bottom:6px;}
+  .filter-item select,
+  .filter-item input{
+    width:100%;border:1px solid var(--border-strong);border-radius:4px;
+    padding:7px 10px;font-size:13px;background:var(--surface);color:var(--text-1);
+    font-family:inherit;
+  }
+  .filter-item input[type="text"]{font-variant-numeric:tabular-nums;}
+  .filter-item select:focus,
+  .filter-item input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-soft);}
+  .date-range{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+  /* Multi-select dropdown */
+  .ms{position:relative;}
+  .ms-trigger{
+    width:100%;border:1px solid var(--border-strong);border-radius:4px;
+    padding:7px 28px 7px 10px;font-size:13px;background:var(--surface);color:var(--text-1);
+    font-family:inherit;cursor:pointer;text-align:left;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    position:relative;
+  }
+  .ms-trigger::after{
+    content:"";position:absolute;right:10px;top:50%;width:8px;height:8px;
+    border-right:1.5px solid var(--text-3);border-bottom:1.5px solid var(--text-3);
+    transform:translateY(-70%) rotate(45deg);
+  }
+  .ms-trigger:hover{border-color:var(--primary);}
+  .ms.open .ms-trigger{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-soft);}
+  .ms-trigger .ms-count{
+    display:inline-block;background:var(--primary-soft);color:var(--primary);
+    font-size:11px;font-weight:600;padding:1px 6px;border-radius:10px;margin-left:4px;
+  }
+  .ms-panel{
+    display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:50;
+    background:var(--surface);border:1px solid var(--border-strong);border-radius:4px;
+    box-shadow:0 4px 12px rgba(15,23,42,0.08);max-height:320px;overflow:hidden;
+    flex-direction:column;
+  }
+  .ms.open .ms-panel{display:flex;}
+  .ms-search{padding:8px;border-bottom:1px solid var(--border);}
+  .ms-search input{
+    width:100%;border:1px solid var(--border);border-radius:3px;
+    padding:5px 8px;font-size:12px;font-family:inherit;
+  }
+  .ms-search input:focus{outline:none;border-color:var(--primary);}
+  .ms-actions{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:6px 10px;border-bottom:1px solid var(--border);font-size:12px;background:var(--surface-2);
+  }
+  .ms-actions a{color:var(--primary);cursor:pointer;text-decoration:none;}
+  .ms-actions a:hover{text-decoration:underline;}
+  .ms-actions .ms-info{color:var(--text-3);}
+  .ms-list{overflow-y:auto;max-height:220px;}
+  .ms-item{
+    display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;
+    font-size:13px;color:var(--text-1);
+  }
+  .ms-item:hover{background:var(--surface-2);}
+  .ms-item input[type="checkbox"]{
+    width:14px;height:14px;flex:0 0 14px;margin:0;padding:0;cursor:pointer;
+    accent-color:var(--primary);
+  }
+  .ms-item span{flex:1;min-width:0;}
+  .ms-item.hidden{display:none;}
+
+  .filter-actions{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+  .filter-summary{font-size:13px;color:var(--text-2);}
+  .filter-summary strong{color:var(--primary);font-weight:600;font-variant-numeric:tabular-nums;}
+  .btn{
+    border:1px solid var(--border-strong);background:var(--surface);
+    color:var(--text-1);padding:7px 14px;font-size:13px;border-radius:4px;
+    cursor:pointer;font-family:inherit;transition:all 0.15s;
+  }
+  .btn:hover{background:var(--surface-2);border-color:var(--primary);}
+  .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff;}
+  .btn-primary:hover{background:var(--primary-hover);border-color:var(--primary-hover);}
+  .btn-group{display:flex;gap:8px;}
+
+  /* Sort & pagination toolbar */
+  .toolbar{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--surface);border:1px solid var(--border);border-radius:4px;
+    padding:10px 16px;margin-bottom:12px;
+  }
+  .toolbar-left{display:flex;align-items:center;gap:16px;font-size:13px;color:var(--text-2);}
+  .toolbar-left select{
+    border:1px solid var(--border-strong);border-radius:4px;padding:5px 8px;
+    font-size:13px;font-family:inherit;background:var(--surface);
+  }
+  .toolbar-right{display:flex;align-items:center;gap:6px;}
+  .page-btn{
+    border:1px solid var(--border-strong);background:var(--surface);
+    width:30px;height:30px;border-radius:4px;cursor:pointer;font-size:13px;
+    display:inline-flex;align-items:center;justify-content:center;
+    color:var(--text-2);font-family:inherit;
+  }
+  .page-btn:hover:not(:disabled){border-color:var(--primary);color:var(--primary);}
+  .page-btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .page-info{font-size:13px;color:var(--text-2);padding:0 10px;font-variant-numeric:tabular-nums;}
+
+  /* Card list */
+  .list{display:flex;flex-direction:column;gap:8px;}
+  .card{
+    background:var(--surface);border:1px solid var(--border);border-radius:4px;
+    transition:border-color 0.15s;
+  }
+  .card:hover{border-color:var(--border-strong);}
+  .card.expanded{border-color:var(--primary);}
+
+  .card-header{
+    display:grid;grid-template-columns:48px 1fr auto auto auto;gap:16px;align-items:center;
+    padding:14px 18px;cursor:pointer;
+  }
+
+  /* Claim selector (multi-select popover) */
+  .claim-box{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:140px;position:relative;}
+  .claim-label{font-size:11px;color:var(--text-3);}
+  .claim-pop{position:relative;}
+  .claim-trigger{
+    border:1px solid var(--border-strong);border-radius:4px;
+    padding:4px 22px 4px 8px;font-size:12px;background:var(--surface);
+    color:var(--text-1);font-family:inherit;cursor:pointer;text-align:left;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M2 4l3 3 3-3' stroke='%2394A3B8' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 6px center;
+    min-width:128px;max-width:180px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .claim-trigger:hover{border-color:var(--primary);}
+  .claim-trigger.unclaimed{color:var(--text-3);background-color:var(--surface-2);}
+  .claim-trigger.claimed{border-color:var(--primary);color:var(--primary);font-weight:600;background-color:var(--primary-soft);}
+  .claim-panel{
+    display:none;position:absolute;top:calc(100% + 4px);right:0;z-index:50;
+    background:var(--surface);border:1px solid var(--border-strong);border-radius:4px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);padding:6px;min-width:140px;
+  }
+  .claim-pop.open .claim-panel{display:block;}
+  .claim-panel label{
+    display:flex;align-items:center;gap:6px;padding:5px 8px;
+    font-size:12px;color:var(--text-1);cursor:pointer;border-radius:3px;
+  }
+  .claim-panel label:hover{background:var(--surface-2);}
+  .claim-panel input[type="checkbox"]{
+    width:14px;height:14px;flex:0 0 14px;margin:0;accent-color:var(--primary);
+  }
+  .claim-panel .claim-clear{
+    display:block;text-align:center;font-size:11px;color:var(--text-3);
+    padding:5px 0;cursor:pointer;border-top:1px solid var(--border);margin-top:4px;
+  }
+  .claim-panel .claim-clear:hover{color:var(--primary);}
+  .rank{
+    font-size:13px;font-weight:600;color:var(--text-3);
+    font-variant-numeric:tabular-nums;text-align:center;
+  }
+  .rank.top3{color:var(--gold);font-size:14px;}
+
+  .company-info{min-width:0;}
+  .company-name{
+    font-size:15px;font-weight:600;color:var(--text-1);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    margin-bottom:4px;
+  }
+  .company-meta{
+    font-size:12px;color:var(--text-3);
+    display:flex;gap:12px;flex-wrap:wrap;
+  }
+  .company-meta span{white-space:nowrap;}
+  .company-meta .uin{font-variant-numeric:tabular-nums;}
+
+  .tags{display:flex;gap:4px;flex-wrap:wrap;align-items:center;justify-content:flex-end;max-width:380px;}
+  .tag{
+    font-size:11px;padding:2px 8px;border-radius:3px;font-weight:500;
+    border:1px solid transparent;white-space:nowrap;
+  }
+  .tag-gold{color:var(--gold);background:var(--gold-bg);border-color:#FCD34D;}
+  .tag-navy{color:var(--navy);background:var(--navy-bg);}
+  .tag-blue{color:var(--blue);background:var(--blue-bg);}
+  .tag-gray{color:var(--gray);background:var(--gray-bg);}
+  .tag-silver{color:var(--silver);background:var(--silver-bg);}
+  .tag-teal{color:var(--teal);background:var(--teal-bg);}
+  .tag-purple{color:var(--purple);background:var(--purple-bg);}
+  .tag-amber{color:var(--amber);background:var(--amber-bg);}
+  .tag-red{color:var(--red);background:var(--red-bg);}
+  .tag-green{color:var(--green);background:var(--green-bg);}
+
+  .summary-metrics{
+    display:grid;grid-template-columns:repeat(3,minmax(80px,auto));gap:12px;
+    align-items:center;text-align:right;
+  }
+  .metric{display:flex;flex-direction:column;}
+  .metric-label{font-size:11px;color:var(--text-3);}
+  .metric-value{font-size:15px;font-weight:600;color:var(--text-1);font-variant-numeric:tabular-nums;}
+  .metric-value.primary{color:var(--primary);}
+
+  .toggle-icon{
+    width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;
+    color:var(--text-3);transition:transform 0.2s;font-size:12px;
+  }
+  .card.expanded .toggle-icon{transform:rotate(180deg);color:var(--primary);}
+
+  /* Card detail */
+  .card-detail{
+    display:none;border-top:1px solid var(--border);
+    background:var(--surface-2);padding:18px 22px 22px 22px;
+  }
+  .card.expanded .card-detail{display:block;}
+
+  .detail-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px 24px;
+    margin-bottom:18px;
+  }
+  .detail-item{display:flex;flex-direction:column;}
+  .detail-label{font-size:11px;color:var(--text-3);font-weight:500;margin-bottom:4px;letter-spacing:0.02em;}
+  .detail-value{font-size:13px;color:var(--text-1);font-variant-numeric:tabular-nums;word-break:break-all;}
+  .detail-value.muted{color:var(--text-3);}
+
+  .detail-section-title{
+    font-size:12px;font-weight:600;color:var(--text-2);
+    margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);
+    letter-spacing:0.04em;text-transform:uppercase;
+  }
+
+  .order-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+  .order-table th,.order-table td{
+    padding:8px 12px;text-align:left;font-size:12px;border-bottom:1px solid var(--border);
+  }
+  .order-table th{
+    background:var(--surface-2);font-weight:600;color:var(--text-2);
+    text-transform:uppercase;letter-spacing:0.02em;font-size:11px;
+  }
+  .order-table td{color:var(--text-1);font-variant-numeric:tabular-nums;}
+  .order-table tr:last-child td{border-bottom:none;}
+  .text-right{text-align:right;}
+
+  .empty-state{
+    background:var(--surface);border:1px solid var(--border);border-radius:4px;
+    padding:60px 20px;text-align:center;color:var(--text-3);
+  }
+  .loading{padding:40px;text-align:center;color:var(--text-3);}
+
+  /* Responsive */
+  @media (max-width: 1100px){
+    .kpi-row{grid-template-columns:repeat(3,1fr);}
+    .filter-grid{grid-template-columns:repeat(2,1fr);}
+    .detail-grid{grid-template-columns:repeat(2,1fr);}
+    .card-header{grid-template-columns:36px 1fr auto auto;}
+    .summary-metrics{display:none;}
+    .tags{max-width:200px;}
+  }
+  @media (max-width: 640px){
+    .container{padding:12px;}
+    .kpi-row{grid-template-columns:repeat(2,1fr);}
+    .filter-grid{grid-template-columns:1fr;}
+    .detail-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="title">用户数据看板 · 累计下单企业明细</div>
+        <div class="subtitle">按企业聚合的全量订购概览，支持多维筛选与详情下钻</div>
+      </div>
+      <div class="meta" id="metaInfo">数据加载中…<span id="syncBadge" style="margin-left:12px;font-size:12px;color:#9CA3AF;" title="认领数据同步状态">● 检测中…</span></div>
+    </div>
+    <div class="kpi-row" id="kpiRow"></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-panel">
+    <div class="filter-grid">
+      <div class="filter-item">
+        <label>售前战区（可多选）</label>
+        <div class="ms" id="ms-zone"></div>
+      </div>
+      <div class="filter-item">
+        <label>企业类型</label>
+        <select id="f-type"><option value="">全部</option></select>
+      </div>
+      <div class="filter-item">
+        <label>所属行业（可多选）</label>
+        <div class="ms" id="ms-industry"></div>
+      </div>
+      <div class="filter-item">
+        <label>是否内领企业</label>
+        <select id="f-neiling"><option value="">全部</option></select>
+      </div>
+      <div class="filter-item">
+        <label>通路 (channel_name)</label>
+        <select id="f-channel"><option value="">全部</option></select>
+      </div>
+      <div class="filter-item">
+        <label>产品版本</label>
+        <select id="f-product"><option value="">全部</option></select>
+      </div>
+      <div class="filter-item">
+        <label>是否到期</label>
+        <select id="f-expired"><option value="">全部</option></select>
+      </div>
+      <div class="filter-item">
+        <label>认领人（可多选）</label>
+        <div class="ms" id="ms-claim"></div>
+      </div>
+      <div class="filter-item">
+        <label>关键字（企业名 / UIN / ID）</label>
+        <input type="text" id="f-keyword" placeholder="输入后回车或自动匹配" />
+      </div>
+      <div class="filter-item" style="grid-column:span 2;">
+        <label>首次下单时间区间</label>
+        <div class="date-range">
+          <input type="date" id="f-date-from" />
+          <input type="date" id="f-date-to" />
+        </div>
+      </div>
+    </div>
+    <div class="filter-actions">
+      <div class="filter-summary">命中 <strong id="filteredCount">0</strong> 家企业 / 共 <strong id="totalCount">0</strong> 家</div>
+      <div class="btn-group">
+        <button class="btn" id="btn-reset">重置筛选</button>
+        <button class="btn btn-primary" id="btn-export">导出当前结果 (CSV)</button>
+        <button class="btn btn-primary" id="btn-export-xlsx" title="原始 Excel 末尾追加「认领人」一列">导出原表+认领人 (Excel)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span>排序：</span>
+      <select id="sortBy">
+        <option value="license-desc">License 数量 ↓ (默认)</option>
+        <option value="license-asc">License 数量 ↑</option>
+        <option value="revenue-desc">计收金额 ↓</option>
+        <option value="revenue-asc">计收金额 ↑</option>
+        <option value="firstorder-desc">首次下单 ↓ 最近</option>
+        <option value="firstorder-asc">首次下单 ↑ 最早</option>
+        <option value="expire-asc">到期天数 ↑ (临期优先)</option>
+      </select>
+      <span>每页：</span>
+      <select id="pageSize">
+        <option value="20">20</option>
+        <option value="50" selected>50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+      <button class="btn" id="btn-expand-all">展开全部</button>
+      <button class="btn" id="btn-collapse-all">折叠全部</button>
+    </div>
+    <div class="toolbar-right">
+      <button class="page-btn" id="page-first" title="首页">«</button>
+      <button class="page-btn" id="page-prev" title="上一页">‹</button>
+      <span class="page-info" id="pageInfo">1 / 1</span>
+      <button class="page-btn" id="page-next" title="下一页">›</button>
+      <button class="page-btn" id="page-last" title="末页">»</button>
+    </div>
+  </div>
+
+  <!-- List -->
+  <div class="list" id="cardList">
+    <div class="loading">数据加载中…</div>
+  </div>
+
+  <!-- Bottom pagination duplicate -->
+  <div class="toolbar" style="margin-top:12px;">
+    <div class="toolbar-left">
+      <span id="bottomCount" style="font-size:13px;color:var(--text-2);">—</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="page-btn" id="page-first2" title="首页">«</button>
+      <button class="page-btn" id="page-prev2" title="上一页">‹</button>
+      <span class="page-info" id="pageInfo2">1 / 1</span>
+      <button class="page-btn" id="page-next2" title="下一页">›</button>
+      <button class="page-btn" id="page-last2" title="末页">»</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let DATA = null;
+let FILTERED = [];
+let CURRENT_PAGE = 1;
+let EXPANDED = new Set();
+const MS_STATE = {}; // {id: Set<value>}
+
+/* ---- 认领人 ---- */
+const CLAIM_OWNERS = ['叶泰林','胡钰隆','孙晓晶','潘晓冬','郎朗','安珂'];
+const CLAIM_STORAGE_KEY = 'dashboard_claims_v1';
+const CLAIM_API = 'api/claims';        // 后端接口（相对路径，nginx 反代到 127.0.0.1:18081）
+const CLAIM_POLL_MS = 30000;           // 30s 轮询同步他人改动
+let CLAIMS = {};                        // {enterprise_id: owner} 老格式 或 {enterprise_id: [owner1, owner2]} 新格式
+let CLAIM_SERVER_OK = false;            // 后端是否可达；不可达时退化为本地存储
+
+function loadClaimsLocal(){
+  try{
+    CLAIMS = JSON.parse(localStorage.getItem(CLAIM_STORAGE_KEY) || '{}') || {};
+  }catch(e){ CLAIMS = {}; }
+}
+function saveClaimsLocal(){
+  try{ localStorage.setItem(CLAIM_STORAGE_KEY, JSON.stringify(CLAIMS)); }catch(e){}
+}
+
+/* 归一化为数组：老格式 string 自动升级为 [string] */
+function getOwners(eid){
+  const v = CLAIMS[eid];
+  if(!v) return [];
+  if(Array.isArray(v)) return v.filter(x => x);
+  if(typeof v === 'string') return [v];
+  return [];
+}
+async function loadClaimsRemote(){
+  try{
+    const r = await fetch(CLAIM_API, {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    if(data && typeof data === 'object'){
+      CLAIMS = data;
+      CLAIM_SERVER_OK = true;
+      saveClaimsLocal(); // 同步到本地，离线兜底
+      updateSyncBadge('synced');
+      return true;
+    }
+  }catch(e){
+    CLAIM_SERVER_OK = false;
+    updateSyncBadge('offline');
+  }
+  return false;
+}
+async function loadClaims(){
+  loadClaimsLocal(); // 先用本地数据立即渲染
+  await loadClaimsRemote(); // 再用服务器数据覆盖（如可达）
+}
+function saveClaims(){ saveClaimsLocal(); }
+async function setClaim(eid, owners){
+  // owners: 数组（多选）。空数组 = 取消认领
+  const arr = Array.isArray(owners) ? owners.filter(x => x) : (owners ? [owners] : []);
+  if(arr.length > 0) CLAIMS[eid] = arr; else delete CLAIMS[eid];
+  saveClaimsLocal();
+  // 推送到服务器（新协议：owners 数组）
+  try{
+    const r = await fetch(CLAIM_API, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({id: String(eid), owners: arr})
+    });
+    if(r.ok){ CLAIM_SERVER_OK = true; updateSyncBadge('synced'); }
+    else throw new Error('HTTP ' + r.status);
+  }catch(e){
+    CLAIM_SERVER_OK = false;
+    updateSyncBadge('offline');
+  }
+}
+function updateSyncBadge(state){
+  const el = document.getElementById('syncBadge');
+  if(!el) return;
+  if(state === 'synced'){
+    el.textContent = '● 已同步';
+    el.style.color = '#16A34A';
+    el.title = '认领数据与服务器已同步，所有人可见';
+  }else{
+    el.textContent = '● 离线（仅本机）';
+    el.style.color = '#9CA3AF';
+    el.title = '后端不可达，认领数据仅保存在本机浏览器';
+  }
+}
+async function pollRemoteClaims(){
+  // 周期性拉取，让别人改动也能反映到当前页
+  const ok = await loadClaimsRemote();
+  if(ok){
+    // 重新渲染受影响的卡片：简单起见走全量重过滤
+    if(typeof applyFilters === 'function') applyFilters();
+  }
+}
+
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => (n == null || n === '') ? '—' : Number(n).toLocaleString('zh-CN');
+const fmtMoney = (n) => (n == null) ? '¥—' : '¥' + Number(n).toLocaleString('zh-CN', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtDate = (s) => s ? s.substring(0, 10) : '—';
+const fmtDT = (s) => s || '—';
+const escapeHtml = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---- Multi-select component ---- */
+function buildMS(containerId, options, placeholder){
+  const container = $('#' + containerId);
+  const stateKey = containerId;
+  MS_STATE[stateKey] = new Set();
+
+  container.innerHTML = `
+    <button type="button" class="ms-trigger" data-placeholder="${escapeHtml(placeholder)}">${placeholder}</button>
+    <div class="ms-panel">
+      <div class="ms-search"><input type="text" placeholder="搜索…" /></div>
+      <div class="ms-actions">
+        <span class="ms-info">共 ${options.length} 项</span>
+        <span><a class="ms-all">全选</a> · <a class="ms-none">清空</a></span>
+      </div>
+      <div class="ms-list">
+        ${options.map(v => `
+          <label class="ms-item" data-val="${escapeHtml(v)}">
+            <input type="checkbox" value="${escapeHtml(v)}" />
+            <span>${escapeHtml(v)}</span>
+          </label>`).join('')}
+      </div>
+    </div>`;
+
+  const trigger = container.querySelector('.ms-trigger');
+  const panel = container.querySelector('.ms-panel');
+  const searchInput = container.querySelector('.ms-search input');
+  const list = container.querySelector('.ms-list');
+
+  const updateTrigger = () => {
+    const sel = MS_STATE[stateKey];
+    if(sel.size === 0){
+      trigger.innerHTML = `<span style="color:var(--text-3);">${placeholder}</span>`;
+    }else if(sel.size === options.length){
+      trigger.innerHTML = `全部 <span class="ms-count">${sel.size}</span>`;
+    }else{
+      const names = Array.from(sel).join('、');
+      trigger.innerHTML = `${escapeHtml(names)} <span class="ms-count">${sel.size}</span>`;
+    }
+  };
+  updateTrigger();
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.querySelectorAll('.ms.open').forEach(el => { if(el !== container) el.classList.remove('open'); });
+    container.classList.toggle('open');
+    if(container.classList.contains('open')) setTimeout(() => searchInput.focus(), 50);
+  });
+
+  panel.addEventListener('click', (e) => e.stopPropagation());
+
+  searchInput.addEventListener('input', () => {
+    const kw = searchInput.value.trim().toLowerCase();
+    list.querySelectorAll('.ms-item').forEach(it => {
+      const v = it.dataset.val.toLowerCase();
+      it.classList.toggle('hidden', kw && !v.includes(kw));
+    });
+  });
+
+  list.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const v = cb.value;
+      if(cb.checked) MS_STATE[stateKey].add(v);
+      else MS_STATE[stateKey].delete(v);
+      updateTrigger();
+      CURRENT_PAGE = 1;
+      applyFilters();
+    });
+  });
+
+  container.querySelector('.ms-all').addEventListener('click', () => {
+    list.querySelectorAll('.ms-item:not(.hidden) input[type=checkbox]').forEach(cb => {
+      cb.checked = true; MS_STATE[stateKey].add(cb.value);
+    });
+    updateTrigger(); CURRENT_PAGE = 1; applyFilters();
+  });
+  container.querySelector('.ms-none').addEventListener('click', () => {
+    list.querySelectorAll('input[type=checkbox]').forEach(cb => { cb.checked = false; });
+    MS_STATE[stateKey].clear();
+    updateTrigger(); CURRENT_PAGE = 1; applyFilters();
+  });
+}
+function resetMS(containerId){
+  MS_STATE[containerId].clear();
+  const container = $('#' + containerId);
+  container.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+  const trigger = container.querySelector('.ms-trigger');
+  const placeholder = trigger.dataset.placeholder || '全部';
+  trigger.innerHTML = `<span style="color:var(--text-3);">${placeholder}</span>`;
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.ms.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.claim-pop.open').forEach(el => el.classList.remove('open'));
+});
+
+async function loadData(){
+  try{
+    const r = await fetch('data.json');
+    DATA = await r.json();
+  }catch(e){
+    $('#cardList').innerHTML = '<div class="empty-state">加载 data.json 失败：' + escapeHtml(e.message) + '<br/>请通过本地 HTTP 服务运行此页面。</div>';
+    return;
+  }
+  await loadClaims();
+  initFilters();
+  initKPI();
+  initEvents();
+  applyFilters();
+  // 周期同步他人改动
+  setInterval(pollRemoteClaims, CLAIM_POLL_MS);
+}
+
+function initKPI(){
+  // 渲染骨架（实际数值由 updateKPI() 根据筛选结果填充）
+  const html = [
+    {key:'companies',  label:'累计企业',     subId:'kpi-sub-companies'},
+    {key:'orders',     label:'累计订单',     subId:'kpi-sub-orders'},
+    {key:'license',    label:'License 总数', subId:'kpi-sub-license'},
+    {key:'revenue',    label:'计收金额',     subId:'kpi-sub-revenue'},
+    {key:'expired',    label:'已到期',       subId:'kpi-sub-expired'},
+    {key:'postpay',    label:'后付费开通',   subId:'kpi-sub-postpay'},
+  ].map(k => `<div class="kpi"><div class="kpi-label">${k.label}</div><div class="kpi-value" id="kpi-val-${k.key}">—</div><div class="kpi-sub" id="${k.subId}">—</div></div>`).join('');
+  $('#kpiRow').innerHTML = html;
+  $('#metaInfo').innerHTML = `数据源：${escapeHtml(DATA.source_file)}<br/>生成时间：${escapeHtml(DATA.generated_at)}<span id="syncBadge" style="margin-left:12px;font-size:12px;color:#9CA3AF;" title="认领数据同步状态">● 检测中…</span>`;
+}
+
+function updateKPI(){
+  // 基于 FILTERED 计算，反映当前筛选结果；附带与全集对比
+  const total = DATA.companies.length;
+  const list = FILTERED || [];
+  const isFiltered = list.length !== total;
+
+  let companies = list.length;
+  let orders = 0, license = 0, revenue = 0, expired = 0, postpay = 0, neiling = 0;
+  for(const c of list){
+    orders  += (c.order_count || 0);
+    license += (c.license_total || 0);
+    revenue += (c.revenue_total || 0);
+    if(c.is_expired === '是') expired++;
+    if(c.is_postpay === '是') postpay++;
+    if(c.is_neiling === '是') neiling++;
+  }
+
+  const setVal = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+  setVal('kpi-val-companies', fmt(companies));
+  setVal('kpi-val-orders',    fmt(orders));
+  setVal('kpi-val-license',   fmt(license));
+  setVal('kpi-val-revenue',   fmtMoney(revenue));
+  setVal('kpi-val-expired',   fmt(expired));
+  setVal('kpi-val-postpay',   fmt(postpay));
+
+  const ratio = (a,b) => b > 0 ? (a*100/b).toFixed(1)+'%' : '0.0%';
+  const scope = isFiltered
+    ? `<span style="color:var(--primary);font-weight:600;">筛选结果</span> · 占全集 ${ratio(companies, total)}`
+    : '全集（未筛选）';
+  setVal('kpi-sub-companies', isFiltered ? `筛选 ${fmt(companies)} / 全集 ${fmt(total)}` : '唯一企业ID');
+  setVal('kpi-sub-orders',    isFiltered ? `订单行数（筛选范围）` : '订单行数');
+  setVal('kpi-sub-license',   isFiltered ? `已售席位（筛选范围）` : '已售出席位');
+  setVal('kpi-sub-revenue',   isFiltered ? `确认收入（筛选范围）` : '累计确认收入');
+  setVal('kpi-sub-expired',   `占当前 ${ratio(expired, companies)}`);
+  setVal('kpi-sub-postpay',   `内领 ${fmt(neiling)} 家`);
+
+  // 顶部"作用域"提示
+  const scopeEl = document.getElementById('kpiScope');
+  if(scopeEl) scopeEl.innerHTML = scope;
+}
+
+function initFilters(){
+  const f = DATA.filters;
+  const fill = (id, list) => {
+    const sel = $(id);
+    list.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v; opt.textContent = v;
+      sel.appendChild(opt);
+    });
+  };
+  // 多选
+  buildMS('ms-zone', f.presale_zone, '全部战区');
+  buildMS('ms-industry', f.industry, '全部行业');
+  buildMS('ms-claim', [...CLAIM_OWNERS, '未认领'], '全部认领状态');
+  // 单选
+  fill('#f-type', f.enterprise_type);
+  fill('#f-neiling', f.is_neiling);
+  fill('#f-channel', f.channel_name);
+  fill('#f-product', f.product_version);
+  fill('#f-expired', f.is_expired);
+}
+
+function initEvents(){
+  ['f-type','f-neiling','f-channel','f-product','f-expired','f-keyword','f-date-from','f-date-to','sortBy','pageSize']
+    .forEach(id => {
+      const el = $('#' + id);
+      el.addEventListener('input', () => { CURRENT_PAGE = 1; applyFilters(); });
+      el.addEventListener('change', () => { CURRENT_PAGE = 1; applyFilters(); });
+    });
+
+  $('#btn-reset').addEventListener('click', () => {
+    ['f-type','f-neiling','f-channel','f-product','f-expired'].forEach(id => $('#' + id).value = '');
+    $('#f-keyword').value = '';
+    $('#f-date-from').value = '';
+    $('#f-date-to').value = '';
+    resetMS('ms-zone');
+    resetMS('ms-industry');
+    resetMS('ms-claim');
+    CURRENT_PAGE = 1; applyFilters();
+  });
+  $('#btn-export').addEventListener('click', exportCSV);
+  $('#btn-export-xlsx').addEventListener('click', exportXLSX);
+  $('#btn-expand-all').addEventListener('click', () => {
+    document.querySelectorAll('.card').forEach(c => { c.classList.add('expanded'); EXPANDED.add(c.dataset.eid); });
+  });
+  $('#btn-collapse-all').addEventListener('click', () => {
+    document.querySelectorAll('.card').forEach(c => { c.classList.remove('expanded'); });
+    EXPANDED.clear();
+  });
+
+  ['page-first','page-prev','page-next','page-last','page-first2','page-prev2','page-next2','page-last2'].forEach(id => {
+    $('#' + id).addEventListener('click', () => {
+      const total = totalPages();
+      if(id.includes('first')) CURRENT_PAGE = 1;
+      else if(id.includes('prev')) CURRENT_PAGE = Math.max(1, CURRENT_PAGE - 1);
+      else if(id.includes('next')) CURRENT_PAGE = Math.min(total, CURRENT_PAGE + 1);
+      else if(id.includes('last')) CURRENT_PAGE = total;
+      renderList();
+    });
+  });
+}
+
+function applyFilters(){
+  const fzoneSet = MS_STATE['ms-zone'] || new Set();
+  const findSet = MS_STATE['ms-industry'] || new Set();
+  const fclaimSet = MS_STATE['ms-claim'] || new Set();
+  const ftype = $('#f-type').value;
+  const fnl = $('#f-neiling').value;
+  const fch = $('#f-channel').value;
+  const fpv = $('#f-product').value;
+  const fexp = $('#f-expired').value;
+  const fkw = $('#f-keyword').value.trim().toLowerCase();
+  const fdf = $('#f-date-from').value;
+  const fdt = $('#f-date-to').value;
+
+  FILTERED = DATA.companies.filter(c => {
+    if(fzoneSet.size > 0 && !fzoneSet.has(c.presale_zone)) return false;
+    if(ftype && c.enterprise_type !== ftype) return false;
+    if(findSet.size > 0 && !findSet.has(c.industry)) return false;
+    if(fnl && c.is_neiling !== fnl) return false;
+    if(fch && c.channel_name !== fch) return false;
+    if(fpv && !c.product_versions.includes(fpv)) return false;
+    if(fexp && c.is_expired !== fexp) return false;
+    if(fclaimSet.size > 0){
+      const owners = getOwners(c.enterprise_id);
+      if(owners.length === 0){
+        if(!fclaimSet.has('未认领')) return false;
+      }else{
+        // 任一认领人被勾选即命中
+        if(!owners.some(o => fclaimSet.has(o))) return false;
+      }
+    }
+    if(fkw){
+      const blob = (c.enterprise_name + ' ' + c.customer_name + ' ' + c.uin + ' ' + c.enterprise_id).toLowerCase();
+      if(!blob.includes(fkw)) return false;
+    }
+    if(fdf || fdt){
+      const fo = c.first_order_at ? c.first_order_at.substring(0,10) : null;
+      if(!fo) return false;
+      if(fdf && fo < fdf) return false;
+      if(fdt && fo > fdt) return false;
+    }
+    return true;
+  });
+
+  // sort
+  const sortBy = $('#sortBy').value;
+  const cmp = {
+    'license-desc': (a,b) => b.license_total - a.license_total || b.revenue_total - a.revenue_total,
+    'license-asc': (a,b) => a.license_total - b.license_total,
+    'revenue-desc': (a,b) => b.revenue_total - a.revenue_total,
+    'revenue-asc': (a,b) => a.revenue_total - b.revenue_total,
+    'firstorder-desc': (a,b) => (b.first_order_at||'').localeCompare(a.first_order_at||''),
+    'firstorder-asc': (a,b) => (a.first_order_at||'').localeCompare(b.first_order_at||''),
+    'expire-asc': (a,b) => {
+      const ax = a.days_to_expire == null ? 99999 : a.days_to_expire;
+      const bx = b.days_to_expire == null ? 99999 : b.days_to_expire;
+      return ax - bx;
+    },
+  }[sortBy];
+  FILTERED.sort(cmp);
+
+  $('#filteredCount').textContent = FILTERED.length.toLocaleString('zh-CN');
+  $('#totalCount').textContent = DATA.companies.length.toLocaleString('zh-CN');
+  updateKPI();
+  renderList();
+}
+
+function totalPages(){
+  const ps = parseInt($('#pageSize').value, 10);
+  return Math.max(1, Math.ceil(FILTERED.length / ps));
+}
+
+function renderList(){
+  const ps = parseInt($('#pageSize').value, 10);
+  const tp = totalPages();
+  if(CURRENT_PAGE > tp) CURRENT_PAGE = tp;
+  const start = (CURRENT_PAGE - 1) * ps;
+  const slice = FILTERED.slice(start, start + ps);
+
+  const container = $('#cardList');
+  if(FILTERED.length === 0){
+    container.innerHTML = '<div class="empty-state">暂无符合条件的企业。请调整筛选条件。</div>';
+  }else{
+    container.innerHTML = slice.map((c, i) => renderCard(c, start + i + 1)).join('');
+    // re-bind expand toggle
+    container.querySelectorAll('.card-header').forEach(h => {
+      h.addEventListener('click', (e) => {
+        // 点击认领下拉时不触发折叠
+        if(e.target.closest('.claim-box')) return;
+        const card = h.parentElement;
+        const eid = card.dataset.eid;
+        card.classList.toggle('expanded');
+        if(card.classList.contains('expanded')) EXPANDED.add(eid);
+        else EXPANDED.delete(eid);
+      });
+    });
+    // bind claim popovers (multi-select)
+    container.querySelectorAll('.claim-pop').forEach(pop => {
+      const eid = pop.dataset.eid;
+      const trigger = pop.querySelector('.claim-trigger');
+      const panel = pop.querySelector('.claim-panel');
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // 关闭其他打开的认领面板
+        document.querySelectorAll('.claim-pop.open').forEach(el => { if(el !== pop) el.classList.remove('open'); });
+        pop.classList.toggle('open');
+      });
+      panel.addEventListener('click', (e) => e.stopPropagation());
+
+      const updateTriggerUI = () => {
+        const checked = Array.from(panel.querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value);
+        const txt = checked.length > 0 ? checked.join('、') : '未认领';
+        trigger.textContent = txt;
+        trigger.title = txt;
+        trigger.classList.toggle('claimed', checked.length > 0);
+        trigger.classList.toggle('unclaimed', checked.length === 0);
+      };
+
+      panel.querySelectorAll('input[type=checkbox]').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const checked = Array.from(panel.querySelectorAll('input[type=checkbox]:checked')).map(cb2 => cb2.value);
+          setClaim(eid, checked);
+          updateTriggerUI();
+          // 若当前启用了认领人筛选，需重新过滤
+          if((MS_STATE['ms-claim'] || new Set()).size > 0) applyFilters();
+        });
+      });
+      panel.querySelector('.claim-clear').addEventListener('click', (e) => {
+        e.stopPropagation();
+        panel.querySelectorAll('input[type=checkbox]').forEach(cb => { cb.checked = false; });
+        setClaim(eid, []);
+        updateTriggerUI();
+        pop.classList.remove('open');
+        if((MS_STATE['ms-claim'] || new Set()).size > 0) applyFilters();
+      });
+    });
+  }
+
+  $('#pageInfo').textContent = `${CURRENT_PAGE} / ${tp}`;
+  $('#pageInfo2').textContent = `${CURRENT_PAGE} / ${tp}`;
+  $('#bottomCount').textContent = `显示第 ${FILTERED.length === 0 ? 0 : (start+1)} – ${Math.min(start+ps, FILTERED.length)} 条 / 共 ${FILTERED.length.toLocaleString('zh-CN')} 条`;
+
+  ['page-first','page-prev','page-first2','page-prev2'].forEach(id => $('#' + id).disabled = CURRENT_PAGE === 1);
+  ['page-next','page-last','page-next2','page-last2'].forEach(id => $('#' + id).disabled = CURRENT_PAGE === tp);
+}
+
+function renderCard(c, rank){
+  const expanded = EXPANDED.has(c.enterprise_id) ? 'expanded' : '';
+  const tagsHTML = (c.ai_tags || []).map(t => `<span class="tag tag-${t.tone}">${escapeHtml(t.text)}</span>`).join('');
+  const rankCls = rank <= 3 ? 'top3' : '';
+  const dteText = c.days_to_expire == null ? '—' : (c.days_to_expire > 0 ? `已过期 ${c.days_to_expire} 天` : `剩余 ${-c.days_to_expire} 天`);
+  // 数据口径：到期天数 < 0 = 资源未到期，绝对值=剩余天数；> 0 = 已过期 N 天
+  const claimedOwners = getOwners(c.enterprise_id);
+  const claimedSet = new Set(claimedOwners);
+  const claimCls = claimedOwners.length > 0 ? 'claimed' : 'unclaimed';
+  const claimText = claimedOwners.length > 0 ? claimedOwners.join('、') : '未认领';
+  const claimItems = CLAIM_OWNERS.map(n => `
+    <label data-name="${escapeHtml(n)}">
+      <input type="checkbox" value="${escapeHtml(n)}"${claimedSet.has(n)?' checked':''} />
+      <span>${escapeHtml(n)}</span>
+    </label>`).join('');
+  // 大标题：用客户名称（customer_name）。如客户名称为空，回退到企业名称。
+  const titleText = c.customer_name || c.enterprise_name || '(未命名客户)';
+  return `
+  <div class="card ${expanded}" data-eid="${escapeHtml(c.enterprise_id)}">
+    <div class="card-header">
+      <div class="rank ${rankCls}">${rank}</div>
+      <div class="company-info">
+        <div class="company-name">${escapeHtml(titleText)}</div>
+        <div class="company-meta">
+          <span>UIN <span class="uin">${escapeHtml(c.uin || '—')}</span></span>
+          <span>${escapeHtml(c.presale_zone || '—')}</span>
+          <span>${escapeHtml(c.industry || '—')}</span>
+          <span>${escapeHtml(c.channel_name || '—')}</span>
+          <span>首单 ${fmtDate(c.first_order_at)}</span>
+        </div>
+      </div>
+      <div class="tags">${tagsHTML}</div>
+      <div class="summary-metrics">
+        <div class="metric">
+          <span class="metric-label">License</span>
+          <span class="metric-value primary">${fmt(c.license_total)}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">计收</span>
+          <span class="metric-value">${fmtMoney(c.revenue_total)}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">订单</span>
+          <span class="metric-value">${fmt(c.order_count)}</span>
+        </div>
+        <div class="toggle-icon">▼</div>
+      </div>
+      <div class="claim-box">
+        <span class="claim-label">认领人（可多选）</span>
+        <div class="claim-pop" data-eid="${escapeHtml(c.enterprise_id)}">
+          <button type="button" class="claim-trigger ${claimCls}" title="${escapeHtml(claimText)}">${escapeHtml(claimText)}</button>
+          <div class="claim-panel">
+            ${claimItems}
+            <a class="claim-clear">清空认领</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-grid">
+        <div class="detail-item"><span class="detail-label">企业 ID</span><span class="detail-value">${escapeHtml(c.enterprise_id)}</span></div>
+        <div class="detail-item"><span class="detail-label">企业名称</span><span class="detail-value">${escapeHtml(c.enterprise_name || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">客户名称</span><span class="detail-value">${escapeHtml(c.customer_name || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">企业类型</span><span class="detail-value">${escapeHtml(c.enterprise_type || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">所属行业</span><span class="detail-value">${escapeHtml(c.industry || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">售前战区</span><span class="detail-value">${escapeHtml(c.presale_zone || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">通路 (channel)</span><span class="detail-value">${escapeHtml(c.channel_name || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">区域 (zone)</span><span class="detail-value">${escapeHtml(c.zone_name || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">是否内领企业</span><span class="detail-value">${escapeHtml(c.is_neiling || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">是否开通后付费</span><span class="detail-value">${escapeHtml(c.is_postpay || '—')}</span></div>
+        <div class="detail-item"><span class="detail-label">后付费生效时间</span><span class="detail-value muted">${fmtDT(c.postpay_at)}</span></div>
+        <div class="detail-item"><span class="detail-label">后付费资源 ID</span><span class="detail-value muted">—</span></div>
+        <div class="detail-item"><span class="detail-label">产品版本</span><span class="detail-value">${(c.product_versions||[]).map(escapeHtml).join('、') || '—'}</span></div>
+        <div class="detail-item"><span class="detail-label">首次下单时间</span><span class="detail-value">${fmtDT(c.first_order_at)}</span></div>
+        <div class="detail-item"><span class="detail-label">资源到期时间 (最新)</span><span class="detail-value">${fmtDT(c.expire_at)}</span></div>
+        <div class="detail-item"><span class="detail-label">到期状态</span><span class="detail-value">${escapeHtml(c.is_expired || '—')} / ${dteText}</span></div>
+        <div class="detail-item"><span class="detail-label">订单数量</span><span class="detail-value">${fmt(c.order_count)} 单</span></div>
+        <div class="detail-item"><span class="detail-label">License 累计</span><span class="detail-value">${fmt(c.license_total)} 个</span></div>
+        <div class="detail-item"><span class="detail-label">加量包累计</span><span class="detail-value">${fmt(c.package_total)} 个 / ${fmt(c.package_credit_total)} credit</span></div>
+        <div class="detail-item"><span class="detail-label">订单计收金额</span><span class="detail-value">${fmtMoney(c.revenue_total)}</span></div>
+        <div class="detail-item"><span class="detail-label">订单非计收金额</span><span class="detail-value">${fmtMoney(c.non_revenue_total)}</span></div>
+        <div class="detail-item"><span class="detail-label">退款计收</span><span class="detail-value">${fmtMoney(c.refund_revenue_total)}</span></div>
+        <div class="detail-item"><span class="detail-label">退款非计收</span><span class="detail-value">${fmtMoney(c.refund_non_revenue_total)}</span></div>
+      </div>
+
+      <div class="detail-section-title">订单明细 (${c.orders.length} 单)</div>
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>产品版本</th>
+            <th class="text-right">License</th>
+            <th class="text-right">加量包</th>
+            <th class="text-right">原价</th>
+            <th class="text-right">折后价</th>
+            <th class="text-right">计收</th>
+            <th>下单时间</th>
+            <th>到期时间</th>
+            <th>到期</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${c.orders.map((o, i) => `
+            <tr>
+              <td>${i+1}</td>
+              <td>${escapeHtml(o.product_version || '—')}</td>
+              <td class="text-right">${fmt(o.license)}</td>
+              <td class="text-right">${fmt(o.package)}</td>
+              <td class="text-right">${fmtMoney(o.price)}</td>
+              <td class="text-right">${fmtMoney(o.discount_price)}</td>
+              <td class="text-right">${fmtMoney(o.revenue)}</td>
+              <td>${fmtDT(o.first_order_at)}</td>
+              <td>${fmtDT(o.expire_at)}</td>
+              <td>${escapeHtml(o.is_expired || '—')}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function exportXLSX(){
+  // 由后端基于源 xlsx 末尾追加"认领人"列后下载（最新的认领数据来自服务器）
+  const btn = document.getElementById('btn-export-xlsx');
+  const orig = btn.textContent;
+  btn.textContent = '导出中…';
+  btn.disabled = true;
+  fetch('api/export.xlsx', {cache:'no-store'})
+    .then(r => {
+      if(!r.ok) throw new Error('导出失败：HTTP ' + r.status);
+      const cd = r.headers.get('Content-Disposition') || '';
+      let fname = '订单数据_含认领人.xlsx';
+      const m = cd.match(/filename\*=UTF-8''([^;]+)/);
+      if(m){ try{ fname = decodeURIComponent(m[1]); }catch(e){} }
+      return r.blob().then(b => ({blob:b, fname:fname}));
+    })
+    .then(({blob, fname}) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = fname;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    })
+    .catch(err => {
+      alert('Excel 导出失败：' + err.message + '\n\n如果当前是离线/本地访问（非内网部署），此功能仅在 DevCloud 部署版可用。');
+    })
+    .finally(() => {
+      btn.textContent = orig;
+      btn.disabled = false;
+    });
+}
+
+function exportCSV(){
+  const rows = [['排名','企业ID','企业名称','客户名称','UIN','售前战区','企业类型','所属行业','是否内领','通路','产品版本','首次下单','资源到期','到期天数','是否到期','License数','加量包数','加量包credit','订单数','计收金额','非计收','退款计收','退款非计收','认领人','AI标签']];
+  FILTERED.forEach((c, i) => {
+    rows.push([
+      i+1, c.enterprise_id, c.enterprise_name, c.customer_name, c.uin,
+      c.presale_zone, c.enterprise_type, c.industry, c.is_neiling, c.channel_name,
+      (c.product_versions||[]).join('|'), c.first_order_at || '', c.expire_at || '',
+      c.days_to_expire == null ? '' : c.days_to_expire, c.is_expired,
+      c.license_total, c.package_total, c.package_credit_total,
+      c.order_count, c.revenue_total, c.non_revenue_total,
+      c.refund_revenue_total, c.refund_non_revenue_total,
+      CLAIMS[c.enterprise_id] ? (Array.isArray(CLAIMS[c.enterprise_id]) ? CLAIMS[c.enterprise_id].join('、') : CLAIMS[c.enterprise_id]) : '',
+      (c.ai_tags||[]).map(t=>t.text).join('|'),
+    ]);
+  });
+  const csv = rows.map(r => r.map(v => {
+    const s = String(v == null ? '' : v).replace(/"/g, '""');
+    return /[",\n]/.test(s) ? `"${s}"` : s;
+  }).join(',')).join('\n');
+  const blob = new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `用户数据看板_筛选结果_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+loadData();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy × 钉钉打通 · 场景说明</title>
+<style>
+  :root{
+    --wx-blue:#2F7DEB;
+    --wx-blue-d:#1F5FCB;
+    --wx-blue-l:#EAF2FE;
+    --green:#07C160;
+    --green-l:#E7F8EE;
+    --amber:#FA9D3B;
+    --amber-l:#FEF3E6;
+    --red:#FA5151;
+    --ink:#1F2329;
+    --ink-2:#4E5969;
+    --ink-3:#86909C;
+    --line:#E5E6EB;
+    --bg:#F5F6F7;
+    --card:#FFFFFF;
+    --radius:14px;
+    --shadow:0 1px 3px rgba(0,0,0,.04),0 6px 20px rgba(31,99,203,.06);
+    --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;
+    -webkit-font-smoothing:antialiased;font-size:15px}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+  /* ===== Hero ===== */
+  .hero{background:linear-gradient(135deg,#2F7DEB 0%,#1F5FCB 100%);color:#fff;
+    padding:64px 0 120px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:340px;height:340px;
+    border-radius:50%;background:rgba(255,255,255,.07)}
+  .hero::before{content:"";position:absolute;right:120px;bottom:-120px;width:240px;height:240px;
+    border-radius:50%;background:rgba(255,255,255,.05)}
+  .hero .wrap{position:relative;z-index:1}
+  .badge-top{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);
+    padding:6px 14px;border-radius:999px;font-size:13px;font-weight:500;margin-bottom:22px}
+  .badge-top .dot{width:7px;height:7px;border-radius:50%;background:#fff}
+  .hero h1{font-size:32px;font-weight:700;letter-spacing:-.5px;margin-bottom:14px}
+  .hero p.sub{font-size:16px;color:rgba(255,255,255,.88);max-width:620px}
+  .hero .meta{margin-top:28px;display:flex;gap:28px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,.82)}
+  .hero .meta b{color:#fff;font-weight:600}
+  /* 演示按钮 */
+  .hero-cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+  .demo-btn{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--wx-blue-d);
+    font-size:15px;font-weight:700;padding:12px 22px;border:none;border-radius:11px;cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,.16);transition:transform .14s,box-shadow .14s}
+  .demo-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.22)}
+  .demo-btn .ic{font-size:17px;line-height:1}
+  .demo-btn .kbd{font-size:11px;font-weight:600;color:var(--wx-blue);background:var(--wx-blue-l);
+    padding:2px 7px;border-radius:5px;margin-left:3px}
+
+  /* ===== 演示浮层 Modal ===== */
+  .demo-mask{position:fixed;inset:0;background:rgba(15,28,48,.62);backdrop-filter:blur(4px);
+    z-index:999;display:none;opacity:0;transition:opacity .22s}
+  .demo-mask.open{display:block;opacity:1}
+  .demo-panel{position:fixed;inset:0;z-index:1000;display:none;flex-direction:column;
+    padding:0;overflow:hidden}
+  .demo-panel.open{display:flex;animation:dmIn .26s ease}
+  @keyframes dmIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+  .demo-bar{flex:0 0 auto;background:linear-gradient(135deg,#2F7DEB 0%,#1F5FCB 100%);color:#fff;
+    padding:18px 32px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(31,99,203,.25)}
+  .demo-bar .dt{font-size:19px;font-weight:700;letter-spacing:-.3px}
+  .demo-bar .ds{font-size:13px;color:rgba(255,255,255,.82);margin-left:2px}
+  .demo-bar .sp{flex:1}
+  .demo-close{background:rgba(255,255,255,.18);color:#fff;border:none;width:38px;height:38px;
+    border-radius:10px;font-size:20px;cursor:pointer;transition:background .15s;line-height:1}
+  .demo-close:hover{background:rgba(255,255,255,.32)}
+  .demo-scroll{flex:1;overflow-y:auto;background:var(--bg);padding:34px 0 60px}
+  .demo-inner{max-width:1000px;margin:0 auto;padding:0 32px}
+
+  .demo-h{font-size:15px;font-weight:700;color:var(--wx-blue-d);margin:34px 0 16px;
+    display:flex;align-items:center;gap:10px}
+  .demo-h:first-child{margin-top:0}
+  .demo-h .hn{flex:0 0 auto;background:var(--wx-blue);color:#fff;font-size:13px;width:26px;height:26px;
+    border-radius:8px;display:flex;align-items:center;justify-content:center}
+
+  .stage{margin-bottom:30px}
+  .stage-t{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:12px;padding-left:12px;
+    border-left:4px solid var(--wx-blue);display:flex;align-items:center;gap:10px}
+  .stage-t .badge{font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px}
+  .badge.ok{background:var(--green-l);color:#069a4e}
+  .badge.plan{background:#F2F3F5;color:var(--ink-3)}
+  .plist{display:flex;flex-direction:column;gap:8px}
+  .prow{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    transition:border-color .18s,box-shadow .18s}
+  .prow>summary{display:flex;gap:14px;padding:13px 16px;align-items:baseline;cursor:pointer;
+    list-style:none;outline:none}
+  .prow>summary::-webkit-details-marker{display:none}
+  .prow>summary::marker{content:""}
+  .prow .pi{flex:0 0 auto;width:30px;font-size:14px;font-weight:700;color:var(--wx-blue)}
+  .prow .px{flex:1;font-size:15px;color:var(--ink);line-height:1.6}
+  .prow .px .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--ink-3);
+    background:var(--bg);border:1px solid var(--line);padding:1px 8px;border-radius:6px;margin-left:6px}
+  .prow .pchev{flex:0 0 auto;color:var(--ink-3);font-size:12px;margin-left:8px;transition:transform .2s;align-self:center}
+  .prow[open]{border-color:var(--wx-blue);box-shadow:0 2px 10px rgba(47,125,235,.08)}
+  .prow[open] .pchev{transform:rotate(180deg);color:var(--wx-blue)}
+  .prow:hover{border-color:#C9DEFB}
+  .pans{padding:12px 18px 15px 60px;font-size:14px;color:var(--ink-2);line-height:1.75;
+    border-top:1px dashed var(--line);background:linear-gradient(180deg,#FAFCFF,#fff)}
+  .pans b{color:var(--wx-blue-d);font-weight:600}
+  .pans .ptag{display:inline-block;font-size:11.5px;font-weight:600;color:var(--wx-blue);
+    background:var(--wx-blue-l);border-radius:5px;padding:1px 8px;margin-right:6px;margin-bottom:2px}
+
+  .ecards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.ecards{grid-template-columns:1fr}}
+  .ecard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+    border-top:3px solid var(--wx-blue)}
+  .ecard.s2{border-top-color:var(--green)}
+  .ecard.s3{border-top-color:var(--ink-3);border-style:dashed}
+  .ecard.deliver{border-top-color:var(--amber);grid-column:1 / -1}
+  .ecard .et{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:5px;display:flex;
+    align-items:center;gap:8px}
+  .ecard .estat{font-size:12px;font-weight:600;padding:1px 9px;border-radius:999px}
+  .estat.on{background:var(--green-l);color:#069a4e}
+  .estat.pl{background:#F2F3F5;color:var(--ink-3)}
+  .estat.dl{background:var(--amber-l);color:#9a5a00}
+  .ecard ul{list-style:none;margin-top:8px}
+  .ecard li{font-size:14px;color:var(--ink-2);line-height:1.7;padding-left:16px;position:relative}
+  .ecard li::before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;
+    border-radius:50%;background:var(--wx-blue)}
+  .ecard.s2 li::before{background:var(--green)}
+  .ecard li b{color:var(--ink);font-weight:600}
+  .ecard li a{color:var(--wx-blue);text-decoration:none;font-weight:600;word-break:break-all}
+  .ecard li a:hover{text-decoration:underline}
+  .demo-line{background:linear-gradient(135deg,#EAF2FE,#fff);border:1px solid #D6E6FD;border-radius:12px;
+    padding:18px 22px;margin-top:24px;font-size:15px;color:var(--ink);line-height:1.7}
+  .demo-line b{color:var(--wx-blue-d)}
+
+  /* ===== Section frame ===== */
+  .stack{margin-top:-80px;position:relative;z-index:2;padding-bottom:72px}
+  .case{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    margin-bottom:40px;overflow:hidden;border:1px solid var(--line)}
+  .case-head{padding:28px 32px;border-bottom:1px solid var(--line);display:flex;
+    align-items:flex-start;gap:18px}
+  .case-no{flex:0 0 auto;width:46px;height:46px;border-radius:12px;background:var(--wx-blue-l);
+    color:var(--wx-blue);font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .case-head .ht{flex:1}
+  .case-head h2{font-size:21px;font-weight:600;letter-spacing:-.3px;margin-bottom:5px}
+  .case-head .desc{font-size:14px;color:var(--ink-2)}
+  .status{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--green-l);
+    color:#069a4e;font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;white-space:nowrap}
+  .status .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .status.plan{background:#F2F3F5;color:var(--ink-3)}
+  .status.plan .dot{background:var(--ink-3)}
+  .case.planning{border-style:dashed;border-color:#D6E6FD}
+  .case-body{padding:8px 32px 32px}
+
+  /* ===== Block ===== */
+  .block{padding-top:26px}
+  .block h3{font-size:13px;font-weight:600;color:var(--wx-blue);text-transform:uppercase;
+    letter-spacing:.6px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .block h3::before{content:"";width:3px;height:14px;background:var(--wx-blue);border-radius:2px}
+
+  /* ===== Flow ===== */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .flow .step{flex:1;min-width:150px;background:var(--bg);border:1px solid var(--line);
+    border-radius:12px;padding:16px 14px;position:relative}
+  .flow .arrow{flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+    width:34px;color:var(--wx-blue);font-size:18px}
+  .flow .step .sn{font-size:12px;font-weight:700;color:var(--wx-blue);margin-bottom:6px}
+  .flow .step .st{font-size:14px;font-weight:600;margin-bottom:4px}
+  .flow .step .sd{font-size:12.5px;color:var(--ink-3);line-height:1.5}
+  @media(max-width:760px){.flow{flex-direction:column}.flow .arrow{width:100%;height:26px;transform:rotate(90deg)}}
+
+  /* ===== Table ===== */
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:2px}
+  th{text-align:left;background:var(--bg);color:var(--ink-2);font-weight:600;font-size:13px;
+    padding:11px 14px;border-bottom:1px solid var(--line)}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--ink);font-weight:600}
+  code{font-family:var(--mono);background:var(--wx-blue-l);color:var(--wx-blue-d);
+    padding:1.5px 6px;border-radius:5px;font-size:12.5px;word-break:break-all}
+  .tbl-wrap{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+
+  /* ===== Pit list ===== */
+  .pit{display:flex;gap:14px;padding:15px 16px;background:var(--amber-l);
+    border:1px solid #FCE3C2;border-radius:11px;margin-bottom:11px}
+  .pit:last-child{margin-bottom:0}
+  .pit .pn{flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:var(--amber);
+    color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .pit .pc .pt{font-size:14px;font-weight:600;color:#9a5a00;margin-bottom:3px}
+  .pit .pc .pp{font-size:13.5px;color:#7a5418;line-height:1.6}
+  .pit .pc .pp em{font-style:normal;color:#069a4e;font-weight:600}
+
+  /* ===== Key cards ===== */
+  .keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .key{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+  .key .kt{font-size:13px;font-weight:600;color:var(--wx-blue);margin-bottom:5px}
+  .key .kd{font-size:13.5px;color:var(--ink-2);line-height:1.6}
+
+  /* ===== Source link bar ===== */
+  .srcbar{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-top:18px;
+    padding:13px 16px;background:var(--wx-blue-l);border:1px solid #D6E6FD;border-radius:11px}
+  .srcbar .sl{font-size:13px;font-weight:600;color:var(--wx-blue-d);display:flex;align-items:center;gap:7px}
+  .srcbar .sl::before{content:"🔗";font-size:13px}
+  .srcbar a.lk{display:inline-flex;align-items:center;gap:7px;background:var(--wx-blue);color:#fff;
+    text-decoration:none;font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;transition:background .15s}
+  .srcbar a.lk:hover{background:var(--wx-blue-d)}
+  .srcbar a.lk::after{content:"↗";font-weight:700}
+  .srcbar .todo{display:inline-flex;align-items:center;gap:7px;border:1px dashed var(--wx-blue);
+    color:var(--wx-blue);background:#fff;font-size:13px;font-weight:600;padding:6px 13px;border-radius:8px}
+  .srcbar .hint{font-size:12px;color:var(--ink-3)}
+
+  /* ===== Architecture diagram ===== */
+  .arch{display:flex;flex-direction:column;align-items:stretch;
+    background:linear-gradient(180deg,#F7FAFF 0%,#EFF5FE 100%);
+    border:1px solid #D6E6FD;border-radius:14px;padding:15px 15px 13px}
+  .arch .layer{background:#fff;border:1px solid #E3ECF9;border-radius:10px;padding:10px 13px;
+    box-shadow:0 1px 2px rgba(31,99,203,.05)}
+  .arch .layer.end{background:linear-gradient(135deg,#2F7DEB,#1F5FCB);border-color:var(--wx-blue)}
+  .arch .lh{font-size:11.5px;font-weight:700;color:var(--wx-blue);letter-spacing:.3px;margin-bottom:8px;
+    display:flex;align-items:center;gap:5px}
+  .arch .layer.end .lh{color:#fff}
+  .arch .row{display:flex;gap:8px;flex-wrap:nowrap;align-items:stretch}
+  .arch .abox{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:9px 11px}
+  .arch .layer.end .abox{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28)}
+  .arch .layer.end .abox b{color:#fff}
+  .arch .layer.end .abox span{color:rgba(255,255,255,.86)}
+  .arch .abox b{display:block;font-size:13px;color:var(--ink);margin-bottom:2px;font-weight:600}
+  .arch .abox span{font-size:12px;color:var(--ink-3);line-height:1.5}
+  .arch .abox .sn{display:inline-block;font-size:11px;font-weight:700;color:var(--wx-blue);
+    background:var(--wx-blue-l);border-radius:5px;padding:0 6px;margin-right:5px}
+  /* 竖向层间连接：紧凑 + 胶囊标签 */
+  .arch .conn{display:flex;flex-direction:column;align-items:center;padding:4px 0;color:var(--wx-blue)}
+  .arch .conn .ar{font-size:12px;line-height:1}
+  .arch .conn .cl{font-size:11px;color:var(--ink-2);margin-top:3px;text-align:center;
+    background:#fff;padding:2px 10px;border-radius:999px;border:1px solid #DCE8FA;font-weight:500}
+  /* 横向连接（流水线内）：取消竖向 padding，仅留箭头 */
+  .arch .row .conn{flex:0 0 16px;padding:0;justify-content:center}
+  .arch .row .conn .ar{font-size:13px}
+  .arch .credbar{margin-top:12px;background:#FFF;border:1px dashed var(--wx-blue);border-radius:10px;
+    padding:12px 15px}
+  .arch .credbar .ct{font-size:12px;font-weight:700;color:var(--wx-blue-d);margin-bottom:5px}
+  .arch .credbar .cl2{font-size:12.5px;color:var(--ink-2);line-height:1.7}
+  .arch .credbar .cl2 em{font-style:normal;color:#9a5a00;font-weight:600}
+  @media(max-width:680px){
+    .arch .row{flex-wrap:wrap}
+    .arch .row .conn{flex:0 0 100%;height:14px}
+    .arch .row .conn .ar{transform:rotate(90deg)}
+  }
+
+  /* ===== Screenshot ===== */
+  .shot{margin-top:4px}
+  .shot figure{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+  .shot img{display:block;width:100%;height:auto}
+  .shot figcaption{font-size:12.5px;color:var(--ink-3);padding:11px 16px;background:var(--bg);
+    border-top:1px solid var(--line);display:flex;align-items:center;gap:8px}
+  .shot figcaption::before{content:"📷";font-size:13px}
+
+  /* ===== Callout ===== */
+  .callout{margin-top:26px;background:var(--wx-blue-l);border-radius:12px;padding:18px 20px;
+    display:flex;gap:14px;align-items:flex-start}
+  .callout .ci{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--wx-blue);
+    color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .callout .cc{font-size:14px;color:var(--ink);line-height:1.7}
+  .callout .cc b{color:var(--wx-blue-d)}
+
+  /* ===== Compare模式 ===== */
+  .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  @media(max-width:720px){.modes{grid-template-columns:1fr}}
+  .mode{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--card)}
+  .mode.on{border-color:var(--wx-blue);background:var(--wx-blue-l)}
+  .mode .ml{font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.5px}
+  .mode.on .ml{color:var(--wx-blue)}
+  .mode .mn{font-size:16px;font-weight:600;margin:6px 0 8px}
+  .mode .md{font-size:13px;color:var(--ink-2);line-height:1.6}
+  .mode .mtag{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;
+    padding:3px 10px;border-radius:999px;background:var(--green-l);color:#069a4e}
+  .mode .mtag.future{background:#F2F3F5;color:var(--ink-3)}
+
+  /* ===== Capability grid (场景三 五能力) ===== */
+  .caps{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+  @media(max-width:720px){.caps{grid-template-columns:1fr}}
+  .cap{border:1px solid var(--line);border-radius:12px;padding:16px 17px;background:var(--card);
+    display:flex;flex-direction:column}
+  .cap .ch{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+  .cap .cico{flex:0 0 auto;width:32px;height:32px;border-radius:9px;background:var(--wx-blue-l);
+    display:flex;align-items:center;justify-content:center;font-size:16px}
+  .cap .cname{font-size:15px;font-weight:600;color:var(--ink)}
+  .cap .lvl{margin-left:auto;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .cap .lvl.ok{background:var(--green-l);color:#069a4e}
+  .cap .lvl.mid{background:var(--amber-l);color:#9a5a00}
+  .cap .cgrade{font-size:12.5px;color:var(--ink-2);line-height:1.6;margin-bottom:9px;
+    padding-bottom:9px;border-bottom:1px dashed var(--line)}
+  .cap .cgrade b{color:var(--ink)}
+  .cap .cscene{font-size:12.5px;color:var(--ink-2);line-height:1.65}
+  .cap .cscene .st2{display:block;font-size:11px;font-weight:700;color:var(--wx-blue);
+    letter-spacing:.4px;margin-bottom:4px}
+  .cap .cscene li{list-style:none;padding-left:14px;position:relative;margin-bottom:2px}
+  .cap .cscene li::before{content:"•";position:absolute;left:2px;color:var(--wx-blue)}
+
+  /* ===== Chain loop (串联闭环) ===== */
+  .chain{background:linear-gradient(180deg,#F7FAFF 0%,#EFF5FE 100%);
+    border:1px solid #D6E6FD;border-radius:14px;padding:18px 16px}
+  .chain .cstep{display:flex;align-items:flex-start;gap:13px;background:#fff;border:1px solid #E3ECF9;
+    border-radius:10px;padding:12px 15px;box-shadow:0 1px 2px rgba(31,99,203,.05)}
+  .chain .ci2{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:var(--wx-blue);
+    color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .chain .cbody{flex:1}
+  .chain .cbody .ct2{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
+  .chain .cbody .ct2 .cap-tag{display:inline-block;font-size:11px;font-weight:600;color:var(--wx-blue);
+    background:var(--wx-blue-l);border-radius:5px;padding:1px 7px;margin-left:7px;vertical-align:middle}
+  .chain .cbody .cd2{font-size:12.5px;color:var(--ink-3);line-height:1.55}
+  .chain .clink{display:flex;justify-content:center;padding:5px 0;color:var(--wx-blue);font-size:13px}
+  .chain .cloop{margin-top:10px;text-align:center;font-size:12.5px;color:var(--wx-blue-d);
+    background:#fff;border:1px dashed var(--wx-blue);border-radius:999px;padding:7px 16px;font-weight:600}
+
+  /* ===== footer ===== */
+  footer{text-align:center;padding:36px 0 48px;color:var(--ink-3);font-size:13px}
+  footer .fl{width:40px;height:3px;background:var(--line);margin:0 auto 18px;border-radius:2px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge-top"><span class="dot"></span>企业协同自动化 · 实施复盘</span>
+    <h1>WorkBuddy × 钉钉打通</h1>
+    <p class="sub">两个已上线场景的完整说明加一个规划中的能力扩展：一条把数据自动汇成周报推送到群，一条让员工在群里 @ 机器人即时检索企业知识库，第三条进一步打通五类读写与事件响应。涵盖链路、技术底座与关键决策。</p>
+    <div class="meta">
+      <span><b>2</b> 个场景已贯通上线</span>
+      <span><b>5</b> 类读写能力待扩展</span>
+      <span>复盘日期 · <b>2026-06-28</b></span>
+    </div>
+    <div class="hero-cta">
+      <button class="demo-btn" onclick="openDemo()">
+        <span class="ic">▶</span>演示视图 · Prompt 全清单与效果总结<span class="kbd">P</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap stack">
+
+  <!-- 模式总览 -->
+  <section class="case">
+    <div class="case-head">
+      <div class="case-no">·</div>
+      <div class="ht">
+        <h2>三种打通方向定位</h2>
+        <p class="desc">同一套钉钉开放平台基础之上，按交互方向划分为三类：前两类已落地上线，第三类为规划中的能力扩展。</p>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="block" style="padding-top:18px">
+        <div class="modes">
+          <div class="mode on">
+            <div class="ml">单向</div>
+            <div class="mn">推送与取数</div>
+            <div class="md">系统主动取数、分析后推送到群。对应场景一：客户跟进周报自动化。</div>
+            <span class="mtag">已上线</span>
+          </div>
+          <div class="mode on">
+            <div class="ml">双向</div>
+            <div class="mn">对话问答</div>
+            <div class="md">群内 @ 机器人提问，机器人检索知识库后回答。对应场景二。</div>
+            <span class="mtag">已上线</span>
+          </div>
+          <div class="mode">
+            <div class="ml">读写与事件</div>
+            <div class="mn">能力扩展</div>
+            <div class="md">读写审批 / 待办 / 日程 / 文档 / 通讯录，并响应审批等事件。</div>
+            <span class="mtag future">规划中</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 场景一 -->
+  <section class="case">
+    <div class="case-head">
+      <div class="case-no">1</div>
+      <div class="ht">
+        <h2>客户跟进看板周报自动化</h2>
+        <p class="desc">把维护在钉钉多维表里的客户跟进看板，每周一自动汇总为周报推送到钉钉群，全程无人工介入。</p>
+      </div>
+      <span class="status"><span class="dot"></span>全链路已上线</span>
+    </div>
+    <div class="case-body">
+
+      <div class="block">
+        <h3>整体链路 · 四段流水线</h3>
+        <div class="flow">
+          <div class="step"><div class="sn">01 取数</div><div class="st">读多维表</div><div class="sd">调钉钉多维表接口，自动翻页一次拉全表</div></div>
+          <div class="arrow">→</div>
+          <div class="step"><div class="sn">02 分析</div><div class="st">多维度统计</div><div class="sd">按优先级、阶段、产品、地域等分类汇总</div></div>
+          <div class="arrow">→</div>
+          <div class="step"><div class="sn">03 生成</div><div class="st">组织周报</div><div class="sd">总览表 + 分布统计 + 高优清单 + 看板链接</div></div>
+          <div class="arrow">→</div>
+          <div class="step"><div class="sn">04 推送</div><div class="st">送达群里</div><div class="sd">自定义群机器人加签推送卡片</div></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>系统架构 · 分层全景</h3>
+        <div class="arch">
+          <div class="layer">
+            <div class="lh">⏰ 触发层</div>
+            <div class="row">
+              <div class="abox"><b>定时任务 · 每周一 09:00</b><span>到点自动触发，无人介入</span></div>
+              <div class="abox"><b>手动触发 · 一键脚本</b><span>一键主脚本随时可跑</span></div>
+            </div>
+          </div>
+          <div class="conn"><span class="ar">▼</span></div>
+          <div class="layer">
+            <div class="lh">🧠 执行主体 · 一键主脚本</div>
+            <div class="row">
+              <div class="abox" style="flex:1 1 100%"><b>纯标准库脚本（无第三方依赖）</b><span>本地 / 内网运行，串联下方四段流水线</span></div>
+            </div>
+          </div>
+          <div class="conn"><span class="ar">▼</span></div>
+          <div class="layer">
+            <div class="lh">⚙️ 核心流水线</div>
+            <div class="row">
+              <div class="abox"><b><span class="sn">①</span>取数</b><span>钉钉多维表接口，自动翻页拉全表 → 结构化数据</span></div>
+              <div class="conn" style="flex:0 0 auto;justify-content:center"><span class="ar">→</span></div>
+              <div class="abox"><b><span class="sn">②</span>分析</b><span>按优先级 / 阶段 / 产品 / 地域统计，识别新增与 P0 清单</span></div>
+              <div class="conn" style="flex:0 0 auto;justify-content:center"><span class="ar">→</span></div>
+              <div class="abox"><b><span class="sn">③</span>生成</b><span>标题 + 总览表 + 分布 + 重点清单 + 看板链接</span></div>
+              <div class="conn" style="flex:0 0 auto;justify-content:center"><span class="ar">→</span></div>
+              <div class="abox"><b><span class="sn">④</span>推送</b><span>群机器人 Webhook + HMAC-SHA256 加签送达</span></div>
+            </div>
+          </div>
+          <div class="conn"><span class="ar">▼</span><span class="cl">送达</span></div>
+          <div class="layer end">
+            <div class="lh">📱 钉钉群</div>
+            <div class="row"><div class="abox" style="flex:1 1 100%"><b>收到结构化周报卡片</b><span>每周一零操作出周报</span></div></div>
+          </div>
+          <div class="credbar">
+            <div class="ct">🔑 凭证底座（贯穿全链路）</div>
+            <div class="cl2">群机器人 Webhook + 加签密钥 —— 管 ④ 推送　｜　企业内部应用 AppKey / AppSecret —— 管 ① 取数<br>权限：多维表读取 + 通讯录成员读取　<em>⚠️ 生死线：表必须归属于签发令牌的组织</em></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>实际效果 · 图 1：周报推送到群</h3>
+        <div class="shot">
+          <figure>
+            <img src="assets/scene1-weekly-report.png" alt="客户跟进看板周报推送到钉钉群的实际效果">
+            <figcaption>机器人每周一自动在群里推送结构化周报：含线索总数、优先级分布、项目推进漏斗与重点项目清单。</figcaption>
+          </figure>
+        </div>
+        <div class="srcbar">
+          <span class="sl">输入表单（数据源）</span>
+          <span class="todo">客户跟进看板 · 钉钉多维表</span>
+          <span class="hint">网页链接待补充，可粘到此处变为可点按钮（baseId：0eMKjyp8…B1Gv）</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>技术底座 · 两套凭证</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th style="width:34%">凭证</th><th style="width:30%">来源</th><th>用途</th></tr>
+            <tr><td><b>群机器人 Webhook + 加签密钥</b></td><td>钉钉群设置 → 群机器人 → 自定义</td><td>推送消息到群</td></tr>
+            <tr><td><b>企业内部应用 AppKey / AppSecret</b></td><td>钉钉开放平台创建企业应用</td><td>调用接口读取多维表</td></tr>
+          </table>
+        </div>
+        <div class="keys" style="margin-top:14px">
+          <div class="key"><div class="kt">关键参数 · baseId</div><div class="kd">多维表 ID，表搬入组织后会变化，需重新提取</div></div>
+          <div class="key"><div class="kt">关键参数 · operatorId</div><div class="kd">操作人身份（管理员 unionId），多维表接口强制要求</div></div>
+          <div class="key"><div class="kt">所需权限</div><div class="kd"><code>Notable.Base.Read.All</code> 多维表读取 ＋ 通讯录成员读取</div></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="ci">!</div>
+        <div class="cc"><b>一句话总结：</b>真正的难点不在写代码，而在「表的所有权」这条生死线。一旦把表搬进签发令牌的组织、补齐 operatorId，整条「取数 → 分析 → 生成 → 推送」即可彻底自动化，每周一零操作出周报。</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 场景二 -->
+  <section class="case">
+    <div class="case-head">
+      <div class="case-no">2</div>
+      <div class="ht">
+        <h2>钉钉 × 乐享知识库 问答机器人</h2>
+        <p class="desc">员工在钉钉群里 @ 机器人提问，机器人自动检索<b>乐享知识库</b>，把答案摘要与出处链接回到群里，约 2–4 秒返回。</p>
+      </div>
+      <span class="status"><span class="dot"></span>服务器常驻运行</span>
+    </div>
+    <div class="case-body">
+
+      <div class="block">
+        <h3>业务流程 · 四段链路</h3>
+        <div class="flow">
+          <div class="step"><div class="sn">01 用户侧</div><div class="st">群内 @ 提问</div><div class="sd">员工在钉钉群 @ 机器人发出问题</div></div>
+          <div class="arrow">→</div>
+          <div class="step"><div class="sn">02 执行侧</div><div class="st">常驻进程</div><div class="sd">长连接收消息，去前缀后转给检索大脑</div></div>
+          <div class="arrow">→</div>
+          <div class="step"><div class="sn">03 知识库</div><div class="st">乐享语义检索</div><div class="sd">乐享知识库检索 + 重排，返回切片与文档出处</div></div>
+          <div class="arrow">→</div>
+          <div class="step"><div class="sn">04 回写</div><div class="st">返回群里</div><div class="sd">组装「答案摘要 + 出处链接」卡片</div></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>系统架构 · 分层全景</h3>
+        <div class="arch">
+          <div class="layer end">
+            <div class="lh">📱 钉钉群（用户侧）</div>
+            <div class="row"><div class="abox" style="flex:1 1 100%"><b>员工 @ 机器人提问</b><span>消息经钉钉服务端，通过 Stream 长连接推达执行进程</span></div></div>
+          </div>
+          <div class="conn"><span class="ar">▼</span><span class="cl">Stream 长连接（免公网域名）</span></div>
+          <div class="layer">
+            <div class="lh">🖥️ 生产服务器 · systemd 守护进程</div>
+            <div class="row">
+              <div class="abox"><b>Stream 客户端</b><span>建 WebSocket 收消息，去 @ 前缀提取问题</span></div>
+              <div class="conn" style="flex:0 0 auto;justify-content:center"><span class="ar">→</span></div>
+              <div class="abox"><b>检索大脑</b><span>把问题转交乐享知识库，拿回结果后组装答案卡片</span></div>
+            </div>
+          </div>
+          <div class="conn"><span class="ar">▼</span><span class="cl">独立端点 + 静态令牌调用</span></div>
+          <div class="layer">
+            <div class="lh">📚 乐享知识库（检索侧）</div>
+            <div class="row"><div class="abox" style="flex:1 1 100%"><b>语义检索 + 重排</b><span>返回最相关切片与文档出处链接，可溯源、低幻觉</span></div></div>
+          </div>
+          <div class="conn"><span class="ar">▲</span><span class="cl">答案摘要 + 出处链接 原路返回群里</span></div>
+          <div class="credbar">
+            <div class="ct">🔑 凭证底座（贯穿全链路）</div>
+            <div class="cl2">机器人企业应用 AppKey / AppSecret —— 建 Stream 长连接收发消息　｜　乐享知识库独立端点 + 静态令牌 —— 脱离客户端授权态独立检索<br><em>⚠️ 关键：常驻进程必须由服务器 systemd 守护，本地进程仅用于联调</em></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>实际效果 · 图 2：群内 @ 机器人问答</h3>
+        <div class="shot">
+          <figure>
+            <img src="assets/scene2-kb-answer.png" alt="钉钉群内 @ 机器人提问、机器人检索乐享知识库后回答的实际效果">
+            <figcaption>员工 @ 机器人提问「产品编码怎么查」，机器人检索乐享知识库后返回答案摘要 + 5 条相关文档出处，并标注「答案来自乐享知识库检索，请以原文档为准」。</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>关键技术决策 · 为什么这么选</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th style="width:28%">决策点</th><th style="width:30%">选择</th><th>理由</th></tr>
+            <tr><td><b>大脑选型</b></td><td>乐享知识库检索（RAG）</td><td>比裸接大模型准确、可溯源、低幻觉；比接完整 CLI 轻量、响应快</td></tr>
+            <tr><td><b>消息接收方式</b></td><td>Stream 长连接</td><td>程序主动建 WebSocket，无需公网域名、备案、反向代理与开放端口</td></tr>
+            <tr><td><b>知识库鉴权</b></td><td>乐享独立端点 + 静态令牌</td><td>脱离客户端授权态，服务器进程用静态令牌即可独立调用乐享检索</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>部署形态 · systemd 守护</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th style="width:40%">本地运行</th><th>生产服务器 systemd</th></tr>
+            <tr><td>会话回收即终止</td><td>注册为系统服务，独立于任何会话</td></tr>
+            <tr><td>休眠 / 关机掉线</td><td>服务器 7×24 不关机</td></tr>
+            <tr><td>进程崩溃无人接管</td><td>崩溃自动拉起 ＋ 开机自启 ＋ 定时刷新连接</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="ci">!</div>
+        <div class="cc"><b>三条最值钱的经验：</b>一是大脑选型——知识库问答场景，用「乐享知识库检索」最优；二是凭证独立性是生死线，动手前先验证服务器进程能否脱离客户端独立调用乐享；三是常驻进程必须上服务器，systemd 守护才是 7×24 在线的唯一正路。</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 场景三 -->
+  <section class="case planning">
+    <div class="case-head">
+      <div class="case-no">3</div>
+      <div class="ht">
+        <h2>能力扩展 · 读写审批 / 待办 / 日程 / 文档 / 通讯录</h2>
+        <p class="desc">在前两个场景同一套企业应用与长连接底座之上，进一步打通五类读写能力，并被动响应审批等事件。本场景尚未落地，此处先呈现能力评估与串联设想，供后续决策。</p>
+      </div>
+      <span class="status plan"><span class="dot"></span>规划中 · 未实施</span>
+    </div>
+    <div class="case-body">
+
+      <div class="block">
+        <h3>底座复用 · 一进一出双通道</h3>
+        <div class="arch">
+          <div class="layer">
+            <div class="lh">📤 主动通道（读 / 写）</div>
+            <div class="row"><div class="abox" style="flex:1 1 100%"><b>WorkBuddy / 脚本 → 换取访问令牌 → 调用钉钉开放接口</b><span>按需驱动：审批 · 待办 · 日程 · 文档 · 通讯录五类读写</span></div></div>
+          </div>
+          <div class="conn"><span class="ar">▼</span><span class="cl">复用前两场景的企业应用凭证</span></div>
+          <div class="layer">
+            <div class="lh">📥 被动通道（事件）</div>
+            <div class="row"><div class="abox" style="flex:1 1 100%"><b>钉钉服务端 → 事件推送 → 复用场景二 Stream 长连接 → 事件处理</b><span>审批状态变更等事件回流，自动播报或触发后续动作</span></div></div>
+          </div>
+          <div class="credbar">
+            <div class="ct">🔑 底座可直接复用</div>
+            <div class="cl2">企业应用 AppKey / AppSecret、管理员 operatorId、access_token 换取逻辑（场景一已通）＋ 服务器 systemd 守护的 Stream 长连接（场景二已通）<br><em>⚠️ 唯一新增前置：后台逐项开通五类接口权限点 + 开启对应事件订阅，部分高级接口可能有版本 / 审核门槛，需实测确认上限</em></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>五类能力 · 实现程度评估</h3>
+        <div class="caps">
+
+          <div class="cap">
+            <div class="ch"><div class="cico">👥</div><div class="cname">通讯录</div><span class="lvl ok">可做 · 稳</span></div>
+            <div class="cgrade"><b>程度：</b>查部门树、查成员、姓名/手机解析为 unionId、查管理员均可做，只读权限易开。<b>场景一已部分用到。</b></div>
+            <div class="cscene"><span class="st2">典型场景</span>
+              <li>作为其他能力的地基：派待办、约日程前先把「姓名」解析成 unionId</li>
+              <li>自动维护一张「部门—人员」花名册</li>
+            </div>
+          </div>
+
+          <div class="cap">
+            <div class="ch"><div class="cico">✅</div><div class="cname">待办</div><span class="lvl ok">可做 · 最干净</span></div>
+            <div class="cgrade"><b>程度：</b>给指定人创建待办、标记完成 / 删除、查某人待办列表均可做，几乎无卡点，只需目标人 unionId。</div>
+            <div class="cscene"><span class="st2">典型场景</span>
+              <li>周报分析出 P0 线索 → 自动给负责人派「48h 内回访」待办</li>
+              <li>会议纪要里的待办项 → 自动拆成待办分发</li>
+            </div>
+          </div>
+
+          <div class="cap">
+            <div class="ch"><div class="cico">📅</div><div class="cname">日程</div><span class="lvl ok">可做 · 主体</span></div>
+            <div class="cgrade"><b>程度：</b>查某人某天日程、创建日程 / 会议、改时间 / 取消均可做。<b>注意：</b>查他人日程受隐私约束，可能仅能看忙闲，会议室预订依赖组织资源配置。</div>
+            <div class="cscene"><span class="st2">典型场景</span>
+              <li>「和某人约个明天下午的 30 分钟」→ 查双方忙闲 → 自动建日程</li>
+              <li>客户回访 → 自动在负责人日历落一个带提醒的日程</li>
+            </div>
+          </div>
+
+          <div class="cap">
+            <div class="ch"><div class="cico">📄</div><div class="cname">文档 / 知识库</div><span class="lvl mid">部分验证</span></div>
+            <div class="cgrade"><b>程度：</b>多维表读 / 写已实测打通（场景一上线）；普通在线文档正文为富文本块结构，读取可行，<b>精准写入排版仍是难点，需再验证。</b></div>
+            <div class="cscene"><span class="st2">典型场景</span>
+              <li>已落地：从多维表拉客户数据 → 分析 → 推周报</li>
+              <li>新增：把分析结论回写到多维表做留痕；资料自动归档进知识库</li>
+            </div>
+          </div>
+
+          <div class="cap">
+            <div class="ch"><div class="cico">📝</div><div class="cname">审批</div><span class="lvl mid">读+发起可做 · 自动签字慎用</span></div>
+            <div class="cgrade"><b>程度：</b>查审批实例、程序发起审批、监听状态变更事件均可做；<b>程序自动同意 / 拒绝技术可行，但等同机器人替人签字，属流程责任问题，建议永远保留人工兜底。</b></div>
+            <div class="cscene"><span class="st2">典型场景</span>
+              <li>报销 / 请假提交后 → 自动播报到群「某人提交报销，待审批」</li>
+              <li>超过 N 小时未审批 → 自动催办；极低风险审批满足条件自动通过</li>
+            </div>
+          </div>
+
+          <div class="cap">
+            <div class="ch"><div class="cico">🔔</div><div class="cname">事件响应（被动）</div><span class="lvl ok">可做 · 复用长连接</span></div>
+            <div class="cgrade"><b>程度：</b>在场景二已有的 Stream 长连接上追加注册事件回调即可，无需新开连接。订阅审批任务 / 实例变更等事件。</div>
+            <div class="cscene"><span class="st2">典型场景</span>
+              <li>审批状态变更 → 自动播报结案 / 触发后续待办</li>
+              <li>新人入职事件 → 自动建一串入职待办并拉群</li>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>串联闭环 · 单点不稀奇，价值在串起来</h3>
+        <p class="desc" style="font-size:13px;color:var(--ink-2);margin:-6px 0 14px">五类能力单独看都不稀奇，真正的杀伤力在于把它们串成一条自动运营链路——一次客户跟进，从识别到结案全程机器人接力，人只在关键节点介入。</p>
+        <div class="chain">
+          <div class="cstep">
+            <div class="ci2">1</div>
+            <div class="cbody"><div class="ct2">多维表分析出 P0 线索<span class="cap-tag">文档</span></div><div class="cd2">复用场景一：每周自动从客户跟进看板拉数、分析，识别出高优先级线索</div></div>
+          </div>
+          <div class="clink">▼</div>
+          <div class="cstep">
+            <div class="ci2">2</div>
+            <div class="cbody"><div class="ct2">解析负责人身份 → 自动派回访待办<span class="cap-tag">通讯录</span><span class="cap-tag">待办</span></div><div class="cd2">把负责人姓名解析成 unionId，给其创建「48h 内回访客户」待办</div></div>
+          </div>
+          <div class="clink">▼</div>
+          <div class="cstep">
+            <div class="ci2">3</div>
+            <div class="cbody"><div class="ct2">自动约回访日程<span class="cap-tag">日程</span></div><div class="cd2">查负责人与客户忙闲，在双方日历落一个带提醒的回访日程</div></div>
+          </div>
+          <div class="clink">▼</div>
+          <div class="cstep">
+            <div class="ci2">4</div>
+            <div class="cbody"><div class="ct2">回访完提交审批<span class="cap-tag">审批</span></div><div class="cd2">回访产生的报价 / 折扣等，由负责人在钉钉发起审批走流程</div></div>
+          </div>
+          <div class="clink">▼</div>
+          <div class="cstep">
+            <div class="ci2">5</div>
+            <div class="cbody"><div class="ct2">审批事件回流 → 自动播报结案<span class="cap-tag">事件</span></div><div class="cd2">Stream 监听到审批通过事件，自动在群里播报结案，并可触发下一轮待办</div></div>
+          </div>
+          <div class="cloop">↻ 结案数据回写多维表，进入下一周分析，形成闭环</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="ci">!</div>
+        <div class="cc"><b>一句话总结：</b>场景三与前两个场景并非全新工程，而是同一套企业应用能力的延伸——主动通道多封装几个接口调用，被动通道在现有长连接上多注册几个事件回调。<b>稳的是通讯录 / 待办 / 日程 / 事件响应，需谨慎的是审批自动签字与普通文档精准写入。</b>串成闭环后，即是「钉钉里的自动运营助手」，而非五个孤立功能。</div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="fl"></div>
+    WorkBuddy × 钉钉打通 · 场景说明 ｜ 生成于 2026-06-28<br>
+    前两个场景已贯通上线，第三类能力扩展规划中；技术底座与凭证体系可整体复用
+  </footer>
+
+</main>
+
+<!-- ===== 演示浮层：Prompt 全清单 + 效果总结 ===== -->
+<div class="demo-mask" id="demoMask" onclick="closeDemo()"></div>
+<div class="demo-panel" id="demoPanel" role="dialog" aria-modal="true" aria-label="演示视图">
+  <div class="demo-bar">
+    <span class="dt">演示视图</span>
+    <span class="ds">Prompt 全清单（38 条）＋ 每阶段实现效果</span>
+    <span class="sp"></span>
+    <button class="demo-close" onclick="closeDemo()" aria-label="关闭">×</button>
+  </div>
+  <div class="demo-scroll">
+    <div class="demo-inner">
+
+      <div class="demo-h"><span class="hn">一</span>全部 Prompt（按时间顺序 · 38 条）<span style="font-size:12.5px;font-weight:500;color:var(--ink-3);margin-left:8px">点击任意一条展开「WorkBuddy 执行了什么」</span></div>
+
+      <div class="stage">
+        <div class="stage-t">阶段一 · 客户周报自动化<span class="badge ok">场景一 已上线</span></div>
+        <div class="plist">
+          <details class="prow"><summary><span class="pi">1</span><span class="px">WorkBuddy 和钉钉能做怎样的打通，先给我方案</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">方案</span>梳理出三类打通方向（单向推送取数 / 双向对话 / 读写与事件响应），逐项说明能力边界与前置条件，建议从单向推送场景起步。</div></details>
+          <details class="prow"><summary><span class="pi">2</span><span class="px">从 A 起步，我是企业管理员</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">规划</span>确认管理员身份后，给出群机器人加签推送的完整落地路径，并列出需要准备的凭证清单（Webhook、加签密钥、企业应用）。</div></details>
+          <details class="prow"><summary><span class="pi">3</span><span class="px">提供群机器人 Webhook ＋ 加签密钥<span class="tag">凭证</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">编码</span>编写 <b>push.py</b>：实现 HMAC-SHA256 加签的 Markdown 卡片推送，凭证从环境变量读取；本地试推一条成功验证通路。</div></details>
+          <details class="prow"><summary><span class="pi">4</span><span class="px">这是客户跟进看板，每周一自动总结推送周报<span class="tag">附文档链接</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">分析</span>解析链接，识别数据源类型，确认需通过多维表 OpenAPI 取数；规划「取数→分析→生成→推送」四段流水线。</div></details>
+          <details class="prow"><summary><span class="pi">5</span><span class="px">多维表可以深度分析，普通文档 / Excel 不可以，是吗</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">答疑</span>确认判断：多维表提供结构化 OpenAPI 可逐行精确取数，普通文档 / Excel 缺少同等结构化读取接口，深度分析以多维表为准。</div></details>
+          <details class="prow"><summary><span class="pi">6</span><span class="px">这个是多维表，请重新尝试分析<span class="tag">附新链接</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">编码</span>编写 <b>fetch_table.py</b>：调 records/list 自动翻页拉全表；首次调用暴露权限与 operatorId 缺失问题，定位并给出开通指引。</div></details>
+          <details class="prow"><summary><span class="pi">7</span><span class="px">提供企业应用 AppKey / Secret<span class="tag">凭证</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">联调</span>接入企业应用凭证换取 access_token，跑通取数链路；同时通过通讯录接口取管理员 unionId 作为 operatorId。</div></details>
+          <details class="prow"><summary><span class="pi">8</span><span class="px">权限我已经全选了，继续吧</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">联调</span>重试取数，根据返回的具体报错继续定位剩余缺失项（表所有权 / 权限点），逐项排除。</div></details>
+          <details class="prow"><summary><span class="pi">9</span><span class="px">开通了，继续</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">排错</span>取数仍报表所有权错误，判定根因为「表建在个人空间，令牌由组织签发」，提出将多维表搬入组织空间的解法。</div></details>
+          <details class="prow"><summary><span class="pi">10</span><span class="px">已经搞定</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">确认</span>确认搬表动作，准备用新的 baseId 重新取数验证。</div></details>
+          <details class="prow"><summary><span class="pi">11</span><span class="px">好，已经搬了<span class="tag">表搬入组织后的新链接</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">打通</span>更新 baseId / sheetId 后取数成功，全表拉通；跑通完整流水线，<b>首份真实周报推送到群</b>（85 条线索、P0=15）。</div></details>
+          <details class="prow"><summary><span class="pi">12</span><span class="px">很好，这个场景，总结一下，md 格式</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">文档</span>产出《场景总结_客户周报自动化.md》，沉淀链路、凭证体系、生死线经验；并配置「每周一 09:00」定时任务实现零操作出周报。</div></details>
+          <details class="prow"><summary><span class="pi">13</span><span class="px">可以补充架构图</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">文档</span>在总结文档中补入分层架构图（触发层→执行主体→四段流水线→钉钉群＋凭证底座）。</div></details>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-t">阶段二 · 乐享知识库问答机器人<span class="badge ok">场景二 已上线</span></div>
+        <div class="plist">
+          <details class="prow"><summary><span class="pi">14</span><span class="px">在钉钉里 @机器人 提问→双向对话，这个怎么实现？先给方案</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">方案</span>给出双向对话方案：用 Stream 长连接收消息（免公网域名），机器人收到 @ 后调后端「大脑」生成回答再回群，并说明与单向推送的差异。</div></details>
+          <details class="prow"><summary><span class="pi">15</span><span class="px">我希望是知识库查询场景，钉钉机器人能调用知识库回答问题</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">选型</span>确定「大脑」选用知识库检索（RAG）：比裸接大模型准确、可溯源、低幻觉；规划 kb_brain（检索）＋ ding 客户端（收发）两层结构。</div></details>
+          <details class="prow"><summary><span class="pi">16</span><span class="px">lxmcp_e9ee…0297 是这个吗<span class="tag">乐享令牌</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">联调</span>确认乐享知识库令牌，编写 <b>kb_brain.py</b>，在本地脱离客户端用静态令牌独立调用检索成功——验证凭证独立性这条生死线。</div></details>
+          <details class="prow"><summary><span class="pi">17</span><span class="px">在哪里选择 Stream 模式？<span class="tag">截图</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">指引</span>看图定位开发者后台「事件与回调」，指引把推送方式选为 Stream 模式（而非 HTTP 回调），省去公网域名与备案。</div></details>
+          <details class="prow"><summary><span class="pi">18</span><span class="px">提供机器人应用 Client ID / Secret<span class="tag">凭证</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">编码</span>编写 <b>ding_kb_bot.py</b>：用机器人应用凭证建 Stream 长连接，注册消息回调，收到 @ 提问转交 kb_brain 检索后回卡片。</div></details>
+          <details class="prow"><summary><span class="pi">19</span><span class="px">在哪里发布？<span class="tag">截图</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">指引</span>看图指引应用发布 / 上线入口与版本发布操作步骤。</div></details>
+          <details class="prow"><summary><span class="pi">20</span><span class="px">为什么没有要发布的东西<span class="tag">截图</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">排错</span>判断 Stream 模式应用无需传统「发布」动作，确认配置已生效，指引直接把机器人加到群里测试。</div></details>
+          <details class="prow"><summary><span class="pi">21</span><span class="px">已经拉进群了</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">联调</span>本地启动 Stream 进程，准备在群里 @ 机器人做端到端验证。</div></details>
+          <details class="prow"><summary><span class="pi">22</span><span class="px">没有回复我<span class="tag">截图</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">排错</span>排查无响应原因，发现本地进程连接不稳（进群欢迎语正常但 @ 无回应），定位为本地常驻不可靠。</div></details>
+          <details class="prow"><summary><span class="pi">23</span><span class="px">需要我做什么？</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">指引</span>说明下一步需把常驻进程迁到服务器，并列出需要提供的服务器信息。</div></details>
+          <details class="prow"><summary><span class="pi">24</span><span class="px">仍然没有回复，请画个架构图<span class="tag">截图</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">架构图</span>绘制双向对话架构图（钉钉群 ↔ Stream 进程 ↔ 乐享检索），并明确给出根治方案：常驻进程必须上服务器由 systemd 守护。</div></details>
+          <details class="prow"><summary><span class="pi">25</span><span class="px">第 2 点（上服务器）怎么实现</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">部署</span>编写 systemd service ＋ 部署脚本（env.production / deploy 套件），规划开机自启＋崩溃重启的守护方案。</div></details>
+          <details class="prow"><summary><span class="pi">26</span><span class="px">（提供服务器密码）<span class="tag">服务器密码</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">部署</span>推代码上服务器、装 systemd 守护并启动，机器人在群里 @ 即时回答——<b>正式上线</b>；同步 pkill 本地临时进程避免抢同一条长连接。</div></details>
+          <details class="prow"><summary><span class="pi">27</span><span class="px">把第二个案例的经验和配置总结成 md，切记不显示品牌字眼</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">文档</span>产出《场景总结_知识库问答机器人.md》，含架构图与关键决策；对外文案统一用「生产服务器」中性词，不出现品牌字眼。</div></details>
+          <details class="prow"><summary><span class="pi">28</span><span class="px">为什么新的问题不回答了<span class="tag">截图</span></span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">根治</span>定位「长连接静默掉线」（进程 active 但连接假死），重启恢复并新增每 30 分钟 systemd timer 定时刷连接作为兜底根治。</div></details>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-t">阶段三 · 能力扩展评估 ＋ HTML 说明 ＋ 内网发布<span class="badge plan">场景三 规划中</span></div>
+        <div class="plist">
+          <details class="prow"><summary><span class="pi">29</span><span class="px">第三个场景：读写钉钉审批 / 待办 / 日程 / 文档 / 通讯录 ＋ 响应审批事件，怎么实现</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">方案</span>给出「一进一出双通道」架构：主动通道换令牌调 OpenAPI 读写五类能力，被动通道复用场景二的 Stream 长连接订阅事件，凭证与守护进程可整体复用。</div></details>
+          <details class="prow"><summary><span class="pi">30</span><span class="px">先不用做，这五个能力你都能实现到什么程度？对应场景列出来审核</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">评估</span>逐项给出成熟度与典型场景：通讯录 / 待办 / 日程 / 事件＝稳，审批＝读+发起可做、自动签字慎用，文档＝多维表已通、普通文档写入待验证；并做反方压力测试。</div></details>
+          <details class="prow"><summary><span class="pi">31</span><span class="px">第三类不用做了。场景 1、2 生成一份 HTML 说明，用企业微信配色</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">交付</span>产出单文件 HTML 场景说明：企业微信配色、零依赖，覆盖场景一/二完整链路、凭证表、决策表与总结。</div></details>
+          <details class="prow"><summary><span class="pi">32</span><span class="px">「模式 ABCD」说法去掉；架构图补进来；输入表单链接补进来可点</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">修订</span>去掉「模式 ABCD」措辞改中性命名；补入架构图；为数据源接上可点击链接（多维表网页地址留待补位）。</div></details>
+          <details class="prow"><summary><span class="pi">33</span><span class="px">两个分层架构图补充；场景二说明是和乐享知识库打通；补图 1、图 2 两张截图</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">修订</span>为两个场景各补一张分层架构图；全文将「企业知识库」明确为「乐享知识库」；内嵌两张实际效果截图（周报推群 / @机器人问答）。</div></details>
+          <details class="prow"><summary><span class="pi">34</span><span class="px">「系统架构-分层」图太不紧凑，看不出是一张图，重新调整</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">优化</span>纯 CSS 收紧：给架构图套统一图框、层卡片改白底、压缩层间空白、连接文字改胶囊标签，使其成为视觉完整的一张图。</div></details>
+          <details class="prow"><summary><span class="pi">35</span><span class="px">实际踩坑都去掉</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">精简</span>删除两个场景的「实施踩坑」整块及 Hero 区相关措辞，让叙事更聚焦在链路与方案本身。</div></details>
+          <details class="prow"><summary><span class="pi">36</span><span class="px">场景 3 虽没做出来，但五个打通经验也呈现，串联场景也补充</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">补全</span>补入场景三整块（虚线框＋「规划中」徽标）：双通道底座、五类能力成熟度评估卡片、一条「派待办→约日程→提交审批→事件播报→回写多维表」串联闭环。</div></details>
+          <details class="prow"><summary><span class="pi">37</span><span class="px">第二个场景，WorkBuddy 好像只是生产工具，不做端或中间能力对吧</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">答疑</span>确认判断并画图说明：WorkBuddy 仅在开发期在场（工程师 / 脚手架），运行期链路是「钉钉 ↔ 服务器进程 ↔ 乐享」三方闭环，不是运行时依赖、但是演进依赖。</div></details>
+          <details class="prow"><summary><span class="pi">38</span><span class="px">请发布，发布到「生态联动方案」</span><span class="pchev">▾</span></summary><div class="pans"><span class="ptag">部署</span>用内网部署流程发布到 dashboard/dingtalk/（HTML＋两张图），并在首页「生态联动方案」Tab 新增钉钉卡片；外部验证全部 200。</div></details>
+        </div>
+      </div>
+
+      <div class="demo-h"><span class="hn">二</span>每个阶段实现的效果</div>
+      <div class="ecards">
+        <div class="ecard">
+          <div class="et">场景一 · 客户周报自动化<span class="estat on">已上线</span></div>
+          <ul>
+            <li><b>链路：</b>读钉钉多维表 → 多维度分析 → 生成周报 → 群机器人加签推送</li>
+            <li><b>自动化：</b>每周一 09:00 定时任务，零操作出周报</li>
+            <li><b>已验证：</b>首份真实周报已推送，85 条线索、P0=15</li>
+            <li><b>生死线：</b>表必须归属签发令牌的组织；接口需管理员 unionId 作 operatorId</li>
+          </ul>
+        </div>
+        <div class="ecard s2">
+          <div class="et">场景二 · 乐享知识库问答机器人<span class="estat on">已上线</span></div>
+          <ul>
+            <li><b>链路：</b>群内 @机器人 → Stream 长连接收消息 → 调乐享知识库检索 → 答案摘要＋出处回群（2–4 秒）</li>
+            <li><b>部署：</b>服务器 systemd 守护，开机自启＋崩溃重启＋每 30 分钟定时刷连接</li>
+            <li><b>根治：</b>长连接静默掉线问题已由定时重启兜底解决</li>
+            <li><b>关键定位：</b>WorkBuddy 仅在开发期在场，运行期链路为「钉钉 ↔ 服务器进程 ↔ 乐享」三方闭环，不依赖其运行</li>
+          </ul>
+        </div>
+        <div class="ecard s3">
+          <div class="et">场景三 · 能力扩展<span class="estat pl">已评估 · 暂缓</span></div>
+          <ul>
+            <li><b>成熟度评估：</b>通讯录 / 待办 / 日程 / 事件响应＝稳；文档＝部分验证；审批＝读+发起可做，自动签字慎用</li>
+            <li><b>串联闭环：</b>P0 线索 → 派待办 → 约日程 → 提交审批 → 事件播报 → 回写多维表</li>
+          </ul>
+        </div>
+        <div class="ecard deliver">
+          <div class="et">交付物 · HTML 场景说明<span class="estat dl">已发布内网</span></div>
+          <ul>
+            <li><b>内容：</b>三方向总览＋场景一/二完整链路＋两张分层架构图＋两套凭证表＋决策表＋两张实际效果截图＋场景三规划</li>
+            <li><b>风格：</b>企业微信配色，单文件零依赖，文案全书面语</li>
+            <li><b>上线地址：</b><a href="http://anialang-any4.devcloud.woa.com/dingtalk/" target="_blank">http://anialang-any4.devcloud.woa.com/dingtalk/</a></li>
+            <li><b>首页入口：</b>「生态联动方案」Tab 新增钉钉卡片</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo-line">
+        一句话主线：<b>两个场景从 0 到上线打通（周报推送 ＋ 知识库问答），第三个场景完成可行性评估后暂缓，最终沉淀为一份内网发布的可视化说明页。</b>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function openDemo(){
+    document.getElementById('demoMask').classList.add('open');
+    document.getElementById('demoPanel').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeDemo(){
+    document.getElementById('demoMask').classList.remove('open');
+    document.getElementById('demoPanel').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')closeDemo();
+    else if((e.key==='p'||e.key==='P')&&!document.getElementById('demoPanel').classList.contains('open')){
+      var t=e.target.tagName;if(t!=='INPUT'&&t!=='TEXTAREA')openDemo();
+    }
+  });
+</script>
+
+</body>
+</html>
+

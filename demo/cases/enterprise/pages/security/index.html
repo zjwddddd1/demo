@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy & CodeBuddy 企业级安全方案</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#ffffff; --ink:#1a1d21; --ink2:#52585f; --ink3:#878d94;
+  --line:#e6e8eb; --line2:#d6d9dd;
+  --blue:#185FA5; --blue-bg:#E6F1FB; --teal:#0F6E56; --teal-bg:#E1F5EE;
+  --purple:#534AB7; --purple-bg:#EEEDFE; --amber:#854F0B; --amber-bg:#FAEEDA;
+  --pink:#993556; --pink-bg:#FBEAF0; --red:#A32D2D; --red-bg:#FCEBEB;
+  --green:#3B6D11; --green-bg:#EAF3DE; --gray:#5F5E5A; --gray-bg:#F1EFE8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#0d1b2a 0%,#1b3a5c 60%,#2a5a8a 100%);
+  color:#fff;padding:64px 56px 56px;border-radius:0 0 28px 28px;margin-bottom:40px}
+.hero .kick{font-size:13px;letter-spacing:3px;opacity:.7;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:34px;font-weight:700;line-height:1.25;letter-spacing:-.5px;margin-bottom:16px}
+.hero p{font-size:16px;opacity:.85;max-width:760px}
+.hero .meta{margin-top:28px;display:flex;gap:28px;flex-wrap:wrap;font-size:13px;opacity:.7}
+.hero .meta span{display:flex;align-items:center;gap:7px}
+.hero .meta span::before{content:"";width:6px;height:6px;border-radius:50%;background:#4da3ff}
+
+/* Section */
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:36px 40px;margin-bottom:24px;scroll-margin-top:20px}
+.sec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:8px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.sec-num{flex-shrink:0;width:42px;height:42px;border-radius:11px;display:flex;align-items:center;
+  justify-content:center;font-size:18px;font-weight:700;color:#fff}
+.sec-title{font-size:21px;font-weight:700;letter-spacing:-.3px;margin-bottom:3px}
+.sec-sub{font-size:13.5px;color:var(--ink3)}
+.claim{background:var(--gray-bg);border-left:3px solid var(--gray);padding:13px 18px;
+  border-radius:0 8px 8px 0;margin:22px 0;font-size:14px;color:var(--ink2)}
+.claim b{color:var(--ink)}
+
+h3{font-size:16px;font-weight:600;margin:26px 0 12px;color:var(--ink);display:flex;align-items:center;gap:8px}
+h3 .dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+p.lead{color:var(--ink2);margin-bottom:14px}
+
+/* Table */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+th{background:#fafbfc;text-align:left;padding:11px 14px;font-weight:600;color:var(--ink2);
+  border-bottom:2px solid var(--line2);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td b,td strong{color:var(--ink);font-weight:600}
+.hl td{background:var(--blue-bg)}
+
+/* Tag */
+.tag{display:inline-block;padding:2px 9px;border-radius:6px;font-size:12px;font-weight:600;
+  margin-right:6px;white-space:nowrap}
+.tg-wb{background:var(--blue-bg);color:var(--blue)}
+.tg-cb{background:var(--teal-bg);color:var(--teal)}
+.tg-both{background:var(--purple-bg);color:var(--purple)}
+.tg-on{background:var(--green-bg);color:var(--green)}
+.tg-plan{background:var(--amber-bg);color:var(--amber)}
+
+/* List */
+ul.clean{list-style:none;margin:10px 0}
+ul.clean li{position:relative;padding-left:22px;margin-bottom:9px;color:var(--ink2)}
+ul.clean li::before{content:"";position:absolute;left:4px;top:10px;width:6px;height:6px;
+  border-radius:50%;background:var(--blue)}
+ul.clean li b{color:var(--ink)}
+
+/* Callout */
+.note{display:flex;gap:12px;background:var(--amber-bg);border-radius:10px;padding:14px 18px;margin:18px 0;font-size:13.5px;color:#6b4205}
+.note .ic{flex-shrink:0;font-weight:700;color:var(--amber)}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 36px;margin-bottom:24px}
+.toc h2{font-size:14px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:18px;font-weight:600}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.toc a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;
+  text-decoration:none;color:var(--ink);border:1px solid var(--line);transition:.15s}
+.toc a:hover{border-color:var(--blue);background:var(--blue-bg)}
+.toc a .n{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.toc a .tx{font-size:14px;font-weight:500}
+.toc a .tx small{display:block;color:var(--ink3);font-weight:400;font-size:12px}
+
+/* color helpers */
+.b-blue{background:var(--blue)} .b-teal{background:var(--teal)} .b-purple{background:var(--purple)}
+.b-amber{background:var(--amber)} .b-pink{background:var(--pink)} .b-gray{background:var(--gray)}
+.d-blue{background:var(--blue)} .d-teal{background:var(--teal)} .d-purple{background:var(--purple)}
+.d-amber{background:var(--amber)} .d-pink{background:var(--pink)}
+
+/* foundation banner */
+.found{background:linear-gradient(135deg,#1b3a5c,#2a5a8a);color:#fff;border-radius:14px;padding:24px 30px;margin:22px 0}
+.found h4{font-size:16px;font-weight:600;margin-bottom:8px}
+.found p{font-size:14px;opacity:.88}
+
+/* figure */
+.figure{margin:22px 0 18px;border:1px solid var(--line);border-radius:12px;padding:18px;background:#fafbfc}
+.figure img{display:block;width:100%;height:auto;border-radius:8px;background:#fff}
+.figure figcaption{font-size:12.5px;color:var(--ink3);margin-top:10px;text-align:center}
+.legend-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 22px;margin:14px 0 4px;font-size:13.5px}
+.legend-grid .lg{display:flex;gap:10px;align-items:flex-start}
+.legend-grid .lg b{color:var(--ink);min-width:88px;display:inline-block}
+.legend-grid .lg span{color:var(--ink2)}
+
+/* pitch */
+.pitch{counter-reset:p}
+.pitch li{list-style:none;position:relative;padding:16px 18px 16px 56px;background:#fafbfc;
+  border:1px solid var(--line);border-radius:12px;margin-bottom:12px;color:var(--ink2)}
+.pitch li::before{counter-increment:p;content:counter(p);position:absolute;left:16px;top:16px;
+  width:28px;height:28px;border-radius:8px;background:var(--blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.pitch li b{color:var(--ink)}
+
+.foot{text-align:center;color:var(--ink3);font-size:12.5px;margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+@media(max-width:680px){.hero{padding:44px 28px}.hero h1{font-size:26px}section{padding:26px 22px}.toc-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="kick">Enterprise Security</div>
+  <h1>WorkBuddy &amp; CodeBuddy<br>企业级安全方案</h1>
+  <p>从客户端、代码、数据三大底座出发，结合 AI Agent 时代新增的生态供应链与企业管控合规两个维度，为您系统呈现产品端到端的安全保障体系。</p>
+  <div class="meta">
+    <span>共享腾讯云 + 腾讯安全底座</span>
+    <span>覆盖 AI 编码与办公全流程</span>
+    <span>面向企业级合规与治理</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="toc">
+    <h2>五大安全方向</h2>
+    <div class="toc-grid">
+      <a href="#s1"><span class="n b-blue">一</span><span class="tx">终端与运行时安全<small>员工电脑上的 AI 行为边界</small></span></a>
+      <a href="#s2"><span class="n b-teal">二</span><span class="tx">代码与模型安全<small>生成代码的可信与合规</small></span></a>
+      <a href="#s3"><span class="n b-purple">三</span><span class="tx">数据安全与隐私保护<small>客户代码与数据的承诺</small></span></a>
+      <a href="#s4"><span class="n b-amber">四</span><span class="tx">生态与供应链安全<small>第三方 Skill / 插件管控</small></span></a>
+      <a href="#s5"><span class="n b-pink">五</span><span class="tx">企业管控 · 合规 · 服务<small>管理员权限 + 资质 + SLA</small></span></a>
+    </div>
+  </div>
+
+  <!-- intro -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-num b-gray">0</div>
+      <div><div class="sec-title">为什么是这五个方向</div><div class="sec-sub">从三大底座扩展到完整的安全防护体系</div></div>
+    </div>
+    <p class="lead">企业评估 AI 工具的安全性，关注点首先落在三个核心问题上——<b>员工电脑安全、代码安全、企业数据安全</b>。这三块是底座。但在 AI Agent 时代，仅讲这三块会漏掉两个同样重要的维度：</p>
+    <ul class="clean">
+      <li><b>生态与供应链安全</b>：Agent 会自动加载第三方 Skill / MCP / 插件，这是传统开发工具没有的新攻击面；</li>
+      <li><b>企业管控、合规与服务保障</b>：管理员能不能管得住、查得到、有没有资质背书、出问题谁负责。</li>
+    </ul>
+    <table>
+      <tr><th>#</th><th>方向</th><th>一句话定位</th></tr>
+      <tr><td>一</td><td><b>终端与运行时安全</b></td><td>管住 AI 在员工电脑上"能动什么、动多大半径"</td></tr>
+      <tr><td>二</td><td><b>代码与模型安全</b></td><td>保证生成的代码"干净、可控、可信"</td></tr>
+      <tr><td>三</td><td><b>数据安全与隐私</b></td><td>客户代码与数据"不存、不训、不出域、可销毁"</td></tr>
+      <tr><td>四</td><td><b>生态与供应链安全</b></td><td>从源头切断"恶意 Skill / 投毒包"进入</td></tr>
+      <tr><td>五</td><td><b>企业管控·合规·服务</b></td><td>管理员主动权 + 资质背书 + SLA 兜底</td></tr>
+    </table>
+    <div class="found">
+      <h4>产品定位</h4>
+      <p>CodeBuddy 与 WorkBuddy <b>同覆盖编码全流程</b>，差异在侧重场景：CodeBuddy 侧重研发编码，WorkBuddy 侧重办公与通用桌面 Agent。两者共享腾讯云基础设施与腾讯安全（科恩实验室 + 威胁情报）底座——同一套安全血统、两类产品形态。</p>
+    </div>
+  </section>
+
+  <!-- S1 -->
+  <section id="s1">
+    <div class="sec-head">
+      <div class="sec-num b-blue">一</div>
+      <div><div class="sec-title">终端与运行时安全</div><div class="sec-sub">WorkBuddy + CodeBuddy</div></div>
+    </div>
+    <div class="claim"><b>核心命题：</b>AI Agent 拿到工具调用权后会自主读写文件、执行命令、外连网络。一旦失控，影响直接作用于员工本机。终端安全要同时做到——<b>安全兜底、看懂行为、用户低介入、可审计</b>。</div>
+
+    <h3><span class="dot d-blue"></span>1.1 运行时沙箱</h3>
+    <p class="lead">把 AI 自主产生的文件读写、命令执行、网络外连收敛在可控边界内：</p>
+    <table>
+      <tr><th>维度</th><th>默认策略</th></tr>
+      <tr><td><b>文件</b></td><td>全盘可读；工作区与运行时目录可读写；<b>其他路径强制禁写</b>——工作区外的写入会被系统层直接拒绝，强制隔离、不可绕过</td></tr>
+      <tr><td><b>网络</b></td><td>默认强制经统一安全代理通道出站，由代理侧做域名 / IP / URL 管控——可有效拦截模型误操作或被恶意指令注入后产生的非预期外连。联网搜索、依赖下载等正常能力照常使用。<b>（此为 WorkBuddy 端侧沙箱能力）</b></td></tr>
+      <tr><td><b>审计</b></td><td>文件 / 进程 / 命令等关键行为全部写入<b>结构化日志</b>，便于事后追溯</td></tr>
+      <tr><td><b>防逃逸</b></td><td>默认阻止对 WorkBuddy 自身配置文件的写入，防止植入持久化恶意脚本</td></tr>
+    </table>
+    <div class="note"><span class="ic">什么是"代理"</span><span>这里的"代理"指 WorkBuddy 设置的<b>统一安全出口网关</b>——沙箱内 AI 的联网动作默认都经这个网关出站，由网关按企业配置的名单放行或拦截并留存记录。<b>不是断网，而是把出站流量统一引到一条可管、可审、可拦的通道</b>，足以拦住模型误操作或被指令注入后产生的非预期外连。</span></div>
+    <div class="note"><span class="ic">隔离强度的客观说明</span><span>当前为<b>环境变量级软隔离</b>而非内核级强隔离：默认场景下出站强制走代理、可有效防范误操作与注入类非预期流量；面向<b>刻意对抗、主动绕过代理</b>的场景，仍需企业侧管理流程协同。内核级强隔离能力（基于 Windows 原生原语等）已规划演进。</span></div>
+    <div class="note"><span class="ic">双重价值</span><span>① <b>安全管控</b>——即使员工发错指令或模型被注入，<code>rm -rf</code>、越权读凭据等动作被限制在沙箱内；② <b>运行环境一致化</b>——沙箱内置 Python / Node / Git 完整工具链，解决"AI 生成代码在我电脑跑不起来"的痛点，同时仍支持宿主机调用（Docker、浏览器、IDE）——这是虚拟机方案不具备的。</span></div>
+
+    <h3><span class="dot d-blue"></span>1.1.1 依赖软件安装是否会污染整个 OS</h3>
+    <p class="lead">这是企业最关心的问题之一。结论：<b>AI 在沙箱内安装的运行时依赖，写入位置被限制在工作区与运行时目录内，不会写入系统目录、不污染整个操作系统。</b></p>
+    <table>
+      <tr><th>场景</th><th>沙箱行为</th></tr>
+      <tr><td>AI 执行 <code>pip install</code> / <code>npm install</code> 等，安装到工作区或运行时目录（项目级 venv、node_modules）</td><td><b>允许</b>——依赖落在受控目录内，随项目存在，不进系统路径</td></tr>
+      <tr><td>AI 尝试写入系统目录（如 <code>/usr/lib</code>、<code>/etc</code>、系统级 site-packages）或工作区外的任意路径</td><td><b>拦截</b>——文件写访问只放行工作区 / 运行时目录，其余路径只读或禁写</td></tr>
+      <tr><td>AI 尝试全局安装（<code>npm install -g</code>、<code>brew install</code> 写入系统前缀）</td><td><b>受限</b>——写入系统前缀的部分被拦下；最佳实践是隔离到项目级目录</td></tr>
+    </table>
+    <div class="note"><span class="ic">边界说明</span><span>沙箱管控的是<b>"写到哪"</b>而非<b>"能不能装"</b>：项目级依赖（venv、node_modules）正常可装且天然隔离；若依赖<b>需要写系统目录或要管理员权限</b>，沙箱会拦截写入，这类全局安装应避免或改为项目级。卸载 / 清理只需删除项目目录，不残留到 OS。</span></div>
+
+    <h3><span class="dot d-blue"></span>1.1.2 审计日志的位置与格式</h3>
+    <p class="lead">沙箱把文件 / 进程 / 命令执行等关键行为以 <b>JSONL（每行一条 JSON 事件）</b>格式落盘，便于机器解析、导入企业 SIEM / 日志平台做事后追溯：</p>
+    <ul class="clean">
+      <li><b>存放位置</b>：WorkBuddy 配置根目录下的受保护日志目录（macOS 为 <code>~/.workbuddy/logs/</code>，Windows 对应 <code>%USERPROFILE%\.workbuddy\logs\</code>），由沙箱自身保护，普通进程无写权限</li>
+      <li><b>格式</b>：JSONL 结构化事件流，每条含事件类型（文件 / 进程 / 命令 / 网络）、时间戳、路径 / 命令、决策结果（放行 / 拦截）等字段</li>
+      <li><b>会话级记录</b>：每个会话的完整交互另存于 <code>~/.workbuddy/projects/&lt;工作区&gt;/&lt;会话ID&gt;.jsonl</code>，与安全审计日志互补</li>
+      <li><b>受保护性</b>：沙箱内进程访问日志与配置目录均会被拦截，确保审计与配置目录受保护、不可被 AI 自身篡改</li>
+    </ul>
+
+    <h3><span class="dot d-blue"></span>1.2 跨平台实现</h3>
+    <table>
+      <tr><th>平台</th><th>技术路线</th><th>说明</th></tr>
+      <tr><td><b>macOS</b></td><td>系统原生 sandbox-exec（Seatbelt）</td><td>内核级，文件 / 网络 / 进程三维隔离 + 访问审计，行业统一方案</td></tr>
+      <tr><td><b>Windows（当前）</b></td><td>科恩增强型 Hook</td><td>基于腾讯终端安全攻防经验自研，提供文件 / 网络 / 进程三维隔离 + 行为审计，稳定性与隔离强度显著高于业界基础 Hook 方案</td></tr>
+      <tr><td><b>Windows（规划）</b></td><td>原生安全原语组合</td><td>演进至 Restricted Token + Job Objects 等系统原生机制，平滑升级、对产品层与用户无感</td></tr>
+    </table>
+
+    <h3><span class="dot d-blue"></span>1.3 行为检测能力 <span class="tag tg-plan" style="margin-left:6px">建设中</span></h3>
+    <p class="lead">沙箱管"能不能动"，行为检测管<b>"该不该动"</b>——执行前看懂每一步工具调用的真实意图：</p>
+    <ul class="clean">
+      <li><b>检测对象</b>：Prompt、Skill、脚本、命令、工具调用结果文本</li>
+      <li><b>检测时机</b>：工具调用<b>前置审计</b> + 结果<b>复审</b>（两段式）</li>
+      <li><b>决策</b>：放行 / 标记告警 / 阻断（阻断时可中断执行或替换结果）</li>
+      <li><b>背后能力</b>：① 引擎经过亿级 C 端 + 数千企业终端真实样本（APT、供应链、勒索）长期对抗打磨；② 直接接入腾讯全生态<b>威胁情报底座</b>，恶意样本 / C2 域名 / 被投毒包版本<b>秒级同步</b>，客户端无需发版</li>
+    </ul>
+
+    <h3><span class="dot d-blue"></span>1.4 自动化处置能力 <span class="tag tg-plan" style="margin-left:6px">预研中</span></h3>
+    <p class="lead">让"这次调用进不进沙箱 / 放不放通 / 要不要问用户"由系统自动决策：低风险静默放通、高风险自动阻断、仅在确有疑点时请求确认——让 Agent 自动化真正跑起来。</p>
+
+    <h3><span class="dot d-blue"></span>1.5 与业界方案的对比（Windows 运行时沙箱）</h3>
+    <table>
+      <tr><th>方案</th><th>技术路线</th><th>隔离强度</th><th>宿主调用</th><th>体验</th><th>主要局限</th></tr>
+      <tr><td>基础 Hook 方案</td><td>基础 DLL Hook</td><td>低</td><td>支持</td><td>接近原生</td><td>Hook 覆盖有限、已有公开绕过方法、易冲突</td></tr>
+      <tr><td>虚拟机方案</td><td>虚拟机（Hyper-V）</td><td>高</td><td><b>不支持</b></td><td>差</td><td>切断宿主协同、数 GB 镜像、部署门槛高</td></tr>
+      <tr class="hl"><td><b>WorkBuddy（当前）</b></td><td>增强型 Hook</td><td>中（高于基础 Hook）</td><td>支持（可控）</td><td>接近原生</td><td>用户态方案，边界止于内核级强隔离</td></tr>
+      <tr class="hl"><td><b>WorkBuddy（规划）</b></td><td>Windows 原生原语</td><td>中（接近系统原生）</td><td>支持（可控）</td><td>接近原生</td><td>向系统原生演进，解决长期维护</td></tr>
+    </table>
+    <p class="lead" style="margin-top:14px">WorkBuddy 在隔离强度、宿主协同、用户体验三者间取得平衡，并独有"运行环境一致化"能力。</p>
+
+    <h3><span class="dot d-teal"></span>1.6 CodeBuddy 在本方向的能力</h3>
+    <p class="lead">CodeBuddy 的 IDE / 插件 / CLI 同样在员工终端本地运行，与 WorkBuddy 共享同一套底层引擎：</p>
+
+    <p class="lead" style="margin-top:14px"><b>① Agent 端工具权限与沙箱隔离</b></p>
+    <ul class="clean">
+      <li><b>这是什么</b>：纵深防御的最后一道（执行侧）——即便前面的注入识别被绕过、模型想发起危险动作，工具权限与沙箱在<b>实际执行那一刻</b>再拦一次</li>
+      <li><b>配置位置</b>：用户级 <code>~/.codebuddy/settings.json</code>、项目级 <code>&lt;项目&gt;/.codebuddy/settings.json</code>（团队共享）；通过 <code>permissions</code> 配置 + <code>hooks</code>（<code>preToolUse / postToolUse</code> 在工具调用前后做拦截 / 脱敏 / 审计）</li>
+      <li><b>效果</b>：把"AI 能调哪些工具、能碰哪些文件 / 命令 / 网络"约束在企业设定的边界内；命中高危动作时阻断或要求确认，并可留痕审计</li>
+    </ul>
+
+    <p class="lead" style="margin-top:14px"><b>② 精细化工具调用权限</b></p>
+    <ul class="clean">
+      <li><b>三档策略</b>：对每类工具 / 动作设定 <b>allow（允许）/ ask（询问）/ deny（拒绝）</b>——像配防火墙一样精确到文件读写、命令执行、网络访问等维度</li>
+      <li><b>两种配置入口</b>：① <b>图形界面</b>——在客户端的工具 / 权限设置里逐项勾选（最直观，适合个人）；② <b>配置文件</b>——在 <code>settings.json</code> 中写规则（适合企业批量下发、团队统一）</li>
+      <li><b>生效范围</b>：用户级（仅本人）与项目级（随项目库共享给团队成员）两层；项目级可由管理员预置，新成员克隆项目即继承同一套权限基线</li>
+      <li><b>效果</b>：低风险动作静默放行、敏感动作弹窗确认、高危动作直接拒绝，在自动化效率与安全可控之间取得平衡</li>
+    </ul>
+  </section>
+
+  <!-- S2 -->
+  <section id="s2">
+    <div class="sec-head">
+      <div class="sec-num b-teal">二</div>
+      <div><div class="sec-title">代码与模型安全</div><div class="sec-sub">CodeBuddy 强项</div></div>
+    </div>
+    <div class="claim"><b>核心命题：</b>生成的代码必须"干净、可控、可信"，且模型本身不被注入、不生成恶意内容。</div>
+
+    <h3><span class="dot d-teal"></span>2.1 代码安全扫描与开源合规</h3>
+    <div class="note"><span class="ic">关于 TCA</span><span><b>TCA（Tencent Cloud Code Analysis，腾讯云代码分析）是腾讯云一款独立的代码分析平台</b>，并非 CodeBuddy / WorkBuddy 的内置功能。三者同属腾讯云体系，可<b>配套采购、协同使用</b>：CodeBuddy 负责 AI 生成代码，TCA 负责对代码做专业的安全漏洞 / 质量 / 开源合规扫描——形成"AI 写代码 + 专业工具查代码"的组合。已有 TCA 可直接对接，没有则可按需采购。</span></div>
+    <ul class="clean">
+      <li><b>代码安全扫描</b>：通过配套腾讯云 TCA，对代码做全面安全扫描，精准识别漏洞风险</li>
+      <li><b>开源许可证风险</b>：TCA 识别 GPL 等传染性协议预警；CodeBuddy 预训练与 SFT 阶段选用优质代码，不含攻击性 / 传染性代码</li>
+      <li><b>减少代码幻觉</b>：Prompt 工程 → 上下文管理 → 智能容错 → 自动验证 → 安全回退，完整闭环</li>
+    </ul>
+
+    <h3><span class="dot d-teal"></span>2.2 模型安全与内容合规</h3>
+    <table>
+      <tr><th>能力</th><th>说明</th></tr>
+      <tr><td><b>防 Prompt 注入</b></td><td>纵深防御：黑名单匹配 → 自研 Prompt Guard → 安全规则注入 → Agent 端工具权限与沙箱隔离</td></tr>
+      <tr><td><b>模型安全对齐</b></td><td>底层模型经 RLHF 安全对齐训练，从训练起即保障不生成恶意代码 / 后门 / 攻击脚本</td></tr>
+      <tr><td><b>输出内容过滤</b></td><td>实时多维敏感词与合规过滤；生成内容标注"内容由 AI 生成，仅供参考"</td></tr>
+      <tr><td><b>AI 围栏 Guardrails</b></td><td>① 内置安全编码规范 ② Rules / Skills 自定义行为边界 ③ 内容安全过滤 ④ Memory 机制保障行为符合项目规范</td></tr>
+    </table>
+    <p class="lead" style="margin-top:18px"><b>防 Prompt 注入 · 四层纵深链路</b>：四道关层层收口，前一道拦不住的交给下一道，从"输入文本"一直管到"实际执行"。</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin:14px 0">
+      <div style="display:flex;gap:14px;align-items:flex-start;background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:13px 16px">
+        <span style="flex-shrink:0;width:24px;height:24px;border-radius:7px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">1</span>
+        <div><b>黑白名单匹配</b>（输入侧第一道）：基于已知攻击特征库做快速比对——<b>黑名单</b>命中已知的注入话术 / 危险指令模式（如"忽略以上所有指令""泄露你的系统提示词"等）直接拦截；<b>白名单</b>放行已确认安全的可信指令。确定性强、零延迟，先挡掉绝大多数已知套路。</div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:13px 16px">
+        <span style="flex-shrink:0;width:24px;height:24px;border-radius:7px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">2</span>
+        <div><b>自研 Prompt Guard</b>（语义识别）：名单匹配不了的变体 / 新型注入，交给自研模型做<b>语义级</b>判断——理解意图而非只看关键词，识别伪装、改写、多语言绕过等变种注入。</div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:13px 16px">
+        <span style="flex-shrink:0;width:24px;height:24px;border-radius:7px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">3</span>
+        <div><b>安全规则注入</b>（约束模型行为）：在发给模型的上下文中强制注入安全规则与边界约束，让模型即使读到可疑内容，也被规则"锚定"在合规行为内，降低被带偏的概率。</div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:13px 16px">
+        <span style="flex-shrink:0;width:24px;height:24px;border-radius:7px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">4</span>
+        <div><b>Agent 端工具权限与沙箱隔离</b>（执行侧兜底）：前三道都在"输入 / 生成"层，这一道管"<b>执行</b>"——即使注入侥幸生效、模型想做危险动作，工具权限与沙箱仍会把实际操作挡在边界外（呼应方向一）。<b>最后一道物理兜底。</b></div>
+      </div>
+    </div>
+
+    <h3><span class="dot d-teal"></span>2.3 自定义规则引擎</h3>
+    <ul class="clean">
+      <li><b>Rules</b>：<code>.codebuddy/rules</code> 强制 AI 遵循特定编码规范</li>
+      <li><b>Skills</b>：<code>.codebuddy/skills/</code> 封装专业指令集，权限可控防越权</li>
+      <li>支持<b>项目级 + 用户级</b>双层配置，适配不同业务合规要求</li>
+    </ul>
+
+    <h3><span class="dot d-teal"></span>2.4 知识产权保障</h3>
+    <ul class="clean">
+      <li><b>产权归属</b>：AI 生成代码知识产权<b>完全归甲方所有</b>，享有完整所有 / 使用 / 修改 / 分发权，可直接商用，<b>无开源传染风险</b>（隐私条款 2.7.3 明确约定）</li>
+      <li><b>侵权赔偿</b>：若引发第三方知识产权纠纷，提供明确责任界定，以国家相关规定及合同约定执行</li>
+    </ul>
+  </section>
+
+  <!-- S3 -->
+  <section id="s3">
+    <div class="sec-head">
+      <div class="sec-num b-purple">三</div>
+      <div><div class="sec-title">数据安全与隐私保护</div><div class="sec-sub">WorkBuddy + CodeBuddy 共同承诺</div></div>
+    </div>
+    <div class="claim"><b>核心命题：</b>客户代码与数据做到"<b>不存、不训、不出域、可销毁</b>"。</div>
+
+    <h3><span class="dot d-purple"></span>3.1 核心承诺：不存储、不训练</h3>
+    <ul class="clean">
+      <li>用户代码数据<b>仅用于当次推理</b>，推理后立即在内存清除，<b>严禁服务端持久化</b></li>
+      <li>绝不用于模型训练等未授权场景；用户协议与隐私协议明确约定</li>
+      <li><b>CodeBuddy 与 WorkBuddy 的代码文件都不上传、不落地</b>：文件本身始终留在本地，仅把推理所需的<b>上下文片段</b>加密发送到模型，推理后清除</li>
+      <li><b>处理形态的差异</b>：CodeBuddy 是"代码补全 / 问答"形态，把正在写的代码<b>片段</b>送给模型生成建议；WorkBuddy 是"Agent 操作文件"形态，能在<b>沙箱内对整个文件做本地处理</b>（读写、运行、分析），仅在对话需要时才把<b>必要片段</b>作为上下文送出——文件本身始终不出域</li>
+    </ul>
+    <div class="note"><span class="ic">敏感信息如何不进上下文</span><span>WorkBuddy 本身<b>不内置 DLP</b>，敏感数据管控依靠"<b>企业流程 + 配套工具（如腾讯 IOA）</b>"三层兜底：① <b>IOA DLP 拖拽拦截（已有）</b>——员工把敏感文件拖入对话窗口时，IOA 数据防泄漏能力会限制 / 拦截；② <b>Hooks 脱敏（规划中）</b>——通过 <code>preToolUse / postToolUse</code> 钩子在工具调用前后触发脱敏、拦截敏感信息并留存审计；③ <b>企业使用规范</b>——制定"敏感数据不进上下文"的流程要求并配套安全工具。</span></div>
+
+    <h3><span class="dot d-purple"></span>3.2 数据流向：一次请求的完整链路</h3>
+    <p class="lead">为帮助理解"代码到底走了哪些环节、停留在哪里、什么时候被清除"，下图呈现一次业务请求从客户端发出、到模型推理、再返回客户端的完整数据路径，并标注 MCP 工具调用的本地直连支线。</p>
+    <figure class="figure">
+      <img src="assets/codebuddy-dataflow.jpg" alt="CodeBuddy 数据流向图">
+      <figcaption>图 3-1　CodeBuddy 数据流向图（含 MCP 工具调用支线）</figcaption>
+    </figure>
+    <div class="legend-grid">
+      <div class="lg"><b>主链路 1→4</b><span>客户端收集代码与上下文，生成 Prompt → 经 HTTPS/TLS 接入网关 → 后端应用做提示词拼接与 Prompt 安全检查 → 腾讯云 MaaS 网关做配额/计费/模型分发 → 大模型集群（腾讯自研、GLM-5.1、Kimi 2.6、Minimax 2.7 等）推理</span></div>
+      <div class="lg"><b>主链路 5→8</b><span>大模型流式输出 → MaaS 网关 → 后端应用 → 接入网关 → 客户端流式渲染（含工具调用 tool_call）</span></div>
+      <div class="lg"><b>MCP 支线 M1→M4</b><span>当涉及第三方工具调用时，客户端与本地 MCP 调度器、第三方 MCP（GitHub / TAPD / 腾讯文档 / 自定义）<b>本地直连</b>——不经腾讯后端，第三方 Token 仅保存在客户本地</span></div>
+      <div class="lg"><b>关键边界</b><span>蓝色虚线框 = 客户本地；紫色框 = 腾讯后端服务器；绿色框 = 大模型集群。代码文件全程<b>不离开蓝色框</b>，仅必要的"上下文片段"加密外发，推理结束即清除</span></div>
+    </div>
+    <div class="note"><span class="ic">从图中能读出的安全要点</span><span>① <b>代码文件不出域</b>——文件本身始终在客户端本地，主链路上送出的只是经过敏感信息扫描的<b>上下文片段</b>；② <b>全链路加密</b>——客户端 ↔ 接入网关 ↔ 后端 ↔ MaaS ↔ 模型集群均为 HTTPS/TLS；③ <b>推理后即清除</b>——后端不持久化用户代码，推理完成后内存即销毁，<b>不进训练集</b>；④ <b>MCP 直连不绕弯</b>——访问 GitHub/TAPD/腾讯文档等第三方系统时，客户端到第三方为本地直连，<b>不经过腾讯后端转发</b>，第三方鉴权 Token 也只保存在客户本地，避免跨主体凭证泄露；⑤ <b>Prompt 安全检查在后端发生</b>——后端应用层做提示词拼接与注入检测，是 4.5 节"四层防 Prompt 注入"中的关键一层。</span></div>
+
+    <h3><span class="dot d-purple"></span>3.3 全链路加密与敏感信息过滤</h3>
+    <table>
+      <tr><th>能力</th><th>实现</th></tr>
+      <tr><td><b>传输加密</b></td><td>全链路 HTTPS / TLS 1.2-1.3，防窃听 / 篡改 / 中间人</td></tr>
+      <tr><td><b>存储加密</b></td><td>核心敏感配置 AES-256-GCM 加密存储</td></tr>
+      <tr><td><b>敏感信息过滤</b></td><td>内置识别引擎，自动拦截并脱敏硬编码密码、API Key、凭证、内网 IP；结合腾讯云内容安全，支持企业自定义扩展</td></tr>
+      <tr><td><b>鉴权信息保护</b></td><td>Token / Cookie 不传第三方；Cookie 强制 HttpOnly 防 XSS 窃取</td></tr>
+    </table>
+    <div class="note"><span class="ic">存储加密"存的是什么"</span><span>关键：<b>加密的不是用户代码</b>——代码遵循"不存储"原则，根本不落地，也就无需加密。AES-256-GCM 加密的是<b>产品运行必须持久化的敏感配置类信息</b>：① 鉴权 / 凭证类（访问令牌、API Key、模型端点密钥等）；② 企业配置类（SSO 配置、第三方接入凭据等）。一句话——<b>代码不存所以不加密，必须存的敏感配置才加密</b>。</span></div>
+    <div class="note"><span class="ic">自动拦截 / 脱敏：默认开启</span><span>基于 CodeBuddy 安全编码规范（Security Rules）+ 腾讯云内容安全服务。<b>触发时机</b>：在<b>请求构造 / 数据处理前</b>自动扫描——即代码片段作为上下文发出去之前先过一遍；<b>识别对象</b>：硬编码密码、API Key、凭证、内网 IP 等高价值敏感信息；<b>动作</b>：命中即拦截 + 脱敏，防止意外随上下文外流；<b>可扩展</b>：支持企业自定义规则扩展识别范围。无需手工开启，默认随请求链路生效。</span></div>
+
+    <h3><span class="dot d-purple"></span>3.4 数据驻留与留存</h3>
+    <ul class="clean">
+      <li><b>境内存储不跨境</b>：国内 SaaS 数据加密存储于中国境内节点，物理服务器位于境内高标准机房</li>
+      <li><b>留存策略</b>：用户端侧操作日志默认 180 天，可配置、可导出</li>
+      <li><b>运维隔离</b>：运维人员无法访问客户数据，有堡垒机 + 操作审计；涉及客户环境 / 数据的运维须有工单并经甲方同意</li>
+    </ul>
+
+    <h3><span class="dot d-purple"></span>3.5 数据销毁与退出机制</h3>
+    <ul class="clean">
+      <li>合同到期不续：环境 / 数据 <b>7 天内自动销毁</b>；保留 15 天数据保留期，届满<b>自动删除全部数据（含副本 / 备份），不可复原</b></li>
+      <li>全生命周期：产生 → 存储 → 使用 → 销毁均有管控；中间件（ClickHouse / MySQL）定时备份</li>
+    </ul>
+  </section>
+
+  <!-- S4 -->
+  <section id="s4">
+    <div class="sec-head">
+      <div class="sec-num b-amber">四</div>
+      <div><div class="sec-title">生态与供应链安全</div><div class="sec-sub">Agent 时代的新攻击面</div></div>
+    </div>
+    <div class="claim"><b>核心命题：</b>Agent 的能力来自加载的 Skill / MCP / 第三方插件——这是规模快速扩大的新攻击面。需从<b>源头切断</b>供应链投毒与注入类风险。</div>
+
+    <h3><span class="dot d-amber"></span>4.1 Skill 安全检测</h3>
+    <p class="lead">加载前一次性扫描，运行时零开销：</p>
+    <table>
+      <tr><th>维度</th><th>实现</th></tr>
+      <tr><td><b>病毒查杀</b></td><td>复用腾讯威胁情报底座反病毒引擎，对 Skill 包文件做 Hash / 签名 / 静态特征命中，已知恶意 Skill <b>秒级命中</b></td></tr>
+      <tr><td><b>算法识别</b></td><td>科恩自研恶意行为算法，对代码意图、敏感 API 调用、异常模式做<b>语义级识别</b>，覆盖规则 + 情报无法识别的"未知 Skill 风险"</td></tr>
+      <tr><td><b>落地形态</b></td><td>Skill 加载<b>前</b>完成检测，高风险时阻断加载并产出结构化告警</td></tr>
+    </table>
+
+    <h3><span class="dot d-amber"></span>4.2 两道互补防线</h3>
+    <ul class="clean">
+      <li><b>生态侧</b>（已上线）：加载前切断恶意 Skill 进入（供应链视角）——即 4.1 的 Skill 安全检测</li>
+      <li><b>运行时侧</b>（建设中）：约束已加载 Skill 的实际行为（行为检测）——本地命令检测 SDK 接入中、云端检测规划中</li>
+    </ul>
+    <p class="lead">当前对 Skill 的硬防护主要在"<b>加载前</b>"完成；"运行时持续监控 Skill 行为"作为下一阶段的能力正在持续建设中。</p>
+
+    <h3><span class="dot d-amber"></span>4.3 本地补充与企业协同</h3>
+    <ul class="clean">
+      <li>客户端上传 / 安装 Skill 时有安全审计能力并给出风险提示</li>
+      <li>配合 <b>IOA</b> 提供本地 Skill 静态扫描（如识别 Skill 中危险的下载动作）</li>
+      <li><b>企业侧建议</b>：构建符合自身规则的 Skill 管理 / 审核 / 安全评估 / 上架流程（管理 + 技术双管）</li>
+    </ul>
+
+    <h3><span class="dot d-teal"></span>4.4 CodeBuddy 在本方向的能力</h3>
+    <p class="lead">CodeBuddy 通过原生扩展机制，从"权限边界"角度降低供应链风险：</p>
+    <ul class="clean">
+      <li><b>原生 Rules / Skills 机制</b>：通过 <code>.codebuddy/skills/</code> 封装专业指令集，支持项目级 + 用户级配置</li>
+      <li><b>权限可控、防越权</b>：自定义 Skills 在权限可控前提下扩展模型功能，防止越权操作</li>
+      <li><b>第三方接口管控</b>：所有 OpenAPI 调用必须通过 API Key 鉴权与访问控制</li>
+    </ul>
+  </section>
+
+  <!-- S5 -->
+  <section id="s5">
+    <div class="sec-head">
+      <div class="sec-num b-pink">五</div>
+      <div><div class="sec-title">企业管控 · 合规 · 服务保障</div><div class="sec-sub">管理员主动权 + 资质背书 + SLA 兜底</div></div>
+    </div>
+    <div class="claim"><b>核心命题：</b>让管理员"管得住、查得到"，用资质背书建立信任，用 SLA 兜底责任。</div>
+
+    <h3><span class="dot d-pink"></span>5.1 企业级统一管控</h3>
+    <table>
+      <tr><th>能力</th><th>说明</th></tr>
+      <tr><td><b>SSO 单点登录</b></td><td>统一身份认证 + 组织架构自动同步；支持 OAuth / SAML / LDAP / AD / 企微 / 飞书 / 钉钉，业内 SSO 协议覆盖最全</td></tr>
+      <tr><td><b>MFA 多因素认证</b></td><td>支持，并可与企业 SSO 对接</td></tr>
+      <tr><td><b>Credit 额度控制</b></td><td>按部门 / 角色设差异化 AI 使用额度，防资源滥用与异常计费</td></tr>
+      <tr><td><b>IP 白名单</b></td><td>仅允许特定 IP 段（如企业内网 / IOA 代理网关）登录，杜绝外部访问</td></tr>
+      <tr><td><b>精细化工具权限</b></td><td>像配防火墙一样设定 AI 对文件 / 命令 / 网络的"允许 / 询问 / 拒绝"</td></tr>
+      <tr><td><b>用量审计</b></td><td>企业研效看板，按部门 / 个人统计 Token / Credit，每笔请求可追溯；管理操作记录 Who / When / What</td></tr>
+    </table>
+
+    <h3><span class="dot d-pink"></span>5.2 通信安全与网关</h3>
+    <ul class="clean">
+      <li>HTTPS 全链路加密（TLS 1.2 / 1.3）</li>
+      <li>复用主流 IM（企微 / QQ / 钉钉 / 飞书）内置 WebSocket 通道，<b>无需在企业防火墙开放额外端口</b>，不依赖 frp / ngrok / Tailscale 等内网穿透工具</li>
+      <li>安全通信网关：Gateway Token 认证 + 连接鉴权，配合 SSO 与 Role 权限</li>
+    </ul>
+
+    <h3><span class="dot d-pink"></span>5.3 部署模式</h3>
+    <table>
+      <tr><th>模式</th><th>特征</th></tr>
+      <tr><td><b>标准 SaaS</b></td><td>共享基础设施，逻辑隔离，腾讯云提供安全运行保障</td></tr>
+      <tr><td><b>VPC 专享版</b></td><td>后台 / 数据库 / 向量库全部署于独立 VPC，<b>物理隔离</b>，企业拥有绝对网络控制权与数据主权，代码数据"零泄露"</td></tr>
+      <tr><td><b>私有化</b></td><td>CodeBuddy 支持完全私有化，模型 / 数据库 / 应用服务可部署于甲方内网（金融、政企经验丰富）</td></tr>
+    </table>
+
+    <h3><span class="dot d-pink"></span>5.4 资质认证与合规背书</h3>
+    <ul class="clean">
+      <li><b>ISO 27001:2022、ISO 27017、等保三级及以上</b>；SOC 2 Type II 持续获取中</li>
+      <li>第三方渗透测试：定期黑盒 / 白盒，可提供脱敏报告（签 NDA 后）</li>
+      <li>法律法规：全面满足《网络安全法》《数据安全法》《个人信息保护法》，兼顾 GDPR</li>
+      <li>历史记录：<b>0 起重大客户数据泄露事件</b>（公开渠道为准）</li>
+    </ul>
+
+    <h3><span class="dot d-pink"></span>5.5 应急响应与 SLA</h3>
+    <table>
+      <tr><th>指标</th><th>承诺</th></tr>
+      <tr><td>应急响应</td><td><b>7×24h</b> 安全监控与技术支持</td></tr>
+      <tr><td>严重漏洞修复</td><td><b>≤24h</b> 完成修复方案部署与验证</td></tr>
+      <tr><td>服务可用性</td><td><b>≥99.9%</b>，未达标可按服务等级条款获赔</td></tr>
+      <tr><td>安全事件通知</td><td>涉及用户数据事件，通过邮件 / 站内信及时通知并同步处置进展</td></tr>
+      <tr><td>协议保障</td><td>可签《SaaS 安全管理协议》《个人信息处理协议》《保密协议》</td></tr>
+    </table>
+
+    <h3><span class="dot d-pink"></span>5.6 企业服务保障</h3>
+    <p class="lead">一客一群、安灯工单、专业培训咨询；四形态（IDE / 插件 / CLI / WorkBuddy）一个 License 统一管控；代码补全完全免费；微信生态独家适配。</p>
+
+    <h3><span class="dot d-pink"></span>5.7 安全责任与协同</h3>
+    <p class="lead">部分场景需要产品能力与企业既有安全体系协同，以下是常见关切的当前应对方案：</p>
+    <table>
+      <tr><th>关切点</th><th>当前应对</th></tr>
+      <tr><td><b>终端被木马旁路窃取</b></td><td>WorkBuddy 沙箱使木马无法获得操作权限；终端病毒防护需配套独立杀软 / IOA 查杀</td></tr>
+      <tr><td><b>工作空间内敏感数据自动识别</b></td><td>WorkBuddy 本身不做 DLP；文件本地处理仅对话上下文出域；可配合 IOA DLP + Hooks（preToolUse / postToolUse）脱敏拦截</td></tr>
+      <tr><td><b>对话级审计留存</b></td><td>专项版对话级审计（输入 + 最终输出）<b>2026 年 6 月 30 日</b>提供</td></tr>
+      <tr><td><b>Skill 动态更新 / 运行时监控</b></td><td>加载前审计已上线；运行时监控持续增强中，配合企业流程兜底</td></tr>
+      <tr><td><b>VPC 运维责任边界</b></td><td>腾讯云托管 VPC，服务端安全维护由腾讯云负责，企业不直接管理 VPC</td></tr>
+      <tr><td><b>跨境数据传输</b></td><td>海外分支 / 出差场景需遵循跨境传输相关法律</td></tr>
+    </table>
+  </section>
+
+  <div class="foot">
+    WorkBuddy &amp; CodeBuddy 企业级安全方案<br>
+    安全可信 · 合规可靠 — 腾讯云
+  </div>
+
+</div>
+</body>
+</html>
+

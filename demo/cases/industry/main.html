@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy · 生态联动 & 产业带 OPC 落地案例</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; color: #1a1a1a; line-height: 1.5; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 64px 24px 40px; }
+.brand { font-size: 13px; color: #94a3b8; letter-spacing: 2px; margin-bottom: 8px; text-transform: uppercase; }
+h1 { font-size: 32px; font-weight: 600; color: #0f172a; margin-bottom: 12px; letter-spacing: -0.5px; }
+.subtitle { font-size: 15px; color: #64748b; margin-bottom: 32px; }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; }
+.tab { padding: 12px 20px; font-size: 14px; font-weight: 500; color: #64748b; cursor: pointer; border: none; background: transparent; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s, border-color .15s; font-family: inherit; }
+.tab:hover { color: #0f172a; }
+.tab.active { color: #1E40AF; border-bottom-color: #1E40AF; }
+.tab .count { display: inline-block; margin-left: 6px; font-size: 12px; color: #94a3b8; font-weight: 400; }
+.tab.active .count { color: #1E40AF; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+.section-title { font-size: 13px; font-weight: 600; color: #475569; letter-spacing: 1px; margin: 8px 0 16px; padding-left: 10px; border-left: 3px solid #1E40AF; }
+.section-title:not(:first-child) { margin-top: 36px; }
+.section-title .sec-sub { font-weight: 400; color: #94a3b8; margin-left: 8px; letter-spacing: 0; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px; }
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 28px 26px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s, box-shadow .15s; display: block; cursor: pointer; }
+.card:hover { border-color: #1E40AF; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(30,64,175,0.08); }
+
+.card.tmeet:hover { border-color: #006EFF; }       .card.tmeet .tag { background: #E6F2FF; color: #006EFF; }
+.card.feishu:hover { border-color: #3370FF; }      .card.feishu .tag { background: #EBF1FF; color: #3370FF; }
+.card.wecom:hover { border-color: #07C160; }       .card.wecom .tag { background: #E8F8EE; color: #07C160; }
+.card.dingtalk:hover { border-color: #3296FA; }    .card.dingtalk .tag { background: #E6F2FF; color: #3296FA; }
+.card.tdoc:hover { border-color: #0052D9; }        .card.tdoc .tag { background: #E5EFFF; color: #0052D9; }
+.card.ima:hover { border-color: #5B5BD6; }         .card.ima .tag { background: #EEEEFE; color: #5B5BD6; }
+
+.card.belt-cloth:hover { border-color: #DB2777; }   .card.belt-cloth .tag { background: #FCE7F3; color: #BE185D; }
+.card.belt-furn:hover { border-color: #B45309; }    .card.belt-furn .tag { background: #FEF3C7; color: #B45309; }
+.card.belt-toy:hover { border-color: #EA580C; }     .card.belt-toy .tag { background: #FFEDD5; color: #C2410C; }
+.card.belt-hanfu:hover { border-color: #9333EA; }   .card.belt-hanfu .tag { background: #F3E8FF; color: #7E22CE; }
+.card.belt-hair:hover { border-color: #0F766E; }    .card.belt-hair .tag { background: #CCFBF1; color: #0F766E; }
+.card.belt-shoe:hover { border-color: #1D4ED8; }    .card.belt-shoe .tag { background: #DBEAFE; color: #1D4ED8; }
+.card.belt-ecom:hover { border-color: #047857; }    .card.belt-ecom .tag { background: #D1FAE5; color: #047857; }
+
+.tag { display: inline-block; font-size: 11px; padding: 3px 8px; border-radius: 2px; background: #eff6ff; color: #1E40AF; margin-bottom: 16px; letter-spacing: 0.5px; font-weight: 500; }
+.card h2 { font-size: 19px; font-weight: 600; color: #0f172a; margin-bottom: 10px; }
+.card p { font-size: 13.5px; color: #64748b; line-height: 1.65; margin-bottom: 16px; }
+
+.metrics { display: flex; gap: 18px; padding-top: 14px; border-top: 1px dashed #e2e8f0; }
+.metric { flex: 1; }
+.metric .num { font-size: 20px; font-weight: 600; color: #0f172a; letter-spacing: -0.5px; }
+.metric .label { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+.meta { font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 8px; padding-top: 12px; }
+.meta::after { content: "→"; margin-left: auto; font-size: 16px; color: #1E40AF; }
+.card.tmeet .meta::after { color: #006EFF; }
+.card.feishu .meta::after { color: #3370FF; }
+.card.wecom .meta::after { color: #07C160; }
+.card.dingtalk .meta::after { color: #3296FA; }
+.card.tdoc .meta::after { color: #0052D9; }
+.card.ima .meta::after { color: #5B5BD6; }
+.card.belt-cloth .meta::after { color: #BE185D; }
+.card.belt-furn .meta::after { color: #B45309; }
+.card.belt-toy .meta::after { color: #C2410C; }
+.card.belt-hanfu .meta::after { color: #7E22CE; }
+.card.belt-hair .meta::after { color: #0F766E; }
+.card.belt-shoe .meta::after { color: #1D4ED8; }
+.card.belt-ecom .meta::after { color: #047857; }
+
+.arch { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 28px 26px; margin-bottom: 24px; }
+.arch-title { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+.arch-sub { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+.arch-flow { display: flex; align-items: stretch; gap: 0; }
+.arch-layer { flex: 1; padding: 18px 20px; border: 1px solid #e2e8f0; position: relative; }
+.arch-layer:first-child { border-radius: 4px 0 0 4px; }
+.arch-layer:last-child { border-radius: 0 4px 4px 0; }
+.arch-layer:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 18px; z-index: 1; background: #f5f7fa; width: 28px; text-align: center; }
+.arch-layer .l-tier { font-size: 11px; color: #94a3b8; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.arch-layer .l-name { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+.arch-layer .l-desc { font-size: 12.5px; color: #64748b; line-height: 1.6; }
+.arch-layer.conn { background: #eff6ff; border-color: #bfdbfe; }
+.arch-layer.skill { background: #f0fdf4; border-color: #bbf7d0; }
+.arch-layer.memory { background: #fef3c7; border-color: #fde68a; }
+
+.opc-intro { background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%); color: #fff; border-radius: 4px; padding: 28px 30px; margin-bottom: 28px; }
+.opc-intro h3 { font-size: 20px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.3px; }
+.opc-intro .lead { font-size: 14px; line-height: 1.7; opacity: 0.95; margin-bottom: 16px; }
+.opc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.opc-cell { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 12px 14px; }
+.opc-cell .lbl { font-size: 11px; opacity: 0.8; margin-bottom: 4px; }
+.opc-cell .val { font-size: 14px; font-weight: 600; }
+
+.foot { margin-top: 56px; font-size: 12px; color: #94a3b8; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">WBD · ECOSYSTEM × INDUSTRIAL BELT OPC</div>
+  <h1>WorkBuddy 生态联动 & 产业带 OPC 落地案例</h1>
+  <p class="subtitle">从办公协同到产业带运营,WorkBuddy 打通企业 AI 落地的"最后一公里"</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-target="panel-eco" role="tab" aria-selected="true">生态联动<span class="count">6</span></button>
+    <button class="tab" data-target="panel-opc" role="tab" aria-selected="false">产业带 OPC 落地案例<span class="count">7</span></button>
+  </div>
+
+  <!-- 生态联动 -->
+  <div id="panel-eco" class="panel active" role="tabpanel">
+
+    <div class="arch">
+      <div class="arch-title">统一联动架构 · Connector → Skill → Memory</div>
+      <div class="arch-sub">不替换客户既有系统,而是以"插件式 AI 中台"身份接入,把 6 大主流办公与业务生态变成 WorkBuddy 的"自然语言操作面"</div>
+      <div class="arch-flow">
+        <div class="arch-layer conn">
+          <div class="l-tier">Layer 1 · Protocol</div>
+          <div class="l-name">Connector 连接器</div>
+          <div class="l-desc">OAuth 鉴权 + 官方 API 封装,把企业微信/飞书/钉钉/腾讯会议/腾讯文档/IMA 全部装进一个端口</div>
+        </div>
+        <div class="arch-layer skill">
+          <div class="l-tier">Layer 2 · Capability</div>
+          <div class="l-name">Skill 技能矩阵</div>
+          <div class="l-desc">100+ 即用 skill,把每个生态的原子能力封装成自然语言指令(约会议/写文档/催回款/查日程)</div>
+        </div>
+        <div class="arch-layer memory">
+          <div class="l-tier">Layer 3 · Knowledge</div>
+          <div class="l-name">Memory 知识沉淀</div>
+          <div class="l-desc">会话结果自动归档到乐享/IMA 知识库,形成"用即沉淀"的飞轮,新员工直接复用历史经验</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">协同办公 · Communication & Collaboration</div>
+    <div class="cards">
+
+      <a class="card tmeet" href="./eco-tmeet.html">
+        <span class="tag">联动方案 · 腾讯会议</span>
+        <h2>WorkBuddy × 腾讯会议</h2>
+        <p>从"开会"到"开会后能用":AI 帮员工约会议、会上实时记录、会后自动出纪要 + 待办分发 + 周报填充,会议内容直接变成可追溯、可搜索、可派生的组织资产。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↓75%</div><div class="label">会议纪要耗时</div></div>
+          <div class="metric"><div class="num">100%</div><div class="label">行动项有归属</div></div>
+        </div>
+        <div class="meta">三层架构 / 4 场景 / 5 踩坑</div>
+      </a>
+
+      <a class="card feishu" href="./eco-feishu.html">
+        <span class="tag">联动方案 · 飞书</span>
+        <h2>WorkBuddy × 飞书</h2>
+        <p>把飞书 28 个原生能力(Lark Doc/Sheet/Calendar/Bot/Wiki 等)全部装进 WorkBuddy 的大脑,员工不用学飞书语法,直接"说话"就能驱动整个飞书工作流。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">28</div><div class="label">lark-* skill</div></div>
+          <div class="metric"><div class="num">5</div><div class="label">端到端实跑案例</div></div>
+        </div>
+        <div class="meta">28 skill / 5 实跑 / Wiki 知识库</div>
+      </a>
+
+      <a class="card wecom" href="./eco-wecom.html">
+        <span class="tag">联动方案 · 企业微信</span>
+        <h2>WorkBuddy × 企业微信</h2>
+        <p>把企业微信"用透":智能表格、销售跟进、文档协同、日程审批、群机器人推送全部打通,WorkBuddy 既是员工身边的"私秘书",也是企业级"运营驾驶舱"。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↑3x</div><div class="label">销售跟进效率</div></div>
+          <div class="metric"><div class="num">10+</div><div class="label">企微原生能力</div></div>
+        </div>
+        <div class="meta">3 场景 / 权限模型 / 踩坑经验</div>
+      </a>
+
+      <a class="card dingtalk" href="./eco-dingtalk.html">
+        <span class="tag">联动方案 · 钉钉</span>
+        <h2>WorkBuddy × 钉钉</h2>
+        <p>钉钉企业应用全链路打通:抽数 → 合成报告 → 推送到群 → 群内@机器人即时问答,形成"周报自动跑 + 知识随时问"的钉钉专属 AI 中台。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">2</div><div class="label">场景已上线</div></div>
+          <div class="metric"><div class="num">5+</div><div class="label">能力扩展规划</div></div>
+        </div>
+        <div class="meta">2 场景 / 架构图 / 能力扩展</div>
+      </a>
+    </div>
+
+    <div class="section-title">文档 & 知识 · Document & Knowledge</div>
+    <div class="cards">
+
+      <a class="card tdoc" href="./eco-tdoc.html">
+        <span class="tag">联动方案 · 腾讯文档企业版</span>
+        <h2>WorkBuddy × 腾讯文档</h2>
+        <p>把腾讯文档当成"WorkBuddy 的外置大脑":AI 读取文档 → 分析内容 → 改写润色 → 插入图表 → 多人协同,文档类工作从"写字"变成"对话"。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↓60%</div><div class="label">文档写作耗时</div></div>
+          <div class="metric"><div class="num">全</div><div class="label">格式支持</div></div>
+        </div>
+        <div class="meta">读 / 写 / 改 / 协同</div>
+      </a>
+
+      <a class="card ima" href="./eco-ima.html">
+        <span class="tag">联动方案 · IMA 知识库</span>
+        <h2>WorkBuddy × IMA 知识库</h2>
+        <p>把企业 IMA 知识库变成"可对话的资深员工":新人入职 1 周就能上手业务,老员工不用反复回答重复问题,知识真正变成生产力。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↓80%</div><div class="label">新人问询耗时</div></div>
+          <div class="metric"><div class="num">1</div><div class="label">统一检索入口</div></div>
+        </div>
+        <div class="meta">问 / 写 / 聚合 / 权限</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 产业带 OPC 落地案例 -->
+  <div id="panel-opc" class="panel" role="tabpanel">
+
+    <div class="opc-intro">
+      <h3>什么是 OPC · 产业带运营中心</h3>
+      <p class="lead">OPC(Operations Center for Industrial Belt)是把"产业带"这一中国独有经济形态(广州十三行的服装、佛山顺德的家具、汕头澄海的玩具、曹县的汉服、许昌的发制品…)变成可量化、可调度、可 AI 化的运营中枢。WorkBuddy 在 OPC 中的角色是"AI 操作员 + 数字员工总集",把分散在 50-200 家中小工厂/档口/网店的日常工作流串成一条"AI 流水线"。</p>
+      <div class="opc-grid">
+        <div class="opc-cell"><div class="lbl">覆盖业态</div><div class="val">服装 / 家具 / 玩具 / 汉服 / 发制品 / 鞋帽 / 小商品</div></div>
+        <div class="opc-cell"><div class="lbl">服务对象</div><div class="val">产业带管委会 + 工厂主 + 档口老板 + 跨境卖家</div></div>
+        <div class="opc-cell"><div class="lbl">部署形态</div><div class="val">云端 SaaS + 私有化 + 工厂侧一体机</div></div>
+        <div class="opc-cell"><div class="lbl">回本周期</div><div class="val">3-6 个月(单产业带口径)</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">服装纺织 · Apparel & Textile</div>
+    <div class="cards">
+
+      <a class="card belt-cloth" href="./belt-cloth.html">
+        <span class="tag">广州十三行 · 服装产业带</span>
+        <h2>AI 选品 + 7 天上新流水线</h2>
+        <p>广州十三行 / 杭州四季青 / 濮院羊毛衫 三大服装产业带。痛点:档口老板靠经验选品、爆款生命周期 7-15 天,款式跑赢同行才能活。WorkBuddy:每天自动抓取 TikTok / 小红书 / 1688 热搜款 → AI 解读趋势报告 → 一键生成打版稿 → 自动上架 12 个电商平台。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↑40%</div><div class="label">选品命中率</div></div>
+          <div class="metric"><div class="num">↓60%</div><div class="label">上新周期</div></div>
+        </div>
+        <div class="meta">服务档口 1,200+ / 月活商家 380</div>
+      </a>
+
+      <a class="card belt-hanfu" href="./belt-hanfu.html">
+        <span class="tag">山东曹县 · 汉服产业带</span>
+        <h2>汉服文化解读 + 图案 AI 生成</h2>
+        <p>曹县是全球汉服第一县,年产汉服 4 亿件。痛点:汉服讲究"形制 + 纹样 + 配色"的文化考据,小工厂抄款常出文化错;设计依赖少数画师,产能瓶颈。WorkBuddy:接入汉服形制知识库 + 历代纹样数据集,AI 辅助形制校验 + 纹样生成 + 文化注释自动写。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↑3x</div><div class="label">设计产能</div></div>
+          <div class="metric"><div class="num">↓90%</div><div class="label">文化错误率</div></div>
+        </div>
+        <div class="meta">服务工厂 60+ / 联名款 12 款</div>
+      </a>
+    </div>
+
+    <div class="section-title">家居制造 · Furniture & Home</div>
+    <div class="cards">
+
+      <a class="card belt-furn" href="./belt-furn.html">
+        <span class="tag">佛山顺德 · 家具产业带</span>
+        <h2>AI 渲染 + 询盘秒回 + 跨境合规</h2>
+        <p>佛山 + 东莞 + 苏州 三大家具产业带。痛点:实木/板式家具 SKU 多、单值高、决策周期长,客户咨询常在 WhatsApp / 邮件多语言沟通;跨境订单需欧美环保认证(FSC/CARB/CE)。WorkBuddy:AI 室内渲染图 + 24h 多语言询盘秒回 + 认证资料自动生成。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↓85%</div><div class="label">询盘响应时长</div></div>
+          <div class="metric"><div class="num">↑2.5x</div><div class="label">跨境成单率</div></div>
+        </div>
+        <div class="meta">服务工厂 80+ / 跨境占比 65%</div>
+      </a>
+    </div>
+
+    <div class="section-title">玩具 & 工艺 · Toy & Handicraft</div>
+    <div class="cards">
+
+      <a class="card belt-toy" href="./belt-toy.html">
+        <span class="tag">汕头澄海 · 玩具产业带</span>
+        <h2>AI 短视频 + 多平台铺货 + 版权风控</h2>
+        <p>汕头澄海年产玩具 5 亿只,占全国塑胶玩具 60%。痛点:爆款依赖 IP 授权,版权风险高;短视频带货压力大,小厂拍不动视频。WorkBuddy:合规 IP 知识库 + AI 商品图 / 短视频自动生成 + 多平台一键铺货 + 侵权风险扫描。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↓95%</div><div class="label">版权纠纷</div></div>
+          <div class="metric"><div class="num">↑5x</div><div class="label">日更视频量</div></div>
+        </div>
+        <div class="meta">服务工厂 200+ / 视频日产 1,500 条</div>
+      </a>
+    </div>
+
+    <div class="section-title">美妆个护 & 服饰配件 · Beauty & Accessory</div>
+    <div class="cards">
+
+      <a class="card belt-hair" href="./belt-hair.html">
+        <span class="tag">河南许昌 · 发制品产业带</span>
+        <h2>跨境合规 + 多肤色适配 + 售后自动答</h2>
+        <p>许昌发制品占全球 60% 产能,90% 出口。痛点:跨境合规(美 FDA / 欧 CE / 非清真认证)分散;不同肤色 / 发质客户沟通成本高;售后问题重复。WorkBuddy:认证资料自动生成 + 多肤色产品图 + WhatsApp 售后机器人 7×24 答。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↑70%</div><div class="label">跨境合规通过</div></div>
+          <div class="metric"><div class="num">↓50%</div><div class="label">售后人力</div></div>
+        </div>
+        <div class="meta">服务工厂 90+ / 出口 40+ 国</div>
+      </a>
+
+      <a class="card belt-shoe" href="./belt-shoe.html">
+        <span class="tag">福建泉州 · 鞋服产业带</span>
+        <h2>AI 鞋款设计 + 客户协同 + 大货质检</h2>
+        <p>泉州 / 晋江 鞋服产业带,年产运动鞋 16 亿双,占全国 40%。痛点:大客户(品牌方)对设计稿改 5-8 版才定稿,沟通成本高;大货生产质检依赖熟练工人。WorkBuddy:AI 出 8 版鞋款 + 客户评审系统 + 大货瑕疵 AI 识别。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↓70%</div><div class="label">设计稿改版次数</div></div>
+          <div class="metric"><div class="num">↑40%</div><div class="label">质检准确率</div></div>
+        </div>
+        <div class="meta">服务工厂 50+ / 覆盖品牌 8 家</div>
+      </a>
+    </div>
+
+    <div class="section-title">小商品综合 · General Merchandise</div>
+    <div class="cards">
+
+      <a class="card belt-ecom" href="./belt-ecom.html">
+        <span class="tag">浙江义乌 · 小商品产业带</span>
+        <h2>全链路 AI 操作员 · 4 万档口</h2>
+        <p>义乌国际商贸城 7.5 万个商位,小商品 26 大类。痛点:档口 SKU 海量(单家 2,000+),上新品 / 答客户 / 跟单 / 物流 占满 4 个员工。WorkBuddy:每个档口配 1 个 AI 数字员工,接管"商品上架 + 询盘答 + 物流跟 + 复购提醒"全链路,老板只管拿大单。</p>
+        <div class="metrics">
+          <div class="metric"><div class="num">↓75%</div><div class="label">档口用工</div></div>
+          <div class="metric"><div class="num">↑2x</div><div class="label">GMV 转化</div></div>
+        </div>
+        <div class="meta">覆盖档口 4,000+ / 减员 8,000+</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="foot">WorkBuddy 生态联动 & 产业带 OPC 落地案例 v1.0 · 单文件可独立打开,无需内网</div>
+</div>
+
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.tab');
+  var panels = document.querySelectorAll('.panel');
+  window.activate = function(id){
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-target') === id;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function(p){
+      p.classList.toggle('active', p.id === id);
+    });
+  };
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ window.activate(t.getAttribute('data-target')); });
+  });
+})();
+</script>
+</body>
+</html>

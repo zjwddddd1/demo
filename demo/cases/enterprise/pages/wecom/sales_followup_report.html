@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>售前线索 · 销售跟进分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#070a12; --bg2:#0a0e1a;
+    --card:rgba(18,24,38,.72); --card-solid:#121826; --card2:rgba(26,33,52,.55); --line:rgba(96,114,150,.16);
+    --txt:#eaf1fb; --sub:#9aa7bd; --mut:#5d6b85;
+    --blue:#4d9fff; --cyan:#3ad8e6; --green:#46d18a; --amber:#f0b429;
+    --red:#ff5d6c; --purple:#a98bff; --pink:#ff79c6;
+    --grad1:linear-gradient(135deg,#4d9fff,#3ad8e6);
+    --glow:0 0 40px rgba(77,159,255,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:
+      radial-gradient(900px 620px at 10% -6%, rgba(77,159,255,.11), transparent 60%),
+      radial-gradient(820px 600px at 102% 0%, rgba(58,216,230,.08), transparent 55%),
+      radial-gradient(760px 760px at 50% 118%, rgba(169,139,255,.07), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--txt);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:0 0 80px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  header{padding:64px 0 38px;border-bottom:1px solid var(--line);margin-bottom:40px;text-align:center;position:relative}
+  header:after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 18px var(--cyan)}
+  header .tag{display:inline-block;font-size:12px;letter-spacing:2px;color:var(--cyan);border:1px solid rgba(58,216,230,.4);border-radius:20px;padding:5px 16px;margin-bottom:18px;background:rgba(58,216,230,.06);box-shadow:0 0 24px rgba(58,216,230,.12)}
+  header h1{font-size:36px;font-weight:800;letter-spacing:1px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(77,159,255,.25))}
+  header .meta{color:var(--sub);font-size:14px}
+  h2{font-size:22px;margin:52px 0 20px;padding-left:14px;border-left:4px solid var(--blue);font-weight:650}
+  h2 .en{font-size:13px;color:var(--mut);margin-left:10px;font-weight:400}
+  h3{font-size:17px;margin:24px 0 12px;color:var(--cyan)}
+  p{color:var(--txt);margin-bottom:12px}
+  .sub{color:var(--sub);font-size:14px}
+
+  /* 结论框 */
+  .verdict{background:linear-gradient(135deg,rgba(77,159,255,.14),rgba(58,216,230,.05));border:1px solid rgba(58,216,230,.28);border-radius:16px;padding:26px 28px;margin-bottom:8px;backdrop-filter:blur(12px);box-shadow:0 0 50px rgba(58,216,230,.10),inset 0 1px 0 rgba(255,255,255,.05)}
+  .verdict h3{margin-top:0;color:#fff;font-size:18px;display:flex;align-items:center;gap:8px}
+  .verdict ul{list-style:none;margin-top:14px}
+  .verdict li{padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed var(--line)}
+  .verdict li:last-child{border:none}
+  .verdict li:before{content:"▸";position:absolute;left:4px;color:var(--cyan)}
+  .verdict b{color:var(--amber)}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center;transition:.3s;backdrop-filter:blur(12px);position:relative;overflow:hidden}
+  .kpi:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(77,159,255,.06),transparent 60%);opacity:0;transition:.3s}
+  .kpi:hover{transform:translateY(-4px);border-color:rgba(77,159,255,.5);box-shadow:0 10px 40px rgba(77,159,255,.18)}
+  .kpi:hover:before{opacity:1}
+  .kpi .n{font-size:34px;font-weight:800;background:var(--grad1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(77,159,255,.3));position:relative}
+  .kpi .l{font-size:13px;color:var(--sub);margin-top:6px;position:relative}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:20px 0;backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .chart-box{position:relative;height:340px}
+  .chart-box.tall{height:420px}
+  .chart-box.wide{height:300px}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--cyan);font-weight:600;font-size:13px;background:var(--card2)}
+  tr:hover td{background:rgba(77,159,255,.05)}
+  .bar-cell{position:relative}
+  .mini-bar{display:inline-block;height:8px;border-radius:4px;vertical-align:middle;margin-right:8px}
+
+  .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:10px;font-weight:600;white-space:nowrap}
+  .b-p0{background:rgba(255,93,108,.16);color:var(--red);border:1px solid rgba(255,93,108,.4)}
+  .b-p1{background:rgba(240,180,41,.16);color:var(--amber);border:1px solid rgba(240,180,41,.4)}
+  .b-p2{background:rgba(77,159,255,.16);color:var(--blue);border:1px solid rgba(77,159,255,.4)}
+  .b-good{background:rgba(70,209,138,.16);color:var(--green);border:1px solid rgba(70,209,138,.4)}
+  .b-warn{background:rgba(240,180,41,.16);color:var(--amber);border:1px solid rgba(240,180,41,.4)}
+  .b-bad{background:rgba(255,93,108,.16);color:var(--red);border:1px solid rgba(255,93,108,.4)}
+
+  /* 排名表 */
+  .rank-table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .rank-table th{color:var(--sub);font-size:12px;font-weight:500;background:var(--card2);padding:10px 12px;position:sticky;top:0;z-index:1}
+  .rank-table td{padding:10px 12px;border-bottom:1px solid var(--line)}
+  .rank-table tr:hover td{background:rgba(77,159,255,.06)}
+  .rank-table .name{font-weight:600;white-space:nowrap}
+  .follow-bar{display:inline-block;height:6px;border-radius:3px;min-width:4px;transition:width .6s ease}
+  .f-red{background:var(--red);box-shadow:0 0 8px rgba(255,93,108,.5)}
+  .f-amber{background:var(--amber);box-shadow:0 0 8px rgba(240,180,41,.5)}
+  .f-green{background:var(--green);box-shadow:0 0 8px rgba(70,209,138,.5)}
+  .f-blue{background:var(--blue)}
+
+  /* P0风险卡 */
+  .p0-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:16px 0}
+  .p0-card{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px;position:relative;overflow:hidden;backdrop-filter:blur(10px);transition:.3s}
+  .p0-card:hover{transform:translateY(-3px)}
+  .p0-card.danger{border-left:3px solid var(--red);box-shadow:-6px 0 24px rgba(255,93,108,.12)}
+  .p0-card.warn{border-left:3px solid var(--amber);box-shadow:-6px 0 24px rgba(240,180,41,.12)}
+  .p0-card.ok{border-left:3px solid var(--green);box-shadow:-6px 0 24px rgba(70,209,138,.12)}
+  .p0-card .cust{font-size:15px;font-weight:600;margin-bottom:4px}
+  .p0-card .sales{font-size:13px;color:var(--sub);margin-bottom:8px}
+  .p0-card .stg{font-size:12px;padding:3px 10px;border-radius:6px;display:inline-block}
+  .stg-empty{background:rgba(255,93,108,.12);color:var(--red);border:1px solid rgba(255,93,108,.25)}
+  .stg-touch{background:rgba(240,180,41,.12);color:var(--amber);border:1px solid rgba(240,180,41,.25)}
+  .stg-poc{background:rgba(77,159,255,.12);color:var(--blue);border:1px solid rgba(77,159,255,.25)}
+  .stg-biz{background:rgba(169,139,255,.12);color:var(--purple);border:1px solid rgba(169,139,255,.25)}
+  .stg-win{background:rgba(70,209,138,.12);color:var(--green);border:1px solid rgba(70,209,138,.25)}
+
+  /* 销售画像卡 */
+  .sales-profile{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+  .sp-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative;overflow:hidden;backdrop-filter:blur(12px);transition:.3s}
+  .sp-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.35)}
+  .sp-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .sp-card.tier1::before{background:var(--green);box-shadow:0 0 16px var(--green)}
+  .sp-card.tier2::before{background:var(--amber);box-shadow:0 0 16px var(--amber)}
+  .sp-card.tier3::before{background:var(--red);box-shadow:0 0 16px var(--red)}
+  .sp-card .sp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .sp-card .sp-name{font-size:16px;font-weight:700}
+  .sp-card .sp-tier{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:600}
+  .sp-card .sp-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+  .sp-card .sm{text-align:center;padding:8px 0;background:var(--card2);border-radius:8px}
+  .sp-card .sm .v{font-size:20px;font-weight:700}
+  .sp-card .sm .k{font-size:11px;color:var(--sub);margin-top:2px}
+  .sp-card .sp-customers{font-size:13px;color:var(--sub)}
+  .sp-card .sp-customers .c-item{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(45,51,59,.5)}
+  .sp-card .sp-customers .c-item:last-child{border:none}
+
+  /* 行动建议卡 */
+  .act-card{display:flex;gap:18px;margin:18px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;position:relative;overflow:hidden;backdrop-filter:blur(12px);transition:.3s}
+  .act-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.35)}
+  .act-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+  .act-card.a1::before{background:var(--red);box-shadow:6px 0 24px rgba(255,93,108,.25)}
+  .act-card.a2::before{background:var(--amber);box-shadow:6px 0 24px rgba(240,180,41,.25)}
+  .act-card.a3::before{background:var(--blue);box-shadow:6px 0 24px rgba(77,159,255,.25)}
+  .act-card.a4::before{background:var(--green);box-shadow:6px 0 24px rgba(70,209,138,.25)}
+  .act-card .act-rank{flex-shrink:0;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff}
+  .act-card.a1 .act-rank{background:linear-gradient(135deg,#ff5d6c,#da3633);box-shadow:0 0 22px rgba(255,93,108,.4)}
+  .act-card.a2 .act-rank{background:linear-gradient(135deg,#f0b429,#bb8009);box-shadow:0 0 22px rgba(240,180,41,.4)}
+  .act-card.a3 .act-rank{background:linear-gradient(135deg,#4d9fff,#1f6feb);box-shadow:0 0 22px rgba(77,159,255,.4)}
+  .act-card.a4 .act-rank{background:linear-gradient(135deg,#46d18a,#2ea043);box-shadow:0 0 22px rgba(70,209,138,.4)}
+  .act-card .act-body{flex:1}
+  .act-card .act-body h4{font-size:17px;margin-bottom:6px}
+  .act-card .act-body .why{color:var(--sub);font-size:14px;margin-bottom:10px}
+  .act-card .act-body .do{background:var(--card2);border-radius:8px;padding:10px 14px;font-size:13.5px}
+  .act-card .act-body .do b{color:var(--cyan)}
+
+  footer{text-align:center;padding:40px 0 20px;color:var(--mut);font-size:12px;border-top:1px solid var(--line);margin-top:60px}
+
+  @media(max-width:768px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .grid2,.sales-profile{grid-template-columns:1fr}
+    .p0-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="tag">SALES FOLLOW-UP ANALYSIS</div>
+  <h1>销售跟进分析报告</h1>
+  <div class="meta">数据来源：企微智能表格 · 85 条售前线索 · 33 名销售 · 分析时间 2026-06-16</div>
+</header>
+
+<!-- 核心KPI -->
+<div class="kpis">
+  <div class="kpi"><div class="n">85</div><div class="l">总线索</div></div>
+  <div class="kpi"><div class="n">19%</div><div class="l">整体跟进率</div></div>
+  <div class="kpi"><div class="n">12/15</div><div class="l">P0 零推进</div></div>
+  <div class="kpi"><div class="n">33</div><div class="l">覆盖销售</div></div>
+</div>
+
+<!-- 核心结论 -->
+<div class="verdict">
+  <h3>⚡ 核心结论</h3>
+  <ul>
+    <li><b>超过 3/4 的线索停留在"录入但未推进"状态</b>——76% 的客户阶段空白，这不是个别销售的问题，是系统性的跟进缺失</li>
+    <li><b>高优先级 ≠ 高跟进</b>——15 个 P0 客户仅 3 个有实质推进（万兴付费、小迈付费、筷子 POC），12 个 P0 完全空白</li>
+    <li><b>线索过度分散</b>——85 个客户分给 33 人，20 人只有 1 个客户，无法形成跟进合力</li>
+    <li><b>游戏行业线索大量沉睡</b>——王绍深/柴洪峰/梁俊杰手握生3D 游戏客户，几乎零推进</li>
+  </ul>
+</div>
+
+<!-- 漏斗 & 优先级 -->
+<h2>一、整体漏斗 <span class="en">Funnel & Priority</span></h2>
+<div class="grid2">
+  <div class="card">
+    <h3>项目阶段漏斗</h3>
+    <div class="chart-box"><canvas id="funnelChart"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>优先级分布</h3>
+    <div class="chart-box"><canvas id="priChart"></canvas></div>
+  </div>
+</div>
+
+<!-- 销售排行 -->
+<h2>二、销售跟进排行 <span class="en">Sales Ranking</span></h2>
+<p class="sub">按客户数排序，跟进率 = 有阶段进展的客户数 / 总客户数。绿色≥60%，黄色30-60%，红色&lt;30%</p>
+<div class="card" style="overflow-x:auto">
+  <table class="rank-table" id="rankTable"></table>
+</div>
+
+<!-- 跟进率分布 -->
+<h2>三、跟进率分布 <span class="en">Follow-up Rate Distribution</span></h2>
+<div class="card">
+  <div class="chart-box wide"><canvas id="followRateChart"></canvas></div>
+</div>
+
+<!-- P0 风险看板 -->
+<h2>四、P0 客户风险看板 <span class="en">P0 Risk Dashboard</span></h2>
+<p class="sub">15 个最高优先级客户的跟进状态，红色=零推进、黄色=仅触达、绿色=POC及以上</p>
+<div class="p0-grid" id="p0Grid"></div>
+
+<!-- 销售画像 -->
+<h2>五、重点销售画像 <span class="en">Sales Profiles</span></h2>
+
+<h3 style="color:var(--green)">🟢 第一档：高质量跟进（标杆）</h3>
+<p class="sub">跟进率 ≥60%，有客户推进到商务/付费</p>
+<div class="sales-profile" id="tier1Cards"></div>
+
+<h3 style="color:var(--amber)">🟡 第二档：有量但跟进偏弱（重点辅导）</h3>
+<p class="sub">客户数≥3，但跟进率不足 50%</p>
+<div class="sales-profile" id="tier2Cards"></div>
+
+<h3 style="color:var(--red)">🔴 第三档：P0 在手却零跟进（最紧急）</h3>
+<p class="sub">手握 P0 客户，但阶段全部空白</p>
+<div class="p0-grid" id="tier3Grid"></div>
+
+<!-- 行动建议 -->
+<h2>六、行动建议 <span class="en">Action Items</span></h2>
+
+<div class="act-card a1">
+  <div class="act-rank">1</div>
+  <div class="act-body">
+    <h4>立即复盘朱郁森的 6 个客户</h4>
+    <div class="why">6 个客户含 2 个 P0（金蝶、乐摇摇）+ 3 个 P1，跟进率却是 0%——高价值线索正在空转</div>
+    <div class="do">本周内完成 6 个客户逐一复盘，P0 客户<b>指定替代跟进人</b>（如朱郁森确实无法推进）</div>
+  </div>
+</div>
+
+<div class="act-card a1">
+  <div class="act-rank">2</div>
+  <div class="act-body">
+    <h4>12 个空白 P0 逐一指派 + 设定触达 deadline</h4>
+    <div class="why">P0 是最高优先级，但 80% 零推进，优先级标注和实际行动严重脱节</div>
+    <div class="do">每个 P0 指定唯一负责人，<b>本周五前完成首次触达</b>，触达结果回填阶段字段</div>
+  </div>
+</div>
+
+<div class="act-card a3">
+  <div class="act-rank">3</div>
+  <div class="act-body">
+    <h4>推广姜慧的跟进节奏作为标杆</h4>
+    <div class="why">3 个客户 100% 跟进，2 个到商务、1 个到 POC——唯一「客户数≥3 且全推进」的销售</div>
+    <div class="do">周会上让姜慧分享<b>跟进方法论</b>（节奏、触达方式、如何判断推进时机），全团队对齐</div>
+  </div>
+</div>
+
+<div class="act-card a4">
+  <div class="act-rank">4</div>
+  <div class="act-body">
+    <h4>强制阶段字段回填，建立漏斗更新机制</h4>
+    <div class="why">76% 阶段空白，管理层无法监控漏斗——无法判断"真没跟进"还是"跟进没回填"</div>
+    <div class="do">每周五下班前<b>强制更新阶段</b>，未更新自动标红；月度漏斗回顾会</div>
+  </div>
+</div>
+
+<footer>
+  售前线索 · 销售跟进分析报告 &nbsp;|&nbsp; 数据来源：企微智能表格 &nbsp;|&nbsp; 生成时间：2026-06-16 &nbsp;|&nbsp; Powered by WorkBuddy
+</footer>
+
+</div>
+
+<script>
+// ============ DATA ============
+const DATA = {
+  "jasonyszhu 朱郁森": {"total":6,"p0":2,"p1":3,"p2":1,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":6},"customers":[{"name":"金蝶汽车网络科技（金蝶）","pri":"P0","stage":"未填写"},{"name":"乐摇摇（广东星云开物）","pri":"P0","stage":"未填写"},{"name":"深圳优优","pri":"P1","stage":"未填写"},{"name":"探迹","pri":"P1","stage":"未填写"},{"name":"深圳我家云网络科技（金蝶）","pri":"P1","stage":"未填写"},{"name":"乐摇摇（广东星云开物）","pri":"P2","stage":"未填写"}],"products":{"ADP":4,"生图":1},"industries":{"通用SaaS":5,"技术服务":1}},
+  "tongtzhao(赵晓彤)": {"total":6,"p0":2,"p1":2,"p2":2,"followed":3,"follow_rate":50,"max_stage":"触达","stages":{"未填写":3,"触达阶段":3},"customers":[{"name":"闪剪（大头科技）","pri":"P0","stage":"触达阶段"},{"name":"广州津虹（YY）","pri":"P1","stage":"未填写"},{"name":"深圳墨世科技","pri":"P1","stage":"触达阶段"},{"name":"闪剪（大头科技）","pri":"P0","stage":"未填写"},{"name":"广州津虹（YY）","pri":"P2","stage":"触达阶段"},{"name":"闪剪（大头科技）","pri":"P2","stage":"未填写"}],"products":{"生图":2,"生3D":1,"智创":1},"industries":{"通用SaaS":3,"社交娱乐":3}},
+  "cairnewang王绍深": {"total":5,"p0":0,"p1":1,"p2":4,"followed":1,"follow_rate":20,"max_stage":"触达","stages":{"未填写":4,"触达阶段":1},"customers":[{"name":"冰川","pri":"P2","stage":"未填写"},{"name":"库洛","pri":"P2","stage":"未填写"},{"name":"中手游","pri":"P2","stage":"触达阶段"},{"name":"猎奇互娱","pri":"P2","stage":"未填写"},{"name":"大梦龙途","pri":"P1","stage":"未填写"}],"products":{"生3D":2,"ADP":1},"industries":{"游戏":5}},
+  "fayefxiang 向飞": {"total":5,"p0":0,"p1":4,"p2":1,"followed":2,"follow_rate":40,"max_stage":"POC","stages":{"未填写":3,"触达阶段":1,"POC进行中":1},"customers":[{"name":"珠海金山办公","pri":"P1","stage":"POC进行中"},{"name":"元象","pri":"P1","stage":"触达阶段"},{"name":"珠海金山办公","pri":"P1","stage":"未填写"},{"name":"元象","pri":"P1","stage":"未填写"},{"name":"元象","pri":"P2","stage":"未填写"}],"products":{"生图":2,"生3D":1,"生视频":1},"industries":{"技术服务":5}},
+  "hfchai柴洪峰": {"total":5,"p0":0,"p1":2,"p2":3,"followed":1,"follow_rate":20,"max_stage":"触达","stages":{"未填写":4,"触达阶段":1},"customers":[{"name":"网易","pri":"P1","stage":"未填写"},{"name":"4399","pri":"P1","stage":"未填写"},{"name":"4399","pri":"P2","stage":"触达阶段"},{"name":"4399","pri":"P2","stage":"未填写"},{"name":"BUD","pri":"P2","stage":"未填写"}],"products":{"生3D":3},"industries":{"游戏":5}},
+  "hannahjiang 姜慧": {"total":3,"p0":1,"p1":2,"p2":0,"followed":3,"follow_rate":100,"max_stage":"商务","stages":{"商务阶段":2,"POC进行中":1},"customers":[{"name":"筷子信息科技","pri":"P0","stage":"POC进行中"},{"name":"polloai","pri":"P1","stage":"商务阶段"},{"name":"Bidnex","pri":"P1","stage":"商务阶段"}],"products":{"生视频":3},"industries":{"通用SaaS":3}},
+  "ambrosezhao赵好强": {"total":3,"p0":1,"p1":1,"p2":1,"followed":1,"follow_rate":33.3,"max_stage":"付费","stages":{"未填写":2,"付费使用阶段":1},"customers":[{"name":"万兴科技","pri":"P0","stage":"付费使用阶段"},{"name":"土巴兔","pri":"P1","stage":"未填写"},{"name":"网心科技（迅雷）","pri":"P2","stage":"未填写"}],"products":{"生3D":2,"智创":1},"industries":{"生活服务":2}},
+  "ivoryxin 辛俊": {"total":1,"p0":1,"p1":0,"p2":0,"followed":1,"follow_rate":100,"max_stage":"付费","stages":{"付费使用阶段":1},"customers":[{"name":"小迈","pri":"P0","stage":"付费使用阶段"}],"products":{"生视频":1},"industries":{"技术服务":1}},
+  "denvertan谭啸": {"total":4,"p0":1,"p1":1,"p2":2,"followed":1,"follow_rate":25,"max_stage":"触达","stages":{"未填写":3,"触达阶段":1},"customers":[{"name":"白日梦科技","pri":"P0","stage":"未填写"},{"name":"白日梦科技","pri":"P1","stage":"触达阶段"},{"name":"迷你玩","pri":"P2","stage":"未填写"},{"name":"雷霆","pri":"P2","stage":"未填写"}],"products":{"生3D":2,"生视频":1,"ADP":1},"industries":{"游戏":4}},
+  "garyyjiang江涛": {"total":3,"p0":1,"p1":0,"p2":2,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":3},"customers":[{"name":"三维家","pri":"P0","stage":"未填写"},{"name":"瑞云","pri":"P2","stage":"未填写"},{"name":"蘑菇创新（3D打印）","pri":"P2","stage":"未填写"}],"products":{"生3D":3},"industries":{"技术服务":3}},
+  "ethanmhua 花明": {"total":2,"p0":1,"p1":1,"p2":0,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":2},"customers":[{"name":"君润（顺丰子公司）","pri":"P0","stage":"未填写"},{"name":"丰宜科技","pri":"P1","stage":"未填写"}],"products":{"ADP":2},"industries":{"技术服务":1,"战略":1}},
+  "liuyingchen（陈柳颖）铭丰": {"total":3,"p0":1,"p1":1,"p2":1,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":3},"customers":[{"name":"贪玩","pri":"P0","stage":"未填写"},{"name":"三七","pri":"P1","stage":"未填写"},{"name":"佰特","pri":"P2","stage":"未填写"}],"products":{"生3D":2,"ADP":1},"industries":{"游戏":2,"泛互":1}},
+  "linleywang王琳丽": {"total":2,"p0":1,"p1":0,"p2":1,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":2},"customers":[{"name":"生境","pri":"P0","stage":"未填写"},{"name":"全灵","pri":"P2","stage":"未填写"}],"products":{"生3D":2},"industries":{"通用SaaS":1,"技术服务":1}},
+  "nicolexue 薛荣": {"total":2,"p0":1,"p1":0,"p2":0,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":2},"customers":[{"name":"深圳轻喜到家","pri":"P0","stage":"未填写"}],"products":{"ADP":1},"industries":{"生活服务":1}},
+  "nofyzhang张鹏龙（铭丰）": {"total":1,"p0":1,"p1":0,"p2":0,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":1},"customers":[{"name":"元游","pri":"P0","stage":"未填写"}],"products":{"生3D":1},"industries":{"游戏":1}},
+  "yunloongli 李运龙": {"total":1,"p0":1,"p1":0,"p2":0,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":1},"customers":[{"name":"南京开为网络科技","pri":"P0","stage":"未填写"}],"products":{"ADP":1},"industries":{"通用SaaS":1}},
+  "johnsonsye 叶凌峰": {"total":4,"p0":0,"p1":1,"p2":2,"followed":1,"follow_rate":25,"max_stage":"触达","stages":{"未填写":3,"触达阶段":1},"customers":[{"name":"美图","pri":"P1","stage":"触达阶段"},{"name":"美图","pri":"P2","stage":"未填写"},{"name":"美图","pri":"P2","stage":"未填写"},{"name":"深圳店匠科技","pri":"","stage":"未填写"}],"products":{"生图":1,"生3D":1},"industries":{"生活服务":4}},
+  "alvenjian简京海": {"total":3,"p0":0,"p1":1,"p2":2,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":3},"customers":[{"name":"TT语音","pri":"P2","stage":"未填写"},{"name":"TT语音","pri":"P2","stage":"未填写"},{"name":"珍爱网","pri":"P1","stage":"未填写"}],"products":{"生3D":1,"ADP":1},"industries":{"通用SaaS":1,"社交娱乐":1}},
+  "meiyaowang 王美瑶": {"total":3,"p0":0,"p1":3,"p2":0,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":3},"customers":[{"name":"深圳鹿溪","pri":"P1","stage":"未填写"},{"name":"来画","pri":"P1","stage":"未填写"},{"name":"来画","pri":"P1","stage":"未填写"}],"products":{"生图":1,"ADP":1},"industries":{"通用SaaS":2}},
+  "junjieliang梁俊杰": {"total":3,"p0":0,"p1":1,"p2":2,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":3},"customers":[{"name":"珠海沙盒","pri":"P2","stage":"未填写"},{"name":"深蓝互动","pri":"P1","stage":"未填写"},{"name":"天纵","pri":"P2","stage":"未填写"}],"products":{"生3D":3},"industries":{"游戏":3}},
+  "shixu许适（铭丰）": {"total":3,"p0":0,"p1":1,"p2":0,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":3},"customers":[{"name":"酷狗","pri":"P1","stage":"未填写"}],"products":{"生3D":1},"industries":{}},
+  "brianbding 丁博": {"total":1,"p0":0,"p1":0,"p2":1,"followed":1,"follow_rate":100,"max_stage":"触达","stages":{"触达阶段":1},"customers":[{"name":"UU语音","pri":"P2","stage":"触达阶段"}],"products":{},"industries":{"社交娱乐":1}},
+  "jinfeng 冯金": {"total":1,"p0":0,"p1":1,"p2":0,"followed":1,"follow_rate":100,"max_stage":"触达","stages":{"触达阶段":1},"customers":[{"name":"Mobvista（汇量科技）","pri":"P1","stage":"触达阶段"}],"products":{"生视频":1},"industries":{}},
+  "(未分配)": {"total":4,"p0":0,"p1":0,"p2":4,"followed":0,"follow_rate":0,"max_stage":"无","stages":{"未填写":4},"customers":[{"name":"灵犀","pri":"P2","stage":"未填写"},{"name":"杭州盛和","pri":"P2","stage":"未填写"},{"name":"创酷互动","pri":"P2","stage":"未填写"},{"name":"9377","pri":"P2","stage":"未填写"}],"products":{"生3D":4},"industries":{"游戏":4}}
+};
+
+// ============ HELPERS ============
+const chartColors = {
+  blue:'#4d9fff', cyan:'#3ad8e6', green:'#46d18a', amber:'#f0b429',
+  red:'#ff5d6c', purple:'#a98bff', pink:'#ff79c6', gray:'#5d6b85'
+};
+const stageMap = {'未填写':0,'触达阶段':1,'触达':1,'POC进行中':2,'POC':2,'商务阶段':3,'商务':3,'付费使用阶段':4,'付费':4};
+const stageColorMap = {'未填写':'#ff5d6c','触达阶段':'#f0b429','触达':'#f0b429','POC进行中':'#4d9fff','POC':'#4d9fff','商务阶段':'#a98bff','商务':'#a98bff','付费使用阶段':'#46d18a','付费':'#46d18a'};
+const priColorMap = {'P0':'#ff5d6c','P1':'#f0b429','P2':'#4d9fff','':'#5d6b85'};
+const stageOrder = ['未填写','触达阶段','POC进行中','商务阶段','付费使用阶段'];
+
+function shortName(full) {
+  // Extract Chinese name
+  const m = full.match(/[\u4e00-\u9fff]{2,4}/);
+  if (m) return m[0];
+  // Remove (未分配) prefix
+  return full.replace('(未分配)','未分配').substring(0,8);
+}
+
+// ============ 1. FUNNEL CHART ============
+(function(){
+  const stageCount = {'未填写':0,'触达':0,'POC':0,'商务':0,'付费':0};
+  Object.values(DATA).forEach(d=>{
+    Object.entries(d.stages||{}).forEach(([k,v])=>{
+      if(k.includes('付费')) stageCount['付费']+=v;
+      else if(k.includes('商务')) stageCount['商务']+=v;
+      else if(k.includes('POC')) stageCount['POC']+=v;
+      else if(k.includes('触达')) stageCount['触达']+=v;
+      else stageCount['未填写']+=v;
+    });
+  });
+  const labels=['未填写','触达','POC','商务','付费'];
+  const vals=labels.map(l=>stageCount[l]);
+  const colors=labels.map(l=>stageColorMap[Object.keys(stageColorMap).find(k=>k.includes(l))||l]||'#6e7681');
+  new Chart(document.getElementById('funnelChart'),{
+    type:'bar',
+    data:{labels,datasets:[{data:vals,backgroundColor:colors,borderRadius:6,barThickness:40}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0a0e1a',titleColor:'#eaf1fb',bodyColor:'#9aa7bd',borderColor:'rgba(96,114,150,.3)',borderWidth:1}},
+      scales:{x:{grid:{color:'rgba(96,114,150,.14)'},ticks:{color:'#9aa7bd'}},y:{grid:{display:false},ticks:{color:'#eaf1fb',font:{size:13}}}}
+    }
+  });
+})();
+
+// ============ 2. PRIORITY CHART ============
+(function(){
+  let p0=0,p1=0,p2=0,pe=0;
+  Object.values(DATA).forEach(d=>{p0+=d.p0;p1+=d.p1;p2+=d.p2;pe+=d.p_empty||0});
+  new Chart(document.getElementById('priChart'),{
+    type:'doughnut',
+    data:{labels:['P0 最高','P1','P2','未标注'],datasets:[{data:[p0,p1,p2,pe],backgroundColor:['#ff5d6c','#f0b429','#4d9fff','#5d6b85'],borderWidth:0,hoverOffset:8}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
+      plugins:{legend:{position:'bottom',labels:{color:'#9aa7bd',padding:14,font:{size:13}}},tooltip:{backgroundColor:'#0a0e1a',titleColor:'#eaf1fb',bodyColor:'#9aa7bd',borderColor:'rgba(96,114,150,.3)',borderWidth:1}}}
+  });
+})();
+
+// ============ 3. RANK TABLE ============
+(function(){
+  const sorted = Object.entries(DATA)
+    .filter(([k])=>k!=='(未分配)')
+    .sort((a,b)=>b[1].total-a[1].total);
+  let html = '<thead><tr><th>#</th><th>销售</th><th>客户</th><th>P0</th><th>P1</th><th>P2</th><th>跟进率</th><th>最深阶段</th></tr></thead><tbody>';
+  sorted.forEach(([name,d],i)=>{
+    const rate = d.follow_rate;
+    const barCls = rate>=60?'f-green':rate>=30?'f-amber':'f-red';
+    const rateBadge = rate>=60?'b-good':rate>=30?'b-warn':'b-bad';
+    html += `<tr>
+      <td style="color:var(--mut)">${i+1}</td>
+      <td class="name">${shortName(name)}</td>
+      <td><b>${d.total}</b></td>
+      <td>${d.p0?`<span class="badge b-p0">${d.p0}</span>`:'-'}</td>
+      <td>${d.p1?`<span class="badge b-p1">${d.p1}</span>`:'-'}</td>
+      <td>${d.p2?`<span class="badge b-p2">${d.p2}</span>`:'-'}</td>
+      <td><span class="follow-bar ${barCls}" style="width:${Math.max(rate,4)}%"></span> <span class="badge ${rateBadge}">${rate}%</span></td>
+      <td>${d.max_stage}</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('rankTable').innerHTML = html;
+})();
+
+// ============ 4. FOLLOW RATE CHART ============
+(function(){
+  const sorted = Object.entries(DATA)
+    .filter(([k])=>k!=='(未分配)')
+    .sort((a,b)=>b[1].follow_rate-a[1].follow_rate);
+  const labels = sorted.map(([k])=>shortName(k));
+  const rates = sorted.map(([,d])=>d.follow_rate);
+  const colors = rates.map(r=>r>=60?'#46d18a':r>=30?'#f0b429':'#ff5d6c');
+  new Chart(document.getElementById('followRateChart'),{
+    type:'bar',
+    data:{labels,datasets:[{data:rates,backgroundColor:colors,borderRadius:4,barThickness:22}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0a0e1a',titleColor:'#eaf1fb',bodyColor:'#9aa7bd',borderColor:'rgba(96,114,150,.3)',borderWidth:1,callbacks:{label:ctx=>`跟进率 ${ctx.raw}%`}}},
+      scales:{x:{max:100,grid:{color:'rgba(96,114,150,.14)'},ticks:{color:'#9aa7bd',callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:'#eaf1fb',font:{size:12}}}}
+    }
+  });
+})();
+
+// ============ 5. P0 RISK GRID ============
+(function(){
+  const p0List = [];
+  Object.entries(DATA).forEach(([sales,d])=>{
+    d.customers.filter(c=>c.pri==='P0').forEach(c=>{
+      const rank = stageMap[c.stage]||0;
+      p0List.push({customer:c.name,sales,stage:c.stage,rank});
+    });
+  });
+  p0List.sort((a,b)=>a.rank-b.rank);
+  const grid = document.getElementById('p0Grid');
+  p0List.forEach(p=>{
+    const cls = p.rank===0?'danger':p.rank===1?'warn':'ok';
+    const stgCls = p.rank===0?'stg-empty':p.rank===1?'stg-touch':p.rank===2?'stg-poc':p.rank===3?'stg-biz':'stg-win';
+    grid.innerHTML += `<div class="p0-card ${cls}">
+      <div class="cust">${p.customer}</div>
+      <div class="sales">销售：${shortName(p.sales)}</div>
+      <span class="stg ${stgCls}">${p.stage==='未填写'?'⚠️ 零推进':p.stage}</span>
+    </div>`;
+  });
+})();
+
+// ============ 6. SALES PROFILES ============
+(function(){
+  // Tier 1: follow_rate >= 60% AND total >= 1
+  const tier1 = Object.entries(DATA).filter(([k,d])=>k!=='(未分配)' && d.follow_rate>=60 && d.total>=1)
+    .sort((a,b)=>b[1].follow_rate-a[1].follow_rate || b[1].total-a[1].total);
+  const tier1El = document.getElementById('tier1Cards');
+  tier1.forEach(([name,d])=>{
+    const prods = Object.entries(d.products).map(([k,v])=>`${k}×${v}`).join(' · ');
+    const custHtml = d.customers.map(c=>{
+      const priBadge = `badge ${c.pri==='P0'?'b-p0':c.pri==='P1'?'b-p1':'b-p2'}`;
+      return `<div class="c-item"><span>${c.name} <span class="badge ${priBadge}">${c.pri}</span></span><span style="color:var(--sub);font-size:12px">${c.stage}</span></div>`;
+    }).join('');
+    tier1El.innerHTML += `<div class="sp-card tier1">
+      <div class="sp-head"><span class="sp-name">${shortName(name)}</span><span class="badge b-good">标杆</span></div>
+      <div class="sp-metrics">
+        <div class="sm"><div class="v" style="color:var(--green)">${d.total}</div><div class="k">客户</div></div>
+        <div class="sm"><div class="v" style="color:var(--green)">${d.follow_rate}%</div><div class="k">跟进率</div></div>
+        <div class="sm"><div class="v" style="color:var(--cyan)">${d.max_stage}</div><div class="k">最深</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--sub);margin-bottom:6px">关注：${prods||'-'}</div>
+      <div class="sp-customers">${custHtml}</div>
+    </div>`;
+  });
+
+  // Tier 2: total >= 3, follow_rate < 50%
+  const tier2 = Object.entries(DATA).filter(([k,d])=>k!=='(未分配)' && d.total>=3 && d.follow_rate<50)
+    .sort((a,b)=>a[1].follow_rate-b[1].follow_rate);
+  const tier2El = document.getElementById('tier2Cards');
+  tier2.forEach(([name,d])=>{
+    const prods = Object.entries(d.products).map(([k,v])=>`${k}×${v}`).join(' · ');
+    const custHtml = d.customers.slice(0,4).map(c=>{
+      const priBadge = `badge ${c.pri==='P0'?'b-p0':c.pri==='P1'?'b-p1':'b-p2'}`;
+      return `<div class="c-item"><span>${c.name} <span class="badge ${priBadge}">${c.pri}</span></span><span style="color:var(--sub);font-size:12px">${c.stage}</span></div>`;
+    }).join('');
+    tier2El.innerHTML += `<div class="sp-card tier2">
+      <div class="sp-head"><span class="sp-name">${shortName(name)}</span><span class="badge b-warn">需辅导</span></div>
+      <div class="sp-metrics">
+        <div class="sm"><div class="v" style="color:var(--amber)">${d.total}</div><div class="k">客户</div></div>
+        <div class="sm"><div class="v" style="color:var(--amber)">${d.follow_rate}%</div><div class="k">跟进率</div></div>
+        <div class="sm"><div class="v" style="color:var(--sub)">${d.max_stage}</div><div class="k">最深</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--sub);margin-bottom:6px">关注：${prods||'-'}</div>
+      <div class="sp-customers">${custHtml}</div>
+    </div>`;
+  });
+
+  // Tier 3: has P0 but follow_rate=0
+  const tier3 = Object.entries(DATA).filter(([k,d])=>k!=='(未分配)' && d.p0>=1 && d.follow_rate===0);
+  const tier3El = document.getElementById('tier3Grid');
+  tier3.forEach(([name,d])=>{
+    const p0s = d.customers.filter(c=>c.pri==='P0');
+    p0s.forEach(c=>{
+      tier3El.innerHTML += `<div class="p0-card danger">
+        <div class="cust">${c.name}</div>
+        <div class="sales">销售：${shortName(name)} <span class="badge b-bad">0% 跟进</span></div>
+        <span class="stg stg-empty">⚠️ 零推进</span>
+      </div>`;
+    });
+  });
+})();
+</script>
+</body>
+</html>

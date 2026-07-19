@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy × 腾讯文档</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#1a1a1a;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 24px 56px}
+.nav{display:flex;align-items:center;gap:14px;margin-bottom:24px;font-size:13px;color:#64748b}
+.nav a{color:#1E40AF;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #e2e8f0;border-radius:4px;background:#fff;transition:all .15s}
+.nav a:hover{background:#eff6ff;border-color:#bfdbfe}
+.nav .crumb{color:#94a3b8}
+.brand{font-size:12px;color:#94a3b8;letter-spacing:2px;margin-bottom:6px;text-transform:uppercase}
+h1{font-size:30px;font-weight:600;color:#0f172a;margin-bottom:10px;letter-spacing:-0.5px}
+.lead{font-size:15px;color:#475569;margin-bottom:20px;line-height:1.7}
+.lead strong{color:#0f172a;font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:2px;margin-bottom:14px;letter-spacing:.5px;font-weight:500}
+.hbar{margin-bottom:32px}
+.hero{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:32px 30px;margin-bottom:24px}
+.hero h1{margin-bottom:10px}
+.hero .lead{margin-bottom:24px}
+.metrics3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.m-card{padding:18px 18px;border:1px solid #e2e8f0;border-radius:4px;background:#f8fafc}
+.m-card .num{font-size:24px;font-weight:600;color:#0f172a;letter-spacing:-.5px;margin-bottom:4px}
+.m-card .label{font-size:12px;color:#64748b}
+.section-title{font-size:13px;font-weight:600;color:#475569;letter-spacing:1px;margin:36px 0 16px;padding-left:10px;border-left:3px solid #1E40AF}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:22px 22px}
+.card h3{font-size:15px;font-weight:600;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card h3 .idx{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:#1E40AF;color:#fff;font-size:11px;font-weight:600;flex-shrink:0}
+.card p{font-size:13.5px;color:#475569;line-height:1.7}
+.pain-card{border-left:3px solid #DC2626}
+.pain-card h3 .idx{background:#DC2626}
+.scene-card{border-left:3px solid #1E40AF}
+.scene-card h3 .idx{background:#1E40AF}
+.module-card{border:1px solid #e2e8f0}
+.module-card .mtag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:2px;background:#eff6ff;color:#1E40AF;margin-bottom:8px;font-weight:500;letter-spacing:.3px}
+.summary-card{background:linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%);color:#fff;border:none}
+.summary-card h3{color:#fff}
+.summary-card li{color:rgba(255,255,255,.95);font-size:13.5px;line-height:1.7;padding:5px 0 5px 20px;position:relative;list-style:none}
+.summary-card li::before{content:"✓";position:absolute;left:0;top:5px;color:#fff;font-weight:700}
+.summary-card ul{list-style:none}
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch}
+.cmp{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:20px}
+.cmp.before{border-top:3px solid #DC2626}
+.cmp.after{border-top:3px solid #047857}
+.cmp .ctitle{font-size:12px;font-weight:600;color:#94a3b8;letter-spacing:1px;margin-bottom:14px;text-transform:uppercase}
+.cmp.before .ctitle{color:#DC2626}
+.cmp.after .ctitle{color:#047857}
+.cmp .row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #e2e8f0;font-size:13px}
+.cmp .row:last-child{border-bottom:none}
+.cmp .row .k{color:#64748b}
+.cmp .row .v{font-weight:600;color:#0f172a}
+.cmp.after .row .v{color:#047857}
+.cmp.before .row .v{color:#DC2626}
+.cmp-arrow{display:flex;align-items:center;justify-content:center;font-size:24px;color:#94a3b8}
+.timeline{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:24px 26px}
+.timeline h3{font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px}
+.t-item{display:grid;grid-template-columns:60px 1fr;gap:18px;padding:14px 0;border-bottom:1px dashed #e2e8f0;align-items:start}
+.t-item:last-child{border-bottom:none}
+.t-item .tw{font-size:11px;font-weight:600;color:#1E40AF;background:#eff6ff;padding:4px 8px;border-radius:2px;text-align:center;height:fit-content}
+.t-item .tcontent h4{font-size:14px;font-weight:600;color:#0f172a;margin-bottom:4px}
+.t-item .tcontent p{font-size:13px;color:#64748b;line-height:1.6}
+.arch{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:24px 26px;margin-bottom:8px}
+.arch p{font-size:14px;color:#475569;line-height:1.7}
+.foot{margin-top:48px;font-size:12px;color:#94a3b8;text-align:center}
+.kbd{background:#f1f5f9;border:1px solid #e2e8f0;border-bottom-width:2px;border-radius:3px;padding:1px 6px;font-size:12px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#0f172a}
+
+.hero .tag{background:#E5EFFF;color:#0052D9}
+.module-card:hover{border-color:#0052D9}
+.section-title{border-left-color:#0052D9}
+.t-item .tw{color:#0052D9;background:#E5EFFF}
+.m-card .num{color:#0052D9}
+.timeline h3{color:#0052D9}
+.arch{border-top:3px solid #0052D9}
+.summary-card{background:linear-gradient(135deg,#0052D9 0%,#0052D9DD 100%)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a href="./eco-opc-dashboard.html">← 返回仪表盘</a>
+    <span class="crumb">生态联动</span>
+  </div>
+
+  <div class="hbar">
+    <div class="brand">WBD · ECOSYSTEM</div>
+    <div class="hero">
+      <span class="tag">联动方案 · 腾讯文档企业版</span>
+      <h1>WorkBuddy × 腾讯文档</h1>
+      <p class="lead">把腾讯文档当成"WorkBuddy 的外置大脑":<strong>AI 读取文档 → 分析内容 → 改写润色 → 插入图表 → 多人协同</strong>,文档类工作从"写字"变成"对话"。</p>
+      <div class="metrics3">
+        <div class="m-card"><div class="num">↓60%</div><div class="label">文档写作耗时</div></div><div class="m-card"><div class="num">10+</div><div class="label">文档类型支持</div></div><div class="m-card"><div class="num">1</div><div class="label">AI 化入口</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">客户痛点 · Pain Points</div>
+  <div class="cards">
+    <div class="card pain-card">
+      <h3><span class="idx">1</span>写作耗时长</h3>
+      <p>一份市场分析报告从资料搜集到成稿 4-6 小时,关键内容 60% 时间花在"找资料 + 排版"。</p>
+    </div>
+    <div class="card pain-card">
+      <h3><span class="idx">2</span>改稿靠人工对比</h3>
+      <p>两版合同 diff 找差异,平均 30 分钟/份,法律/财务部门工作量巨大。</p>
+    </div>
+    <div class="card pain-card">
+      <h3><span class="idx">3</span>表格不会用公式</h3>
+      <p>业务人员手动算求和/同比/环比,出错率高。</p>
+    </div>
+    <div class="card pain-card">
+      <h3><span class="idx">4</span>多人协作冲突</h3>
+      <p>Word 改来改去,版本号 v1-v23,最终不知道用哪版。</p>
+    </div></div>
+
+  <div class="section-title">WorkBuddy 方案 · Solution</div>
+  <div class="arch"><p>基于腾讯文档企业版 API + WorkBuddy 自然语言能力,实现"读文档 → 写文档 → 改文档 → 评文档"全流程 AI 化,文档类工作从手艺活变成对话。</p></div>
+
+  <div class="section-title">核心场景 · Key Scenarios</div>
+  <div class="cards">
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0052D9">1</span>读文档并生成摘要</h3>
+      <p>上传 50 页市场报告,AI 1 分钟生成"5 段摘要 + 3 条核心结论 + 10 条行动项"。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0052D9">2</span>改写润色</h3>
+      <p>把口语化草稿丢给 AI,生成"商务正式版 / 客户友好版 / 内部交流版"3 个版本。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0052D9">3</span>插入图表 / 表格</h3>
+      <p>说"在这段加一张销售趋势折线图",AI 自动插入腾讯文档原生图表。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0052D9">4</span>文档智能比对</h3>
+      <p>两版合同上传,AI 自动 diff 标红所有变更点,带风险标注。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0052D9">5</span>多人协同 + 权限</h3>
+      <p>在企业版文档中,WorkBuddy 作为"虚拟协作者",自动响应评论 / 修订。</p>
+    </div></div>
+
+  <div class="section-title">效果对比 · Before vs After</div>
+  
+    <div class="compare">
+      <div class="cmp before">
+        <div class="ctitle">改造前 · Before</div>
+        <div class="row"><span class="k">单份分析报告</span><span class="v">4-6h</span></div><div class="row"><span class="k">两版合同 diff</span><span class="v">30min</span></div><div class="row"><span class="k">最终不知道用哪版</span><span class="v">v23</span></div><div class="row"><span class="k">AI 辅助</span><span class="v">0</span></div>
+      </div>
+      <div class="cmp-arrow">→</div>
+      <div class="cmp after">
+        <div class="ctitle">改造后 · After</div>
+        <div class="row"><span class="k">单份报告(↓60%)</span><span class="v">↓1.5h</span></div><div class="row"><span class="k">AI 智能 diff</span><span class="v">↓2min</span></div><div class="row"><span class="k">企业版原生能力</span><span class="v">历史版本可追溯</span></div><div class="row"><span class="k">AI 辅助阅读+写作</span><span class="v">100%</span></div>
+      </div>
+    </div>
+
+  <div class="section-title">实施路径 · Implementation</div>
+  
+    <div class="timeline">
+      <h3>实施路径 · 4 周上线</h3>
+      
+        <div class="t-item">
+          <div class="tw">W1</div>
+          <div class="tcontent">
+            <h4>腾讯文档企业版授权</h4>
+            <p>在企业版管理后台申请 API Key,授权读写权限。</p>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="tw">W2</div>
+          <div class="tcontent">
+            <h4>核心 skill:读 / 写 / 改 / 插</h4>
+            <p>封装 4 类原子 skill,先跑通"读 + 摘要"最常用场景。</p>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="tw">W3</div>
+          <div class="tcontent">
+            <h4>高级:diff / 图表 / 协同</h4>
+            <p>上线智能比对、图表插入、多人协同 skill。</p>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="tw">W4+</div>
+          <div class="tcontent">
+            <h4>全员上线 + 培训</h4>
+            <p>面向法务/财务/HR/市场 4 大部门重点培训,沉淀 SOP。</p>
+          </div>
+        </div>
+    </div>
+
+  <div class="section-title">核心价值 · Key Value</div>
+  <div class="summary-card card" style="padding:28px 30px">
+    <h3 style="margin-bottom:14px;font-size:16px">为什么选择 WorkBuddy?</h3>
+    <ul><li>文档写作耗时 ↓60%,员工从"搬砖"变"决策"</li><li>文档智能 diff 替代人工比对,法务/财务审核效率 ↑5x</li><li>所有文档沿用企业版权限,数据安全可审计</li><li>腾讯文档成为"AI 化入口",所有知识资产可被 AI 调用</li></ul>
+  </div>
+
+  <div class="foot">WorkBuddy · WorkBuddy × 腾讯文档 · 单文件可独立打开,无需内网</div>
+</div>
+</body>
+</html>

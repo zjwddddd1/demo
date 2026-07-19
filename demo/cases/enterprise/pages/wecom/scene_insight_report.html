@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>售前线索 · 业务场景洞察报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#070a12; --bg2:#0a0e1a;
+    --card:rgba(18,24,38,.72); --card-solid:#121826; --card2:rgba(26,33,52,.55); --line:rgba(96,114,150,.16);
+    --txt:#eaf1fb; --sub:#9aa7bd; --mut:#5d6b85;
+    --blue:#4d9fff; --cyan:#3ad8e6; --green:#46d18a; --amber:#f0b429;
+    --red:#ff5d6c; --purple:#a98bff; --pink:#ff79c6;
+    --grad1:linear-gradient(135deg,#4d9fff,#3ad8e6);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:
+      radial-gradient(900px 620px at 10% -6%, rgba(77,159,255,.11), transparent 60%),
+      radial-gradient(820px 600px at 102% 0%, rgba(58,216,230,.08), transparent 55%),
+      radial-gradient(760px 760px at 50% 118%, rgba(169,139,255,.07), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--txt);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:0 0 80px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  header{padding:64px 0 38px;border-bottom:1px solid var(--line);margin-bottom:40px;text-align:center;position:relative}
+  header:after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 18px var(--cyan)}
+  header .tag{display:inline-block;font-size:12px;letter-spacing:2px;color:var(--cyan);border:1px solid rgba(58,216,230,.4);border-radius:20px;padding:5px 16px;margin-bottom:18px;background:rgba(58,216,230,.06);box-shadow:0 0 24px rgba(58,216,230,.12)}
+  header h1{font-size:36px;font-weight:800;letter-spacing:1px;background:var(--grad1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(77,159,255,.25))}
+  header .meta{color:var(--sub);font-size:14px}
+  h2{font-size:22px;margin:48px 0 20px;padding-left:14px;border-left:4px solid var(--blue);font-weight:650;box-shadow:-4px 0 16px -6px var(--blue)}
+  h2 .en{font-size:13px;color:var(--mut);margin-left:10px;font-weight:400}
+  h3{font-size:17px;margin:24px 0 12px;color:var(--cyan)}
+  p{color:var(--txt);margin-bottom:12px}
+  .sub{color:var(--sub);font-size:14px}
+
+  /* 结论框 */
+  .verdict{background:linear-gradient(135deg,rgba(77,159,255,.14),rgba(58,216,230,.05));border:1px solid rgba(58,216,230,.28);border-radius:16px;padding:26px 28px;margin-bottom:8px;backdrop-filter:blur(12px);box-shadow:0 0 50px rgba(58,216,230,.10),inset 0 1px 0 rgba(255,255,255,.05)}
+  .verdict h3{margin-top:0;color:#fff;font-size:18px;display:flex;align-items:center;gap:8px}
+  .verdict ul{list-style:none;margin-top:14px}
+  .verdict li{padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed var(--line)}
+  .verdict li:last-child{border:none}
+  .verdict li:before{content:"▸";position:absolute;left:4px;color:var(--cyan)}
+  .verdict b{color:var(--amber)}
+
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center;transition:.3s;backdrop-filter:blur(12px);position:relative;overflow:hidden}
+  .kpi:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(77,159,255,.06),transparent 60%);opacity:0;transition:.3s}
+  .kpi:hover{transform:translateY(-4px);border-color:rgba(77,159,255,.5);box-shadow:0 10px 40px rgba(77,159,255,.18)}
+  .kpi:hover:before{opacity:1}
+  .kpi .n{font-size:34px;font-weight:800;background:var(--grad1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(77,159,255,.3));position:relative}
+  .kpi .l{font-size:13px;color:var(--sub);margin-top:6px;position:relative}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:20px 0;backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .chart-box{position:relative;height:340px}
+  .chart-box.tall{height:420px}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--cyan);font-weight:600;font-size:13px;background:var(--card2)}
+  tr:hover td{background:rgba(77,159,255,.05)}
+  .bar-cell{position:relative}
+  .mini-bar{display:inline-block;height:8px;border-radius:4px;background:var(--grad1);vertical-align:middle;margin-right:8px}
+
+  .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:10px;font-weight:600}
+  .b-star{background:rgba(70,209,138,.16);color:var(--green);border:1px solid rgba(70,209,138,.4)}
+  .b-gold{background:rgba(240,180,41,.16);color:var(--amber);border:1px solid rgba(240,180,41,.4)}
+  .b-cow{background:rgba(77,159,255,.16);color:var(--blue);border:1px solid rgba(77,159,255,.4)}
+  .b-tail{background:rgba(93,107,133,.18);color:var(--sub);border:1px solid rgba(93,107,133,.4)}
+
+  /* 推荐卡 */
+  .rec{display:flex;gap:18px;margin:18px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;position:relative;overflow:hidden;backdrop-filter:blur(12px);transition:.3s}
+  .rec:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.35)}
+  .rec:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+  .rec.p1:before{background:var(--green);box-shadow:6px 0 24px rgba(70,209,138,.25)}
+  .rec.p2:before{background:var(--amber);box-shadow:6px 0 24px rgba(240,180,41,.25)}
+  .rec.p3:before{background:var(--blue);box-shadow:6px 0 24px rgba(77,159,255,.25)}
+  .rec.p4:before{background:var(--mut)}
+  .rec .rank{flex-shrink:0;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff}
+  .rec.p1 .rank{background:linear-gradient(135deg,#46d18a,#2ea043);box-shadow:0 0 22px rgba(70,209,138,.4)}
+  .rec.p2 .rank{background:linear-gradient(135deg,#f0b429,#bb8009);box-shadow:0 0 22px rgba(240,180,41,.4)}
+  .rec.p3 .rank{background:linear-gradient(135deg,#4d9fff,#1f6feb);box-shadow:0 0 22px rgba(77,159,255,.4)}
+  .rec.p4 .rank{background:linear-gradient(135deg,#5d6b85,#484f58)}
+  .rec .body{flex:1}
+  .rec .body h4{font-size:18px;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .rec .body .why{color:var(--sub);font-size:14px;margin-bottom:10px}
+  .rec .body .act{background:var(--card2);border-radius:8px;padding:10px 14px;font-size:13.5px;color:var(--txt)}
+  .rec .body .act b{color:var(--cyan)}
+  .rec .metrics{display:flex;gap:18px;margin:10px 0;flex-wrap:wrap}
+  .rec .metrics span{font-size:13px;color:var(--sub)}
+  .rec .metrics b{color:var(--txt);font-size:15px}
+
+  .note{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.3);border-radius:12px;padding:14px 18px;font-size:13.5px;color:var(--sub);margin:16px 0}
+  .note b{color:var(--amber)}
+  footer{text-align:center;color:var(--mut);font-size:12px;margin-top:60px;padding-top:24px;border-top:1px solid var(--line)}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header h1{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="tag">PRE-SALES SCENARIO INSIGHT</div>
+    <h1>业务场景洞察报告</h1>
+    <div class="meta">售前客户线索分析 · 85 条线索 / 9 类场景 · 数据截至 2026-06-16</div>
+  </header>
+
+  <!-- 核心结论 -->
+  <div class="verdict">
+    <h3>⚡ 核心结论（先看这里）</h3>
+    <ul>
+      <li><b>需求与成熟度严重倒挂</b>：需求最大的三个场景（游戏美术 31 / 3D 建模 28 / 营销素材 26）恰恰验证最浅，而唯一跑到「付费」的视频场景只有 4 个客户。</li>
+      <li><b>生 3D 是绝对核心引擎</b>：三大主力场景的需求几乎全部指向「生 3D」产品（建模 27 次、游戏 20 次、营销 19 次），这是公司当前最大的产品-市场契合点。</li>
+      <li><b>最该重点推的是「营销/广告素材」</b>：它同时具备高需求（26）+ 已验证（筷子 POC、Bidnex 商务），是唯一「需求大且已跑通」的明星场景。</li>
+      <li><b>最大金矿在「3D 建模/数字资产」</b>：28 个客户、0% 推进——需求第二大却完全没动，是增量天花板最高、也最紧急的空置市场。</li>
+      <li><b>视频场景应做「标杆复制」</b>：万兴已付费、polloai 已商务，打法已验证，可向其他视频/出海客户规模化复制。</li>
+    </ul>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">85</div><div class="l">总线索</div></div>
+    <div class="kpi"><div class="n">9</div><div class="l">场景大类</div></div>
+    <div class="kpi"><div class="n">65</div><div class="l">含明确场景描述</div></div>
+    <div class="kpi"><div class="n">3</div><div class="l">已验证场景(POC+)</div></div>
+  </div>
+
+  <!-- 场景需求规模 -->
+  <h2>一、场景需求规模 <span class="en">Demand by Scenario</span></h2>
+  <p class="sub">业务场景为自由文本，已按关键词归类。一个客户的场景描述可能同时命中多个分类（如"游戏内 3D 资产素材"= 游戏美术 + 3D + 营销），故标签总数大于 85，下图反映的是<b>需求热度</b>而非客户去重数。</p>
+  <div class="card">
+    <div class="chart-box tall"><canvas id="chartDemand"></canvas></div>
+  </div>
+
+  <!-- 行业×场景 -->
+  <h2>二、行业 × 场景 交叉 <span class="en">Industry × Scenario</span></h2>
+  <p class="sub">泛互是绝对主力行业，承载了几乎所有场景需求。下图拆解 TOP 二级行业各自的主攻场景。</p>
+  <div class="card">
+    <div class="chart-box tall"><canvas id="chartIndScene"></canvas></div>
+  </div>
+  <table>
+    <thead><tr><th>二级行业</th><th>客户数</th><th>主攻场景 TOP3</th><th>解读</th></tr></thead>
+    <tbody>
+      <tr><td><b>游戏</b></td><td>26</td><td>游戏美术(21)·营销(18)·3D(17)</td><td>需求最集中、最纯粹，三场景高度重叠，生 3D 刚需</td></tr>
+      <tr><td><b>通用 SaaS</b></td><td>19</td><td>3D(4)·游戏美术(4)·营销(3)</td><td>场景分散，需逐个挖掘，含家装/设计 SaaS 的 3D 需求</td></tr>
+      <tr><td><b>技术服务</b></td><td>13</td><td>图像(4)·3D(4)·客服(3)</td><td>最多元，偏工具/集成型，ADP 客服需求显现</td></tr>
+      <tr><td><b>生活服务</b></td><td>8</td><td>3D(2)·图像/游戏/营销各1</td><td>家装、家政等，3D 家具素材是切入点</td></tr>
+      <tr><td><b>社交娱乐</b></td><td>5</td><td>客服(1)·知识库(1)</td><td>偏 ADP 对话/知识库类需求</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 成熟度矩阵 -->
+  <h2>三、场景成熟度矩阵 <span class="en">Demand × Maturity</span></h2>
+  <p class="sub">横轴 = 需求规模，纵轴 = 验证成熟度（最深推进阶段），气泡大小 = 客户数。这张图是重点推荐策略的核心依据。</p>
+  <div class="card">
+    <div class="chart-box tall"><canvas id="chartMatrix"></canvas></div>
+  </div>
+  <div class="grid2">
+    <div class="card" style="margin:0">
+      <h3 style="margin-top:0">象限解读</h3>
+      <p><span class="badge b-star">明星</span> 高需求+已验证 → <b>营销/广告素材</b>：立即规模化复制</p>
+      <p><span class="badge b-gold">金矿</span> 高需求+未验证 → <b>3D建模、游戏美术</b>：最大增量，最紧急</p>
+      <p><span class="badge b-cow">现金牛</span> 低需求+高验证 → <b>视频生成</b>：标杆样板，定向复制</p>
+      <p><span class="badge b-tail">长尾</span> 低需求+未验证 → <b>客服/知识库/研发</b>：择优孵化</p>
+    </div>
+    <div class="card" style="margin:0">
+      <h3 style="margin-top:0">成熟度明细</h3>
+      <table style="margin:0">
+        <thead><tr><th>场景</th><th>需求</th><th>跟进率</th><th>最深</th></tr></thead>
+        <tbody>
+          <tr><td>视频生成/剪辑</td><td>4</td><td style="color:var(--green)">100%</td><td><span class="badge b-star">付费</span></td></tr>
+          <tr><td>图像生成/设计</td><td>6</td><td>33%</td><td>POC</td></tr>
+          <tr><td>营销/广告素材</td><td>26</td><td>15%</td><td>商务</td></tr>
+          <tr><td>游戏制作/美术</td><td>31</td><td>10%</td><td>触达</td></tr>
+          <tr><td>3D建模/数字资产</td><td>28</td><td style="color:var(--red)">0%</td><td><span class="badge b-tail">未跟进</span></td></tr>
+          <tr><td>客服/智能问答</td><td>10</td><td style="color:var(--red)">0%</td><td><span class="badge b-tail">未跟进</span></td></tr>
+          <tr><td>知识库/RAG</td><td>4</td><td style="color:var(--red)">0%</td><td><span class="badge b-tail">未跟进</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 场景×产品 -->
+  <h2>四、场景 × 产品 关联 <span class="en">Scenario × Product</span></h2>
+  <p class="sub">每个场景背后客户真正想用的产品，决定了推荐时该主打哪条产品线。</p>
+  <div class="card">
+    <div class="chart-box"><canvas id="chartProd"></canvas></div>
+  </div>
+  <div class="note">
+    <b>产品线归纳：</b>生 3D 一款产品撑起了「3D建模 / 游戏美术 / 营销素材」三大场景（合计 66 次提及），是公司的现金牛产品；ADP 则独占「客服 / 知识库 / Agent」三类对话型场景（合计 15 次），是第二增长曲线；生视频聚焦视频/出海，已有付费验证。
+  </div>
+
+  <!-- 重点推荐 -->
+  <h2>五、重点推荐策略 <span class="en">What to Push Next</span></h2>
+  <p class="sub">综合「需求规模 × 验证成熟度 × 产品成熟度」，给出四档推荐优先级与具体打法。</p>
+
+  <div class="rec p1">
+    <div class="rank">1</div>
+    <div class="body">
+      <h4>营销/广告素材 <span class="badge b-star">明星 · 立即重点推</span></h4>
+      <div class="metrics"><span>需求 <b>26</b></span><span>跟进率 <b>15%</b></span><span>最深 <b>商务</b></span><span>主打产品 <b>生3D + 生视频</b></span></div>
+      <div class="why">唯一「需求大 + 已跑通」的场景：广州筷子已 POC、Bidnex 已进商务。广告素材规模化生产是高频刚需、复购强、可标准化交付，是最确定的增长点。</div>
+      <div class="act"><b>打法：</b>把筷子/Bidnex 的 POC 方案沉淀成标准 SOP（素材批量生成→投放），向其余 22 个营销线索批量复制；优先游戏营销 + 电商素材两个高频子场景。</div>
+    </div>
+  </div>
+
+  <div class="rec p2">
+    <div class="rank">2</div>
+    <div class="body">
+      <h4>3D 建模/数字资产 <span class="badge b-gold">金矿 · 最大增量待挖</span></h4>
+      <div class="metrics"><span>需求 <b>28</b></span><span>跟进率 <b style="color:var(--red)">0%</b></span><span>最深 <b>未跟进</b></span><span>主打产品 <b>生3D</b></span></div>
+      <div class="why">需求规模第二，却 0 推进——28 个客户全部停在录入。这是增量天花板最高、风险也最大的空置市场。家装家具(沙发/床)、3D手办、汽车模型等垂直需求清晰，生 3D 直接命中。</div>
+      <div class="act"><b>打法：</b>本周内指派负责人逐一触达，先做 2-3 个垂直样板（家装家具 / 手办 IP / 游戏资产），跑通后形成行业话术包；这是从"线索"到"管线接入"转化的关键战役。</div>
+    </div>
+  </div>
+
+  <div class="rec p3">
+    <div class="rank">3</div>
+    <div class="body">
+      <h4>视频生成/剪辑 <span class="badge b-cow">现金牛 · 标杆复制</span></h4>
+      <div class="metrics"><span>需求 <b>4</b></span><span>跟进率 <b style="color:var(--green)">100%</b></span><span>最深 <b>付费</b></span><span>主打产品 <b>生视频</b></span></div>
+      <div class="why">需求不大但打法已完全验证：万兴已付费、polloai 已商务。出海应用(hix.ai、DAU10w 抽卡 app)对文生视频需求强烈，是高客单、高续费的优质场景。</div>
+      <div class="act"><b>打法：</b>把万兴付费案例做成对外标杆 Case，定向触达出海 AI 应用、视频工具类客户；用"已被头部出海产品验证"作为信任背书加速转化。</div>
+    </div>
+  </div>
+
+  <div class="rec p4">
+    <div class="rank">4</div>
+    <div class="body">
+      <h4>客服 + 知识库/RAG（ADP 线）<span class="badge b-tail">长尾 · 择优孵化第二曲线</span></h4>
+      <div class="metrics"><span>需求 <b>14</b>(客服10+知识库4)</span><span>跟进率 <b style="color:var(--red)">0%</b></span><span>主打产品 <b>ADP</b></span></div>
+      <div class="why">需求分散且场景碎（红娘问答、物业、家政、快递柜运维、移动支付H5客服…），但都聚焦 ADP，是区别于生3D/生视频的第二产品曲线。当前 0 推进，需要不同于"素材生成"的解决方案式打法。</div>
+      <div class="act"><b>打法：</b>不撒网，挑 2 个标准化程度高的子场景（如 G 端大厅数字人问答、企业员工知识库）做 ADP 样板，验证后再复制；短期不作为主攻，但要保留布局。</div>
+    </div>
+  </div>
+
+  <!-- 行动清单 -->
+  <h2>六、一句话行动清单 <span class="en">Action List</span></h2>
+  <div class="card">
+    <table style="margin:0">
+      <thead><tr><th>优先级</th><th>场景</th><th>本周动作</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge b-star">P1 立即</span></td><td>营销素材</td><td>沉淀筷子/Bidnex 的 POC 为标准 SOP，批量复制到 22 个营销线索</td></tr>
+        <tr><td><span class="badge b-gold">P1 立即</span></td><td>3D 建模</td><td>28 个零推进客户逐一指派负责人，先攻家装/手办/游戏 3 个垂直样板</td></tr>
+        <tr><td><span class="badge b-cow">P2 本周</span></td><td>视频生成</td><td>万兴付费案例做成对外标杆，定向触达出海/视频工具客户</td></tr>
+        <tr><td><span class="badge b-tail">P3 布局</span></td><td>ADP 客服/知识库</td><td>挑 2 个标准化子场景做样板，验证 ADP 第二曲线</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note" style="margin-top:24px">
+    <b>数据治理提醒：</b>20 条线索（24%）业务场景为空，10 条无法归类；85 条中仅 16 条有跟进阶段。场景与阶段字段大面积缺失，会直接影响推荐精度，建议强制要求录入时填写「业务场景 + 当前阶段」。
+  </div>
+
+  <footer>
+    售前线索业务场景洞察报告 · 基于企业微信智能表格 85 条线索分析生成<br>
+    场景分类采用关键词聚类，自由文本字段存在多标签重叠，热度数大于客户去重数
+  </footer>
+</div>
+
+<script>
+const FONT = {family:"-apple-system,'PingFang SC','Microsoft YaHei',sans-serif"};
+Chart.defaults.color = '#9aa7bd';
+Chart.defaults.font.family = FONT.family;
+Chart.defaults.font.size = 13;
+
+// 1. 需求规模
+new Chart(document.getElementById('chartDemand'),{
+  type:'bar',
+  data:{
+    labels:['游戏制作/美术','3D建模/数字资产','营销/广告素材','客服/智能问答','图像生成/设计','视频生成/剪辑','知识库/RAG','内容创作/文案','研发/Agent'],
+    datasets:[{
+      label:'需求热度(场景标签数)',
+      data:[31,28,26,10,6,4,4,1,1],
+      backgroundColor:['#4d9fff','#3ad8e6','#46d18a','#f0b429','#a98bff','#ff79c6','#ff9f43','#5d6b85','#3d4453'],
+      borderRadius:6,barThickness:30
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' 热度 '+c.parsed.x}}},
+    scales:{x:{grid:{color:'rgba(96,114,150,.14)'},ticks:{precision:0}},y:{grid:{display:false}}}
+  }
+});
+
+// 2. 行业×场景 堆叠
+const scenes=['游戏制作/美术','3D建模/数字资产','营销/广告素材','客服/智能问答','图像生成/设计','视频生成/剪辑','知识库/RAG'];
+const sColor=['#4d9fff','#3ad8e6','#46d18a','#f0b429','#a98bff','#ff79c6','#ff9f43'];
+const indData={
+  '游戏':[21,17,18,1,0,1,0],
+  '通用SaaS':[4,4,3,2,1,1,1],
+  '技术服务':[3,4,2,3,4,1,2],
+  '生活服务':[1,2,1,1,1,0,0],
+  '社交娱乐':[0,0,0,1,0,0,1]
+};
+new Chart(document.getElementById('chartIndScene'),{
+  type:'bar',
+  data:{
+    labels:Object.keys(indData),
+    datasets:scenes.map((s,i)=>({
+      label:s,
+      data:Object.values(indData).map(arr=>arr[i]),
+      backgroundColor:sColor[i],borderRadius:3
+    }))
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{padding:12,boxWidth:12,font:{size:12}}}},
+    scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(96,114,150,.14)'},ticks:{precision:0}}}
+  }
+});
+
+// 3. 成熟度矩阵 气泡图
+const matrix=[
+  {x:31,y:1,r:31,s:'游戏制作/美术',c:'#4d9fff'},
+  {x:28,y:0,r:28,s:'3D建模/数字资产',c:'#3ad8e6'},
+  {x:26,y:3,r:26,s:'营销/广告素材',c:'#46d18a'},
+  {x:10,y:0,r:14,s:'客服/智能问答',c:'#f0b429'},
+  {x:6,y:2,r:10,s:'图像生成/设计',c:'#a98bff'},
+  {x:4,y:4,r:10,s:'视频生成/剪辑',c:'#ff79c6'},
+  {x:4,y:0,r:8,s:'知识库/RAG',c:'#ff9f43'}
+];
+const stageNames=['未跟进','触达','POC','商务','付费'];
+new Chart(document.getElementById('chartMatrix'),{
+  type:'bubble',
+  data:{datasets:matrix.map(m=>({
+    label:m.s,
+    data:[{x:m.x,y:m.y,r:Math.sqrt(m.r)*3.2}],
+    backgroundColor:m.c+'cc',borderColor:m.c,borderWidth:2
+  }))},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{padding:10,boxWidth:10,font:{size:11.5}}},
+      tooltip:{callbacks:{label:c=>{const m=matrix[c.datasetIndex];return ` ${m.s} | 需求${m.x} | ${stageNames[m.y]}`}}}
+    },
+    scales:{
+      x:{title:{display:true,text:'需求规模 →',color:'#9aa7bd'},grid:{color:'rgba(96,114,150,.14)'},min:0,max:34},
+      y:{title:{display:true,text:'验证成熟度 →',color:'#9aa7bd'},grid:{color:'rgba(96,114,150,.14)'},min:-0.5,max:4.5,ticks:{stepSize:1,callback:v=>stageNames[v]||''}}
+    }
+  }
+});
+
+// 4. 场景×产品 堆叠条
+const prodScenes=['3D建模/数字资产','游戏制作/美术','营销/广告素材','客服/智能问答','知识库/RAG','视频生成/剪辑','图像生成/设计'];
+const products=['生3D','ADP','生视频','生图','智创'];
+const pColor=['#3ad8e6','#f0b429','#ff79c6','#a98bff','#46d18a'];
+const prodData={
+  '生3D':[27,20,19,0,0,0,2],
+  'ADP':[1,8,2,10,4,0,0],
+  '生视频':[0,1,3,0,0,2,1],
+  '生图':[0,0,1,0,0,0,2],
+  '智创':[0,0,0,0,0,1,0]
+};
+new Chart(document.getElementById('chartProd'),{
+  type:'bar',
+  data:{
+    labels:prodScenes,
+    datasets:products.map((p,i)=>({label:p,data:prodData[p],backgroundColor:pColor[i],borderRadius:3}))
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{padding:12,boxWidth:12}}},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:11},maxRotation:30,minRotation:0}},y:{stacked:true,grid:{color:'rgba(96,114,150,.14)'},ticks:{precision:0}}}
+  }
+});
+</script>
+</body>
+</html>

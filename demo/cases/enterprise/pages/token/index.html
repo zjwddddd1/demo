@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token 这么用最夯 —— 培训材料（实操版）</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #475569;
+            --border: #e2e8f0;
+            --code-bg: #f1f5f9;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            color: white;
+            padding: 60px 0 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.3;
+        }
+        header h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 12px; position: relative; }
+        header .subtitle { font-size: 1.2rem; opacity: 0.9; position: relative; }
+        header .meta { margin-top: 20px; font-size: 0.9rem; opacity: 0.75; position: relative; }
+        .download-btn {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 10px 28px;
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.45);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+        }
+        .download-btn:hover {
+            background: rgba(255,255,255,0.32);
+            border-color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        .nav-bar .container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 12px 24px;
+            scrollbar-width: none;
+        }
+        .nav-bar a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .nav-bar a:hover, .nav-bar a.active {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        /* Section */
+        .section { margin: 40px 0; }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title .icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .section-desc {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            padding-left: 52px;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+            flex: 1;
+            padding-right: 12px;
+        }
+        .card-tag {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .tag-cognitive { background: #ede9fe; color: #7c3aed; }
+        .tag-practical { background: #dcfce7; color: #15803d; }
+        .tag-advanced { background: #ffedd5; color: #c2410c; }
+        .tag-data { background: #dbeafe; color: #1d4ed8; }
+
+        .card-body { font-size: 0.95rem; color: var(--text-light); }
+        .card-body p { margin-bottom: 12px; }
+        .card-body strong { color: var(--text); }
+
+        .card-footer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .doc-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .doc-link:hover { text-decoration: underline; }
+
+        .tips-list { list-style: none; padding: 0; }
+        .tips-list li {
+            padding: 10px 0 10px 28px;
+            position: relative;
+            border-bottom: 1px dashed var(--border);
+        }
+        .tips-list li:last-child { border-bottom: none; }
+        .tips-list li::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 16px;
+            width: 8px; height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Action Steps Box */
+        .action-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-left: 4px solid var(--success);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        .action-box h5 {
+            color: #15803d;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-box h5::before {
+            content: '';
+            display: inline-block;
+            width: 16px; height: 16px;
+            background: var(--success);
+            border-radius: 4px;
+        }
+        .step-list {
+            list-style: none;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+        .step-list li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            color: #166534;
+        }
+        .step-list li::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 18px; height: 18px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Code Example */
+        .code-example {
+            background: var(--code-bg);
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            color: #334155;
+        }
+        .code-example .comment { color: #94a3b8; }
+        .code-example .cmd { color: #2563eb; font-weight: 600; }
+        .code-example .prompt { color: #059669; }
+        .code-example .output { color: #64748b; }
+        .code-example .file { color: #d97706; }
+        .code-label {
+            display: inline-block;
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-family: sans-serif;
+        }
+
+        /* Comparison Table */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.88rem;
+        }
+        .compare-table th, .compare-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .compare-table th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .compare-table tr:nth-child(even) { background: #f8fafc; }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-left: 4px solid var(--primary);
+            padding: 20px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .highlight-box h4 {
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left-color: var(--accent);
+        }
+        .highlight-box.warning h4 { color: #92400e; }
+
+        /* Summary Section */
+        .summary-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .summary-item {
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+        .summary-item h4 {
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .summary-item p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Stats */
+        .stats-bar {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 20px 30px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            min-width: 160px;
+        }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 4px; }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+        .badge-green { background: #dcfce7; color: #15803d; }
+        .badge-blue { background: #dbeafe; color: #1d4ed8; }
+        .badge-orange { background: #ffedd5; color: #c2410c; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.4rem; }
+        }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>Token 这么用最夯</h1>
+        <p class="subtitle">AI 编程时代 Token 节省实战技巧培训材料（实操版）</p>
+        <p class="meta">基于 KM 专题《Token这么用最夯》14 篇文章精华汇总 | 含详细落地步骤与代码示例</p>
+        <a class="download-btn" href="/token/index.html" download="Token节省技巧.html">⬇ 下载本文档</a>
+    </div>
+</header>
+
+<nav class="nav-bar">
+    <div class="container">
+        <a href="#overview" class="active">概览</a>
+        <a href="#cognitive">认知升级</a>
+        <a href="#practical">实战技巧</a>
+        <a href="#advanced">架构进阶</a>
+        <a href="#summary">核心总结</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Overview -->
+    <section id="overview" class="section">
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">14</div>
+                <div class="stat-label">精选文章</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">核心章节</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">60+</div>
+                <div class="stat-label">实战技巧</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">97%</div>
+                <div class="stat-label">最高可省成本</div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <h4>核心理念</h4>
+            <p>Token 是 AI 编程时代的"燃料"——用得好是生产力倍增器，用不好是吞金兽。Token 不是省出来的，是用出来的。真正值得追求的是：让模型少走冤枉路，把 Token 花在判断上，而不是花在搬运上。</p>
+        </div>
+    </section>
+
+    <!-- Section 1: 认知升级 -->
+    <section id="cognitive" class="section">
+        <h2 class="section-title">
+            <span class="icon">1</span>
+            认知升级 —— Token 不是省出来的，是用出来的
+        </h2>
+        <p class="section-desc">理解 Token 消耗的底层机制，建立正确的成本认知</p>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">AI 编程 Token 经济学：理解消耗机制，让同样的额度多干 3 倍活</div>
+                    <span class="card-tag tag-cognitive">认知升级</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>深入解析 Token 消耗机制，帮助开发者理解成本构成并提供优化策略，实现同样的 Token 额度完成更多工作。</p>
+                    <ul class="tips-list">
+                        <li><strong>用户输入只占 1%-5%</strong>：真正的大头是 System Prompt 和对话历史</li>
+                        <li><strong>缓存机制是省钱关键</strong>：缓存命中 Token 价格仅为全价的 1/10，维护一个持续 Session 能大幅节省成本</li>
+                        <li><strong>四类配置加载策略</strong>：Memory（全量常驻）、Rules（常驻+触发式）、Skills（按需加载）、MCP（Schema常驻）</li>
+                        <li><strong>Sub-Agent 核心价值是防膨胀</strong>：不是省钱，而是防止主上下文被工具结果无限膨胀</li>
+                        <li><strong>保护缓存链</strong>：一个 Session 干到底、不中途改配置、不频繁切模型</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：检查你的 Token 消耗构成</h5>
+                        <ol class="step-list">
+                            <li data-step="1">打开 CodeBuddy 设置，查看当前使用的 System Prompt 大小（通常在 5k-25k Token）</li>
+                            <li data-step="2">在对话中使用 <code>/context</code> 命令，查看当前上下文的 Token 明细分布</li>
+                            <li data-step="3">识别占比最高的部分：是 Rules？是 MCP 工具描述？还是对话历史？</li>
+                            <li data-step="4">优先优化占比最高的部分，通常 Rules 和 MCP 工具描述最容易压缩</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/659154" target="_blank">原始文档</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: 实战技巧 -->
+    <section id="practical" class="section">
+        <h2 class="section-title">
+            <span class="icon">2</span>
+            实战技巧 —— 立即可用的省 Token 大法
+        </h2>
+        <p class="section-desc">从 Prompt 设计到上下文管理，立即可用的具体操作方法</p>
+
+        <div class="cards-grid">
+            <!-- 文章 1 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">我以为只是问了一个问题，账单说它跑了 38.8 万 Token</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>Token 消耗的大头不是模型输出，而是 Agent 为回答问题而"搬运"的上下文信息。优化提问策略可大幅节省成本。</p>
+                    <ul class="tips-list">
+                        <li><strong>两大步提问法</strong>：第一步让 AI 只做"地图"（低成本定位相关文件），第二步再读"房间"（确认范围后读取指定片段）</li>
+                        <li><strong>精准提问 vs 开放式探索</strong>：同一任务，精准提问可省 52.3% Token（38.8万 → 18.5万）</li>
+                        <li><strong>五大漏损点</strong>：全仓搜索、臃肿 Rules、MCP 工具描述、长对话历史、冗余输出</li>
+                        <li><strong>15 分钟账单体检</strong>：定期检查单次请求 Token 量、输入/输出比例、同类任务差异</li>
+                        <li><strong>输出只要三样</strong>：关键结论、修改点 diff 摘要、需要确认的风险</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：两步提问法实操</h5>
+                        <p style="margin-bottom:8px;color:#166534;font-size:0.88rem;">场景：要在项目中找到并修改用户登录相关的逻辑</p>
+                        <ol class="step-list">
+                            <li data-step="1"><strong>第一步（地图模式，低成本）：</strong><br>"项目中哪些文件涉及用户登录认证？只列出文件名，不要读取内容。"<br><span class="badge badge-green">消耗约 2-5k Token</span></li>
+                            <li data-step="2"><strong>第二步（精读模式）：</strong><br>"请读取 src/auth/login.js 和 src/middleware/auth.js，分析登录流程中 token 校验的逻辑，找出可能的漏洞。"<br><span class="badge badge-green">消耗约 8-15k Token</span></li>
+                            <li data-step="3"><strong>对比反面教材：</strong><br>"帮我看看登录相关的代码有没有问题" → Agent 会全仓搜索、读取十几个文件，<span class="badge badge-orange">消耗 30-50k Token</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662520" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 2 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">上下文单一信源与 Token 节约 Tips</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>通过"审计-瘦身-运行时压缩"的优化方案，解决上下文窗口膨胀导致的 Token 浪费和性能下降问题。</p>
+                    <ul class="tips-list">
+                        <li><strong>单一信源配置</strong>：Skills、Rules、MCP 统一 Git 管理，各 IDE 通过软链接引用，一处修改四处同步</li>
+                        <li><strong>CodeGraph + ccc 检索分工</strong>：符号/调用链走 CodeGraph（省 47% Token），概念/语义走 ccc（省 70% 检索 Token）</li>
+                        <li><strong>Headroom 压缩工具输出</strong>：代码搜索 Token 压缩率达 92%，准确率基本不掉</li>
+                        <li><strong>Caveman 压缩 Agent 回复</strong>：极简风格回复，可节省 65-75% 输出 Token</li>
+                        <li><strong>定期审计上下文</strong>：用 /context 或 Context Sync 查看 Token 明细，按占用从高到低优化</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤 1：单一信源配置（软链接方案）</h5>
+                        <p style="margin-bottom:8px;color:#166534;font-size:0.88rem;">将 Rules、Skills、MCP 配置统一放到一个 Git 仓库，各 IDE 通过软链接引用</p>
+                        <div class="code-example">
+                            <div class="code-label">Bash 命令示例</div>
+<span class="comment"># 1. 创建统一的配置仓库</span>
+<span class="cmd">mkdir</span> ~/ai-configs && <span class="cmd">cd</span> ~/ai-configs
+<span class="cmd">git</span> init
+
+<span class="comment"># 2. 目录结构</span>
+~/ai-configs/
+  <span class="file">rules/</span>         <span class="comment"># 通用 Rules 文件</span>
+  <span class="file">skills/</span>        <span class="comment"># 共享 Skills</span>
+  <span class="file">mcp/</span>           <span class="comment"># MCP 配置</span>
+
+<span class="comment"># 3. 在 VS Code 的 CodeBuddy 中创建软链接</span>
+<span class="comment"># macOS/Linux:</span>
+<span class="cmd">ln</span> -s ~/ai-configs/rules ~/.codebuddy/rules
+<span class="cmd">ln</span> -s ~/ai-configs/skills ~/.codebuddy/skills
+
+<span class="comment"># 4. 在 Cursor/Windsurf 中同样链接</span>
+<span class="cmd">ln</span> -s ~/ai-configs/rules ~/.cursor/rules
+<span class="cmd">ln</span> -s ~/ai-configs/skills ~/.cursor/skills
+
+<span class="comment"># 效果：修改 ~/ai-configs/rules 下的文件，所有 IDE 自动同步</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤 2：CodeGraph + ccc 检索分工</h5>
+                        <p style="margin-bottom:8px;color:#166534;font-size:0.88rem;">根据查询类型选择最合适的检索工具，避免"大炮打蚊子"</p>
+                        <table class="compare-table">
+                            <tr>
+                                <th>查询类型</th>
+                                <th>推荐工具</th>
+                                <th>原因</th>
+                                <th>示例命令</th>
+                            </tr>
+                            <tr>
+                                <td>找函数定义、调用链、类继承关系</td>
+                                <td><span class="badge badge-green">CodeGraph</span></td>
+                                <td>结构化索引，精准定位</td>
+                                <td><code>@codegraph find-caller UserService.login</code></td>
+                            </tr>
+                            <tr>
+                                <td>找概念、语义相似代码、业务逻辑</td>
+                                <td><span class="badge badge-blue">ccc</span></td>
+                                <td>语义向量匹配，理解意图</td>
+                                <td><code>@ccc "用户登录后如何生成 JWT"</code></td>
+                            </tr>
+                            <tr>
+                                <td>全文搜索特定字符串</td>
+                                <td><span class="badge badge-orange">grep</span></td>
+                                <td>最简单直接</td>
+                                <td><code>grep -r "login" src/</code></td>
+                            </tr>
+                        </table>
+                        <div class="code-example">
+                            <div class="code-label">Prompt 示例：指导 Agent 使用正确工具</div>
+<span class="prompt">"先使用 CodeGraph 找到 UserService 的所有调用者，
+然后使用 ccc 搜索与 'session timeout handling' 语义相关的代码片段。
+不要一次性读取整个 src 目录。"</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤 3：Headroom 压缩工具输出</h5>
+                        <p style="margin-bottom:8px;color:#166534;font-size:0.88rem;">在 Rules 中配置 Headroom 压缩，自动压缩工具返回的大段输出</p>
+                        <div class="code-example">
+                            <div class="code-label">.codebuddy/rules/headroom.md</div>
+<span class="comment"># 配置 Headroom 自动压缩</span>
+- 当工具返回的代码/日志超过 200 行时，自动使用 Headroom 压缩
+- 压缩规则：保留前 5 行和后 5 行，中间用 "... [N lines omitted] ..." 替代
+- 文件搜索返回时，只显示文件路径和匹配行，不显示完整内容
+
+<span class="comment"># 效果：一次代码搜索从 15k Token 降到 1.2k Token</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤 4：Caveman 压缩 Agent 回复</h5>
+                        <p style="margin-bottom:8px;color:#166534;font-size:0.88rem;">在对话开头或 Rules 中加入压缩指令，让 Agent 用极简风格回复</p>
+                        <div class="code-example">
+                            <div class="code-label">Prompt 示例</div>
+<span class="prompt">"请以极简风格回复（Caveman 模式）：
+1. 只输出结论和必要的代码 diff
+2. 不要解释已知的前提条件
+3. 不要输出'好的，我来...'等礼貌用语
+4. 列表用 - 而非数字编号
+5. 代码块只包含修改的部分，用 // ... existing ... 标注未修改区域"</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662253" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 3 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">用模型，讲卫生</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>Token 消耗差异源于使用习惯。通过"多快好省"的策略，可以显著缓解"Token 焦虑"。</p>
+                    <ul class="tips-list">
+                        <li><strong>锁死推理档位</strong>：关闭自适应思考，固定 effortLevel 和 MAX_THINKING_TOKENS，避免模型偷偷加码</li>
+                        <li><strong>固定内容写好别动</strong>：SOUL.md、项目背景写好后不要修改，任何字词改动都会导致缓存失效</li>
+                        <li><strong>PPT 是脏东西</strong>：复杂格式文件先转 Markdown 再喂模型，推荐 MarkItDown 或 Fire-PDF</li>
+                        <li><strong>及时开新对话</strong>：任务换了、跑偏了、间隔超 1 小时，果断开新对话</li>
+                        <li><strong>精准指定</strong>：用 @ 精准引用文件或函数，不要让 AI 自己扫一片</li>
+                        <li><strong>把"想"和"干"拆开</strong>：SOTA 模型输出方案，便宜模型执行代码替换，成本差 3-5 倍</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤 1：锁死推理档位</h5>
+                        <div class="code-example">
+                            <div class="code-label">CodeBuddy 配置（settings.json）</div>
+{
+  <span class="file">"codebuddy.model.effortLevel"</span>: <span class="prompt">"low"</span>,
+  <span class="file">"codebuddy.model.maxThinkingTokens"</span>: <span class="prompt">2000</span>,
+  <span class="file">"codebuddy.model.adaptiveThinking"</span>: <span class="prompt">false</span>
+}
+<span class="comment"># 说明：low 模式足够处理 80% 的日常编码任务
+# maxThinkingTokens 限制模型自我反思的 Token 上限
+# 关闭 adaptiveThinking 防止模型根据问题复杂度自动加码</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤 2：PPT/Word 转 Markdown</h5>
+                        <div class="code-example">
+                            <div class="code-label">命令行转换</div>
+<span class="comment"># 安装 markitdown（微软出品）</span>
+<span class="cmd">pip</span> install markitdown
+
+<span class="comment"># 转换 PPT 为 Markdown（Token 减少 60-80%）</span>
+<span class="cmd">markitdown</span> design-spec.pptx > design-spec.md
+
+<span class="comment"># 转换 PDF</span>
+<span class="cmd">markitdown</span> api-doc.pdf > api-doc.md
+
+<span class="comment"># 在 Prompt 中引用转换后的文件</span>
+<span class="prompt">"请基于 @design-spec.md 中的需求，实现用户注册功能"</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤 3："想"和"干"分开</h5>
+                        <div class="code-example">
+                            <div class="code-label">分阶段执行示例</div>
+<span class="comment"># ===== 阶段 1：思考（用强模型，如 Claude/GPT-4）=====</span>
+<span class="prompt">"请分析这个需求的实现方案，输出：
+1. 需要修改的文件列表
+2. 每个文件的修改要点（自然语言描述）
+3. 潜在风险点
+不需要输出代码。"</span>
+
+<span class="comment"># ===== 阶段 2：执行（用便宜模型，如 GPT-3.5/国产模型）=====</span>
+<span class="prompt">"请按照以下方案修改代码：
+[粘贴阶段 1 的方案]
+只输出修改后的代码 diff。"</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662051" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 4 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">额度变少以后，我对 AI 用法做了几处调整</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>额度变少并非坏事，它倒逼用户从"随手问模型"升级为"会调度模型"，将有限资源投入到真正高价值的任务上。</p>
+                    <ul class="tips-list">
+                        <li><strong>明确问题再提问</strong>：先写清楚目标、已知事实、边界和期望输出，避免 AI 在错误方向上浪费 Token</li>
+                        <li><strong>分层使用模型</strong>：简单任务用便宜模型，复杂任务才用强模型——"该用强模型时就用，不该用时别默认用"</li>
+                        <li><strong>保持上下文干净</strong>：阶段性结论写入文件，让 AI 按需读取，而非所有历史塞在同一个对话里</li>
+                        <li><strong>沉淀可复用资产</strong>：将重复经验沉淀为 checklist、模板、Skill，减少每次从零开始的消耗</li>
+                        <li><strong>克制使用多 Agent</strong>：线性任务强行拆分反而浪费 Token 在分工、复述和合并上</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：提问前自检清单</h5>
+                        <div class="code-example">
+                            <div class="code-label">提问模板（在记事本里先写好再粘贴）</div>
+<span class="comment">【目标】</span>我要实现什么功能/解决什么问题
+
+<span class="comment">【已知事实】</span>
+- 当前使用的框架/库版本：___
+- 相关文件：@file1, @file2
+- 已经尝试过的方案：___
+
+<span class="comment">【边界条件】</span>
+- 不能修改的文件/模块：___
+- 必须兼容的版本：___
+- 性能要求：___
+
+<span class="comment">【期望输出】</span>
+- [ ] 只需要修改思路
+- [ ] 需要完整代码
+- [ ] 只需要代码 diff
+- [ ] 需要风险评估
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662007" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 5 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">CodeBuddy 高级模型 Token 节省技巧</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>从输出端、输入端、处理端三个维度提高信噪比，科学提效而非盲目省钱。</p>
+                    <ul class="tips-list">
+                        <li><strong>Rules 防御边界</strong>：禁止无效输出（文档、测试代码、废话），按任务复杂度分级解释</li>
+                        <li><strong>需求结构化拆解</strong>：单次对话明确边界条件，多说"要怎么做"，少说"不要做什么"</li>
+                        <li><strong>技术方案预确认</strong>：复杂需求先让 AI 用自然语言描述修改计划，确认无误后再生成代码</li>
+                        <li><strong>上下文动态管理</strong>：精准引用、对话隔离、/compact 压缩、Skill 按需加载</li>
+                        <li><strong>模型分级调用</strong>：高级模型处理复杂逻辑，免费模型承担简单任务</li>
+                        <li><strong>利用 Prompt Caching</strong>：固定 Rules 放对话开头，缓存命中后价格降至 1/10</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：编写高效的 Rules 文件</h5>
+                        <div class="code-example">
+                            <div class="code-label">.codebuddy/rules/coding-rules.md（推荐写法）</div>
+<span class="comment"># === 防御边界（禁止项）===</span>
+- 不要输出单元测试代码，除非明确要求
+- 不要输出 JSDoc/Docstring，除非接口有变化
+- 不要解释显而易见的代码逻辑
+- 不要输出 "以下是修改后的代码" 等过渡语
+
+<span class="comment"># === 输出格式要求 ===</span>
+- 使用代码 diff 格式展示修改
+- 未修改区域用 <span class="prompt">// ... existing ...</span> 占位
+- 多文件修改时，按文件分组输出
+
+<span class="comment"># === 任务分级（根据复杂度自动调整）===</span>
+- 简单任务（改bug、重命名）：直接给代码，不解释
+- 中等任务（新功能）：1-2 句话说明设计思路 + 代码
+- 复杂任务（架构调整）：先输出方案概述，确认后再给代码
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤：技术方案预确认</h5>
+                        <div class="code-example">
+                            <div class="code-label">对话流程示例</div>
+<span class="comment"># 第 1 轮（低成本确认方案）</span>
+<span class="prompt">"我需要在项目中添加 Redis 缓存层，用于缓存用户会话。
+请先描述你的实现方案，包括：
+1. 需要新增/修改哪些文件
+2. 缓存 key 的命名策略
+3. 过期时间设置
+4. 异常降级策略
+先不要写代码，我确认方案后再继续。"</span>
+
+<span class="comment"># 用户确认方案后...</span>
+
+<span class="comment"># 第 2 轮（执行编码）</span>
+<span class="prompt">"请按照刚才确认的方案实现代码，只输出 diff。"</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/651115" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 6 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">CodeBuddy 上下文管理简明教程</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>主动管理上下文可以显著降低 Token 消耗，同时提升 AI 的响应质量。</p>
+                    <ul class="tips-list">
+                        <li><strong>及时开启新会话</strong>：回答质量下降、对话过长、话题多次转换时，直接开新会话</li>
+                        <li><strong>压缩当前会话</strong>：使用 /summarize 将核心信息压缩至原本的 15% 以内</li>
+                        <li><strong>巧用 Rules 和 Memory</strong>：固化长期偏好，避免每次重复说明；Rules 支持 always/agentic/manual 三种加载策略</li>
+                        <li><strong>优先使用 Skills，谨慎使用 MCP</strong>：Skills 显式调用、定义不占上下文；MCP 隐式调用、工具定义占用大量上下文</li>
+                        <li><strong>精准引用文件</strong>：有针对性地使用 @file、@folder，只引用真正相关的内容</li>
+                        <li><strong>CodeBuddy 已优化</strong>：缓存命中率提升至 90% 以上，Sub-agent 分离高消耗操作</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：会话管理决策树</h5>
+                        <div class="code-example">
+                            <div class="code-label">什么时候该开新对话？</div>
+对话长度 > 20 轮？
+├─ 是 → <span class="cmd">/summarize</span> 总结关键信息，然后开新对话
+└─ 否 → 话题是否已切换？
+    ├─ 是 → 开新对话，旧结论写入 @summary.md
+    └─ 否 → 是否超过 1 小时未互动？
+        ├─ 是 → 开新对话（缓存可能已失效）
+        └─ 否 → 继续当前对话
+
+<span class="comment"># 实用命令</span>
+<span class="cmd">/context</span>       <span class="output">查看当前上下文 Token 明细</span>
+<span class="cmd">/summarize</span>     <span class="output">压缩当前对话历史</span>
+<span class="cmd">/compact</span>       <span class="output">精简上下文，保留关键信息</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤：Rules 加载策略选择</h5>
+                        <table class="compare-table">
+                            <tr>
+                                <th>策略</th>
+                                <th>适用场景</th>
+                                <th>配置方式</th>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-green">always</span></td>
+                                <td>编码规范、输出格式要求（每轮都需）</td>
+                                <td>Rules 文件头部加 <code>mode: always</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-blue">agentic</span></td>
+                                <td>复杂项目背景、架构说明（AI 自主决定何时加载）</td>
+                                <td>Rules 文件头部加 <code>mode: agentic</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-orange">manual</span></td>
+                                <td>参考资料、文档索引（用户主动 @ 才加载）</td>
+                                <td>Rules 文件头部加 <code>mode: manual</code></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/647547" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 7 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">尝试省点 Token：谁知盘中 Token，粒粒皆辛苦</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>模型"看到"的内容远比你输入的多。系统性地剖析 AI 模型实际处理的内容，揭示隐藏的巨大 Token 消耗。</p>
+                    <ul class="tips-list">
+                        <li><strong>固定内容放前面，动态内容放后面</strong>：最大化 Prompt Cache 命中率</li>
+                        <li><strong>Rules 放长期规则，不放百科全书</strong>：无关规则持续消耗 Token 并稀释注意力</li>
+                        <li><strong>AGENTS.md 放地图，不放小说</strong>：告诉模型"去哪找"，详细内容放 Reference 按需读取</li>
+                        <li><strong>命令行输出先过滤再给模型看</strong>：用 --short、jq、head/tail 或 chop/RTK 压缩</li>
+                        <li><strong>MCP 不要全量暴露</strong>：能用 CLI / typed client 转就转，避免搬运完整数据</li>
+                        <li><strong>输出也要省</strong>：因为输出会变成下一轮的输入，要求"只输出结论、依据和下一步"</li>
+                        <li><strong>该开新对话就别硬续</strong>：按需总结后开新对话，或回到分叉点重新编辑</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：AGENTS.md 地图化写法</h5>
+                        <div class="code-example">
+                            <div class="code-label">AGENTS.md（正确示例）</div>
+<span class="comment"># 项目导航地图</span>
+
+<span class="comment">## 核心架构</span>
+- 前端：Next.js 14 (App Router)，位于 <span class="file">apps/web/</span>
+- 后端：NestJS，位于 <span class="file">apps/api/</span>
+- 共享包：位于 <span class="file">packages/</span>
+
+<span class="comment">## 按功能找文件</span>
+| 功能 | 位置 |
+|------|------|
+| 用户认证 | <span class="file">apps/api/src/auth/</span> |
+| 数据库 Schema | <span class="file">packages/db/schema/</span> |
+| API 路由定义 | <span class="file">apps/api/src/routes/</span> |
+
+<span class="comment">## 详细文档（按需读取）</span>
+- 开发环境搭建：@docs/setup.md
+- API 设计规范：@docs/api-guidelines.md
+- 数据库迁移流程：@docs/migration.md
+
+<span class="comment"># 错误写法：把 setup.md 的全部内容直接贴进 AGENTS.md</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤：命令行输出过滤</h5>
+                        <div class="code-example">
+                            <div class="code-label">过滤后再给模型看</div>
+<span class="comment"># 错误：直接把完整日志给 AI</span>
+<span class="cmd">npm</span> test <span class="output">→ 5000 行输出，直接粘贴到对话</span>
+
+<span class="comment"># 正确：先过滤</span>
+<span class="cmd">npm</span> test 2>&1 | <span class="cmd">grep</span> -E <span class="prompt">"(FAIL|PASS|Error|AssertionError)"</span> | <span class="cmd">head</span> -20
+<span class="output">→ 只保留失败的测试和错误信息，约 20-50 行</span>
+
+<span class="comment"># JSON 数据用 jq 过滤</span>
+<span class="cmd">curl</span> api/users | <span class="cmd">jq</span> <span class="prompt">'.data[] | {id, name, email}'</span>
+<span class="output">→ 只保留需要的字段</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662028" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 8 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">代码没写几行，额度全被"偷"光：如何把 Token 效率翻一倍</div>
+                    <span class="card-tag tag-practical">实战技巧</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>通过精准的上下文控制和输出格式优化，在不降低工作质量的前提下，将 Token 使用效率提升一倍。</p>
+                    <ul class="tips-list">
+                        <li><strong>文件粒度控制</strong>：不要 @folder，精确到具体文件甚至函数</li>
+                        <li><strong>行号范围引用</strong>：大文件中只引用相关行范围</li>
+                        <li><strong>关闭自动读取</strong>：禁止 Agent 自动读取未引用的文件</li>
+                        <li><strong>diff 格式输出</strong>：要求 AI 只输出变更部分，不输出完整文件</li>
+                        <li><strong>禁用自动补全注释</strong>：JSDoc 和行内注释会大量消耗输出 Token</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：精确引用示例</h5>
+                        <div class="code-example">
+                            <div class="code-label">精准 vs 粗放引用对比</div>
+<span class="comment"># 粗放（浪费 Token）</span>
+<span class="prompt">"请看看 src 目录下的代码，优化一下性能"</span>
+<span class="output">→ AI 可能读取 20+ 个文件，消耗 50k+ Token</span>
+
+<span class="comment"># 精准（高效）</span>
+<span class="prompt">"请分析 @src/services/user.js:45-78 的 getUserList 函数，
+这个查询在数据量大时很慢。请只输出优化后的该函数代码，
+使用 diff 格式。"</span>
+<span class="output">→ AI 只读取 1 个文件的 33 行，消耗 3-5k Token</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662107" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 9 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">CodeBuddy 没额度？国产模型省钱实践指南</div>
+                    <span class="card-tag tag-data">数据评估</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>通过标准化评估框架对比国产模型，筛选效果接近但成本更低的替代方案。</p>
+                    <ul class="tips-list">
+                        <li><strong>场景化选型</strong>：测试开发选 DeepSeek-V3.2/GLM-4.7，代码生成选 Kimi-K2.5，UI 自动化选 Kimi-K2.5</li>
+                        <li><strong>SubAgent 标准化</strong>：为各模型配置统一角色、输出格式的 Agent 文件，确保公平对比</li>
+                        <li><strong>五维评估模型</strong>：完整性(20%)、准确性(25%)、实用性(25%)、规范性(15%)、专业性(15%)</li>
+                        <li><strong>快速交付选 Kimi</strong>：15 分钟完成、零重试、100% 成功率</li>
+                        <li><strong>专业深度选 DeepSeek</strong>：功能质量最高、与 Claude 最相似</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：国产模型选型速查表</h5>
+                        <table class="compare-table">
+                            <tr>
+                                <th>任务类型</th>
+                                <th>推荐模型</th>
+                                <th>预估成本</th>
+                                <th>备注</th>
+                            </tr>
+                            <tr>
+                                <td>代码补全/简单重构</td>
+                                <td>DeepSeek-V3.2</td>
+                                <td>极低</td>
+                                <td>速度快，适合日常编码</td>
+                            </tr>
+                            <tr>
+                                <td>复杂逻辑/架构设计</td>
+                                <td>Kimi-K2.5 / GLM-4.7</td>
+                                <td>中</td>
+                                <td>推理能力强</td>
+                            </tr>
+                            <tr>
+                                <td>UI/前端代码生成</td>
+                                <td>Kimi-K2.5</td>
+                                <td>中</td>
+                                <td>对 Tailwind/React 支持好</td>
+                            </tr>
+                            <tr>
+                                <td>代码 Review</td>
+                                <td>DeepSeek-V3.2</td>
+                                <td>低</td>
+                                <td>能发现潜在问题</td>
+                            </tr>
+                            <tr>
+                                <td>文档/注释生成</td>
+                                <td>任意免费模型</td>
+                                <td>免费</td>
+                                <td>无需强模型</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/652546" target="_blank">原始文档</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: 架构进阶 -->
+    <section id="advanced" class="section">
+        <h2 class="section-title">
+            <span class="icon">3</span>
+            架构进阶 —— 工程化让 Token 用得值
+        </h2>
+        <p class="section-desc">通过工程化架构和团队协作，实现大规模成本优化</p>
+
+        <div class="cards-grid">
+            <!-- 文章 10 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Beggar · 赛博乞丐：组建丐帮开发团队，成本不到一折</div>
+                    <span class="card-tag tag-advanced">架构进阶</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>将一次完整开发拆成多个阶段，每个阶段由不同 Agent 角色负责，贵的只用在关键决策，便宜的用于跑测试和归档。</p>
+                    <ul class="tips-list">
+                        <li><strong>8 人 Agent 团队分工</strong>：Leader 管流程、Architect 出方案、Senior/Standard/Lite Coder 按难度分级、双 Reviewer 交叉验证、Tester 跑构建、Recorder 写归档</li>
+                        <li><strong>三种预设模式</strong>：Economic(~x0.03 省 97%)、Balanced(~x0.12 省 91%)、Quality(~x1.05 省 56%)</li>
+                        <li><strong>双 Reviewer 交叉验证</strong>：主审看代码质量，辅审看架构设计，跨厂商并行运行</li>
+                        <li><strong>升级兜底机制</strong>：审查不通过自动升级 Coder 级别重写</li>
+                        <li><strong>Leader 不写代码</strong>：只负责调度，所有代码修改必须走 Coder Agent</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：丐帮团队配置示例</h5>
+                        <div class="code-example">
+                            <div class="code-label">.codebuddy/agents/beggar-team.json（团队配置）</div>
+{
+  <span class="file">"mode"</span>: <span class="prompt">"balanced"</span>,
+  <span class="file">"team"</span>: [
+    {
+      <span class="file">"name"</span>: <span class="prompt">"Leader"</span>,
+      <span class="file">"model"</span>: <span class="prompt">"claude-sonnet-4"</span>,
+      <span class="file">"role"</span>: <span class="prompt">"负责拆分任务、调度各 Agent、合并结果"</span>,
+      <span class="file">"canWriteCode"</span>: <span class="prompt">false</span>
+    },
+    {
+      <span class="file">"name"</span>: <span class="prompt">"Architect"</span>,
+      <span class="file">"model"</span>: <span class="prompt">"claude-sonnet-4"</span>,
+      <span class="file">"role"</span>: <span class="prompt">"输出技术方案，不直接写实现代码"</span>
+    },
+    {
+      <span class="file">"name"</span>: <span class="prompt">"SeniorCoder"</span>,
+      <span class="file">"model"</span>: <span class="prompt">"gpt-4o"</span>,
+      <span class="file">"role"</span>: <span class="prompt">"处理复杂模块"</span>,
+      <span class="file">"trigger"</span>: <span class="prompt">"difficulty > 3"</span>
+    },
+    {
+      <span class="file">"name"</span>: <span class="prompt">"StandardCoder"</span>,
+      <span class="file">"model"</span>: <span class="prompt">"deepseek-v3"</span>,
+      <span class="file">"role"</span>: <span class="prompt">"处理常规功能"</span>,
+      <span class="file">"trigger"</span>: <span class="prompt">"difficulty 1-3"</span>
+    },
+    {
+      <span class="file">"name"</span>: <span class="prompt">"Reviewer-A"</span>,
+      <span class="file">"model"</span>: <span class="prompt">"claude-haiku"</span>,
+      <span class="file">"role"</span>: <span class="prompt">"检查代码质量、潜在bug"</span>
+    },
+    {
+      <span class="file">"name"</span>: <span class="prompt">"Reviewer-B"</span>,
+      <span class="file">"model"</span>: <span class="prompt">"gemini-flash"</span>,
+      <span class="file">"role"</span>: <span class="prompt">"检查架构一致性"</span>
+    },
+    {
+      <span class="file">"name"</span>: <span class="prompt">"Tester"</span>,
+      <span class="file">"model"</span>: <span class="prompt">"deepseek-v3"</span>,
+      <span class="file">"role"</span>: <span class="prompt">"运行构建和测试，报告结果"</span>
+    }
+  ]
+}
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>三种模式选择指南</h5>
+                        <table class="compare-table">
+                            <tr>
+                                <th>模式</th>
+                                <th>成本倍率</th>
+                                <th>适用场景</th>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-green">Economic</span></td>
+                                <td>x0.03（省 97%）</td>
+                                <td>原型开发、内部工具、探索性编码</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-blue">Balanced</span></td>
+                                <td>x0.12（省 91%）</td>
+                                <td>日常业务功能开发（推荐）</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-orange">Quality</span></td>
+                                <td>x1.05（省 56%）</td>
+                                <td>核心模块、支付/安全相关代码</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662544" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 11 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Agent Runtime：经济型模型也能扛长难任务</div>
+                    <span class="card-tag tag-advanced">架构进阶</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>通过 Runtime 架构让经济型模型也能稳定执行复杂生产级任务，将 Token 成本降低高达 90%。</p>
+                    <ul class="tips-list">
+                        <li><strong>Harness + Schema + Skill 三件套</strong>：确定性代码层 + 数据契约 + 自由发挥层</li>
+                        <li><strong>Agent 解耦</strong>：三件套与模型解耦，可随意更换模型或厂商，业务不被锁定</li>
+                        <li><strong>经济型模型 + Runtime = 29元</strong>：一次跑通；无 Runtime = 444元，平均 7-8 次才通过 1 次</li>
+                        <li><strong>高规格模型 + Runtime = 386元</strong>：比无 Runtime 省 60% Token（193万 vs 312万）</li>
+                        <li><strong>可自迭代</strong>：Skill 层接收外部信号并自我反思，Agent 越跑越聪明</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：Runtime 三件套架构</h5>
+                        <div class="code-example">
+                            <div class="code-label">架构分层说明</div>
+┌─────────────────────────────────────────────┐
+│  <span class="prompt">Skill 层（自由发挥）</span>                          │
+│  - 自然语言理解、决策、生成                    │
+│  - 由 AI 模型驱动                             │
+│  - 输入/输出受 Schema 约束                    │
+├─────────────────────────────────────────────┤
+│  <span class="prompt">Schema 层（数据契约）</span>                         │
+│  - JSON Schema / Zod / Pydantic               │
+│  - 定义输入输出格式、字段类型、校验规则        │
+│  - AI 的输出必须能通过 Schema 校验             │
+├─────────────────────────────────────────────┤
+│  <span class="prompt">Harness 层（确定性代码）</span>                      │
+│  - 流程控制、错误处理、重试逻辑                │
+│  - 工具调用编排、结果聚合                      │
+│  - 纯代码，不依赖 AI 能力                     │
+└─────────────────────────────────────────────┘
+
+<span class="comment"># 核心原则：Harness 保证流程正确，Schema 保证数据正确，
+#          Skill 负责需要智能决策的环节</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤：Runtime 工作流示例</h5>
+                        <div class="code-example">
+                            <div class="code-label">harness.py（确定性流程）</div>
+<span class="cmd">import</span> json
+<span class="cmd">from</span> schema <span class="cmd">import</span> CodeChangeSchema
+<span class="cmd">from</span> skill <span class="cmd">import</span> generate_code_change
+
+<span class="cmd">def</span> <span class="prompt">run_code_generation_task</span>(task_description):
+    <span class="comment"># Step 1: 解析需求（确定性）</span>
+    parsed = parse_requirement(task_description)
+
+    <span class="comment"># Step 2: 调用 AI Skill（智能决策）</span>
+    raw_output = generate_code_change(parsed)
+
+    <span class="comment"># Step 3: Schema 校验（确定性）</span>
+    <span class="cmd">try</span>:
+        validated = CodeChangeSchema.model_validate_json(raw_output)
+    <span class="cmd">except</span> ValidationError <span class="cmd">as</span> e:
+        <span class="comment"># 自动重试，将错误反馈给 AI</span>
+        <span class="cmd">return</span> retry_with_feedback(e, parsed)
+
+    <span class="comment"># Step 4: 执行变更（确定性）</span>
+    apply_changes(validated.file_changes)
+
+    <span class="comment"># Step 5: 运行测试（确定性）</span>
+    test_result = run_tests()
+    <span class="cmd">if not</span> test_result.passed:
+        <span class="cmd">return</span> retry_with_feedback(test_result.errors, parsed)
+
+    <span class="cmd">return</span> <span class="prompt">"Success"</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/662184" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 12 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">一键生成 AI 工作流帮我省下 90%+ Token</div>
+                    <span class="card-tag tag-advanced">架构进阶</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>将确定性环节固化成脚本管道，只在真正需要思考的地方让 AI 介入，实现"脚本骨架 + AI 灵魂"。</p>
+                    <ul class="tips-list">
+                        <li><strong>三分法拆分</strong>：FIXED（固定环节脚本化）、AI（智能决策）、HUMAN（人工介入）</li>
+                        <li><strong>一条铁律</strong>："把 AI 删掉，这个流程还能不能正常跑完？"能则为 FIXED</li>
+                        <li><strong>效果对比</strong>：说明型 Skill 7522 Token/3分钟 → 脚本型 Skill 704 Token/30秒</li>
+                        <li><strong>Box-CLI 媒介</strong>：脚本执行到 AI 节点时通过 CLI 精准唤醒 Agent</li>
+                        <li><strong>行业共识</strong>：Anthropic 建议优先用确定性工作流，78% 企业级任务坚持确定性管道</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：三分法拆分实操</h5>
+                        <p style="margin-bottom:8px;color:#166534;font-size:0.88rem;">场景：自动生成代码变更并创建 PR</p>
+                        <div class="code-example">
+                            <div class="code-label">工作流拆分分析</div>
+<span class="comment"># 原始做法（全 AI 驱动，7522 Token）</span>
+<span class="prompt">"请读取需求文档，分析需要改哪些文件，
+生成代码，创建 commit，推送到远程，创建 PR。"</span>
+
+<span class="comment"># 三分法拆分后（704 Token）</span>
+
+<span class="comment"># ===== FIXED 层（脚本化，0 Token）=====</span>
+<span class="cmd">#!/bin/bash</span>
+<span class="file"># pipeline.sh</span>
+
+<span class="comment"># 1. 解析参数</span>
+TASK_FILE=$1
+BRANCH_NAME=$(generate_branch_name $TASK_FILE)
+
+<span class="comment"># 2. 创建分支（纯脚本）</span>
+git checkout -b $BRANCH_NAME
+
+<span class="comment"># 3. 读取需求（纯脚本）</span>
+TASK_CONTENT=$(cat $TASK_FILE)
+
+<span class="comment"># 4. 调用 AI 节点（唯一需要 AI 的环节）</span>
+<span class="cmd">codebuddy</span> skill generate-code <span class="prompt">\</span>
+  --input <span class="prompt">"$TASK_CONTENT"</span> <span class="prompt">\</span>
+  --context @src/<span class="prompt">"$BRANCH_NAME"</span>.json <span class="prompt">\</span>
+  --output /tmp/changes.json
+
+<span class="comment"># 5. 应用变更（纯脚本）</span>
+<span class="cmd">apply-changes</span> /tmp/changes.json
+
+<span class="comment"># 6. 测试 + 提交（纯脚本）</span>
+npm test && git commit -am <span class="prompt">"feat: $BRANCH_NAME"</span> && git push
+
+<span class="comment"># 7. 创建 PR（纯脚本）</span>
+gh pr create --title <span class="prompt">"$BRANCH_NAME"</span> --body <span class="prompt">"$(cat $TASK_FILE)"</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>判断 FIXED vs AI 的 checklist</h5>
+                        <div class="code-example">
+                            <div class="code-label">自检问题</div>
+□ 这个步骤的输出是否 100% 可预测？<span class="output">→ FIXED</span>
+□ 这个步骤是否只涉及文件/数据的搬运和格式转换？<span class="output">→ FIXED</span>
+□ 这个步骤是否需要理解业务语义并做出判断？<span class="output">→ AI</span>
+□ 这个步骤如果做错了，代价是否很高？<span class="output">→ HUMAN（人工确认）</span>
+□ 这个步骤是否涉及外部系统的不可控因素？<span class="output">→ HUMAN</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/660654" target="_blank">原始文档</a>
+                </div>
+            </div>
+
+            <!-- 文章 13 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Mermaid 无限画布 × 上下文卸载</div>
+                    <span class="card-tag tag-advanced">架构进阶</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>中心思想：</strong>通过上下文卸载 + Mermaid 无限画布实现短期记忆压缩，让 Agent 学会"一语胜千言"。</p>
+                    <ul class="tips-list">
+                        <li><strong>四级分层存储</strong>：Raw 原文 → JSONL Summary → MMD Node → Metadata，逐层变轻</li>
+                        <li><strong>上下文卸载</strong>：将暂时不需要的原始信息搬到外部文件系统，上下文只保留摘要/索引</li>
+                        <li><strong>Mermaid 无限画布</strong>：用 Flowchart 将离散工具调用组织成任务拓扑图，保留结构不丢失</li>
+                        <li><strong>实验效果</strong>：WideSearch 省 61% Token + 通过率提升 52%；SWEbench 省 33% + 完成率提升 10%</li>
+                        <li><strong>层次化注意力</strong>：Overview → 聚焦 → 下钻，Agent 像人类一样分层查看信息</li>
+                    </ul>
+
+                    <div class="action-box">
+                        <h5>落地步骤：四级分层存储实现</h5>
+                        <div class="code-example">
+                            <div class="code-label">存储层次结构</div>
+<span class="comment"># 原始数据（最完整，但最占 Token）</span>
+<span class="file">memory/raw/tool-results-2026-06-10.jsonl</span>
+<span class="output">→ 包含完整的工具输出，约 50k Token</span>
+
+<span class="comment"># 第一层压缩：JSONL Summary</span>
+<span class="file">memory/summaries/tool-results-summary.jsonl</span>
+{
+  <span class="file">"tool"</span>: <span class="prompt">"search_code"</span>,
+  <span class="file">"query"</span>: <span class="prompt">"auth middleware"</span>,
+  <span class="file">"results_count"</span>: <span class="prompt">5</span>,
+  <span class="file">"top_files"</span>: [<span class="prompt">"src/auth.js:45"</span>, <span class="prompt">"src/middleware/auth.js:12"</span>],
+  <span class="file">"key_finding"</span>: <span class="prompt">"JWT 校验在 auth.js 第 45 行，缺少过期时间验证"</span>
+}
+<span class="output">→ 约 500 Token</span>
+
+<span class="comment"># 第二层压缩：Mermaid Node</span>
+<span class="file">memory/mermaid/task-state.mmd</span>
+flowchart TD
+    A[<span class="prompt">搜索 auth 相关代码</span>] --> B[<span class="prompt">发现 src/auth.js:45</span>]
+    B --> C[<span class="prompt">发现缺少过期验证</span>]
+    C --> D[<span class="prompt">待修复：添加 exp 检查</span>]
+<span class="output">→ 约 200 Token</span>
+
+<span class="comment"># 第三层压缩：纯 Metadata</span>
+<span class="file">memory/index/task-index.json</span>
+{
+  <span class="file">"current_focus"</span>: <span class="prompt">"auth.js JWT exp validation"</span>,
+  <span class="file">"pending"</span>: [<span class="prompt">"fix exp check"</span>, <span class="prompt">"add tests"</span>],
+  <span class="file">"completed"</span>: [<span class="prompt">"locate auth code"</span>]
+}
+<span class="output">→ 约 100 Token</span>
+                        </div>
+                    </div>
+
+                    <div class="action-box">
+                        <h5>落地步骤：上下文卸载触发条件</h5>
+                        <div class="code-example">
+                            <div class="code-label">何时卸载？</div>
+<span class="comment"># 自动卸载规则（在 Agent 配置中设置）</span>
+<span class="cmd">when</span> context_token > 100000:
+    <span class="cmd">unload</span> oldest_raw_data <span class="cmd">to</span> memory/raw/
+    <span class="cmd">keep</span> summary + mermaid + metadata <span class="cmd">in</span> context
+
+<span class="cmd">when</span> task_stage == <span class="prompt">"completed"</span>:
+    <span class="cmd">archive</span> all_raw_data
+    <span class="cmd">promote</span> summary -> metadata
+
+<span class="comment"># 需要原始数据时按需加载</span>
+<span class="prompt">"我需要查看刚才搜索的完整结果，
+请从 memory/raw/tool-results-2026-06-10.jsonl 加载。"</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="doc-link" href="https://km.woa.com/articles/show/660381" target="_blank">原始文档</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary -->
+    <section id="summary" class="summary-section">
+        <h2 class="section-title">
+            <span class="icon" style="background: linear-gradient(135deg, #10b981, #059669);">总</span>
+            核心要点总结
+        </h2>
+
+        <div class="highlight-box">
+            <h4>一句话心法</h4>
+            <p>把 AI 当作按字数收费的顶级外包专家，需求给准、资料给对、废话不说。Token 成本不在于你说了多少，而在于配置侧精简系统税 + 对话侧保护缓存。</p>
+        </div>
+
+        <div class="summary-grid">
+            <div class="summary-item">
+                <h4>配置侧优化</h4>
+                <p>Rules 按需加载、禁用无用工具、精炼 Memory 和 CODEBUDDY.md，将 System Prompt 从 25k 压到 12k，每轮省 1.3k 等价 Token</p>
+            </div>
+            <div class="summary-item">
+                <h4>对话侧优化</h4>
+                <p>一个 Session 干到底、不中途改配置、不频繁切模型。长对话缓存命中率高（×0.1），新窗口才是最贵的操作</p>
+            </div>
+            <div class="summary-item">
+                <h4>提问策略</h4>
+                <p>先低成本定位找出最相关的 3-5 个文件，确认范围后再读取指定片段。"你自己找"可能多花 20 万 Token</p>
+            </div>
+            <div class="summary-item">
+                <h4>模型分级</h4>
+                <p>简单任务用便宜/免费模型，复杂判断才用强模型。"分层使用 AI"而非默认上最强</p>
+            </div>
+            <div class="summary-item">
+                <h4>上下文卫生</h4>
+                <p>任务换了/跑偏了/超 1 小时 → 开新对话。阶段性结论写入文件，让 AI 按需读取</p>
+            </div>
+            <div class="summary-item">
+                <h4>工程化固化</h4>
+                <p>验证过的固定流程脚本化，AI 只在需要智能决策的环节介入。确定性工作流比 Agent 自主决策更稳更省</p>
+            </div>
+            <div class="summary-item">
+                <h4>多 Agent 协作</h4>
+                <p>按任务复杂度分级分派，双 Reviewer 交叉验证，升级兜底机制保证质量</p>
+            </div>
+            <div class="summary-item">
+                <h4>记忆压缩</h4>
+                <p>上下文卸载 + Mermaid 画布实现四级分层存储，让 Agent"少背负"而非"少知道"</p>
+            </div>
+        </div>
+
+        <div class="highlight-box warning" style="margin-top: 24px;">
+            <h4>省 Token 口诀</h4>
+            <p>固定放前面，动态放后面。规则要短，知识要散。AGENTS.md 放地图，不放小说。命令别喷泉，日志先压缩。MCP 少暴露，结果再过滤。SubAgent 隔离探索，别把小事外包。输出别作文，废话会复利。</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>培训材料整理自 KM 专题《Token这么用最夯》| 共 14 篇文章精华汇总</p>
+        <p style="margin-top: 8px; font-size: 0.8rem;">本文集汇集司内 AI 编程高手的一线实战经验，内容持续更新中</p>
+    </footer>
+</div>
+
+<script>
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-bar a');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (scrollY >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+

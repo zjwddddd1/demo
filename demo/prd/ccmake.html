@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy 项目功能 PRD · 交互版</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --panel:#ffffff; --ink:#1a1d24; --muted:#5b6472;
+    --line:#e6e8ec; --brand:#4f46e5; --brand-soft:#eef0fe;
+    --accent:#0ea5e9; --ok:#10b981; --warn:#f59e0b; --danger:#ef4444;
+    --code:#f1f3f7; --radius:14px; --card:#ffffff; --th:#eef0fe; --thk:#312e81;
+    --shadow:0 1px 2px rgba(16,24,40,.04);
+  }
+  html[data-theme="dark"]{
+    --bg:#0f1117; --panel:#171a22; --ink:#e6e8ee; --muted:#9aa3b2;
+    --line:#282c37; --brand:#8b83ff; --brand-soft:#20233a;
+    --accent:#38bdf8; --code:#1c2030; --card:#171a22; --th:#20233a; --thk:#c7c3ff;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.75;font-size:15px;-webkit-font-smoothing:antialiased;transition:background .25s,color .25s}
+
+  /* 进度条 */
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--brand),var(--accent));z-index:200;transition:width .1s}
+
+  /* 顶部工具栏 */
+  .topbar{position:sticky;top:0;z-index:120;background:color-mix(in srgb,var(--panel) 88%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:9px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .topbar .brand{font-weight:800;font-size:14px;margin-right:auto;display:flex;align-items:center;gap:8px}
+  .topbar .brand .dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--accent))}
+  .search{position:relative}
+  .search input{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 30px 6px 12px;
+    color:var(--ink);font-size:13px;width:190px;outline:none;transition:border .2s}
+  .search input:focus{border-color:var(--brand)}
+  .search .cnt{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted)}
+  .btn{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:13px;
+    color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+  .btn:hover{border-color:var(--brand);color:var(--brand)}
+  .btn.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+  .layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:230px 1fr;gap:28px;padding:0 20px 90px}
+
+  /* 侧边目录 */
+  aside{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 84px);overflow:auto;padding-top:26px}
+  aside .navtitle{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:1px;margin:0 0 10px 8px}
+  aside nav a{display:block;padding:7px 12px;border-radius:8px;font-size:13px;color:var(--muted);
+    text-decoration:none;border-left:2.5px solid transparent;transition:all .15s;margin-bottom:1px}
+  aside nav a:hover{background:var(--brand-soft);color:var(--brand)}
+  aside nav a.active{color:var(--brand);background:var(--brand-soft);border-left-color:var(--brand);font-weight:700}
+  .donemini{margin-top:18px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+  .donemini .lab{font-size:11px;color:var(--muted);margin-bottom:6px}
+  .bar{height:7px;background:var(--line);border-radius:5px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ok),var(--accent));transition:width .3s}
+  .donemini .num{font-size:12px;color:var(--muted);margin-top:6px;text-align:right}
+
+  main{min-width:0;padding-top:26px}
+
+  .cover{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#0ea5e9 100%);
+    color:#fff;border-radius:20px;padding:48px 40px;margin-bottom:30px;box-shadow:0 18px 40px -18px rgba(79,70,229,.55)}
+  .cover .tag{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+    padding:5px 14px;border-radius:999px;font-size:12.5px;letter-spacing:.5px;margin-bottom:16px}
+  .cover h1{margin:0 0 10px;font-size:30px;line-height:1.28;font-weight:800}
+  .cover p{margin:0;opacity:.92;font-size:14.5px;max-width:640px}
+  .meta{display:flex;flex-wrap:wrap;gap:9px 24px;margin-top:22px;font-size:12.5px;opacity:.95}
+  .meta b{opacity:.7;font-weight:500;margin-right:6px}
+
+  h2{font-size:21px;margin:14px 0 16px;padding-left:14px;border-left:5px solid var(--brand);font-weight:800;
+    display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+  h2 .fold{margin-left:auto;font-size:13px;color:var(--muted);transition:transform .2s}
+  h2.collapsed .fold{transform:rotate(-90deg)}
+  section.sec{scroll-margin-top:70px;margin-bottom:34px}
+  section.sec .body{overflow:hidden;transition:max-height .3s ease}
+  h3{font-size:16.5px;margin:24px 0 10px;font-weight:700}
+  h4{font-size:14px;margin:16px 0 8px;font-weight:700;color:var(--brand)}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0;padding-left:22px}
+  li{margin:5px 0}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:14px 0;box-shadow:var(--shadow)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--card);
+    border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--th);color:var(--thk);font-weight:700;font-size:12.5px}
+  tr:last-child td{border-bottom:none}
+  code{background:var(--code);padding:1.5px 6px;border-radius:5px;font-size:12.5px;font-family:"SFMono-Regular",Consolas,Menlo,monospace}
+
+  .pill{display:inline-block;padding:2px 9px;border-radius:6px;font-size:12px;font-weight:700}
+  .p-p0{background:#fee2e2;color:#b91c1c}.p-p1{background:#ffedd5;color:#c2410c}
+  .p-p2{background:#dbeafe;color:#1d4ed8}.p-p3{background:#e5e7eb;color:#374151}
+
+  .ears{border-left:4px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--card));
+    padding:11px 15px;border-radius:0 8px 8px 0;margin:9px 0}
+  .ears .t{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.6px;text-transform:uppercase}
+  .ears p{margin:4px 0 0;font-size:13.5px}
+
+  .callout{border-left:4px solid var(--warn);background:color-mix(in srgb,var(--warn) 10%,var(--card));padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:13.5px}
+  .callout.info{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--card))}
+  .callout.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,var(--card))}
+
+  /* EARS 筛选条 */
+  .filterbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;align-items:center}
+  .filterbar .lab{font-size:12px;color:var(--muted);font-weight:700;margin-right:4px}
+  .chip{padding:4px 11px;border-radius:999px;font-size:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer;transition:all .15s;color:var(--muted);font-weight:600}
+  .chip:hover{border-color:var(--brand)}
+  .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .ears.hide{display:none}
+
+  .flow{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+  .flow .step{flex:1;min-width:130px;background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 25%,transparent);
+    border-radius:10px;padding:12px 14px;transition:transform .15s}
+  .flow .step:hover{transform:translateY(-3px)}
+  .flow .step .n{font-size:11px;font-weight:800;color:var(--brand);opacity:.75}
+  .flow .step .h{font-weight:700;font-size:13.5px;margin:2px 0 4px}
+  .flow .step .d{font-size:12px;color:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0}
+  .grid .card{margin:0}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+  .kpi .card{margin:0;text-align:center;padding:18px}
+  .kpi .v{font-size:22px;font-weight:800;color:var(--brand)}
+  .kpi .l{font-size:12.5px;color:var(--muted);margin-top:4px}
+
+  /* 可勾选清单 */
+  .check{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:9px;margin:7px 0;background:var(--card);cursor:pointer;transition:all .15s}
+  .check:hover{border-color:var(--brand)}
+  .check input{margin-top:3px;width:16px;height:16px;accent-color:var(--ok);cursor:pointer;flex-shrink:0}
+  .check.done{background:color-mix(in srgb,var(--ok) 9%,var(--card));border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+  .check.done .txt{text-decoration:line-through;color:var(--muted)}
+  .check .txt{font-size:13.5px}
+
+  .muted{color:var(--muted)}
+  mark{background:#ffe58a;color:#1a1d24;padding:0 2px;border-radius:3px}
+  html[data-theme="dark"] mark{background:#8a6d1a;color:#fff}
+  hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:40px}
+
+  /* 返回顶部 */
+  #top{position:fixed;right:22px;bottom:22px;width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;
+    border:none;cursor:pointer;font-size:18px;box-shadow:0 6px 18px -4px rgba(79,70,229,.6);opacity:0;pointer-events:none;transition:opacity .25s;z-index:120}
+  #top.show{opacity:1;pointer-events:auto}
+
+  @media(max-width:860px){
+    .layout{grid-template-columns:1fr}
+    aside{display:none}
+    .search input{width:130px}
+  }
+  @media print{
+    .topbar,aside,#top,#progress,.filterbar{display:none!important}
+    .layout{display:block;padding:0}
+    .ears.hide{display:block!important}
+    section.sec .body{max-height:none!important}
+    .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar">
+  <span class="brand"><span class="dot"></span>WorkBuddy PRD</span>
+  <div class="search">
+    <input id="q" type="text" placeholder="搜索全文…" autocomplete="off">
+    <span class="cnt" id="qc"></span>
+  </div>
+  <button class="btn" id="expandAll">📂 展开全部</button>
+  <button class="btn" id="theme">🌗 深色</button>
+  <button class="btn" id="print">🖨️ 打印/PDF</button>
+</div>
+
+<div class="layout">
+  <aside>
+    <p class="navtitle">目录导航</p>
+    <nav id="nav"></nav>
+    <div class="donemini">
+      <div class="lab">清单完成进度</div>
+      <div class="bar"><i id="miniBar"></i></div>
+      <div class="num" id="miniNum">0 / 0</div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="cover">
+      <span class="tag">PRD · v1.0 · 交互版</span>
+      <h1>WorkBuddy 项目功能<br>产品需求文档（PRD）</h1>
+      <p>以「项目」为容器，将成员协作、资料库、事项/待办与贯穿需求全流程的 AI 助手整合为一体，让产品团队在同一空间内完成从需求规划到上线复盘的完整闭环。</p>
+      <div class="meta">
+        <span><b>版本</b>v1.0</span>
+        <span><b>目标用户</b>产品 / 项目团队</span>
+        <span><b>视角</b>AI 产品经理</span>
+        <span><b>规范</b>EARS</span>
+        <span><b>状态</b>待评审</span>
+      </div>
+    </div>
+
+    <section class="sec" id="bg">
+      <h2>1. 背景与问题 <span class="fold">▾</span></h2>
+      <div class="body">
+      <div class="card">
+        <p>产品团队的日常协作被割裂在多个工具中：需求文档散落在网盘，任务追踪在项目管理软件，评审结论沉在聊天记录，AI 工具又是独立的对话窗口。信息无法沉淀为「项目上下文」，导致以下痛点：</p>
+        <table>
+          <tr><th>痛点</th><th>具体表现</th><th>影响</th></tr>
+          <tr><td>上下文断裂</td><td>PRD、设计稿、评审结论、Bug 分散在不同工具，AI 无法感知项目全貌</td><td>反复解释背景，AI 产出通用而不贴合</td></tr>
+          <tr><td>流转靠人肉</td><td>阶段成果依赖人工通知与转发</td><td>关键角色漏接信息，交付物脱节</td></tr>
+          <tr><td>过程不可追溯</td><td>决策、变更、责任人缺乏统一记录</td><td>复盘困难，重复踩坑</td></tr>
+          <tr><td>AI 能力孤立</td><td>AI 只能对话，不能读资料、建事项、触达成员</td><td>AI 停留在「聊天」而非「协同」</td></tr>
+        </table>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="goal">
+      <h2>2. 产品目标 <span class="fold">▾</span></h2>
+      <div class="body">
+      <div class="card">
+        <h4>产品愿景</h4>
+        <p>让 WorkBuddy 项目空间成为产品团队的<strong>统一协作容器与 AI 上下文中枢</strong>——所有资料、事项、成员与 AI 助手在同一项目内联动，AI 天然理解「这个项目正在做什么、由谁负责、到了哪个阶段」。</p>
+        <h4>目标拆解</h4>
+        <table>
+          <tr><th>层级</th><th>目标</th><th>衡量方式</th></tr>
+          <tr><td>业务目标</td><td>缩短需求全流程协同周期，减少信息流转损耗</td><td>需求平均交付周期 ↓、跨阶段返工率 ↓</td></tr>
+          <tr><td>用户目标</td><td>产品经理在一个空间内完成规划到复盘</td><td>单项目跨阶段工具切换次数 ↓</td></tr>
+          <tr><td>AI 目标</td><td>AI 基于项目上下文自动生成交付物并驱动流转</td><td>AI 产出采纳率、AI 触发的事项创建量</td></tr>
+        </table>
+        <div class="callout info">本期<strong>不做</strong>：跨项目组合视图、复杂甘特图排期引擎、财务/预算模块。聚焦「单项目内全流程协同 + AI 中枢」。</div>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="user">
+      <h2>3. 目标用户与角色 <span class="fold">▾</span></h2>
+      <div class="body">
+      <div class="card">
+        <table>
+          <tr><th>角色</th><th>核心诉求</th><th>关键动作</th></tr>
+          <tr><td><b>产品经理</b>（主用户）</td><td>统筹全流程、产出 PRD、驱动流转</td><td>建项目、写 PRD、创建/分配事项、驱动 AI</td></tr>
+          <tr><td>设计师</td><td>清晰接收需求，输出并归档设计稿</td><td>接收评审事项、上传设计稿、回复问题</td></tr>
+          <tr><td>研发负责人 / 开发</td><td>理解需求、拆解任务、跟踪进度</td><td>接收研发事项、拆子任务、更新状态</td></tr>
+          <tr><td>测试</td><td>基于 PRD 生成用例、提交规范 Bug</td><td>接收测试事项、创建 Bug 并回链</td></tr>
+          <tr><td>项目管理者 / Owner</td><td>掌握进度与风险、沉淀成果</td><td>管理成员权限、查看进度、设定规则</td></tr>
+        </table>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="story">
+      <h2>4. 用户故事 <span class="fold">▾</span></h2>
+      <div class="body">
+      <div class="grid">
+        <div class="card"><h4>US-01 项目搭建</h4><p class="muted">作为产品经理，我希望创建项目并邀请成员，让所有协作在统一空间内进行。</p></div>
+        <div class="card"><h4>US-02 AI 需求规划</h4><p class="muted">作为产品经理，我希望 AI 基于项目资料帮我梳理需求池与优先级。</p></div>
+        <div class="card"><h4>US-03 PRD 协同</h4><p class="muted">作为产品经理，我希望用 AI 按 EARS 规范写 PRD 并上传资料库供评审。</p></div>
+        <div class="card"><h4>US-04 成果流转</h4><p class="muted">作为产品经理，我希望一键创建评审事项、分配责任人并添加关注人。</p></div>
+        <div class="card"><h4>US-05 研发跟进</h4><p class="muted">作为研发负责人，我希望把需求拆成子任务并附上 PRD 按依赖推进。</p></div>
+        <div class="card"><h4>US-06 测试验收</h4><p class="muted">作为测试，我希望基于 PRD 生成用例，发现问题创建 Bug 并回链需求。</p></div>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="scope">
+      <h2>5. 功能范围与模块地图 <span class="fold">▾</span></h2>
+      <div class="body">
+      <div class="grid">
+        <div class="card" style="border-color:color-mix(in srgb,var(--brand) 25%,transparent);background:var(--brand-soft)"><h4>M1 · 项目空间</h4><p class="muted">项目创建、基本信息、项目指令/上下文、归档</p></div>
+        <div class="card" style="border-color:color-mix(in srgb,var(--brand) 25%,transparent);background:var(--brand-soft)"><h4>M2 · 成员与权限</h4><p class="muted">邀请、角色分配、权限控制、关注人机制</p></div>
+        <div class="card" style="border-color:color-mix(in srgb,var(--brand) 25%,transparent);background:var(--brand-soft)"><h4>M3 · 项目资料库</h4><p class="muted">文档/设计稿上传、版本、目录、AI 上下文</p></div>
+        <div class="card" style="border-color:color-mix(in srgb,var(--brand) 25%,transparent);background:var(--brand-soft)"><h4>M4 · 事项 / 待办</h4><p class="muted">创建、分配、状态流转、子任务、附件回链</p></div>
+        <div class="card" style="border-color:color-mix(in srgb,var(--brand) 25%,transparent);background:var(--brand-soft)"><h4>M5 · AI 全流程助手</h4><p class="muted">贯穿六阶段：规划/PRD/评审/跟进/测试/复盘</p></div>
+        <div class="card" style="border-color:color-mix(in srgb,var(--brand) 25%,transparent);background:var(--brand-soft)"><h4>M6 · 通知与流转</h4><p class="muted">阶段流转提醒、事项通知、关注人触达</p></div>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="feature">
+      <h2>6. 功能清单（EARS 需求描述） <span class="fold">▾</span></h2>
+      <div class="body">
+      <p class="muted">点击下方标签筛选不同 EARS 类型的需求条目。</p>
+      <div class="filterbar">
+        <span class="lab">EARS 筛选：</span>
+        <span class="chip on" data-f="all">全部</span>
+        <span class="chip" data-f="Ubiquitous">Ubiquitous 恒定</span>
+        <span class="chip" data-f="Event-driven">Event-driven 事件</span>
+        <span class="chip" data-f="State-driven">State-driven 状态</span>
+        <span class="chip" data-f="Optional">Optional 可选</span>
+        <span class="chip" data-f="Unwanted">Unwanted 异常</span>
+      </div>
+
+      <h3>M1 项目空间</h3>
+      <div class="card">
+        <div class="ears" data-e="Event-driven"><span class="t">Event-driven</span><p>When 用户点击「创建项目」并填写名称，the system shall 生成独立项目空间并将创建者设为 Owner。</p></div>
+        <div class="ears" data-e="Ubiquitous"><span class="t">Ubiquitous</span><p>The system shall 始终为每个项目维护一份「项目指令/上下文」，供 AI 在本项目内所有对话中读取。</p></div>
+        <div class="ears" data-e="Optional"><span class="t">Optional</span><p>Where 项目已归档，the system shall 置为只读并从活跃列表隐藏，但保留全部资料与事项可追溯。</p></div>
+        <div class="ears" data-e="Unwanted"><span class="t">Unwanted</span><p>If 项目名称为空或重名，then the system shall 阻止创建并给出明确错误提示。</p></div>
+      </div>
+
+      <h3>M2 成员与权限</h3>
+      <div class="card">
+        <div class="ears" data-e="Event-driven"><span class="t">Event-driven</span><p>When Owner 邀请成员并指定角色，the system shall 发送邀请并在接受后按角色授予权限。</p></div>
+        <div class="ears" data-e="State-driven"><span class="t">State-driven</span><p>While 成员为「关注人」，the system shall 在其关注的事项或文档变更时推送通知。</p></div>
+        <div class="ears" data-e="Unwanted"><span class="t">Unwanted</span><p>If 非授权成员尝试删除他人事项或资料，then the system shall 拒绝并记录该行为。</p></div>
+      </div>
+
+      <h3>M3 项目资料库</h3>
+      <div class="card">
+        <div class="ears" data-e="Event-driven"><span class="t">Event-driven</span><p>When 用户上传 PRD/设计稿/评审结论/测试用例，the system shall 存入资料库并纳入 AI 可检索的上下文。</p></div>
+        <div class="ears" data-e="Ubiquitous"><span class="t">Ubiquitous</span><p>The system shall 为同名文档保留版本历史，允许查看与回溯。</p></div>
+        <div class="ears" data-e="Unwanted"><span class="t">Unwanted</span><p>If 文件超限或格式不支持，then the system shall 中止上传并提示允许的格式与上限。</p></div>
+      </div>
+
+      <h3>M4 事项 / 待办</h3>
+      <div class="card">
+        <div class="ears" data-e="Event-driven"><span class="t">Event-driven</span><p>When 用户创建事项并指定负责人，the system shall 生成事项、通知负责人，并支持附加文档与关注人。</p></div>
+        <div class="ears" data-e="State-driven"><span class="t">State-driven</span><p>While 事项处于「进行中」，the system shall 允许拆子任务、设依赖并汇总完成度。</p></div>
+        <div class="ears" data-e="Ubiquitous"><span class="t">Ubiquitous</span><p>The system shall 始终记录事项状态流转历史以供追溯。</p></div>
+        <div class="ears" data-e="Unwanted"><span class="t">Unwanted</span><p>If 事项被标记完成但仍有阻塞性子任务，then the system shall 弹出确认并提示风险。</p></div>
+      </div>
+
+      <h3>M5 AI 全流程协同助手（核心）</h3>
+      <div class="card">
+        <table>
+          <tr><th>阶段</th><th>AI 能力</th><th>产出物</th></tr>
+          <tr><td>① 需求规划</td><td>梳理用户/痛点/场景、竞品调研、优先级建议</td><td>需求概要、需求池、优先级、待确认清单</td></tr>
+          <tr><td>② PRD 撰写</td><td>按 EARS + 标准结构撰写、补全边界/权限/埋点</td><td>结构化 PRD（MD/Word/HTML）</td></tr>
+          <tr><td>③ 设计/研发评审</td><td>整理议题、依赖、风险，拆页面/状态/技术依赖</td><td>议题清单、风险清单、待办问题</td></tr>
+          <tr><td>④ 研发跟进</td><td>拆研发任务与依赖，汇总进度与风险</td><td>任务拆解、进度摘要、风险清单</td></tr>
+          <tr><td>⑤ 测试验收</td><td>基于 PRD 生成用例、规范 Bug、判断阻断性</td><td>测试用例、Bug 事项、验收/风险清单</td></tr>
+          <tr><td>⑥ 上线复盘</td><td>总结达成、遗留问题、提炼可复用经验</td><td>复盘报告、数据观察、后续行动项</td></tr>
+        </table>
+        <div class="ears" data-e="Ubiquitous"><span class="t">Ubiquitous</span><p>The system shall 始终基于当前项目的资料库、成员与事项上下文生成回答，而非通用回答。</p></div>
+        <div class="ears" data-e="Event-driven"><span class="t">Event-driven</span><p>When AI 完成某阶段交付物，the system shall 主动提醒「上传资料库 / 建下一环节事项 / 加关注人」。</p></div>
+        <div class="ears" data-e="Event-driven"><span class="t">Event-driven</span><p>When 用户确认，the system shall 由 AI 代建事项、附交付物并分配给负责人。</p></div>
+        <div class="ears" data-e="Unwanted"><span class="t">Unwanted</span><p>If 信息不足（缺目标用户/数据口径），then the system shall 先追问关键缺口，不得编造结论。</p></div>
+        <div class="ears" data-e="Unwanted"><span class="t">Unwanted</span><p>If 涉及排期/资源/上线范围，then the system shall 提示用户找对应负责人确认，而非自行拍板。</p></div>
+      </div>
+
+      <h3>M6 通知与流转</h3>
+      <div class="card">
+        <div class="ears" data-e="Event-driven"><span class="t">Event-driven</span><p>When 事项被分配、状态变更或被 @，the system shall 向负责人与关注人发送通知。</p></div>
+        <div class="ears" data-e="State-driven"><span class="t">State-driven</span><p>While 某阶段成果已就绪，the system shall 提示可流转至下一环节角色，并附交付物链接。</p></div>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="flow">
+      <h2>7. 核心流程说明 <span class="fold">▾</span></h2>
+      <div class="body">
+      <h3>7.1 需求全流程主线</h3>
+      <div class="flow">
+        <div class="step"><div class="n">STAGE 1</div><div class="h">需求规划</div><div class="d">AI 梳理需求池 → 建需求事项</div></div>
+        <div class="step"><div class="n">STAGE 2</div><div class="h">PRD 撰写</div><div class="d">AI 写 PRD → 上传 → 建评审事项</div></div>
+        <div class="step"><div class="n">STAGE 3</div><div class="h">评审</div><div class="d">整理议题/风险 → 结论沉淀 → 拆待办</div></div>
+        <div class="step"><div class="n">STAGE 4</div><div class="h">研发跟进</div><div class="d">拆研发任务 → 附 PRD → 进度摘要</div></div>
+        <div class="step"><div class="n">STAGE 5</div><div class="h">测试验收</div><div class="d">生成用例 → 提 Bug → 回链需求</div></div>
+        <div class="step"><div class="n">STAGE 6</div><div class="h">上线复盘</div><div class="d">复盘报告 → 优化点转新事项</div></div>
+      </div>
+      <h3>7.2 「AI 生成 → 成果流转」子流程</h3>
+      <div class="card">
+        <ol>
+          <li>用户在项目内向 AI 发起某阶段任务（如「写 PRD」）。</li>
+          <li>AI 读取<strong>项目资料库 + 事项 + 成员</strong>上下文生成交付物。</li>
+          <li>信息不足时 AI <strong>先追问</strong>，补齐后再产出。</li>
+          <li>产出后 AI 主动提醒：上传资料库 / 建下一环节事项 / 加关注人。</li>
+          <li>用户确认 → AI 执行：写入资料库、创建并分配事项、附交付物、通知角色。</li>
+        </ol>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="interact">
+      <h2>8. 交互与权限说明 <span class="fold">▾</span></h2>
+      <div class="body">
+      <h3>8.1 权限矩阵</h3>
+      <table>
+        <tr><th>操作</th><th>Owner</th><th>产品经理</th><th>普通成员</th><th>关注人</th></tr>
+        <tr><td>管理成员/权限</td><td>✅</td><td>➖ 可邀请</td><td>❌</td><td>❌</td></tr>
+        <tr><td>创建/删除项目</td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr>
+        <tr><td>上传/管理资料</td><td>✅</td><td>✅</td><td>✅</td><td>👁 只读</td></tr>
+        <tr><td>创建/分配事项</td><td>✅</td><td>✅</td><td>✅ 自建</td><td>👁 只读</td></tr>
+        <tr><td>接收通知</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+      </table>
+      <h3>8.2 关键交互原则</h3>
+      <ul>
+        <li><strong>AI 动作需用户确认</strong>：创建事项、分配、上传等外部动作前先说明再执行。</li>
+        <li><strong>上下文透明</strong>：AI 回答时可标注所依据的项目资料，便于溯源。</li>
+        <li><strong>流转不强制</strong>：AI 只提醒流转，是否执行由用户决定。</li>
+      </ul>
+      </div>
+    </section>
+
+    <section class="sec" id="metric">
+      <h2>9. 数据指标与埋点 <span class="fold">▾</span></h2>
+      <div class="body">
+      <div class="kpi">
+        <div class="card"><div class="v">↓ 周期</div><div class="l">需求平均交付周期</div></div>
+        <div class="card"><div class="v">↑ 采纳率</div><div class="l">AI 产出被采纳比例</div></div>
+        <div class="card"><div class="v">↑ 闭环率</div><div class="l">成果按时流转比例</div></div>
+      </div>
+      <table>
+        <tr><th>指标</th><th>定义</th><th>埋点事件</th></tr>
+        <tr><td>项目活跃度</td><td>7 日内有资料/事项/AI 操作的项目占比</td><td><code>project_active</code></td></tr>
+        <tr><td>AI 产出采纳率</td><td>AI 生成物被上传或转事项的比例</td><td><code>ai_output_adopted</code></td></tr>
+        <tr><td>成果流转率</td><td>阶段交付物完成后建下一环节事项的比例</td><td><code>stage_handoff</code></td></tr>
+        <tr><td>事项闭环率</td><td>创建事项最终被标记完成的比例</td><td><code>task_completed</code></td></tr>
+        <tr><td>关注触达率</td><td>关注人成功收到并查看通知的比例</td><td><code>notify_viewed</code></td></tr>
+      </table>
+      </div>
+    </section>
+
+    <section class="sec" id="accept">
+      <h2>10. 验收标准（可勾选） <span class="fold">▾</span></h2>
+      <div class="body">
+      <p class="muted">勾选已满足的验收项，进度会自动保存到本地浏览器（刷新不丢失）。</p>
+      <div id="acceptList">
+        <label class="check"><input type="checkbox" data-k="a1"><span class="txt">用户可创建项目、邀请成员并按角色分配权限，权限矩阵生效。</span></label>
+        <label class="check"><input type="checkbox" data-k="a2"><span class="txt">资料库支持上传/版本/目录，且内容能被 AI 检索并用于回答。</span></label>
+        <label class="check"><input type="checkbox" data-k="a3"><span class="txt">事项支持创建、分配、子任务、依赖、状态流转与附件回链，历史可追溯。</span></label>
+        <label class="check"><input type="checkbox" data-k="a4"><span class="txt">AI 六阶段能力均可产出对应交付物，且回答基于本项目上下文。</span></label>
+        <label class="check"><input type="checkbox" data-k="a5"><span class="txt">AI 完成交付物后能主动提醒流转，并在确认后代建事项/上传/通知。</span></label>
+        <label class="check"><input type="checkbox" data-k="a6"><span class="txt">信息不足时 AI 先追问；涉及决策时提示找负责人确认，不编造。</span></label>
+        <label class="check"><input type="checkbox" data-k="a7"><span class="txt">通知能准确触达负责人与关注人。</span></label>
+      </div>
+      </div>
+    </section>
+
+    <section class="sec" id="edge">
+      <h2>11. 边界与异常场景 <span class="fold">▾</span></h2>
+      <div class="body">
+      <table>
+        <tr><th>场景</th><th>系统预期行为</th></tr>
+        <tr><td>资料库为空时向 AI 提问</td><td>AI 声明缺乏上下文并追问关键信息，通用建议明确标注</td></tr>
+        <tr><td>成员被移除项目</td><td>失去访问权限，历史操作记录保留</td></tr>
+        <tr><td>事项负责人离职/停用</td><td>提示重新指派，事项进入「待认领」状态</td></tr>
+        <tr><td>并发编辑同一文档</td><td>提示版本冲突并保留双版本供合并</td></tr>
+        <tr><td>AI 请求外部动作被拒绝</td><td>不执行，保留生成结果供手动处理</td></tr>
+      </table>
+      </div>
+    </section>
+
+    <section class="sec" id="plan">
+      <h2>12. 里程碑与开放问题 <span class="fold">▾</span></h2>
+      <div class="body">
+      <h3>12.1 建议里程碑（排期需与负责人确认）</h3>
+      <table>
+        <tr><th>阶段</th><th>范围</th><th>优先级</th></tr>
+        <tr><td>M1</td><td>项目空间 + 成员权限 + 资料库</td><td><span class="pill p-p0">P0</span></td></tr>
+        <tr><td>M2</td><td>事项/待办 + 通知流转</td><td><span class="pill p-p0">P0</span></td></tr>
+        <tr><td>M3</td><td>AI 全流程助手（规划/PRD/评审）</td><td><span class="pill p-p1">P1</span></td></tr>
+        <tr><td>M4</td><td>AI 研发跟进/测试/复盘 + 代建事项</td><td><span class="pill p-p1">P1</span></td></tr>
+        <tr><td>M5</td><td>指标看板与埋点分析</td><td><span class="pill p-p2">P2</span></td></tr>
+      </table>
+      <h3>12.2 待确认问题清单（可勾选）</h3>
+      <div id="openList">
+        <label class="check"><input type="checkbox" data-k="o1"><span class="txt">AI 代建事项/上传的<strong>权限边界</strong>：所有角色可触发，还是仅产品经理及以上？</span></label>
+        <label class="check"><input type="checkbox" data-k="o2"><span class="txt">资料库是否需与外部工具（TAPD/CNB/GitHub/工蜂）<strong>双向同步</strong>，本期是否只做读取？</span></label>
+        <label class="check"><input type="checkbox" data-k="o3"><span class="txt">通知渠道范围：站内/邮件/IM，本期覆盖哪些？</span></label>
+        <label class="check"><input type="checkbox" data-k="o4"><span class="txt">指标看板的<strong>数据口径</strong>由谁定义？需与数据/研发负责人确认。</span></label>
+      </div>
+      </div>
+    </section>
+
+    <div class="callout ok">
+      <strong>下一步流转建议</strong>：本 PRD 建议 ①上传至项目资料库形成统一上下文；②创建「PRD 评审」事项分配给技术负责人、设计师、测试，并把三方加为关注人；③评审结论与待办问题拆成子事项回链本文档。排期与上线范围请与负责人确认后再锁定。
+    </div>
+
+    <footer>WorkBuddy 项目功能 PRD · v1.0 · 交互版 · 以 AI 产品经理视角撰写 · 需求描述遵循 EARS 规范</footer>
+  </main>
+</div>
+
+<button id="top" title="返回顶部">↑</button>
+
+<script>
+(function(){
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section.sec'));
+  var titles = {bg:'1 背景与问题',goal:'2 产品目标',user:'3 目标用户',story:'4 用户故事',scope:'5 功能范围',feature:'6 功能清单',flow:'7 核心流程',interact:'8 交互与权限',metric:'9 数据指标',accept:'10 验收标准',edge:'11 边界异常',plan:'12 里程碑'};
+
+  // 目录
+  var nav = document.getElementById('nav');
+  sections.forEach(function(s){
+    var a = document.createElement('a');
+    a.href = '#'+s.id; a.textContent = titles[s.id]||s.id; a.dataset.id = s.id;
+    nav.appendChild(a);
+  });
+  var navLinks = Array.prototype.slice.call(nav.querySelectorAll('a'));
+
+  // 滚动高亮 + 进度条 + 返回顶部
+  var prog = document.getElementById('progress'), top = document.getElementById('top');
+  function onScroll(){
+    var st = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (h>0? st/h*100:0)+'%';
+    top.classList.toggle('show', st>400);
+    var cur = sections[0].id, mid = st + window.innerHeight*0.28;
+    sections.forEach(function(s){ if(s.offsetTop <= mid) cur = s.id; });
+    navLinks.forEach(function(a){ a.classList.toggle('active', a.dataset.id===cur); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // 折叠
+  document.querySelectorAll('section.sec h2').forEach(function(h){
+    var body = h.nextElementSibling;
+    body.style.maxHeight = body.scrollHeight+'px';
+    h.addEventListener('click', function(){
+      var collapsed = h.classList.toggle('collapsed');
+      body.style.maxHeight = collapsed ? '0px' : body.scrollHeight+'px';
+    });
+  });
+  var allOpen = true;
+  document.getElementById('expandAll').addEventListener('click', function(){
+    allOpen = !allOpen;
+    this.textContent = allOpen ? '📂 展开全部' : '📁 收起全部';
+    document.querySelectorAll('section.sec').forEach(function(s){
+      var h=s.querySelector('h2'), body=s.querySelector('.body');
+      h.classList.toggle('collapsed', !allOpen);
+      body.style.maxHeight = allOpen ? body.scrollHeight+'px' : '0px';
+    });
+  });
+
+  // 主题
+  var themeBtn = document.getElementById('theme');
+  var saved = localStorage.getItem('prd-theme');
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+  function syncTheme(){ var d=document.documentElement.getAttribute('data-theme')==='dark'; themeBtn.textContent = d?'☀️ 浅色':'🌗 深色'; }
+  syncTheme();
+  themeBtn.addEventListener('click', function(){
+    var d = document.documentElement.getAttribute('data-theme')==='dark';
+    var nt = d?'light':'dark';
+    document.documentElement.setAttribute('data-theme', nt);
+    localStorage.setItem('prd-theme', nt); syncTheme();
+    document.querySelectorAll('section.sec .body').forEach(function(b){ if(b.style.maxHeight!=='0px') b.style.maxHeight=b.scrollHeight+'px'; });
+  });
+
+  // 打印
+  document.getElementById('print').addEventListener('click', function(){ window.print(); });
+
+  // EARS 筛选
+  var chips = document.querySelectorAll('.chip');
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){
+      chips.forEach(function(x){x.classList.remove('on');});
+      c.classList.add('on');
+      var f = c.dataset.f;
+      document.querySelectorAll('.ears').forEach(function(e){
+        e.classList.toggle('hide', f!=='all' && e.dataset.e!==f);
+      });
+      document.querySelectorAll('section.sec .body').forEach(function(b){ if(b.style.maxHeight!=='0px') b.style.maxHeight=b.scrollHeight+'px'; });
+    });
+  });
+
+  // 可勾选清单 + 本地保存
+  var checks = document.querySelectorAll('.check input');
+  var STORE = 'prd-checks';
+  var state = JSON.parse(localStorage.getItem(STORE)||'{}');
+  function refreshMini(){
+    var done=0; checks.forEach(function(c){ if(c.checked) done++; });
+    var pct = checks.length? done/checks.length*100:0;
+    document.getElementById('miniBar').style.width = pct+'%';
+    document.getElementById('miniNum').textContent = done+' / '+checks.length;
+  }
+  checks.forEach(function(c){
+    var k=c.dataset.k;
+    if(state[k]){ c.checked=true; c.closest('.check').classList.add('done'); }
+    c.addEventListener('change', function(){
+      c.closest('.check').classList.toggle('done', c.checked);
+      state[k]=c.checked; localStorage.setItem(STORE, JSON.stringify(state));
+      refreshMini();
+    });
+  });
+  refreshMini();
+
+  // 搜索高亮
+  var q = document.getElementById('q'), qc = document.getElementById('qc');
+  var contentRoot = document.querySelector('main');
+  function clearMarks(){
+    contentRoot.querySelectorAll('mark').forEach(function(m){
+      var t=document.createTextNode(m.textContent); m.parentNode.replaceChild(t,m); 
+    });
+    contentRoot.normalize();
+  }
+  var timer;
+  q.addEventListener('input', function(){
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      clearMarks();
+      var term=q.value.trim();
+      if(!term){ qc.textContent=''; return; }
+      var walker=document.createTreeWalker(contentRoot, NodeFilter.SHOW_TEXT, {
+        acceptNode:function(n){
+          if(!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          var p=n.parentNode.nodeName;
+          if(p==='SCRIPT'||p==='STYLE'||p==='MARK') return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      var nodes=[],n; while(n=walker.nextNode()) nodes.push(n);
+      var re=new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'), count=0, first=null;
+      nodes.forEach(function(node){
+        var txt=node.nodeValue; if(!re.test(txt)) return; re.lastIndex=0;
+        var frag=document.createDocumentFragment(), last=0, m;
+        while(m=re.exec(txt)){
+          frag.appendChild(document.createTextNode(txt.slice(last,m.index)));
+          var mk=document.createElement('mark'); mk.textContent=m[0]; frag.appendChild(mk);
+          if(!first) first=mk; last=m.index+m[0].length; count++;
+        }
+        frag.appendChild(document.createTextNode(txt.slice(last)));
+        node.parentNode.replaceChild(frag,node);
+      });
+      qc.textContent = count?count+' 处':'无结果';
+      if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+    },220);
+  });
+
+  window.addEventListener('resize', function(){
+    document.querySelectorAll('section.sec .body').forEach(function(b){ if(b.style.maxHeight!=='0px') b.style.maxHeight=b.scrollHeight+'px'; });
+  });
+  onScroll();
+})();
+</script>
+</body>
+</html>

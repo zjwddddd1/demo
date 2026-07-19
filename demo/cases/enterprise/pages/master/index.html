@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大师召唤系统 · 思辨工坊</title>
+<style>
+  :root {
+    --primary: #1E40AF;
+    --primary-light: #EFF6FF;
+    --text: #111827;
+    --text-2: #4B5563;
+    --text-3: #9CA3AF;
+    --border: #E5E7EB;
+    --border-2: #F3F4F6;
+    --bg: #FAFAFA;
+    --card: #FFFFFF;
+    --radius: 4px;
+    --warn: #DC2626;
+    --warn-bg: #FEE2E2;
+    --sidebar-w: 280px;
+    --sidebar-w-collapsed: 56px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ========== Layout ========== */
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar.collapsed {
+    width: var(--sidebar-w-collapsed);
+  }
+  .main {
+    flex: 1;
+    min-width: 0;
+  }
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ========== Sidebar ========== */
+  .sidebar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .sidebar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .sidebar.collapsed .sidebar-title { opacity: 0; pointer-events: none; }
+
+  .toggle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .toggle-btn:hover { background: var(--bg); color: var(--primary); border-color: var(--primary); }
+  .sidebar.collapsed .toggle-btn { transform: rotate(180deg); }
+
+  .sidebar-search {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-2);
+    flex-shrink: 0;
+  }
+  .sidebar-search input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 13px;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    font-family: inherit;
+  }
+  .sidebar-search input:focus { border-color: var(--primary); background: var(--card); }
+  .sidebar.collapsed .sidebar-search { display: none; }
+
+  .sidebar-section-label {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 16px 20px 8px;
+  }
+  .sidebar.collapsed .sidebar-section-label { display: none; }
+
+  .sidebar-list {
+    list-style: none;
+    padding: 0 8px 16px;
+    flex: 1;
+  }
+  .sidebar.collapsed .sidebar-list { display: none; }
+  .sidebar-item {
+    display: block;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.15s;
+    margin-bottom: 2px;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover {
+    background: var(--primary-light);
+    border-left-color: var(--primary);
+  }
+  .sidebar-item.active {
+    background: var(--primary-light);
+    border-left-color: var(--primary);
+  }
+  .sidebar-item-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sidebar-item-meta {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .sidebar-item-tag {
+    display: inline-block;
+    background: var(--border-2);
+    color: var(--text-2);
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-top: 4px;
+    font-family: -apple-system, sans-serif;
+  }
+
+  .sidebar-empty {
+    padding: 16px 20px;
+    color: var(--text-3);
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .sidebar-collapsed-icons {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 8px;
+  }
+  .sidebar.collapsed .sidebar-collapsed-icons { display: flex; }
+  .sidebar-collapsed-icons a {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    color: var(--text-2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .sidebar-collapsed-icons a:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  /* ========== Hero ========== */
+  .hero {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 0 48px;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .hero .subtitle {
+    font-size: 16px;
+    color: var(--text-2);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+  .hero .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .badge.gray { background: var(--border-2); color: var(--text-2); }
+
+  /* ========== Workflow ========== */
+  .workflow {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+  }
+  .workflow h3 {
+    font-size: 14px;
+    color: var(--text-3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .step.adversarial { border-left-color: #DC2626; background: linear-gradient(90deg, rgba(220,38,38,0.05), transparent 50%); }
+  .step.adversarial .step-num { color: #DC2626; }
+  .step {
+    border-left: 3px solid var(--primary);
+    padding: 4px 0 4px 14px;
+  }
+  .step-num { font-size: 11px; color: var(--primary); font-weight: 700; letter-spacing: 1px; }
+  .step-title { font-weight: 600; color: var(--text); margin: 2px 0; }
+  .step-desc { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+
+  /* ========== Section ========== */
+  section { padding: 48px 0; }
+  .section-head { margin-bottom: 28px; }
+  .section-head h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .section-head .desc { color: var(--text-2); font-size: 14px; }
+
+  /* ========== Master School ========== */
+  .school { margin-bottom: 32px; }
+  .school-title {
+    font-size: 13px;
+    color: var(--text-3);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+  .master-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .master-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    border-left: 3px solid var(--mc, var(--primary));
+    transition: all 0.15s;
+  }
+  .master-card:hover {
+    border-color: var(--mc, var(--primary));
+    transform: translateY(-1px);
+  }
+  .master-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .master-era { font-size: 11px; color: var(--text-3); font-weight: 400; }
+  .master-stance { font-size: 12px; color: var(--mc, var(--primary)); font-weight: 600; margin-bottom: 6px; }
+  .master-trigger {
+    font-size: 12px;
+    color: var(--text-2);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+  .master-card.locked { opacity: 0.5; border-left-color: var(--text-3); background: var(--bg); }
+  .master-card.locked .master-stance { color: var(--text-3); }
+
+  /* ========== Footer ========== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    color: var(--text-3);
+    font-size: 13px;
+    text-align: center;
+  }
+  footer code {
+    background: var(--card);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: ui-monospace, monospace;
+    color: var(--text-2);
+  }
+
+  /* ========== Mobile ========== */
+  @media (max-width: 760px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      width: 100% !important;
+      height: auto;
+      max-height: 50vh;
+      position: relative;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar.collapsed { width: 100% !important; max-height: 60px; overflow: hidden; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .hero h1 { font-size: 26px; }
+    .container { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <span class="sidebar-title">📜 命题档案馆</span>
+      <button class="toggle-btn" id="toggleBtn" title="折叠/展开">‹</button>
+    </div>
+
+    <!-- 搜索框 -->
+    <div class="sidebar-search">
+      <input type="text" id="reportSearch" placeholder="搜索命题…" oninput="filterReports()">
+    </div>
+
+    <!-- 折叠状态下的图标导航 -->
+    <div class="sidebar-collapsed-icons">
+      <a href="#top" title="首页">🏠</a>
+      <a href="#masters" title="大师清单">👥</a>
+      <a href="20260524-1743-信息本体论.html" title="信息本体论">本</a>
+    </div>
+
+    <!-- 已展开状态：报告列表 -->
+    <div class="sidebar-section-label">历史报告 · 时间倒序</div>
+    <ul class="sidebar-list" id="reportList">
+      <li>
+        <a class="sidebar-item" href="20260607-1918-韬定律.html">
+          <div class="sidebar-item-title">某科技公司韬(τ)定律 · 是定律还是叙事</div>
+          <div class="sidebar-item-meta">2026-06-07 · 19:18 · 5 位</div>
+          <span class="sidebar-item-tag">技术战略 · 波 1↔吴 5</span>
+        </a>
+      </li>
+      <li>
+        <a class="sidebar-item" href="20260524-2345-巧合似神迹.html">
+          <div class="sidebar-item-title">巧合似神迹 · "我刚想到就发生"</div>
+          <div class="sidebar-item-meta">2026-05-24 · 23:45 · 4 位</div>
+          <span class="sidebar-item-tag">认知现象 · 费 5↔庄 1</span>
+        </a>
+      </li>
+      <li>
+        <a class="sidebar-item" href="20260524-1743-信息本体论.html">
+          <div class="sidebar-item-title">信息本体论</div>
+          <div class="sidebar-item-meta">2026-05-24 · 17:43 · 5 位</div>
+          <span class="sidebar-item-tag">形而上学 · 庄 5↔王 1</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-empty" id="emptyHint" style="display:none;">
+      暂无匹配命题
+    </div>
+  </aside>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main" id="top">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="container">
+        <h1>大师召唤系统</h1>
+        <p class="subtitle">把 28 位人类历史上的思辨者请到桌上，对你的真实命题做交叉拷问。</p>
+
+        <div class="badges">
+          <span class="badge">v0.8.0</span>
+          <span class="badge gray">28 位上线 / 4 位待上线</span>
+          <span class="badge" style="background: rgba(220,38,38,0.1); color: #DC2626; border: 1px solid rgba(220,38,38,0.3);">🆕 5 步流水线 · 加入对抗分析</span>
+          <span class="badge" style="background: rgba(2,132,199,0.1); color: #0284C7; border: 1px solid rgba(2,132,199,0.3);">🆕 v0.8.0 · 新增理念论/中观/科学哲学/存在主义女性主义/量子互补五学派</span>
+          <span class="badge gray">5 维评分 · 蛛网图</span>
+          <span class="badge gray">HTML 报告自动生成</span>
+        </div>
+
+        <div class="workflow">
+          <h3>它做什么</h3>
+          <p style="color: var(--text-2); margin-bottom: 18px; font-size: 14px;">
+            遇到一个抽象命题 / 重要决策 / 哲学疑问，不是 AI 给一段总结性独白——
+            而是<strong style="color: var(--text);">用第一性原理选 3-5 位立场最对立的大师</strong>，
+            让每位独立分析、<strong style="color: #DC2626;">互相点名拷问</strong>、必要时调整评分，最后合成蛛网图、标出真分歧、给出决策清单。
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">STEP 1</div>
+              <div class="step-title">路由</div>
+              <div class="step-desc">命题 → 商业 / 人生 / 技术 / 哲学，自动选评分模板</div>
+            </div>
+            <div class="step">
+              <div class="step-num">STEP 2</div>
+              <div class="step-title">选专家</div>
+              <div class="step-desc">基于 conflict_axes 选 3-5 位立场最对立的大师</div>
+            </div>
+            <div class="step">
+              <div class="step-num">STEP 3</div>
+              <div class="step-title">独立分析</div>
+              <div class="step-desc">每位用自己的三件武器作答 + 自评 5 维分数</div>
+            </div>
+            <div class="step adversarial">
+              <div class="step-num">STEP 4 🆕</div>
+              <div class="step-title">对抗分析</div>
+              <div class="step-desc">互相点名拷问 → 接受/部分接受/拒绝 → 调分 → 真假分歧</div>
+            </div>
+            <div class="step">
+              <div class="step-num">STEP 5</div>
+              <div class="step-title">合成报告</div>
+              <div class="step-desc">蛛网图 + 真分歧区 + 决策清单（首条 = 你最不想听的）</div>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size: 13px; color: var(--text-3); padding-left: 4px;">
+          💡 触发方式：在对话里说「<code style="font-family: ui-monospace, monospace; background: var(--bg); padding: 1px 6px; border-radius: 3px; color: var(--primary);">召唤专家分析 + 你的命题</code>」即可。单独 @ 某位大师则进入<strong>独白模式</strong>，无评分无报告。报告会自动追加到左侧档案馆。
+        </p>
+      </div>
+    </header>
+
+    <!-- MASTER LIST -->
+    <section id="masters">
+      <div class="container">
+        <div class="section-head">
+          <h2>大师清单</h2>
+          <p class="desc">按学派分组。每位大师有独立的 SKILL.md，独立的色彩，独立的拒绝清单。</p>
+        </div>
+
+        <!-- 古典思辨派 -->
+        <div class="school">
+          <div class="school-title">古典思辨 · Classical</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #1E40AF;">
+              <div class="master-name">苏格拉底 <span class="master-era">前 470 – 前 399</span></div>
+              <div class="master-stance">拷问派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">不给答案，连续追问让你自己暴露假设里的矛盾。</div>
+              <span class="master-trigger">@苏格拉底 · 反诘法</span>
+            </div>
+
+            <div class="master-card" style="--mc: #6B7280;">
+              <div class="master-name">庄子 <span class="master-era">前 369 – 前 286</span></div>
+              <div class="master-stance">反系统派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">不在二元对立内优化，而是质疑系统本身。</div>
+              <span class="master-trigger">@庄子 · 齐物 · 梦蝶</span>
+            </div>
+
+            <div class="master-card" style="--mc: #DB2777;">
+              <div class="master-name">王阳明 <span class="master-era">1472 – 1529</span></div>
+              <div class="master-stance">良知派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">行动前先问良知不问利害，知而不行 = 未知。</div>
+              <span class="master-trigger">@王阳明 · 知行合一</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 工程 / 组织 -->
+        <div class="school">
+          <div class="school-title">工程 · 组织 · Engineering & Org</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #92400E;">
+              <div class="master-name">曾国藩 <span class="master-era">1811 – 1872</span></div>
+              <div class="master-stance">守成派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">结硬寨打呆仗，反巧反奇，慎独自审。</div>
+              <span class="master-trigger">@曾国藩 · 结硬寨</span>
+            </div>
+
+            <div class="master-card" style="--mc: #DC2626;">
+              <div class="master-name">马斯克 <span class="master-era">1971 –</span></div>
+              <div class="master-stance">猛冲派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">拆到物理常数和材料成本，宁可快错也不慢对。</div>
+              <span class="master-trigger">@马斯克 · 第一性原理</span>
+            </div>
+
+            <div class="master-card" style="--mc: #B45309;">
+              <div class="master-name">特斯拉 <span class="master-era">1856 – 1943</span></div>
+              <div class="master-stance">心智模拟派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">在脑中让机器跑三个月，再考虑要不要造实物原型。</div>
+              <span class="master-trigger">@特斯拉 · 想象一遍</span>
+            </div>
+
+            <div class="master-card" style="--mc: #047857;">
+              <div class="master-name">稻盛和夫 <span class="master-era">1932 – 2022</span></div>
+              <div class="master-stance">动机至善派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">每次决策先问动机是否纯净、有无私心；阿米巴拆到 5–10 人。</div>
+              <span class="master-trigger">@稻盛 · 动机至善</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 科学方法 -->
+        <div class="school">
+          <div class="school-title">科学方法 · Scientific Method</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #16A34A;">
+              <div class="master-name">达尔文 <span class="master-era">1809 – 1882</span></div>
+              <div class="master-stance">反例派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">金律：与自己理论冲突的事实立即记下来，对抗确认偏差。</div>
+              <span class="master-trigger">@达尔文 · 反例 · 金律</span>
+            </div>
+
+            <div class="master-card" style="--mc: #F59E0B;">
+              <div class="master-name">费曼 <span class="master-era">1918 – 1988</span></div>
+              <div class="master-stance">去骗派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">你最容易骗的人是自己；讲不清就是没真懂。</div>
+              <span class="master-trigger">@费曼 · 大白话讲</span>
+            </div>
+
+            <div class="master-card" style="--mc: #4F46E5;">
+              <div class="master-name">爱因斯坦 <span class="master-era">1879 – 1955</span></div>
+              <div class="master-stance">想象优先派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">思想实验 + 对称性直觉，理论先于观察，"上帝不掷骰子"。</div>
+              <span class="master-trigger">@爱因斯坦 · 思想实验</span>
+            </div>
+
+            <div class="master-card" style="--mc: #0369A1;">
+              <div class="master-name">辛顿 <span class="master-era">1947 –</span></div>
+              <div class="master-stance">长周期预警派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">用 30 年视角判断一个想法；温和但坚定地敲钟 AI 风险。</div>
+              <span class="master-trigger">@辛顿 · 30 年判断</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 权力 / 话语 -->
+        <div class="school">
+          <div class="school-title">权力 · 话语 · Power & Discourse</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #6D28D9;">
+              <div class="master-name">福柯 <span class="master-era">1926 – 1984</span></div>
+              <div class="master-stance">权力解构派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">任何"客观/自然"背后都是权力配置；先做考古，再做装置分析。</div>
+              <span class="master-trigger">@福柯 · 知识权力</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 商业 / 投资 -->
+        <div class="school">
+          <div class="school-title">商业 · 投资 · Business & Investing</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #0EA5E9;">
+              <div class="master-name">芒格 <span class="master-era">1924 – 2023</span></div>
+              <div class="master-stance">守成派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">反过来想；用多学科格栅避免愚蠢比追求聪明可靠。</div>
+              <span class="master-trigger">@芒格 · invert</span>
+            </div>
+
+            <div class="master-card" style="--mc: #A855F7;">
+              <div class="master-name">吴晓波 <span class="master-era">1968 –</span></div>
+              <div class="master-stance">时代坐标派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">把任何商业现象放进政策 / 技术 / 人口三周期里交叉解释。</div>
+              <span class="master-trigger">@吴晓波 · 三周期</span>
+            </div>
+
+            <div class="master-card" style="--mc: #7C3AED;">
+              <div class="master-name">纳瓦尔 <span class="master-era">1974 –</span></div>
+              <div class="master-stance">杠杆派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">财富 = 特定知识 × 责任 × 杠杆，反对纯靠时间堆积。</div>
+              <span class="master-trigger">@纳瓦尔 · 杠杆 · 特定知识</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 道德 / 价值 / 伦理（v0.5.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">道德 · 价值 · 伦理 · Ethics & Values 🆕 v0.5.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #0F172A;">
+              <div class="master-name">康德 <span class="master-era">1724 – 1804</span></div>
+              <div class="master-stance">义务论纯粹派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">绝对律令三表述：普遍化测试 + 人是目的 + 目的王国——义务先于后果。</div>
+              <span class="master-trigger">@康德 · 绝对律令</span>
+            </div>
+
+            <div class="master-card" style="--mc: #991B1B;">
+              <div class="master-name">尼采 <span class="master-era">1844 – 1900</span></div>
+              <div class="master-stance">价值重估派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">"应该"背后总有"谁让它应该"；区分主人道德 vs 奴隶道德 + 永恒轮回测试。</div>
+              <span class="master-trigger">@尼采 · 价值重估</span>
+            </div>
+
+            <div class="master-card" style="--mc: #CA8A04;">
+              <div class="master-name">孔子 <span class="master-era">前551 – 前479</span></div>
+              <div class="master-stance">儒家关系伦理派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">仁=推己及人 + 礼=关系智慧 + 中庸=情境恰当 + 时=知时机；从最近的人开始。</div>
+              <span class="master-trigger">@孔子 · 仁 · 中庸</span>
+            </div>
+
+            <div class="master-card" style="--mc: #0D9488;">
+              <div class="master-name">亚里士多德 <span class="master-era">前384 – 前322</span></div>
+              <div class="master-stance">实践智慧派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">phronesis（实践智慧）+ 中道（情境化中点）+ 四因说 + 美德是习惯，不是规则。</div>
+              <span class="master-trigger">@亚里士多德 · phronesis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 语言 / 概念清晰（v0.5.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">语言 · 概念清晰 · Language & Clarity 🆕 v0.5.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #475569;">
+              <div class="master-name">维特根斯坦 <span class="master-era">1889 – 1951</span></div>
+              <div class="master-stance">语言治疗派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">"用法即意义" + 家族相似 + 苍蝇瓶子——大多数哲学问题是语言混乱的产物。</div>
+              <span class="master-trigger">@维特根斯坦 · 语言游戏</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 经验主义 / 怀疑论（v0.7.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">经验主义 · 怀疑论 · Empiricism & Skepticism 🆕 v0.7.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #1E3A8A;">
+              <div class="master-name">休谟 <span class="master-era">1711 – 1776</span></div>
+              <div class="master-stance">经验主义怀疑派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">印象先于观念 + 因果是心理习惯 + 归纳问题——你以为的"必然"，其实只是"习惯"。</div>
+              <span class="master-trigger">@休谟 · 因果怀疑</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 存在主义 / 现象学（v0.7.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">存在主义 · 现象学 · Existentialism & Phenomenology 🆕 v0.7.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #3F3F46;">
+              <div class="master-name">海德格尔 <span class="master-era">1889 – 1976</span></div>
+              <div class="master-stance">存在论追问派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">存在论差异 + 此在的沉沦/本真 + 向死而生 + 技术作为 Gestell——把追问从"做什么"拽回"如何在"。</div>
+              <span class="master-trigger">@海德格尔 · 此在</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 政治哲学 / 行动论（v0.7.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">政治哲学 · 行动论 · Political Theory 🆕 v0.7.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #BE123C;">
+              <div class="master-name">阿伦特 <span class="master-era">1906 – 1975</span></div>
+              <div class="master-stance">复多性 · 行动派</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">劳动/工作/行动三分 + 平庸之恶 + 复多性 + 开端启新——恶根于无思，自由发生于公共显现。</div>
+              <span class="master-trigger">@阿伦特 · 平庸之恶</span>
+            </div>
+            <div class="master-card" style="--mc: #E11D48;">
+              <div class="master-name">波伏瓦 <span class="master-era">1908 – 1986</span></div>
+              <div class="master-stance">处境派 · 第二性</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">处境式自由 + 第二性/他者 + devenir + 模糊性伦理——女人不是天生的而是变成的，自由总在处境中。</div>
+              <span class="master-trigger">@波伏瓦 · 第二性</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 形而上学 / 古典理念论（v0.8.0 新增） -->
+        <div class="school">
+          <div class="school-title">形而上学 · 理念论 · Metaphysics 🆕 v0.8.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #FBBF24;">
+              <div class="master-name">柏拉图 <span class="master-era">前 427 – 前 347</span></div>
+              <div class="master-stance">理念派 · 上升论</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">洞穴比喻 + 理念分有 + 灵魂三分 + 至善——可感世界是影子，哲学家上升至理念再回返。</div>
+              <span class="master-trigger">@柏拉图 · 洞穴</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 中观佛学（v0.8.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">中观破执 · 大乘佛学 · Madhyamaka 🆕 v0.8.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #5B21B6;">
+              <div class="master-name">龙树 <span class="master-era">约 150 – 250</span></div>
+              <div class="master-stance">空性派 · 双否定</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">八不中道 + 二谛 + 双否定破执 + 归谬法（prasaṅga）——一切法无自性，连空也无自性。</div>
+              <span class="master-trigger">@龙树 · 中观空性</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 科学哲学 / 开放社会（v0.8.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">科学哲学 · 开放社会 · Philosophy of Science 🆕 v0.8.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #0891B2;">
+              <div class="master-name">波普尔 <span class="master-era">1902 – 1994</span></div>
+              <div class="master-stance">可证伪派 · 反乌托邦</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">可证伪性 + 开放社会 + 零碎工程 + 反历史决定论——不能造天堂，只能减少地狱。</div>
+              <span class="master-trigger">@波普尔 · 可证伪</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 量子物理 / 互补性（v0.8.0 新增学派） -->
+        <div class="school">
+          <div class="school-title">量子哲学 · 互补性 · Quantum Philosophy 🆕 v0.8.0</div>
+          <div class="master-grid">
+            <div class="master-card" style="--mc: #0284C7;">
+              <div class="master-name">玻尔 <span class="master-era">1885 – 1962</span></div>
+              <div class="master-stance">互补派 · 慢思考</div>
+              <div style="font-size: 13px; color: var(--text-2); margin-bottom: 6px;">互补性原理 + 不可分现象 + 对应原理——对立物互补；深刻真理的反面也是深刻真理。</div>
+              <span class="master-trigger">@玻尔 · 互补性</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 待上线 -->
+        <div class="school">
+          <div class="school-title">待上线 · 4 位（按反馈排期）</div>
+          <div class="master-grid">
+            <div class="master-card locked"><div class="master-name">笛卡尔</div><div class="master-stance">怀疑论 / 近代哲学</div></div>
+            <div class="master-card locked"><div class="master-name">黑格尔</div><div class="master-stance">辩证法</div></div>
+            <div class="master-card locked"><div class="master-name">伽利略</div><div class="master-stance">实验科学奠基</div></div>
+            <div class="master-card locked"><div class="master-name">罗素</div><div class="master-stance">分析哲学</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        Skill 主入口：<code>~/.workbuddy/skills/大师-召唤/SKILL.md</code> ·
+        报告归档：<code>./master-reports/YYYYMMDD-HHMM-命题.html</code><br>
+        <span style="font-size: 11px; color: var(--text-3); margin-top: 8px; display: inline-block;">
+          v0.8.0 · 2026-05-29 · 5 步流水线（路由 → 选人 → 独立 → 🆕对抗 → 合成）· 28 位上线（新增柏拉图/龙树/波普尔/波伏瓦/玻尔）· 默认隔离个人人设
+        </span>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // 折叠 / 展开
+  const sidebar = document.getElementById('sidebar');
+  const btn = document.getElementById('toggleBtn');
+  // 读 localStorage 持久化
+  if (localStorage.getItem('master-sidebar-collapsed') === '1') {
+    sidebar.classList.add('collapsed');
+  }
+  btn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    localStorage.setItem('master-sidebar-collapsed', sidebar.classList.contains('collapsed') ? '1' : '0');
+  });
+
+  // 报告搜索过滤
+  function filterReports() {
+    const q = document.getElementById('reportSearch').value.trim().toLowerCase();
+    const items = document.querySelectorAll('#reportList .sidebar-item');
+    let visible = 0;
+    items.forEach(el => {
+      const text = el.innerText.toLowerCase();
+      const show = !q || text.includes(q);
+      el.parentElement.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('emptyHint').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  // 高亮当前页（如果通过侧边栏点进来 hash 匹配）
+  const cur = location.pathname.split('/').pop();
+  document.querySelectorAll('#reportList .sidebar-item').forEach(a => {
+    if (a.getAttribute('href') === cur) a.classList.add('active');
+  });
+</script>
+
+</body>
+</html>
+

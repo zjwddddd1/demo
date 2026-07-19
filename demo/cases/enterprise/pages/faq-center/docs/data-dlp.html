@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy 与企业数据防泄漏（DLP）协同控制说明</title>
+<style>
+  :root{
+    --ink:#0f2742;        /* 主文字 深蓝 */
+    --ink-soft:#3a4a5e;   /* 次文字 */
+    --muted:#6b7a8d;      /* 弱文字 */
+    --blue:#1f5fae;       /* 主品牌蓝 */
+    --blue-deep:#0d3b73;  /* 深蓝 */
+    --blue-bg:#eef4fb;    /* 浅蓝底 */
+    --blue-line:#cfe0f2;  /* 蓝色描边 */
+    --line:#e3e9f0;       /* 通用分隔线 */
+    --white:#ffffff;
+    --page:#f4f7fb;       /* 页面底 */
+    --ok:#1e8e5a;
+    --warn:#b9791a;
+    --risk:#b4452f;
+    --radius:10px;
+    --shadow:0 1px 3px rgba(16,40,72,.06),0 8px 28px rgba(16,40,72,.06);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{
+    margin:0;background:var(--page);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.7;font-size:15.5px;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px 80px;}
+
+  /* 顶部 */
+  .hero{
+    background:linear-gradient(135deg,#0d3b73 0%,#1f5fae 100%);
+    color:#fff;border-radius:0 0 var(--radius) var(--radius);
+    padding:46px 44px 42px;margin-bottom:34px;
+    box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;
+    background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);}
+  .hero .kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#bcd6f5;margin-bottom:16px;}
+  .hero h1{margin:0 0 16px;font-size:29px;line-height:1.32;font-weight:700;letter-spacing:.01em;color:#ffffff;}
+  .hero p{margin:0;max-width:700px;font-size:15px;line-height:1.85;color:#eaf2fc;}
+  .hero .meta{margin-top:24px;font-size:12.5px;color:#cadcf2;border-top:1px solid rgba(255,255,255,.28);padding-top:16px;}
+
+  /* 区块 */
+  section{margin-bottom:30px;}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:30px 34px;}
+  h2{font-size:19px;color:var(--blue-deep);margin:0 0 6px;font-weight:700;letter-spacing:.01em;
+    display:flex;align-items:center;gap:11px;}
+  h2 .num{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;
+    background:var(--blue);color:#fff;border-radius:7px;font-size:14px;font-weight:700;flex:none;}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 20px;padding-left:38px;}
+  p{margin:0 0 14px;color:var(--ink-soft);}
+  strong{color:var(--ink);font-weight:600;}
+
+  /* 关注点框 */
+  .quote{background:var(--blue-bg);border-left:4px solid var(--blue);border-radius:8px;
+    padding:18px 22px;color:var(--ink-soft);font-size:14.5px;}
+  .quote b{color:var(--blue-deep);}
+
+  /* 三层框架 */
+  .layers{display:flex;flex-direction:column;gap:16px;}
+  .layer{border:1px solid var(--blue-line);border-radius:10px;overflow:hidden;background:#fff;}
+  .layer-head{display:flex;align-items:center;gap:14px;padding:15px 22px;background:var(--blue-bg);}
+  .badge{flex:none;display:inline-flex;align-items:center;justify-content:center;
+    min-width:64px;height:26px;padding:0 12px;border-radius:20px;font-size:12px;font-weight:700;
+    color:#fff;letter-spacing:.04em;}
+  .l1 .badge{background:var(--blue-deep);}
+  .l2 .badge{background:var(--blue);}
+  .l3 .badge{background:#5b86b8;}
+  .layer-head .t{font-size:15.5px;font-weight:700;color:var(--ink);}
+  .layer-head .anchor{margin-left:auto;font-size:12px;color:var(--blue-deep);background:#fff;
+    border:1px solid var(--blue-line);padding:3px 11px;border-radius:14px;font-weight:600;white-space:nowrap;}
+  .layer-body{padding:16px 22px 18px;}
+  .layer-body ul{margin:0;padding-left:0;list-style:none;}
+  .layer-body li{position:relative;padding:7px 0 7px 24px;color:var(--ink-soft);font-size:14.5px;
+    border-bottom:1px dashed var(--line);}
+  .layer-body li:last-child{border-bottom:none;}
+  .layer-body li::before{content:"";position:absolute;left:4px;top:15px;width:7px;height:7px;
+    background:var(--blue);border-radius:2px;}
+  .layer-body li b{color:var(--ink);}
+
+  /* 合规表 */
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+  thead th{background:var(--blue-deep);color:#fff;font-weight:600;font-size:13.5px;letter-spacing:.02em;}
+  thead th:first-child{border-radius:8px 0 0 0;}
+  thead th:last-child{border-radius:0 8px 0 0;}
+  tbody tr:nth-child(even){background:#f8fbff;}
+  td .law{font-weight:700;color:var(--blue-deep);white-space:nowrap;}
+  td .art{display:inline-block;background:var(--blue-bg);color:var(--blue-deep);font-size:12px;
+    padding:1px 8px;border-radius:5px;margin-top:4px;font-weight:600;}
+
+  /* 步骤 */
+  .steps{counter-reset:s;display:flex;flex-direction:column;gap:0;}
+  .step{position:relative;padding:16px 0 16px 52px;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:14px;
+    width:34px;height:34px;background:#fff;border:2px solid var(--blue);color:var(--blue-deep);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;}
+  .step h4{margin:2px 0 4px;font-size:15px;color:var(--ink);}
+  .step p{margin:0;font-size:14px;color:var(--muted);}
+
+  /* 残余风险 */
+  .risk-box{background:#fdf6f3;border:1px solid #f0d5cb;border-radius:10px;padding:20px 24px;}
+  .risk-box h3{margin:0 0 10px;color:var(--risk);font-size:15.5px;display:flex;align-items:center;gap:8px;}
+  .risk-box ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:14px;}
+  .risk-box li{margin:6px 0;}
+
+  .note{font-size:12.5px;color:var(--muted);margin-top:10px;padding-left:38px;}
+
+  footer{margin-top:40px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.8;}
+  footer .line{width:60px;height:3px;background:var(--blue);margin:0 auto 18px;border-radius:2px;}
+
+  @media (max-width:640px){
+    .hero{padding:34px 24px;} .hero h1{font-size:23px;}
+    .card{padding:24px 20px;} .layer-head{flex-wrap:wrap;} .layer-head .anchor{margin-left:38px;}
+    .sub,.note{padding-left:0;}
+  }
+  @media print{
+    body{background:#fff;font-size:12px;} .wrap{padding:0;}
+    .hero{box-shadow:none;border-radius:0;} .card{box-shadow:none;break-inside:avoid;}
+    section{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Data Protection · 数据外发风险控制</div>
+    <h1>WorkBuddy 与企业数据防泄漏（DLP）协同控制说明</h1>
+    <p>面向已部署数据防泄漏体系的企业，说明 WorkBuddy 在引入后如何与现有 DLP 协同，对"通过邮件等通道将本地文件外发"的风险进行分层控制，并梳理与《数据安全法》《个人信息保护法》相关义务的对应关系。</p>
+    <div class="meta">适用范围：企业内部部署与管控场景 ｜ 文档性质：技术控制框架，非合规结论 ｜ 版本 v1.0</div>
+  </header>
+
+  <!-- 1 背景 -->
+  <section class="card">
+    <h2><span class="num">1</span>背景与关注点</h2>
+    <p class="sub">客观陈述需要应对的具体场景</p>
+    <p>企业已部署数据防泄漏（DLP）系统，可自动识别敏感数据，并对数据的<strong>拷贝、外发、上传、打印</strong>等行为进行全程监控，在违规时执行提醒、阻断、留存日志，用以防止客户信息、图纸、源码、财务数据等私自流出。</p>
+    <div class="quote">
+      <b>核心关注点：</b>WorkBuddy 具备与邮箱等外部服务连接的能力。企业关注的是——员工是否可能借助"WorkBuddy 与个人邮箱打通"的功能，将本地文件绕过 DLP 监控，通过邮件外发出去。
+    </div>
+  </section>
+
+  <!-- 2 风险的客观认知 -->
+  <section class="card">
+    <h2><span class="num">2</span>风险的客观认知</h2>
+    <p class="sub">在给出方案前，先明确风险的真实边界，避免误判</p>
+    <p>需要客观说明：<strong>任何一个具备本地文件读取权限、且能访问外部网络的客户端软件，理论上都存在文件外发通道</strong>——浏览器（网页版邮箱、网盘）、即时通讯工具、个人云盘客户端同样如此。这并非 WorkBuddy 独有的特性，而是"终端可联网 + 应用可读本地文件"这一通用前提下的共性问题。</p>
+    <p>因此，控制此类风险的<strong>权威手段是终端与网络层的 DLP，而非依赖单个应用自身的限制</strong>。应用侧的治理措施是有价值的补充，但真正的兜底来自企业已经具备、且已纳入信任的 DLP 能力。下文据此排列控制权重。</p>
+  </section>
+
+  <!-- 3 三层控制框架 -->
+  <section class="card">
+    <h2><span class="num">3</span>分层控制框架</h2>
+    <p class="sub">由强到弱排列：终端 DLP 为权威兜底，应用治理与管理制度为补充</p>
+
+    <div class="layers">
+
+      <div class="layer l1">
+        <div class="layer-head">
+          <span class="badge">第一层</span>
+          <span class="t">终端与网络 DLP 层（权威兜底 · 企业已具备）</span>
+          <span class="anchor">控制力最强</span>
+        </div>
+        <div class="layer-body">
+          <ul>
+            <li><b>纳入受控应用清单：</b>将 WorkBuddy 客户端主进程加入现有 DLP 的受监控应用范围，对其<b>文件读取行为与出站网络流量</b>进行监控与策略管控，与浏览器、IM 等其他应用一视同仁。</li>
+            <li><b>出站流量 SSL 解密：</b>邮件、上传类外发若走加密通道，需经企业代理做 SSL 解密检测，使 DLP 能在内容层面识别敏感数据并执行阻断/留痕——这是覆盖"任意应用外发"的根本手段。</li>
+            <li><b>统一策略复用：</b>对客户信息、图纸、源码、财务数据等已有的敏感数据识别规则，无需为 WorkBuddy 单独重建，直接沿用既有 DLP 策略即可生效。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layer l2">
+        <div class="layer-head">
+          <span class="badge">第二层</span>
+          <span class="t">应用治理层（可配置 · 收敛外发入口）</span>
+          <span class="anchor">补充控制</span>
+        </div>
+        <div class="layer-body">
+          <ul>
+            <li><b>连接器启用策略统一管控：</b>WorkBuddy 与外部服务的连接（含邮箱）以"连接器"形式提供，是否启用可由<b>管理员统一管控</b>。可仅保留企业邮箱通道，关闭个人邮箱等外部连接器，从入口减少绕行可能。</li>
+            <li><b>操作审计留痕：</b>对涉及外发的关键操作保留可审计记录，便于事后追溯与定期核查。<span style="color:var(--muted)">（具体审计粒度与对接方式建议与产品团队就贵司环境确认。）</span></li>
+            <li><b>最小权限原则：</b>结合企业账号体系，对不同岗位开放与其职责匹配的连接能力，避免一刀切地放开全部外部通道。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layer l3">
+        <div class="layer-head">
+          <span class="badge">第三层</span>
+          <span class="t">管理制度层（长效 · 人与流程）</span>
+          <span class="anchor">配套保障</span>
+        </div>
+        <div class="layer-body">
+          <ul>
+            <li><b>统一下发与版本管控：</b>通过终端管理（MDM/桌管）统一下发受管控的企业版本与配置，避免员工自行安装不受管控的版本绕过策略。</li>
+            <li><b>定期合规审计：</b>将 WorkBuddy 的使用纳入企业既有的数据安全审计范围，定期复核连接器配置与外发日志。</li>
+            <li><b>培训与承诺：</b>把"使用 AI 工具处理数据"的红线纳入员工安全培训与合规承诺，与现有数据保密制度衔接。</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <p class="note">说明：第一层的能力归属于企业现有 DLP 与网络管控体系；第二、三层为引入 WorkBuddy 后可叠加的治理与管理措施。三层叠加形成纵深防御。</p>
+  </section>
+
+  <!-- 4 合规对照 -->
+  <section class="card">
+    <h2><span class="num">4</span>相关法规义务对照</h2>
+    <p class="sub">上述措施如何对应《数据安全法》《个人信息保护法》中企业应履行的义务（法定义务主体为企业，工具为支撑手段）</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:24%">法规依据</th>
+          <th style="width:38%">条款要点</th>
+          <th>对应控制措施</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="law">数据安全法</span><br><span class="art">第二十七条</span></td>
+          <td>建立健全全流程数据安全管理制度，采取相应的技术措施和其他必要措施保障数据安全。</td>
+          <td>终端 DLP 全程监控 + 连接器统一管控 + 管理制度衔接，构成对数据外发的全流程管理。</td>
+        </tr>
+        <tr>
+          <td><span class="law">数据安全法</span><br><span class="art">第二十九条</span></td>
+          <td>加强风险监测，发现风险立即补救；发生数据安全事件立即处置并按规定报告。</td>
+          <td>DLP 对违规外发实时告警/阻断/留痕 + 操作审计，支撑风险监测与事件处置。</td>
+        </tr>
+        <tr>
+          <td><span class="law">数据安全法</span><br><span class="art">第三十条</span></td>
+          <td>重要数据处理者应定期开展风险评估并报送评估报告。</td>
+          <td>将 WorkBuddy 使用纳入定期数据安全风险评估范围，作为评估对象之一。</td>
+        </tr>
+        <tr>
+          <td><span class="law">个人信息保护法</span><br><span class="art">第五十一条</span></td>
+          <td>制定内部管理制度与操作规程、分类管理、加密去标识化、合理确定操作权限、制定应急预案。</td>
+          <td>连接器最小权限 + 终端 DLP 加密通道检测 + 制度与培训，覆盖操作权限与技术措施要求。</td>
+        </tr>
+        <tr>
+          <td><span class="law">个人信息保护法</span><br><span class="art">第五十四条</span></td>
+          <td>定期对个人信息处理活动是否合规进行合规审计。</td>
+          <td>将连接器配置与外发日志纳入企业定期合规审计。</td>
+        </tr>
+        <tr>
+          <td><span class="law">个人信息保护法</span><br><span class="art">第五十七条</span></td>
+          <td>发生或可能发生个人信息泄露的，应采取补救措施并通知相关方。</td>
+          <td>DLP 阻断与日志为泄露发现、定位、通知提供事实依据。</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">条款编号与表述依据现行公开法律文本整理，仅用于说明控制措施与义务的对应关系，不构成合规结论或法律意见。合规义务的履行主体为企业自身。</p>
+  </section>
+
+  <!-- 5 落地步骤 -->
+  <section class="card">
+    <h2><span class="num">5</span>落地步骤建议</h2>
+    <p class="sub">从现状盘点到验证闭环</p>
+    <div class="steps">
+      <div class="step">
+        <h4>盘点现有 DLP 能力与覆盖范围</h4>
+        <p>确认现有 DLP 是否已覆盖终端应用进程的文件读取与出站网络流量，以及是否启用 SSL 解密。</p>
+      </div>
+      <div class="step">
+        <h4>将 WorkBuddy 纳入受控应用清单</h4>
+        <p>把客户端主进程加入 DLP 监控范围，沿用既有敏感数据识别规则，使外发行为可被监控与阻断。</p>
+      </div>
+      <div class="step">
+        <h4>按策略配置连接器启用范围</h4>
+        <p>由管理员统一管控可用连接器，按需保留企业邮箱、关闭个人邮箱等外部通道。</p>
+      </div>
+      <div class="step">
+        <h4>统一下发与制度衔接</h4>
+        <p>通过终端管理统一下发受管控版本与配置，并将使用规范纳入员工培训与合规承诺。</p>
+      </div>
+      <div class="step">
+        <h4>联合验证与审计闭环</h4>
+        <p>组织企业 IT / 安全团队、DLP 厂商与 WorkBuddy 产品团队三方做一次外发场景实测，验证阻断与留痕生效，并纳入定期审计。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 残余风险 -->
+  <section class="card">
+    <h2><span class="num">6</span>边界与残余风险（透明说明）</h2>
+    <p class="sub">如实披露控制的边界，便于做出准确决策</p>
+    <div class="risk-box">
+      <h3>需要清楚认知的几点</h3>
+      <ul>
+        <li><strong>无法仅靠单一应用做到绝对防护。</strong>对拥有合法本地文件访问权限的内部人员，任何可联网应用都存在外发可能，最终兜底依赖终端/网络 DLP，而非应用自身。</li>
+        <li><strong>SSL 解密是关键前提。</strong>若出站加密流量未做解密检测，DLP 难以在内容层识别外发的敏感数据；这一项的落地程度直接决定控制效果。</li>
+        <li><strong>绕行风险需用终端管控兜住。</strong>若员工自行安装不受管控的版本或改用其他工具，需依靠 MDM/桌管的统一下发与禁装策略来收敛。</li>
+        <li><strong>本说明为技术控制框架，非合规背书。</strong>是否满足具体监管要求，需结合企业整体数据治理体系与主管部门要求综合判断。</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="line"></div>
+    <p>WorkBuddy 与企业数据防泄漏（DLP）协同控制说明 · v1.0<br>
+    本文档用于技术沟通，条款引用以现行法律法规官方文本为准。</p>
+  </footer>
+
+</div>
+</body>
+</html>

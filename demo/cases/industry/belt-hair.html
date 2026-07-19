@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨境合规 + 多肤色适配 + 售后自动答</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#1a1a1a;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 24px 56px}
+.nav{display:flex;align-items:center;gap:14px;margin-bottom:24px;font-size:13px;color:#64748b}
+.nav a{color:#1E40AF;text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #e2e8f0;border-radius:4px;background:#fff;transition:all .15s}
+.nav a:hover{background:#eff6ff;border-color:#bfdbfe}
+.nav .crumb{color:#94a3b8}
+.brand{font-size:12px;color:#94a3b8;letter-spacing:2px;margin-bottom:6px;text-transform:uppercase}
+h1{font-size:30px;font-weight:600;color:#0f172a;margin-bottom:10px;letter-spacing:-0.5px}
+.lead{font-size:15px;color:#475569;margin-bottom:20px;line-height:1.7}
+.lead strong{color:#0f172a;font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:2px;margin-bottom:14px;letter-spacing:.5px;font-weight:500}
+.hbar{margin-bottom:32px}
+.hero{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:32px 30px;margin-bottom:24px}
+.hero h1{margin-bottom:10px}
+.hero .lead{margin-bottom:24px}
+.metrics3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.m-card{padding:18px 18px;border:1px solid #e2e8f0;border-radius:4px;background:#f8fafc}
+.m-card .num{font-size:24px;font-weight:600;color:#0f172a;letter-spacing:-.5px;margin-bottom:4px}
+.m-card .label{font-size:12px;color:#64748b}
+.section-title{font-size:13px;font-weight:600;color:#475569;letter-spacing:1px;margin:36px 0 16px;padding-left:10px;border-left:3px solid #1E40AF}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:22px 22px}
+.card h3{font-size:15px;font-weight:600;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card h3 .idx{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;background:#1E40AF;color:#fff;font-size:11px;font-weight:600;flex-shrink:0}
+.card p{font-size:13.5px;color:#475569;line-height:1.7}
+.pain-card{border-left:3px solid #DC2626}
+.pain-card h3 .idx{background:#DC2626}
+.scene-card{border-left:3px solid #1E40AF}
+.scene-card h3 .idx{background:#1E40AF}
+.module-card{border:1px solid #e2e8f0}
+.module-card .mtag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:2px;background:#eff6ff;color:#1E40AF;margin-bottom:8px;font-weight:500;letter-spacing:.3px}
+.summary-card{background:linear-gradient(135deg,#1E40AF 0%,#3B82F6 100%);color:#fff;border:none}
+.summary-card h3{color:#fff}
+.summary-card li{color:rgba(255,255,255,.95);font-size:13.5px;line-height:1.7;padding:5px 0 5px 20px;position:relative;list-style:none}
+.summary-card li::before{content:"✓";position:absolute;left:0;top:5px;color:#fff;font-weight:700}
+.summary-card ul{list-style:none}
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch}
+.cmp{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:20px}
+.cmp.before{border-top:3px solid #DC2626}
+.cmp.after{border-top:3px solid #047857}
+.cmp .ctitle{font-size:12px;font-weight:600;color:#94a3b8;letter-spacing:1px;margin-bottom:14px;text-transform:uppercase}
+.cmp.before .ctitle{color:#DC2626}
+.cmp.after .ctitle{color:#047857}
+.cmp .row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #e2e8f0;font-size:13px}
+.cmp .row:last-child{border-bottom:none}
+.cmp .row .k{color:#64748b}
+.cmp .row .v{font-weight:600;color:#0f172a}
+.cmp.after .row .v{color:#047857}
+.cmp.before .row .v{color:#DC2626}
+.cmp-arrow{display:flex;align-items:center;justify-content:center;font-size:24px;color:#94a3b8}
+.timeline{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:24px 26px}
+.timeline h3{font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px}
+.t-item{display:grid;grid-template-columns:60px 1fr;gap:18px;padding:14px 0;border-bottom:1px dashed #e2e8f0;align-items:start}
+.t-item:last-child{border-bottom:none}
+.t-item .tw{font-size:11px;font-weight:600;color:#1E40AF;background:#eff6ff;padding:4px 8px;border-radius:2px;text-align:center;height:fit-content}
+.t-item .tcontent h4{font-size:14px;font-weight:600;color:#0f172a;margin-bottom:4px}
+.t-item .tcontent p{font-size:13px;color:#64748b;line-height:1.6}
+.arch{background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:24px 26px;margin-bottom:8px}
+.arch p{font-size:14px;color:#475569;line-height:1.7}
+.foot{margin-top:48px;font-size:12px;color:#94a3b8;text-align:center}
+.kbd{background:#f1f5f9;border:1px solid #e2e8f0;border-bottom-width:2px;border-radius:3px;padding:1px 6px;font-size:12px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#0f172a}
+
+.hero .tag{background:#CCFBF1;color:#0F766E}
+.module-card:hover{border-color:#0F766E}
+.section-title{border-left-color:#0F766E}
+.t-item .tw{color:#0F766E;background:#CCFBF1}
+.m-card .num{color:#0F766E}
+.timeline h3{color:#0F766E}
+.arch{border-top:3px solid #0F766E}
+.summary-card{background:linear-gradient(135deg,#0F766E 0%,#0F766EDD 100%)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a href="./eco-opc-dashboard.html">← 返回仪表盘</a>
+    <span class="crumb">产业带 OPC 落地案例</span>
+  </div>
+
+  <div class="hbar">
+    <div class="brand">WBD · INDUSTRIAL BELT OPC</div>
+    <div class="hero">
+      <span class="tag">河南许昌 · 发制品产业带</span>
+      <h1>跨境合规 + 多肤色适配 + 售后自动答</h1>
+      <p class="lead">许昌发制品占全球 60% 产能,90% 出口。<strong>痛点:跨境合规(美 FDA / 欧 CE / 非清真认证)分散;不同肤色 / 发质客户沟通成本高;售后问题重复</strong>。WorkBuddy:认证资料自动生成 + 多肤色产品图 + WhatsApp 售后机器人 7×24 答。</p>
+      <div class="metrics3">
+        <div class="m-card"><div class="num">↑70%</div><div class="label">跨境合规通过</div></div><div class="m-card"><div class="num">↓50%</div><div class="label">售后人力</div></div><div class="m-card"><div class="num">40+</div><div class="label">出口国家</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">客户痛点 · Pain Points</div>
+  <div class="cards">
+    <div class="card pain-card">
+      <h3><span class="idx">1</span>跨境认证分散</h3>
+      <p>美 FDA / 欧 CE / 加 Health Canada / 非清真 / 中东 SASO,标准不同,法务成本高。</p>
+    </div>
+    <div class="card pain-card">
+      <h3><span class="idx">2</span>肤色适配难</h3>
+      <p>同一款产品在白皮/黄皮/黑皮客户头上效果差很多,客户"想象不出"导致下单犹豫。</p>
+    </div>
+    <div class="card pain-card">
+      <h3><span class="idx">3</span>售后问题重复</h3>
+      <p>怎么洗 / 能染吗 / 几天到 / 怎么保养,占客服 70% 工作量。</p>
+    </div>
+    <div class="card pain-card">
+      <h3><span class="idx">4</span>小语种市场进不去</h3>
+      <p>阿拉伯语 / 西班牙语 / 葡萄牙语市场大,但人工成本高,小厂做不了。</p>
+    </div></div>
+
+  <div class="section-title">WorkBuddy 方案 · Solution</div>
+  <div class="arch"><p>基于"认证自动生成 + 多肤色产品图 + 7 国语言客服 + 节庆营销"四段流水线,WorkBuddy 把许昌发制品从"贴牌代工"升级为"全球品牌"。</p></div>
+
+  <div class="section-title">核心场景 · Key Scenarios</div>
+  <div class="cards">
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0F766E">1</span>认证资料自动生成</h3>
+      <p>按目的国自动出 FDA / CE / CPSC / SASO / 清真等合规包,法务 1 小时复核即可。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0F766E">2</span>多肤色产品图</h3>
+      <p>1 款产品图 8 种肤色(白/黄/棕/黑 + 深浅)自动换脸,客户"看到自己"决策 ↑3x。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0F766E">3</span>WhatsApp 7×24 售后</h3>
+      <p>英/西/阿/法 7 国语言,常见问题秒回,人工只处理复杂投诉。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0F766E">4</span>跨境节庆营销</h3>
+      <p>黑五 / 双 11 / 斋月 / 圣诞节,AI 自动生成当地节庆营销话术 + 主图。</p>
+    </div>
+    <div class="card scene-card">
+      <h3><span class="idx" style="background:#0F766E">5</span>复购提醒 + 客户分层</h3>
+      <p>基于购买周期自动触达老客,VIP 客户自动升单,转化率 ↑2x。</p>
+    </div></div>
+
+  <div class="section-title">效果对比 · Before vs After</div>
+  
+    <div class="compare">
+      <div class="cmp before">
+        <div class="ctitle">改造前 · Before</div>
+        <div class="row"><span class="k">首次合规通过</span><span class="v">50%</span></div><div class="row"><span class="k">单语种客服响应</span><span class="v">8h</span></div><div class="row"><span class="k">客服是重复问题</span><span class="v">70%</span></div><div class="row"><span class="k">贴牌代工</span><span class="v">无品牌</span></div>
+      </div>
+      <div class="cmp-arrow">→</div>
+      <div class="cmp after">
+        <div class="ctitle">改造后 · After</div>
+        <div class="row"><span class="k">合规通过(↑70%)</span><span class="v">↑85%</span></div><div class="row"><span class="k">7×24 多语种</span><span class="v">↓10s</span></div><div class="row"><span class="k">人工处理比例</span><span class="v">↓10%</span></div><div class="row"><span class="k">海外溢价 ↑30%</span><span class="v">品牌化</span></div>
+      </div>
+    </div>
+
+  <div class="section-title">实施路径 · Implementation</div>
+  
+    <div class="timeline">
+      <h3>实施路径 · 4 周上线</h3>
+      
+        <div class="t-item">
+          <div class="tw">W1</div>
+          <div class="tcontent">
+            <h4>各国认证规则库 + 多肤色模型</h4>
+            <p>与认证机构合作建库,训练肤色适配模型。</p>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="tw">W2</div>
+          <div class="tcontent">
+            <h4>WhatsApp Business 接入</h4>
+            <p>授权 WhatsApp Business API,部署多语种客服。</p>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="tw">W3</div>
+          <div class="tcontent">
+            <h4>认证自动生成 + 多肤色产品图</h4>
+            <p>封装 2 大核心 skill,服务 30 家头部工厂。</p>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="tw">W4+</div>
+          <div class="tcontent">
+            <h4>节庆营销 + 复购系统</h4>
+            <p>上线节庆话术 + 老客复购,服务 90+ 工厂。</p>
+          </div>
+        </div>
+    </div>
+
+  <div class="section-title">核心价值 · Key Value</div>
+  <div class="summary-card card" style="padding:28px 30px">
+    <h3 style="margin-bottom:14px;font-size:16px">为什么选择 WorkBuddy?</h3>
+    <ul><li>跨境合规通过率 ↑70%,出货周期 ↓40%</li><li>多肤色产品图让客户"看到自己",转化率 ↑3x</li><li>7 国语言 7×24 客服,售后人力 ↓50%</li><li>从贴牌代工升级为全球品牌,海外溢价 ↑30%</li></ul>
+  </div>
+
+  <div class="foot">WorkBuddy · 跨境合规 + 多肤色适配 + 售后自动答 · 单文件可独立打开,无需内网</div>
+</div>
+</body>
+</html>

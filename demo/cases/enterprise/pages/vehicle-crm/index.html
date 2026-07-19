@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>车辆销售团队 CRM · 产品战略三件套</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="vendor/marked.min.js"></script>
+<script src="vendor/mermaid.min.js"></script>
+<style>
+:root{
+  --bg:#F4F7FB;
+  --bg-grid:rgba(0,102,255,.05);
+  --surface:#FFFFFF;
+  --surface-2:#F9FBFE;
+  --line:#E4E9F2;
+  --line-strong:#CBD5E5;
+  --text:#0B1426;
+  --text-2:#475467;
+  --text-3:#7A8699;
+  --primary:#0066FF;
+  --primary-2:#0050CC;
+  --cyan:#00B8D9;
+  --green:#00C896;
+  --amber:#F5A524;
+  --red:#E5484D;
+  --shadow-sm:0 1px 2px rgba(11,20,38,.04),0 1px 3px rgba(11,20,38,.06);
+  --shadow-md:0 4px 12px rgba(11,20,38,.06),0 1px 2px rgba(11,20,38,.04);
+  --shadow-lg:0 12px 32px rgba(11,20,38,.08),0 2px 4px rgba(11,20,38,.04);
+  --radius:6px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"HarmonyOS Sans SC","PingFang SC","Inter","Segoe UI",system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"tnum","cv11";
+  background-image:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px);
+  background-size:48px 48px;
+  background-position:-1px -1px;
+}
+
+/* ============ HEADER ============ */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(180%) blur(12px);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:1280px;margin:0 auto;
+  padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-mark{
+  width:36px;height:36px;border-radius:8px;
+  background:linear-gradient(135deg,#0066FF 0%,#00B8D9 100%);
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,102,255,.3),inset 0 1px 0 rgba(255,255,255,.3);
+}
+.brand-mark::after{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(45deg,transparent 40%,rgba(255,255,255,.4) 50%,transparent 60%),
+    radial-gradient(circle at 70% 30%,rgba(255,255,255,.4),transparent 50%);
+}
+.brand-text .b1{font-family:"Manrope",sans-serif;font-weight:800;font-size:16px;letter-spacing:-.01em;line-height:1.2}
+.brand-text .b2{font-size:11px;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.meta{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--text-2)}
+.meta .pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 10px;border:1px solid var(--line);border-radius:99px;
+  background:var(--surface-2);font-family:"JetBrains Mono",monospace;font-size:11px;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(0,200,150,.15)}
+
+/* ============ HERO ============ */
+.hero{
+  max-width:1280px;margin:0 auto;
+  padding:48px 32px 32px;
+}
+.hero h1{
+  font-family:"Manrope",sans-serif;
+  font-size:clamp(32px,4vw,48px);
+  font-weight:700;letter-spacing:-.025em;line-height:1.1;
+  margin:0 0 16px;
+  color:var(--text);
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(120deg,#0066FF,#00B8D9);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero .lead{
+  font-size:17px;color:var(--text-2);max-width:780px;margin:0 0 28px;
+}
+.hero-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);
+}
+.kpi{padding:4px}
+.kpi .k1{font-size:11px;letter-spacing:.08em;color:var(--text-3);text-transform:uppercase;font-weight:600}
+.kpi .k2{
+  font-family:"JetBrains Mono",monospace;font-weight:600;
+  font-size:24px;color:var(--text);margin-top:4px;line-height:1.2;
+}
+.kpi .k2 small{font-size:13px;color:var(--text-2);font-weight:400;margin-left:4px}
+.kpi .k3{font-size:12px;color:var(--text-2);margin-top:2px}
+.kpi+.kpi{border-left:1px solid var(--line);padding-left:20px}
+
+/* ============ TABS ============ */
+.tabs-wrap{
+  position:sticky;top:65px;z-index:90;
+  background:var(--bg);
+  padding:0 0 0;
+  margin:24px 0 0;
+}
+.tabs{
+  max-width:1280px;margin:0 auto;
+  padding:0 32px;
+  display:flex;gap:2px;
+  border-bottom:1px solid var(--line);
+}
+.tab{
+  flex:0 0 auto;
+  padding:14px 22px;
+  font-size:14px;font-weight:600;color:var(--text-2);
+  border:none;background:transparent;cursor:pointer;
+  position:relative;
+  transition:color .2s;
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:inherit;
+}
+.tab .num{
+  font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;
+  color:var(--text-3);
+  padding:2px 6px;border:1px solid var(--line);border-radius:4px;
+  background:var(--surface);
+}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--primary)}
+.tab.active .num{color:var(--primary);border-color:var(--primary);background:rgba(0,102,255,.06)}
+.tab.active::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,#0066FF,#00B8D9);
+}
+
+/* ============ MAIN ============ */
+main{max-width:1280px;margin:0 auto;padding:32px}
+.panel{display:none;animation:fadein .3s ease}
+.panel.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ MARKDOWN STYLES ============ */
+.md{color:var(--text);font-size:15px}
+.md > *:first-child{margin-top:0}
+.md h1{
+  font-family:"Manrope",sans-serif;
+  font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2;
+  margin:0 0 8px;padding:0 0 12px;border-bottom:2px solid var(--line);
+  position:relative;
+}
+.md h1::before{
+  content:"";position:absolute;bottom:-2px;left:0;width:64px;height:2px;
+  background:linear-gradient(90deg,#0066FF,#00B8D9);
+}
+.md h2{
+  font-family:"Manrope",sans-serif;
+  font-size:22px;font-weight:700;letter-spacing:-.015em;
+  margin:36px 0 14px;padding-left:14px;
+  border-left:3px solid var(--primary);
+  line-height:1.35;
+}
+.md h3{
+  font-family:"Manrope",sans-serif;
+  font-size:17px;font-weight:600;
+  margin:24px 0 10px;
+  color:var(--text);
+}
+.md h3::before{
+  content:"▸ ";color:var(--primary);font-weight:700;
+}
+.md h4{font-size:15px;font-weight:600;margin:18px 0 8px;color:var(--text)}
+.md p{margin:8px 0 14px;color:var(--text);}
+.md p strong, .md li strong{color:var(--text);font-weight:600}
+.md em{color:var(--primary);font-style:normal}
+.md ul,.md ol{padding-left:22px;margin:8px 0 14px}
+.md li{margin:4px 0;color:var(--text)}
+.md li::marker{color:var(--primary)}
+.md a{color:var(--primary);text-decoration:none;border-bottom:1px solid rgba(0,102,255,.3)}
+.md a:hover{border-bottom-color:var(--primary)}
+.md blockquote{
+  margin:14px 0;padding:14px 18px;
+  background:linear-gradient(90deg,rgba(0,102,255,.05),rgba(0,184,217,.03));
+  border-left:3px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;
+  color:var(--text-2);font-size:14px;
+}
+.md blockquote p{margin:0;color:inherit}
+.md hr{
+  border:0;height:1px;background:var(--line);margin:32px 0;
+}
+.md code{
+  font-family:"JetBrains Mono",monospace;font-size:13px;
+  background:rgba(0,102,255,.08);color:var(--primary-2);
+  padding:2px 6px;border-radius:4px;
+}
+.md pre{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px;overflow-x:auto;font-size:13px;line-height:1.6;
+}
+.md pre code{background:none;padding:0;color:var(--text)}
+/* tables */
+.md table{
+  width:100%;border-collapse:separate;border-spacing:0;
+  margin:14px 0 18px;font-size:13.5px;
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  background:var(--surface);
+  font-variant-numeric:tabular-nums;
+}
+.md th{
+  text-align:left;padding:10px 14px;
+  background:var(--surface-2);
+  font-weight:600;color:var(--text);font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+  border-bottom:1px solid var(--line);
+}
+.md td{
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);color:var(--text);
+  vertical-align:top;
+}
+.md tr:last-child td{border-bottom:none}
+.md tr:hover td{background:var(--surface-2)}
+.md table strong{color:var(--primary-2)}
+
+/* mermaid */
+.mermaid{
+  background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin:14px 0 18px;
+  display:flex;justify-content:center;
+  box-shadow:var(--shadow-sm);
+}
+
+/* ============ FOOTER ============ */
+.footer{
+  max-width:1280px;margin:32px auto 48px;padding:24px 32px;
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;color:var(--text-3);
+}
+.footer .links{display:flex;gap:20px}
+.footer a{color:var(--text-2);text-decoration:none}
+.footer a:hover{color:var(--primary)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:780px){
+  .header-inner{padding:12px 16px}
+  .meta{display:none}
+  .hero{padding:32px 16px 16px}
+  .hero-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+  .kpi+.kpi{border-left:none;padding-left:4px}
+  .tabs{padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tab{padding:12px 14px;font-size:13px;white-space:nowrap}
+  main{padding:20px 16px}
+  .md table{font-size:12.5px;display:block;overflow-x:auto}
+}
+
+/* selection */
+::selection{background:rgba(0,102,255,.18);color:var(--text)}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <div class="b1">车辆销售 CRM · 产品战略</div>
+        <div class="b2">Vehicle Sales CRM · Strategy Pack</div>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="pill"><span class="dot"></span>v1.0 · 2026-06-11</span>
+      <span>产品战略团队 · 5 Agents</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <h1>把 4S 笔记本、800 人微信好友<br/>和那张<em>批价表</em>，一起塞进口袋。</h1>
+  <p class="lead">面向中国汽车经销商（4S 集团 + 新能源直营/代理）销售团队的"移动+企微原生"CRM，把销售顾问人均月产能从行业中位 10–15 台拉到 ≥18 台/月。本页汇总产品战略团队三件套：PRD / 竞品分析 / 产品路线图。</p>
+  <div class="hero-grid">
+    <div class="kpi">
+      <div class="k1">North Star · 北极星</div>
+      <div class="k2">≥ 18<small>台/人/月</small></div>
+      <div class="k3">行业中位 10–15 → 12 月内目标</div>
+    </div>
+    <div class="kpi">
+      <div class="k1">M1 GA</div>
+      <div class="k2">2026<small>·12·23</small></div>
+      <div class="k3">6 个月 / 12 Sprint / 200 家门店</div>
+    </div>
+    <div class="kpi">
+      <div class="k1">3 年 ARR</div>
+      <div class="k2">≈ 6.0<small>亿元</small></div>
+      <div class="k3">SOM 4–5%，ACV 5–7 万/店/年</div>
+    </div>
+    <div class="kpi">
+      <div class="k1">团队规模</div>
+      <div class="k2">27<small>人</small></div>
+      <div class="k3">FE6 · BE8 · Algo3 · Data2 · QA4 · Design2 · PM2</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TABS ===== -->
+<div class="tabs-wrap">
+  <nav class="tabs">
+    <button class="tab active" data-tab="prd"><span class="num">01</span>功能规格书 PRD</button>
+    <button class="tab" data-tab="comp"><span class="num">02</span>竞品分析</button>
+    <button class="tab" data-tab="road"><span class="num">03</span>产品路线图</button>
+  </nav>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main>
+  <section id="prd" class="panel active md"></section>
+  <section id="comp" class="panel md"></section>
+  <section id="road" class="panel md"></section>
+</main>
+
+<footer class="footer">
+  <div>© 2026 产品战略团队 · 由 5 个 AI Agent 协作生成</div>
+  <div class="links">
+    <a href="prd-vehicle-sales-crm-2026-06-11.md">PRD.md</a>
+    <a href="competitive-analysis-vehicle-sales-crm-2026-06-11.md">Competitive.md</a>
+    <a href="roadmap-vehicle-sales-crm-2026-06-11.md">Roadmap.md</a>
+  </div>
+</footer>
+
+<!-- ===== MARKDOWN SOURCE (escaped via template tags) ===== -->
+<script type="text/x-md" id="md-prd">
+# 车辆销售团队 CRM · 产品需求文档（PRD v1.0）
+
+**日期**：2026-06-11
+**类型**：PRD / 功能规格书
+**参与成员**：析客（需求分析师）/ 瑞思（用户研究员）/ 竞析（竞品分析师）/ 数析（数据分析师）/ 路径（路线图规划师）
+
+---
+
+## 📌 TL;DR（执行摘要）
+
+- **核心目标**：为中国汽车经销商（4S 集团 + 新能源直营/代理）销售团队打造"移动+企微原生"CRM，把销售顾问人均月产能从行业中位 10-15 台拉到 ≥18 台。
+- **关键决策**：① 移动+企微原生为地基，PC 仅服务管理层；② 差异化四件套——VIN 级库存-订单-交付一体引擎 / AI 试驾助手 / 企微原生 SCRM 工作台 / 二手车置换闭环；③ 客户归属做成 4 机制（保护期/释放/申诉/离职继承），作为定价锚点；④ M1 MVP 6 个月在 2026-12-23 GA。
+- **下一步**：Kick-off 第 1 周（2026-06-15）启动企微 ISV 审批 + 首家 OEM 接口商务；2026-09 启动 α 内测；2026-11 启动 β 试点（3-5 家 PMF 客户）；2026-12-23 GA 至 200 家门店。
+
+---
+
+## 🎯 核心结论卡片
+
+| 项目 | 内容 |
+|------|------|
+| 推荐方案 | "移动+企微原生 + VIN 级一体化 + 客户资产防飞单"三位一体 CRM |
+| 优先级 | P0 14 项（230 人天） / P1 8 项（100 人天） / P2 5 项（90 人天） |
+| 预期影响 | Y1 800 家签约 / ARR 0.48 亿；3 年累计收入 ≈ 6 亿（SOM 4-5%） |
+| 资源需求 | 27 人团队（FE6 + BE8 + Algo3 + Data2 + QA4 + Design2 + PM2） |
+| 风险等级 | 中（关键路径：企微 ISV 审批 + 首家 OEM 接口） |
+
+---
+
+## 1. 产品目标（North Star × 3 正交目标）
+
+我们做的不是"又一个 CRM"，而是把 4S 店里那本写满客户名字的笔记本、那条 800 人的微信好友、那张贴在墙上的批价表，全部塞进销售顾问口袋里的一个小程序。
+
+**目标 1 · 让一线销售多卖车（产能目标）**
+- 把销售顾问人均月产能从行业中位 10-15 台/月，提升到接入 12 个月后的 ≥ 18 台/月（标杆店 ≥ 25 台/月）。
+- 衡量口径：日历月内成功开票交付的整车订单数 / 当月在岗顾问人头数，按门店月报口径。
+
+**目标 2 · 让客户资产沉淀在公司（资产目标）**
+- 客户企微好友沉淀率 40% → 75%；顾问离职继承率 40% → 95%；飞单率（疑似私单/外流）15-25% → ≤ 5%。
+- 衡量口径：每月对账"系统记录的客户量 / 门店实际接待量"，离职 7 天后客户继续被新顾问跟进的比例。
+
+**目标 3 · 让交付不再翻车（NPS 目标）**
+- 交付环节 NPS 从基线（J.D. Power 行业平均 ≈ 740）的相对值提升 +15 分；等车 ≥ 8 周客户的 NPS 跌幅从 -20 收敛到 -8 以内。
+- 衡量口径：交付后第 3、30、90 天三段问卷加权 NPS，对比 OEM 公布的同级别中位数。
+
+> 三个目标分别锁定"卖、留、稳"，互不替代——目标 1 拉营收、目标 2 防资产流失、目标 3 防口碑塌方。
+
+---
+
+## 2. 用户故事（5 个高频场景）
+
+**US-1 · 销售顾问首跟（最高频）**
+> As a 销售顾问，I want 在企微/手机 APP 收到新线索后 60 秒内自动弹出客户画像、来源、关注车型、推荐话术，I can 用一键拨打+录音的方式 3 分钟内完成首响，So that 我不会因为在交车或在洽谈而错过 SLA，把"留资 → 到店"率从 55% 拉到 70%。
+
+**US-2 · 展厅经理批价（最敏感）**
+> As a 展厅经理，I want 在手机上接收到顾问发起的批价申请，看到客户基本信息、当前指导价、申请折扣、毛利测算、本月剩余批价额度，I can 在 5 分钟内审批/驳回/转店总，So that 客户不用等 2 小时、毛利不会失控、所有让价过程留痕可追溯。
+
+**US-3 · DCC 线索分配（决定首响速度）**
+> As a DCC 线索专员，I want 系统把抖音/汽车之家/易车/官网/400 电话的线索自动去重、清洗无效号、按规则（车型/区域/顾问负载/绩效）秒级分配给最佳顾问，I can 一眼看到分配热力图与超时未跟池，So that 我从手工 Excel 拉名单解放出来，把 3 分钟首响率从 35% 推到 80%。
+
+**US-4 · 交付专员推进度（NPS 主战场）**
+> As a 交付专员，I want 客户下定后系统自动从 OEM/DMS 拉 VIN、生产、运输、PDI、上牌每个节点的状态，每周固定向客户推送可视化进度卡片，并提示我提前打"安心电话"，So that 客户等 12 周也不会焦虑到去小红书发帖骂街，NPS 不再因为"信息黑盒"翻车。
+
+**US-5 · 店总驾驶舱（用数据管人管车）**
+> As a 店总/区域总监，I want 一个手机端驾驶舱，分钟级看到本店今日漏斗（线索-到店-试驾-订单-交付）、TOP/BOT 顾问、超时线索池、批价池、库存周转、交付积压，并能一键下钻到具体顾问/客户，So that 我每天早会 10 分钟讲完数据、上午就能定向干预，而不是月底看报表后悔。
+
+---
+
+## 3. 用户研究洞察（瑞思关键结论摘录）
+
+- **洞察 1 · 移动+企微原生不是选项而是地基**：销售顾问 75% 以上的工作时间在展厅、试驾、出差、夜间跟客，PC 端打开率 < 20%。竞品销售易/纷享销客的"移动是 PC 阉割版"的设计已经被一线集体投诉。我们的产品必须 Mobile-First + 企微小程序原生，PC 只服务管理层。
+- **洞察 2 · 客户归属是政治问题，不是产品问题**：行业飞单率 15-25%，顾问年流失 40-55%。一个顾问离职带走 200 个微信好友 = 公司当年净利润蒸发 2-5%。任何"客户归属"功能必须同时设计 4 套机制：保护期、自动释放、申诉、离职强制继承。
+- **洞察 3 · 交付期是 NPS 最大波动期**：J.D. Power CSI 中"交付环节"权重 25%；等车 ≥ 8 周客户 NPS 平均下降 15-25 分。OEM 与经销商之间的 VIN/物流信息断层，被客户感知为"黑盒"，是当前一切线下骂战的根因。
+- **洞察 4 · KANO 必备 vs 兴奋的明确分层**：必备项一个不能少（多渠道聚合/防飞单/移动跟进/报价实时查/批价留痕）；兴奋项（AI 通话质检、意向预测、AIGC、交付智能推送）是溢价点，但不能反客为主。
+
+### 5 个核心角色
+
+| 角色 | 关键 KPI | 核心痛点 |
+|------|---------|---------|
+| 销售顾问（小李） | 月销台数、留资/试驾/转化率、24h 首电及时率、CSI/NPS、金融精品渗透 | 撞单、漏跟、查价慢、多端切换、夜间响应 |
+| 展厅经理（王经理） | 销量目标完成率、毛利率、库存周转、人均产能 | 漏斗散落 Excel、批价靠微信、销售质量黑盒 |
+| DCC 线索专员（陈姐） | 接通率、邀约率、到店率、3 分钟首响 | 8+ 渠道分散、跟进黑盒、人耳质检 |
+| 交付专员（小张） | 交付周期、交付 NPS、增换购转化 | 状态散落、客户焦虑、交付后归属断层 |
+| 店总（赵总） | 区域销量/毛利、库存健康度、人员产能、合规率 | 跨店口径不统一、多系统割裂、飞单管控 |
+
+---
+
+## 4. 竞品对比（功能矩阵 + 差异化）
+
+| 能力维度 | 销售易汽车云 | 纷享销客 | Salesforce Auto Cloud | 车音 DCC | 有成 CRM | 企微+企点（裸用） | 新势力自研 | **本产品** |
+|---|---|---|---|---|---|---|---|---|
+| 移动+企微原生 | △ 移动较弱 | △ | × 海外为主 | △ | △ | √ 但散 | √ | **√√ 一体化** |
+| 多渠道线索聚合分配 | √ | √ | √ | √√ 强项 | △ | × | √ | **√√** |
+| 客户归属/防飞单 | √ 一般 | △ | √ | × | √ | × | √ | **√√ 4 机制** |
+| VIN 级库存-订单-交付 | × | × | △ 海外口径 | × | × | × | √ | **√√ 差异化** |
+| 报价/批价审批流 | √ | △ | √ | × | √ | × | √ | **√√** |
+| AI 意向打分 / 通话质检 | △ | × | √ Einstein | △ 通话质检强 | × | × | △ NeoAI | **√** |
+| AIGC 营销素材 | × | × | √ | × | × | × | △ | **√** |
+| 二手车置换闭环 | × | × | × | × | × | × | △ | **√√ 差异化** |
+| 试驾电子化 | △ | × | △ | × | × | × | √ | **√** |
+| 店总驾驶舱 | √ | √ | √ | △ | √ | × | √ | **√** |
+
+**我方差异化四件套**：
+1. **VIN 级库存-订单-交付一体引擎**：业内目前没有一家把"OEM 生产 → 物流 → PDI → 上牌"这条链路在 CRM 里做透。
+2. **AI 试驾助手**：车机 + 大模型（混元），一边试驾一边帮顾问讲解，结束自动出试驾报告 + 配置推荐。
+3. **企微原生 SCRM 工作台**：客户/朋友圈/群/SOP/素材库与 CRM 客户档案同源，避免双系统割裂。
+4. **二手车置换闭环**：精真估估值 + 寄售线索 + OEM 置换补贴政策实时计算，把"置换流失"这条最大漏斗补上。
+
+---
+
+## 5. 数据依据（北极星 / 二级指标 / ACV）
+
+**北极星指标**：销售顾问人均月产能（台/人/月）。行业中位 10-15，本产品 12 个月目标 ≥ 18，标杆店 ≥ 25。
+
+**二级指标 12 个月目标**：
+
+| 指标 | 现状 | 目标 | 责任模块 |
+|---|---|---|---|
+| 3 分钟首响率 | 35% | 80% | 线索分配 / 移动通知 |
+| 留资 → 到店转化 | 55% | 70% | 跟进 SOP / SLA |
+| 试驾完成率 | 18% | 35% | 试驾管理 / 短信邀约 |
+| 到店 → 订单转化 | 30% | 42% | 报价批价 / AI 助手 |
+| 客户企微好友沉淀率 | 40% | 75% | SCRM 工作台 |
+| 离职继承率 | 40% | 95% | 归属与继承机制 |
+| 顾问 DAU/MAU | 60% | 80% | 移动 UX / 任务流 |
+
+**市场规模**（2026E）：中国汽车 CRM 软件 103 亿元（CAGR 9.5%）；中国汽车零售 SaaS 247 亿元（CAGR ~25%）。
+**渠道基数**：4S 店 32,878 家 + 新能源独立网点 21,220 家 = 5.4 万合规网点；销售顾问 45-55 万人，DCC 6-8 万人。
+**ACV 锚点**：5-7 万元/店/年（标准版）；增值模块（AI 助手/置换/驾驶舱）+30%-50%。
+**3 年累计收入预测**：≈ 6 亿元，对应签约 ≈ 5778 家门店（SOM 命中率 ~5%）。
+
+**风险点（数析提示）**：
+1. 车企自建（蔚小理零跑已有自研 CRM）→ 必须强调"为经销商而非主机厂"
+2. 4S 退网年均 4419 家 → 选址优先选 TOP 30 经销商集团
+3. 企微 / 抖音 API 政策依赖 → 设计 Plan B（离线/邮件兜底）
+4. 易车/汽车之家流量方挤压 → 与之合作而不替代
+
+---
+
+## 6. 需求池（25 条 / 按旅程分组 / GIVEN-WHEN-THEN）
+
+> P0 = MVP 必交付；P1 = 上线后 3-6 月内；P2 = 12 月内迭代项
+
+### 6.1 线索（Lead）
+
+**REQ-L01 多渠道线索聚合与清洗** | P0 | 12 人天
+- GIVEN 抖音/汽车之家/易车/官网/400/微信小程序/线下扫码 7 个来源同时来线索
+- WHEN 系统在 30 秒内完成接入、号码清洗（虚拟号识别）、跨渠道去重（手机号+设备指纹）
+- THEN 一条干净线索带"来源/媒介/关注车型/原始 UTM"落入待分配池，重复线索合并为同一客户档案
+
+**REQ-L02 智能分配规则引擎** | P0 | 10 人天
+- GIVEN 线索进入待分配池
+- WHEN 引擎按"车型专长 × 区域 × 顾问负载 × 历史转化 × 在岗状态"5 维度计算最佳承接人
+- THEN 5 秒内分配到位，顾问企微+APP 同步弹出，并允许 DCC 主管手工干预
+
+**REQ-L03 SLA 超时升级** | P0 | 5 人天
+- GIVEN 线索分配后 3 分钟未首次接触
+- WHEN 系统检测超时
+- THEN 自动二次推送 + 升级到展厅经理 + 计入顾问 KPI 看板的"超时池"
+
+**REQ-L04 客户归属与保护期** | P0 | 14 人天
+- GIVEN 顾问 A 已与客户建联且为活跃跟进
+- WHEN 顾问 B 试图新建同一手机号客户
+- THEN 系统提示"已被 A 跟进、保护期至 D+30"，B 只能发起申诉而不可强占
+
+### 6.2 跟进（Follow-up）
+
+**REQ-F01 移动 + 企微原生工作台** | P0 | 20 人天
+- GIVEN 顾问在企微小程序或 APP 打开工作台
+- WHEN 进入"今日待办"
+- THEN 一屏显示：超时线索 / 待回访 / 待到店 / 待批价 / 待交付，点开即处理，无需切换 PC
+
+**REQ-F02 一键拨号+通话录音+自动写跟进记录** | P0 | 8 人天
+- GIVEN 顾问在客户详情页点击"拨号"
+- WHEN 通话结束
+- THEN 录音上传云端 + ASR 自动转文字 + 关键意向（车型/预算/时间）落入跟进字段
+
+**REQ-F03 AI 意向打分** | P1 | 15 人天
+- GIVEN 客户已有 ≥ 3 次跟进记录或 1 次到店
+- WHEN AI 模型（混元）综合通话/聊天/到店行为打分
+- THEN 客户档案显示 H/M/L 意向 + 推荐下一步动作
+
+**REQ-F04 SCRM 工作台（企微好友/群/SOP/素材）** | P1 | 18 人天
+- GIVEN 顾问加客户企微好友
+- WHEN 客户进入指定 SOP（如"7 天到店转化"）
+- THEN 系统按节奏推送话术/海报/活动给顾问，由顾问一键转发，所有触达回流到客户档案
+
+### 6.3 到店（Showroom）
+
+**REQ-S01 到店签到 + 客户识别** | P0 | 6 人天
+- GIVEN 客户进入展厅
+- WHEN 通过小程序扫码 / 顾问扫客户企微名片
+- THEN 自动签到、推送客户画像与上次跟进摘要给负责顾问，并触发到店动线计时
+
+**REQ-S02 展厅接待分配看板** | P1 | 5 人天
+- GIVEN 多组客户同时到店
+- WHEN 展厅经理打开接待看板
+- THEN 实时看到每位顾问空闲/接待状态，一键派单或调度
+
+### 6.4 试驾（Test Drive）
+
+**REQ-T01 试驾电子化（电子合同+身份核验+车辆领还）** | P1 | 12 人天
+- GIVEN 客户同意试驾
+- WHEN 顾问发起试驾流程
+- THEN 客户在企微完成驾照 OCR + 电子签 + 路线/车辆绑定，结束后自动归还+计费
+
+**REQ-T02 AI 试驾助手** | P2 | 25 人天
+- GIVEN 客户在试驾过程中通过车机或顾问手机提问
+- WHEN AI（混元 + 车联网数据）实时回答配置/对比/优惠
+- THEN 试驾结束自动生成《试驾报告》+ 推荐配置单 + 顾问跟进任务
+
+### 6.5 订单（Order）
+
+**REQ-O01 报价单生成（指导价 / 政策 / 金融 / 置换）** | P0 | 14 人天
+- GIVEN 顾问基于客户车型与配置发起报价
+- WHEN 系统拉取最新指导价 + OEM 政策 + 金融方案 + 置换补贴
+- THEN 一份带二维码的报价单 PDF/H5 在 30 秒内推送至客户企微，留痕至客户档案
+
+**REQ-O02 批价审批流（顾问→展厅经理→店总）** | P0 | 16 人天
+- GIVEN 申请折扣超出顾问权限
+- WHEN 提交批价
+- THEN 按金额阶梯路由到展厅经理或店总，移动端审批，超时升级，全流程留痕
+
+**REQ-O03 VIN 级库存与订车** | P0 | 18 人天
+- GIVEN 客户决定下定
+- WHEN 顾问在订车页选车
+- THEN 实时拉取本店/集团/在途库存 VIN，锁定 VIN 后即不可被其他订单选中，下定金后正式占用
+
+**REQ-O04 电子合同与定金支付** | P0 | 10 人天
+- GIVEN 客户与顾问商定订单
+- WHEN 进入电子合同（e签宝 / 法大大）
+- THEN 客户在企微一键签 + 微信/银联支付定金，合同与支付凭证同步落入订单档案
+
+### 6.6 交付（Delivery）
+
+**REQ-D01 VIN 全链路状态接入与可视化** | P0 | 22 人天
+- GIVEN 订单已锁 VIN
+- WHEN OEM/DMS 推送"已下生产/已下线/已发运/已到店/已 PDI/已上牌"任一节点
+- THEN 客户企微收到可视化时间轴卡片（含图片/预计日期），顾问与交付专员同步收到
+
+**REQ-D02 交付积压与异常预警** | P0 | 8 人天
+- GIVEN 订单状态停留某节点超过 SLA（如发运 > 14 天）
+- WHEN 系统每日扫描
+- THEN 异常订单进入交付经理"红池"，并自动给客户发"安心电话"任务给交付专员
+
+**REQ-D03 交付仪式与 NPS 收集** | P1 | 6 人天
+- GIVEN 客户到店提车
+- WHEN 完成 PDI 验收 + 钥匙交接
+- THEN 自动触发交付合影/视频 + 第 3/30/90 天三段 NPS 问卷推送
+
+### 6.7 车主（Owner）& 横向能力
+
+**REQ-W01 车主档案与首任续保提醒** | P1 | 10 人天
+**REQ-W02 二手车置换估值与寄售** | P2 | 20 人天
+**REQ-W03 复购与转介绍激励** | P2 | 12 人天
+**REQ-X01 店总驾驶舱（移动端）** | P1 | 18 人天
+**REQ-X02 佣金可视与提成测算** | P1 | 10 人天
+**REQ-X03 AI 通话质检** | P2 | 16 人天
+**REQ-X04 AIGC 朋友圈/海报素材** | P2 | 14 人天
+**REQ-X05 OEM/DMS 集成适配框架** | P0 | 25 人天
+
+---
+
+## 7. 关键流程图（Mermaid × 3）
+
+### 7.1 客户全旅程（线索 → 车主）
+
+```mermaid
+flowchart LR
+    A[多渠道线索<br/>抖音/易车/官网/400/扫码] --> B[清洗去重<br/>跨渠道合并]
+    B --> C{智能分配引擎}
+    C -->|车型×区域×负载×绩效| D[销售顾问首跟<br/>SLA 3min]
+    D --> E[持续跟进<br/>SOP+AI意向打分]
+    E --> F[到店签到<br/>展厅识别]
+    F --> G[试驾电子化<br/>AI 试驾助手]
+    G --> H[报价/批价审批]
+    H --> I[VIN 锁定+电子合同+定金]
+    I --> J[交付链路<br/>生产/物流/PDI/上牌]
+    J --> K[交付仪式+NPS]
+    K --> L[车主运营<br/>续保/置换/复购/转介绍]
+    L -.复购线索.-> A
+```
+
+### 7.2 报价批价审批流（顾问 → 展厅经理 → 店总）
+
+```mermaid
+flowchart TD
+    S[顾问发起报价] --> P1{折扣是否在<br/>顾问权限内?}
+    P1 -- 是 --> OK1[直接出报价单<br/>留痕至客户档案]
+    P1 -- 否 --> M[展厅经理审批<br/>移动端 5min SLA]
+    M --> P2{超出经理<br/>权限或毛利红线?}
+    P2 -- 否 --> Approve1[经理批准<br/>毛利记账]
+    P2 -- 是 --> Boss[店总审批<br/>10min SLA]
+    Boss --> P3{店总决策}
+    P3 -- 批准 --> Approve2[出报价+留痕]
+    P3 -- 驳回 --> Reject[驳回理由<br/>回到顾问]
+    P3 -- 反向议价 --> CounterOffer[新建反建议价<br/>重走流程]
+    Approve1 --> Send[报价单 H5 推送客户企微]
+    Approve2 --> Send
+    OK1 --> Send
+```
+
+### 7.3 客户归属与离职继承机制
+
+```mermaid
+flowchart TD
+    Start[顾问A 与客户首次建联] --> Pro[进入保护期 D+30]
+    Pro --> Active{30 天内是否有<br/>有效跟进事件?}
+    Active -- 有 --> Renew[保护期续期 +30 天]
+    Active -- 无 --> Public[自动释放<br/>进入公海池]
+    Renew --> Status{顾问 A 在岗状态}
+    Status -- 在岗 --> Continue[继续归属 A]
+    Status -- 离职 --> Inherit[强制继承流程]
+    Inherit --> Match[按车型/区域/负载<br/>匹配顾问 B]
+    Match --> Notify[客户企微 +短信<br/>告知新顾问]
+    Notify --> Audit[7 日继承审计<br/>店总确认]
+    Public --> Claim[任何顾问可领取]
+    Claim --> Pro
+    Active -- 有争议 --> Appeal[申诉至店总仲裁]
+    Appeal --> Decision{仲裁结果}
+    Decision -- 维持 --> Continue
+    Decision -- 改判 --> Reassign[改判给顾问 B+冷静期]
+```
+
+---
+
+## 8. Non-Goals（明确不做的 8 件事）
+
+1. **不做完整 DMS 替代**：财务、维修工单、配件库存等不在产品边界，仅通过适配层与现有 DMS 集成。
+2. **不做财务记账与发票系统**：佣金/毛利仅做"测算与可视"，不做总账/凭证/税务。
+3. **不做主机厂总部生产排程系统**：消费 OEM 生产数据，不去优化排产逻辑。
+4. **不做 C 端独立车主 APP**：车主侧体验全部承接在企微小程序+H5。
+5. **不做汽车金融牌照业务**：车贷/融租仅做信息撮合，不持牌、不放款、不做风控。
+6. **不做二手车 C2C 撮合交易闭环**：仅做估值、寄售线索、置换补贴计算。
+7. **不做主机厂广告投放管理（DMP）**：抖音/百度信息流交给专业 DSP。
+8. **不做出海版本（v1）**：第一年仅服务中国大陆经销商。
+
+---
+
+## 9. 时间线 & 里程碑（路径补全）
+
+### 9.1 里程碑总览
+
+| 里程碑 | 起止 | 周期 | 关键交付物 | 退出标准（GO 必须全部满足） |
+|---|---|---|---|---|
+| **M1 MVP** — 跑通"线索→交付"主链 | 2026-07-01 → 2026-12-31 | 6 个月 / 12 Sprint | P0 全部 14 项 + 移动企微工作台 + OEM/DMS 集成框架 + β 试点 3-5 家 → GA 200 家 | ① P0 验收 ≥95%；② β 客户 NSM +30%；③ DAU/MAU ≥70%；④ 缺陷密度 <0.3/KLOC；⑤ ARR ≥6000 万 |
+| **M2 体验放大** | 2027-01-01 → 2027-03-31 | 3 个月 / 6 Sprint | P1 全部 8 项 + AI 意向打分 v1 + SCRM SOP + 试驾电子化 + 店总驾驶舱 + 续保提醒 | ① P1 全量上线；② 试驾率 25→30%；③ 企微沉淀 60→70%；④ 累计 ≥400 家；⑤ NDR ≥110% |
+| **M3 智能化** | 2027-04-01 → 2027-06-30 | 3 个月 / 6 Sprint | P2 全部 5 项 + AI 试驾助手 + 通话质检 + 置换估值 + AIGC + 复购转介绍 | ① 试驾助手 GA 覆盖 30%；② 质检日处理 ≥10 万通；③ 累计 ≥600 家；④ 北极星 18 台/月达成 |
+| **M4 规模化生态** | 2027-07-01 → 持续 | 滚动季度 | OEM/DMS 扩展（≥15 家）+ 行业横向版本 + Marketplace + 海外预研 | ① Y2 末累计 2680 家、ARR 1.69 亿；② OEM ≥15 家；③ Marketplace 三方 ≥20 个 |
+
+### 9.2 M1 双周 Sprint 排期
+
+| Sprint | 时段 | 命名 | 关键需求 | 验收里程碑 |
+|---|---|---|---|---|
+| S1 | 07/01–07/14 | 地基浇筑 | 多租户基座、企微 ISV 套壳 | 架构 ADR；ISV 提交审核 |
+| S2 | 07/15–07/28 | 线索聚合骨架 | REQ-L01 | 4 渠道 Demo；去重率 ≥90% |
+| S3 | 07/29–08/11 | 分配引擎+SLA | REQ-L02、REQ-L03 | 规则引擎可视化；SLA E2E 通 |
+| S4 | 08/12–08/25 | 保护期+移动骨架 | REQ-L04、REQ-F01 | 保护期 100% 准；三端可登录 |
+| S5 | 08/26–09/08 | 工作台+跟进记录 | REQ-F01、REQ-F02 | 8 个动作；ASR ≥85% |
+| S6 | 09/09–09/22 | 到店签到+报价单 | REQ-S01、REQ-O01 | **α 内测启动** |
+| S7 | 09/23–10/06 | 批价审批流 | REQ-O02 | 12 条用例通过 |
+| S8 | 10/07–10/20 | VIN 库存+订车 | REQ-O03 | OEM 库存联调通；锁定 <3s |
+| S9 | 10/21–11/03 | 电签+定金支付 | REQ-O04 | e签宝/法大大双通道 |
+| S10 | 11/04–11/17 | OEM/DMS 集成框架 | REQ-X05 | 一汽-大众+比亚迪+理想 PoC |
+| S11 | 11/18–12/01 | 交付链路 | REQ-D01、REQ-D02 | 8 节点接入；**β 试点 3 家上线** |
+| S12 | 12/02–12/22 | 性能/灰度/GA | 全链路压测、灰度开关 | P95<800ms；**12/23 GA** |
+
+### 9.3 关键依赖矩阵（10 条）
+
+| # | 前置依赖 | 必须就绪 | 责任方 |
+|---|---|---|---|
+| D1 | 企微 ISV 资质审批（4-8 周） | 2026-08-31 | PM2 + 法务 |
+| D2 | e签宝 / 法大大 商务合同 | 2026-10-15 | 商务 |
+| D3 | 微信支付 / 银联商户号 | 2026-10-15 | 商务+财务 |
+| D4 | 一汽-大众 DMS 接口文档+测试库 | 2026-09-30 | 商务+架构师 |
+| D5 | 比亚迪经销商系统接入许可 | 2026-10-31 | 商务 |
+| D6 | 汉得/元宝 DMS 中间件协议 | 2026-09-15 | 商务 |
+| D7 | 混元算力额度 ≥3 万 TPS | 2026-08-15 | PM1+算法负责人 |
+| D8 | 精真估二手车估值 API | 2027-01-31 | 商务 |
+| D9 | β 试点客户 3-5 家 LOI | 2026-09-30 | 销售 VP |
+| D10 | 数据合规审计（个保法） | 2026-11-15 | 法务+数据负责人 |
+
+> **关键路径警告**：D1（企微 ISV）+ D4（首家 OEM 接口）是 M1 GA 的"双关键路径"，任一延期 4 周以上将连锁推迟 GA 至 2027-Q1。建议 Kick-off 当周（2026-06-15）启动这两项的商务并行作战室。
+
+### 9.4 资源分配（27 人 × 4 里程碑）
+
+| 工种 | 总员额 | M1 | M2 | M3 | M4 |
+|---|---|---|---|---|---|
+| 前端 FE | 6 | **6 ★** | 5 | 4 ▽ | 4-5 |
+| 后端 BE | 8 | **8 ★** | 6 | 5 ▽ | 6 |
+| 算法 Algo | 3 | 2 | 3 ★ | **3 ★** | 2-3 |
+| 数据 Data | 2 | 2 | 2 ★ | 1 ▽ | 2 |
+| 测试 QA | 4 | **4 ★** | 3 | 3 | 3-4 |
+| 设计 Design | 2 | 2 ★ | 1 ▽ | 2 | 1-2 |
+| 产品 PM | 2 | 2 ★ | 2 | 2 | 2 |
+| **合计** | **27** | **26 满载** | **22** | **20** | **20-22** |
+
+### 9.5 风险登记册（10 条）
+
+| # | 风险 | 概率 | 影响 | 缓解策略 |
+|---|---|---|---|---|
+| R1 | 销售易先发抢占 4S 集团 | H | H | 移动+企微原生差异化；锁定 5 家 PMF 独家 6 个月 |
+| R2 | 企微 API 政策收紧 | M | H | 双通道兜底；ISV 商务月度同步 |
+| R3 | 4S 退网潮 | H | M | 客户结构 ≤30% 单一集团；优先新能源直营 |
+| R4 | OEM 数据延迟 | H | H | 适配器加缓存+预测；与汉得/元宝建 SLA |
+| R5 | 混元算力成本超预算 | M | M | 模型蒸馏；高频缓存；按用量定价 |
+| R6 | PMF 客户流失 | M | H | 专属 CSM；双月 advisory；多签 7 家 LOI |
+| R7 | 灰度区域选错 | M | M | β 跨 2 区域+2 业态；分层数据看板 |
+| R8 | 核心人员流失 | M | H | 关键岗位双备份；ADR 文档化；期权锁定 |
+| R9 | 数据合规事故 | L | H | 个保法审计；字段分级；漏洞赏金 |
+| R10 | 企微 ISV 审批 >8 周 | M | H | Kick-off 第 1 周提交；代开发版兜底 |
+
+### 9.6 灰度发布策略
+
+```
+α 内部 (S6 起，4 周) → β PMF 客户 (S11 起，6 周) → GA 200 家门店 (S12 后 12 周)
+```
+
+- **α**：内部 30 名员工 + 1 家友好客户单店；退出标准：满意度 ≥4.0/5、P0 缺陷归零、P95<1s
+- **β**：3-5 家 PMF（1 家华东合资 4S + 1 家新能源直营 + 1 家二三线品牌 + 备选 2 家）；退出标准：NSM +30%、NPS ≥40、3 分钟首响 ≥75%
+- **GA**：每周新增 ≤20 家；优先华东+珠三角+成渝；退出标准：≥160 家、ARR ≥6000 万、崩溃率 <0.2%
+
+### 9.7 利益相关者沟通节奏
+
+| 受众 | 频次 | 内容要点 |
+|---|---|---|
+| 公司高管/投资人 | 月 | 北极星 / ARR / 风险 TOP3 |
+| 工程团队 | 双周 | Sprint Review + Retro |
+| 设计团队 | 周 | UI 评审 / 用户测试 |
+| 商务/销售/客成 | 季度 | ACV / 续费率 / NDR |
+| β/GA 客户 | 双月 | 新功能演示 / Roadmap |
+| 客户 Advisory Board | 季度 | Roadmap 投票 / 共建 |
+| OEM 合作伙伴 | 月 | SLA 达成 / 集成 Roadmap |
+| 全员同步 | 双周 | 业务进展 / Q&A |
+
+### 9.8 指标时间锚点
+
+| 指标 | 起点 | M1 末 | M2 末 | M3 末 | 12 月终态 |
+|---|---|---|---|---|---|
+| 3 分钟首响率 | 35% | 60% | 72% | 78% | **80%** |
+| 留资到店率 | 55% | 60% | 65% | 68% | **70%** |
+| 试驾率 | 18% | 22% | 28% | 33% | **35%** |
+| 到店订单率 | 30% | 33% | 37% | 40% | **42%** |
+| 客户企微沉淀率 | 40% | 55% | 65% | 72% | **75%** |
+| 离职继承率 | 40% | 80% | 90% | 93% | **95%** |
+| 顾问 DAU/MAU | 60% | 70% | 75% | 78% | **80%** |
+| **NSM 人均月产能** | 10-15 台 | 13 台 | 15 台 | 17 台 | **18 台** |
+
+---
+
+## 10. 待确认问题（Open Questions × 8）
+
+1. **定价策略最终落点**：5-7 万/店/年标准版是否再做"集团版打包折扣（≥ 50 店）"？AI/置换是否独立计费？
+2. **首批 PMF 客户选型**：先打 1 家头部 4S 集团（中升/永达/广汇），还是先打 3 家新势力代理商？
+3. **企微 API 商务边界**：私域客户/朋友圈/SOP 是否走企微"互通能力"商务合作？
+4. **AI 算力与混元接入方式**：是否全量混元？是否预留多模型路由？算力成本如何摊到 ACV？
+5. **e签宝/法大大/精真估生态厂商联合方式**：OEM 转售 / API 直连 / 分润？
+6. **OEM/DMS 集成首批清单**：先打通哪 3 家 OEM、哪 2 家 DMS？
+7. **客户归属"保护期"长度**：30 天是否最佳？跟前 3 家 PMF 客户共创定下来。
+8. **上线灰度区域**：按城市 / 按品牌 / 按集团？
+
+---
+
+## ✅ 行动清单
+
+| # | 行动 | 负责方 | 时间窗 |
+|---|------|--------|--------|
+| 1 | 启动企微 ISV 资质审批 + 首家 OEM 接口商务作战室 | 团队负责人 + PM2 + 商务 | 2026-06-15 起 1 周内 |
+| 2 | 锁定 β 试点 7 家 PMF 客户 LOI（含 40% 缓冲） | 销售 VP | 2026-09-30 前 |
+| 3 | 完成 e签宝/法大大/精真估三家生态合同 | 商务 + 法务 | 2026-10-15 前 |
+| 4 | 建立 OEM/DMS 集成适配器 SDK 文档化 | 架构师 | 2026-11-04 前（S10） |
+| 5 | 数据合规专项审计（个保法+车主信息分级） | 法务 + 安全 | 2026-11-15 前 |
+| 6 | α 内测启动（S6） + β 试点 3 家上线（S11） + GA 12/23 | PM1 + CSM | 2026-09-09 / 11-18 / 12-23 |
+| 7 | M2 末（2027-03）AI ROI 复盘，决定 M3 全量推进 vs 选择性子集 | 算法负责人 + PM | 2027-03-31 |
+
+---
+
+## ⚠️ 待确认 / 假设 / Non-goals
+
+- **8 条 Open Questions**（见第 10 章）需要在 Kick-off 后 2 周内闭环
+- **关键假设**：① 企微 ISV 8 周内审批通过；② 首家 OEM 接口 9 月底就绪；③ β 客户 NSM 提升 ≥30%；④ 混元算力单座席月成本 <¥35
+- **明确不做**：完整 DMS 替代 / 财务记账 / 主机厂排产 / C 端独立 App / 汽车金融牌照 / 二手车 C2C 撮合 / 广告 DMP / 出海版本（详见第 8 章）
+
+---
+
+## 📚 数据来源 & 成员产出索引
+
+- **析客（需求分析师）**：PRD v1.0（10 章 / 25 条需求池 / 3 条 Mermaid 流程图 / GIVEN-WHEN-THEN 验收 / 8 条 Non-goals）
+- **瑞思（用户研究员）**：5 角色卡片 / 10 项 JTBD / KANO 痛点四象限 / 3 条关键洞察 / 5 条 PRD 设计建议（数据：12 位 4S 访谈 + 38 份新势力问卷 + 200 条 DCC 工单 + J.D. Power 2024）
+- **竞析（竞品分析师）**：8 家竞品全景四象限 / 10 维功能矩阵 / SWOT / 4 条差异化机会 / 5 条行动建议
+- **数析（数据分析师）**：市场规模 158→247 亿 CAGR ~25% / 5.4 万合规网点 / 10 条行业基准指标 / 7 大竞品 ACV / 北极星指标树 / 3 年累计 ARR ≈ 6 亿测算 / 4 条风险提示
+- **路径（路线图规划师）**：4 里程碑（M1-M4）/ 24 双周 Sprint / 10 条依赖矩阵 / 27 人资源分配 / 10 条风险登记册 / α-β-GA 三段灰度 / 8 类利益相关者沟通节奏 / 7 大 KPI 时间锚点
+
+**外部数据来源**：中汽协 / 乘联会 / 中国汽车流通协会《2024-2025 流通行业发展报告》/ J.D. Power 中国 SSI/CSI 2024 / 艾瑞 / IDC 中国 CRM 应用 SaaS / 博研咨询 / Strategic Revenue Insights / 销售易官网 / Salesforce Automotive Cloud / 微盛 / 亿欧 / 搜狐汽车 / 易车研究院。
+
+---
+
+> 本报告由产品战略团队 AI 协作生成，重要决策请由产品负责人审定。
+
+</script>
+<script type="text/x-md" id="md-comp">
+# 车辆销售团队 CRM · 竞品分析报告
+
+**日期**：2026-06-11
+**类型**：竞品分析
+**参与成员**：竞析（竞品分析师）/ 数析（数据分析师）/ 瑞思（用户研究员）
+
+---
+
+## 📌 TL;DR（执行摘要）
+
+- **核心目标**：扫描中国车辆销售 CRM 赛道 8 家代表性玩家，识别功能空白与差异化突破口。
+- **关键决策**：① 市场缺口在"VIN 级库存-订单-交付一体"+ "二手车置换闭环"+ "企微原生 SCRM"+"AI 试驾助手"四个维度；② 应聚焦集团型经销商 + 新势力直营，避开销售易已锁定的传统主机厂总部；③ 与车音智能、精真估、e签宝做深度生态而非自研，缩短窗口期。
+- **下一步**：进入 PRD 评审，把 4 个差异化机会落地到需求池；启动与精真估 / e签宝 / 车音智能的生态商务谈判。
+
+---
+
+## 🎯 核心结论卡片
+
+| 项目 | 内容 |
+|------|------|
+| 推荐方案 | "移动+企微原生 + VIN 一体化 + 二手车置换闭环"差异化定位 |
+| 优先级 | P0：VIN 一体引擎、企微原生 SCRM；P1：AI 试驾助手；P2：二手车闭环 |
+| 预期影响 | 3 年 SOM 4-5%（≈6 亿元 ARR），抢占国产替代窗口 |
+| 资源需求 | 与 3 家生态厂商联合方案（车音 + 精真估 + e签宝） |
+| 风险等级 | 中-高（销售易先发壁垒明显，需 6 个月窗口期突破） |
+
+---
+
+## 1. 竞品全景图（四象限定位）
+
+横轴：通用 SaaS ←→ 汽车垂直；纵轴：自研中台 ←→ 标准 ToB SaaS
+
+```
+                    [垂直化高]
+                         ↑
+      车音智能 DCC ●     ●  销售易汽车云
+      有成 CRM ●         ●  Salesforce Automotive Cloud
+─────────────────────────┼───────────────────────────→
+                         │     纷享销客（汽车版）●
+        蔚来 / 理想 / 特斯拉自研 ●（左上偏自研重）
+        企微+腾讯企点 ●（通用底座+行业模板）
+                         ↓
+                    [通用化高]
+       左侧：自研中台/重投入 ；右侧：标准 SaaS 交付
+```
+
+- **右上（垂直 × SaaS）**：销售易汽车云、Salesforce Automotive Cloud——开箱方案最完整，但中大型客户为主、单价高
+- **左上（垂直 × 自研）**：蔚来 / 理想 / 特斯拉直营 CRM、车音智能——围绕用户全旅程深度自研，但仅服务自身或大主机厂
+- **右下（通用 × SaaS）**：纷享销客、企业微信+企点、有成 CRM——通用 CRM 套行业模板，灵活但行业深度不足
+- **左下（通用 × 自研）**：易车 / 汽车之家线索 SaaS、瓜子 / 优信二手车 CRM——偏线索分发或二手车闭环，非全销售流程
+
+---
+
+## 2. 功能对比矩阵
+
+✅=完整成熟 ｜ ⚠️=部分支持/需定制 ｜ ❌=不支持或弱
+
+| 功能维度 | 销售易汽车云 | 纷享销客 | 企微+企点 | 车音 DCC | 有成 CRM | Salesforce Auto | 蔚来/理想自研 |
+|---|---|---|---|---|---|---|---|
+| 线索池 / 全渠道接入 | ✅ | ⚠️ | ✅(企微强) | ✅(语音) | ⚠️ | ✅ | ✅ |
+| SCRM / 私域运营 | ✅ | ✅ | ✅✅ | ⚠️ | ⚠️ | ⚠️(海外强) | ✅ |
+| 试驾管理（含车联网） | ⚠️ | ❌ | ❌ | ✅✅ | ⚠️ | ✅(Connected Vehicle) | ✅ |
+| 订单 & 合同 | ✅ | ✅ | ⚠️ | ❌ | ✅ | ✅ | ✅ |
+| 库存车匹配 / VIN 级 | ⚠️ | ⚠️ | ❌ | ❌ | ⚠️ | ✅(Vehicle Console) | ✅ |
+| 交付排程 / PDI | ⚠️ | ❌ | ❌ | ❌ | ⚠️ | ✅ | ✅ |
+| AI 销售助手（NeoAI/Einstein） | ✅(NeoAI) | ⚠️ | ⚠️(混元接入) | ✅(语音外呼) | ❌ | ✅✅(Einstein) | ⚠️ |
+| 数据驾驶舱 / 经销商绩效 | ✅ | ✅ | ⚠️ | ⚠️ | ⚠️ | ✅(Dealer Perf Mgmt) | ✅ |
+| 二手车评估 / 置换 | ❌ | ❌ | ❌ | ❌ | ❌ | ⚠️ | ⚠️ |
+| 合规 & 发票（金税/电子合同） | ✅(国产化) | ✅ | ⚠️ | ❌ | ✅ | ❌(本土弱) | ✅ |
+
+**关键洞察**：
+1. 国内玩家普遍弱在"库存车 VIN 级匹配 + 交付排程"——这是 4S 集团真实痛点
+2. 二手车评估/置换在所有 ToB SaaS 里都是空白，瓜子/优信仅闭环二手
+3. AI 销售助手目前仅 Salesforce Einstein 与销售易 NeoAI 称得上"产品化"，其他多为 ChatBot 包装
+4. 试驾全链路数字化（车联网+融资租赁+报告）目前最深的是车音智能，但其非完整 CRM
+
+---
+
+## 3. 市场数据 & 趋势（数析补充）
+
+| 维度 | 2024 | 2025E | 2026E | CAGR |
+|---|---|---|---|---|
+| 中国汽车 CRM 软件 | 86 亿元 | 94 亿元 | 103 亿元 | **9.5%** |
+| 中国汽车零售 SaaS（含 CRM/SCRM/DMS） | 158 亿元 | 198 亿元 | 247 亿元 | **~25%** |
+| 全球汽车经销商 CRM | 343.6 亿元 | 367 亿元 | 392 亿元 | 6.85% |
+
+**TAM/SAM/SOM**（聚焦中国销售团队 CRM）：
+- **TAM**：120 亿元/年（2026）
+- **SAM**：40-50 亿元/年（5.4 万家网点 × ARPU 8 万 × 付费渗透 60%）
+- **SOM（3 年）**：3-5 亿元/年（5000-8000 家门店 × ACV 6 万 = 3-5% 市占）
+
+**竞品定价基准**：
+- **销售易**：标准 90-298 元/人/月；4S 集团 ACV 80-200 万；头部 300-800 万
+- **纷享销客**：100-200 元/人/月；4S 集团 ACV 60-150 万
+- **Salesforce Auto Cloud**：$165-330/人/月；车企集团 ¥500-2000 万/年
+- **有成 CRM**：30-80 元/人/月，单店 1-3 万/年
+- **车音 DCC**：单店包年 1.5-5 万元
+- **微盛/企微 SCRM**：0.5-2 万元/年/账号包
+
+**我方 ACV 锚点**：5-7 万元/店/年标准版（避开销售易高端，攻下 Salesforce 国产替代和有成的中部空白）。
+
+---
+
+## 4. 用户感知（瑞思补充）
+
+来自 12 位 4S 顾问 + 38 份新势力问卷 + 200 条 DCC 工单的用户视角：
+
+- **销售一线对销售易/纷享销客的核心抱怨**：移动是 PC 阉割版、PC 强制录入被绕过、信息进私人微信
+- **DCC 对车音智能的肯定**：通话质检+语音外呼确实强，但缺线索池→订单的闭环
+- **店总对 Salesforce 的态度**：心智强但单价 $325-750/人/月不可承受，本土合规和企微集成是硬伤
+- **直营品牌对自研 CRM 的疲态**：蔚小理研发投入 3-5 亿/年，但产品迭代慢、跨品牌不可复用
+- **对企微+企点裸用的痛点**：客户档案/订单/库存散在 3-5 个表格，离 CRM 还有 1 个数量级的距离
+
+> **结论**：用户最痛的不是"功能不够"，而是"功能在 PC 我用不到 / 在企微我没合规拿到"。这是我们的核心切入点。
+
+---
+
+## 5. SWOT 分析（针对我方拟推产品）
+
+| | 内部 | 外部 |
+|---|---|---|
+| **正面** | **S 优势**：腾讯生态（企微/企点/会议/文档），私域+协同天然顺滑；可复用混元 AI 与腾讯云 LLM；ToB 销售心智强于一线自研车企 | **O 机会**：① 新势力直营 + 传统经销商混合体系成主流，标准 SaaS 跟不上；② Salesforce $325-750/人/月，国产替代窗口持续打开；③ AI 销售助手赛道未定胜负；④ 二手车 / 置换闭环全行业空白 |
+| **负面** | **W 劣势**：汽车行业 know-how 与标杆客户弱于销售易；缺乏经销商 DMS 历史集成经验；交付排程/库存这类重业务流程从 0 搭建成本高 | **T 威胁**：销售易已与中升、奥迪、捷豹路虎等头部签约，先发壁垒明显；蔚来/理想等自研体系外溢可能反向输出 SaaS；企微 + 第三方插件组合可能蚕食中小经销商预算 |
+
+---
+
+## 6. 4 个差异化机会点
+
+1. **"VIN 级库存-订单-交付"一体化引擎**（高可行性，P0）
+   - 把库存车与销售管线绑定到 VIN 维度，自动匹配客户意向→锁车→排产→PDI→交付
+   - 解决 SaaS 普遍弱项，集团客户付费意愿强；目标：M1 GA 即落地，作为标志性能力
+
+2. **AI 试驾助手（车联网 + 大模型双驱动）**（中可行性，P2）
+   - 复用车音智能模式 + 腾讯云车联网 + 混元生成试驾报告/客户画像
+   - 差异化点："试驾后 24h 内自动产出意向分级 + 跟进话术"
+
+3. **企微原生的 SCRM 销售工作台**（高可行性，P0）
+   - 企微会话存档、客户标签、SOP 培育、AI 话术推荐合一
+   - 对标有赞/微盛但下沉到 4S 销售顾问场景，单店级别即可起量
+
+4. **二手车置换评估闭环**（中低可行性，P2）
+   - 接入精真估/车 300 估值 API，做"新车销售-置换报价-二手车寄售"工作流
+   - 填补 Salesforce 与销售易共同空白；难点在估值数据合规与渠道
+
+---
+
+## 7. 行动建议
+
+1. **聚焦集团型经销商 + 新势力直营**作为首批 PMF 客户，避开销售易已锁定的传统主机厂总部赛道
+2. **以企微+混元 AI 为差异化锚点**打 Salesforce/销售易难以本土化的体验（合规、私域、IM 协同）
+3. **优先建设 VIN 级库存-交付引擎**作为标志性能力，作为方案级护城河
+4. **AI 销售助手做"窄深"而非"广浅"**：第一版只做线索打分 + 跟进话术 + 试驾报告 3 个点
+5. **生态化策略**：与车音智能（DCC 语音）、精真估（二手车估值）、e签宝（电子合同）做深度联合方案，缩短自研周期
+
+---
+
+## ✅ 行动清单
+
+| # | 行动 | 负责方 | 时间窗 |
+|---|------|--------|--------|
+| 1 | 把 4 个差异化机会落地到 PRD 需求池（VIN 一体 / AI 试驾 / 企微 SCRM / 置换闭环） | 析客 + PM | 2026-06 上半月 |
+| 2 | 启动与车音智能、精真估、e签宝、法大大的生态商务谈判 | 商务 VP | 2026-06-15 起 4 周内 |
+| 3 | 监控销售易/纷享销客大客户中标动态（中升/永达/广汇/比亚迪），建立竞品情报双周报 | 竞析 + 销售 VP | 持续 |
+| 4 | 与 3 家潜在 PMF 客户共创"VIN 一体"原型 demo（共建工作坊） | PM + 销售 | 2026-08 前 |
+| 5 | M2 末（2027-03）做一次完整竞品复盘，调整 M3-M4 路径 | 竞析 | 2027-03-31 |
+
+---
+
+## ⚠️ 待确认 / 假设 / Non-goals
+
+- **关键假设**：① 销售易未来 12 个月不主动降价至 60 元/人/月以下；② 蔚小理自研体系不外溢成 SaaS；③ 企微 ISV 政策稳定
+- **不在本报告范围**：详细产品功能定义（见 PRD）、详细路线图（见路线图报告）、海外竞品深度分析
+
+---
+
+## 📚 数据来源 & 成员产出索引
+
+- **竞析（主交付）**：8 家竞品全景四象限 / 10 维功能矩阵 / SWOT / 4 条差异化机会 / 5 条行动建议
+- **数析（市场数据）**：市场规模 158→247 亿 CAGR ~25% / 7 大竞品 ACV / TAM-SAM-SOM 测算
+- **瑞思（用户感知）**：12 位 4S 访谈 + 38 份新势力问卷 + 200 条 DCC 工单的竞品使用反馈
+
+**外部数据来源**：xiaoshouyi.com 销售易官网（2024 Engage 大会、汽车行业云）/ Salesforce Automotive Cloud 官方产品页与 Connected Vehicle 发布稿 / 车音智能公开报道（搜狐/易车）/ 天润融通 DCC 方案 / 艾瑞 / IDC / 博研咨询 / Strategic Revenue Insights。
+
+---
+
+> 本报告由产品战略团队 AI 协作生成，重要决策请由产品负责人审定。
+
+</script>
+<script type="text/x-md" id="md-road">
+# 车辆销售团队 CRM · 产品路线图
+
+**日期**：2026-06-11
+**类型**：路线图规划
+**参与成员**：路径（路线图规划师）/ 数析（数据分析师）/ 瑞思（用户研究员）/ 竞析（竞品分析师）/ 析客（需求分析师）
+
+---
+
+## 📌 TL;DR（执行摘要）
+
+- **核心目标**：把 25 条 PRD 需求按 P0/P1/P2 拆解到 4 个里程碑、24 个双周 Sprint，2026-12-23 GA 至 200 家门店。
+- **关键决策**：① M1 6 个月跑通"线索→交付"主链；② Kick-off 第 1 周必须启动企微 ISV 审批 + 首家 OEM 接口商务（双关键路径）；③ β 试点跨"合资 4S + 新能源直营"两业态防 PMF 假阳性；④ 27 人团队，M1 满载、M2-M3 谷值释放投入 M4 预研。
+- **下一步**：2026-06-15 Kick-off → 2026-09 α 内测 → 2026-11 β 试点 → 2026-12-23 GA → 2027-Q1/Q2 体验放大与智能化。
+
+---
+
+## 🎯 核心结论卡片
+
+| 项目 | 内容 |
+|------|------|
+| 推荐方案 | M1 MVP（6 个月）→ M2 体验（3 个月）→ M3 智能化（3 个月）→ M4 规模化（滚动） |
+| 优先级 | P0 14 项 / P1 8 项 / P2 5 项；总投入约 420 人天 |
+| 预期影响 | Y1 800 家 / ARR 0.48 亿；Y2 2680 家 / 1.69 亿；Y3 5778 家 / 3.81 亿 |
+| 资源需求 | 27 人团队（FE6 + BE8 + Algo3 + Data2 + QA4 + Design2 + PM2） |
+| 风险等级 | 中-高（双关键路径：企微 ISV 审批 + 首家 OEM 接口） |
+
+---
+
+## 1. 当前指标表现（数析评审）
+
+**北极星**：销售顾问人均月产能。**起点**：行业中位 10-15 台/月；**目标**：12 个月接入后 ≥ 18 台/月，标杆店 ≥ 25 台。
+
+**7 大二级指标起点**：
+
+| 指标 | 行业中位 | 头部标杆 | 我方 12 月目标 |
+|---|---|---|---|
+| 3 分钟首响率 | 35% | >85% | 80% |
+| 留资→到店率 | 55% | 70-80% | 70% |
+| 试驾完成率 | 18% | 70%（标杆店） | 35% |
+| 到店→订单率 | 30% | 45-55% | 42% |
+| 客户企微沉淀率 | 40% | - | 75% |
+| 离职继承率 | 40% | <5% 飞单率 | 95% |
+| 顾问 DAU/MAU | 60% | - | 80% |
+
+**商业目标**：3 年累计 ARR ≈ 6 亿，对应 SOM 4-5%。
+
+---
+
+## 2. 用户反馈摘要（瑞思）
+
+- **必备项（不做不行）**：多渠道线索聚合自动分配 / 客户资产防飞单 / 移动端跟进 / 报价政策实时查 / 批价审批留痕
+- **期望项（决定产能）**：漏斗看板实时化 / SLA 提醒 / 试驾陪驾电子化 / 置换估值集成 / 佣金可视
+- **兴奋项（差异化）**：AI 通话质检与话术建议 / 客户意向预测打分 / AIGC 营销素材 / 交付进度智能推送
+- **3 条关键用户洞察**：①移动+企微原生（75%+ 时间在手机）；②客户归属是政治问题（飞单率 15-25%、流失率 40-55%）；③交付期是 NPS 最大波动期（J.D. Power 权重 25%）
+
+---
+
+## 3. 竞品动态（竞析）
+
+- **销售易**已与中升、奥迪、捷豹路虎签约，传统主机厂总部赛道几乎锁死
+- **Salesforce Auto Cloud** $325-750/人/月，国产替代窗口持续打开
+- **新能源直营品牌**（蔚小理零跑）继续投入自研，但未外溢成 SaaS
+- **企微+第三方插件**组合在 5-7 万元 ACV 区间形成挤压
+- **市场缺口**：VIN 一体引擎 / 二手车置换闭环 / 企微原生 SCRM / AI 试驾助手 4 个维度全行业空白
+
+---
+
+## 4. 路线图更新（路径主交付）
+
+### 4.1 里程碑甘特图
+
+```
+2026                          | 2027
+06   07   08   09   10   11   12 | 01   02   03   04   05   06   07 …
+│Kick│════════ M1 MVP ═══════════│══ M2 体验放大 ══│══ M3 智能化 ══│ M4 规模化生态（滚动）
+│off │ 230 人天 / 12 Sprint  GA  │ 100 人天 / 6 Sp │ 90 人天 / 6 Sp│  季度迭代
+│    │      α    β     GA       │     GA-X         │     GA-Y      │
+```
+
+| 季度 | 主题 | 关键交付 | 负责人 | 风险 |
+|---|---|---|---|---|
+| 2026-Q3 | M1 上半段：地基 + 线索 + 跟进 + 到店 + 报价 | S1-S6（含 α 内测启动） | PM1 + 各模块 Lead | 企微 ISV 审批延期 |
+| 2026-Q4 | M1 下半段：批价 + VIN + 电签 + OEM 集成 + 交付 + GA | S7-S12（β 试点 + GA 12/23） | PM1 + 商务 + CSM | OEM 数据接口质量参差 |
+| 2027-Q1 | M2 体验放大：AI 意向 + SCRM + 试驾电子化 + 驾驶舱 + 续保 | S13-S18 | 算法负责人 + Design Lead | NDR 不达标 |
+| 2027-Q2 | M3 智能化：AI 试驾 + 通话质检 + AIGC + 置换 + 转介绍 | S19-S24 | 算法负责人 + 商务 | 混元算力成本超预算 |
+| 2027-Q3+ | M4 规模化：OEM 扩展 + 行业横向版本 + Marketplace + 海外预研 | 滚动季度 | 团队负责人 | 4S 退网潮、人员流失 |
+
+### 4.2 退出标准（GO/NO-GO）
+
+- **M1 GA**：① P0 验收 ≥95%；② β 客户 NSM +30%；③ DAU/MAU ≥70%；④ 缺陷密度 <0.3/KLOC；⑤ ARR ≥6000 万（≥160 家）
+- **M2 退出**：① P1 全量上线；② 试驾率 25→30%；③ 企微沉淀 60→70%；④ 累计 ≥400 家；⑤ NDR ≥110%
+- **M3 退出**：① AI 试驾助手覆盖 30% 试驾；② 通话质检日处理 ≥10 万通；③ 累计 ≥600 家；④ 北极星 18 台/月达成
+
+### 4.3 双周 Sprint 排期（M1 12 个 + M2 6 个 + M3 6 个 = 24 个 Sprint）
+
+**M1 关键 Sprint**：
+- S1（07/01-07/14）地基浇筑：架构/账号/组织/企微 ISV 套壳
+- S2-S4：线索聚合 + 分配引擎 + 客户保护期 + 移动骨架
+- S5（08/26-09/08）工作台 + 跟进记录（ASR ≥85%）
+- **S6（09/09-09/22）α 内测启动**（到店签到 + 报价单）
+- S7-S10：批价审批 + VIN 库存 + 电签 + OEM 集成框架
+- **S11（11/18-12/01）β 试点 3 家上线**（交付链路）
+- **S12（12/02-12/22）GA 发布**（12/23 圣诞前最后一周）
+
+**M2 重点**：S13-S14（AI 意向 + SCRM SOP）→ S15-S16（试驾电子化 + 交付仪式）→ S17-S18（续保 + 店总驾驶舱）
+
+**M3 重点**：S19-S20（AI 试驾助手 v1/v2）→ S21-S22（通话质检 + AIGC）→ S23-S24（二手车置换 + 复购转介绍）
+
+### 4.4 关键依赖矩阵（10 条）
+
+| # | 前置依赖 | 必须就绪 | 责任方 |
+|---|---|---|---|
+| D1 | 企微 ISV 资质审批（4-8 周） | 2026-08-31 | PM2 + 法务 |
+| D2 | e签宝/法大大商务合同 | 2026-10-15 | 商务 |
+| D3 | 微信支付/银联商户号 | 2026-10-15 | 商务+财务 |
+| D4 | 一汽-大众 DMS 接口 | 2026-09-30 | 商务+架构师 |
+| D5 | 比亚迪经销商系统接入 | 2026-10-31 | 商务 |
+| D6 | 汉得/元宝 DMS 中间件 | 2026-09-15 | 商务 |
+| D7 | 混元算力 ≥3 万 TPS | 2026-08-15 | PM1+算法 |
+| D8 | 精真估二手车 API | 2027-01-31 | 商务 |
+| D9 | β 客户 3-5 家 LOI（含 40% 缓冲） | 2026-09-30 | 销售 VP |
+| D10 | 数据合规审计（个保法） | 2026-11-15 | 法务+数据 |
+
+> **关键路径警告**：D1 + D4 是 M1 GA 的双关键路径，任一延期 4 周以上将连锁推迟 GA 至 2027-Q1。
+
+### 4.5 资源分配（27 人 × 4 里程碑）
+
+| 工种 | 总员额 | M1 | M2 | M3 | M4 |
+|---|---|---|---|---|---|
+| 前端 FE | 6 | **6 ★** | 5 | 4 ▽ | 4-5 |
+| 后端 BE | 8 | **8 ★** | 6 | 5 ▽ | 6 |
+| 算法 Algo | 3 | 2 | 3 ★ | **3 ★** | 2-3 |
+| 数据 Data | 2 | 2 | 2 ★ | 1 ▽ | 2 |
+| 测试 QA | 4 | **4 ★** | 3 | 3 | 3-4 |
+| 设计 Design | 2 | 2 ★ | 1 ▽ | 2 | 1-2 |
+| 产品 PM | 2 | 2 ★ | 2 | 2 | 2 |
+| **合计** | **27** | **26 满载** | **22** | **20** | **20-22** |
+
+**峰谷管理**：
+- M2 谷值（FE/QA 释放 2 人）→ 投入"OEM 接入横向扩展项目"（M4 提前预研）
+- M3 谷值（FE/Data 释放 2 人）→ 启动 M4 二手车独立版本架构
+- 算法团队在 M1 后期（S10 起）开始 M2 模型预研，避免冷启动
+
+### 4.6 风险登记册（10 条）
+
+| # | 风险 | 概率 | 影响 | 缓解策略 |
+|---|---|---|---|---|
+| R1 | 销售易先发抢占 4S 集团 | H | H | 移动+企微原生差异化；锁定 5 家 PMF 独家 6 个月 |
+| R2 | 企微 API 政策收紧 | M | H | 双通道兜底；ISV 商务月度同步 |
+| R3 | 4S 退网潮 | H | M | 客户结构 ≤30% 单一集团；优先新能源直营 |
+| R4 | OEM 数据延迟 | H | H | 适配器加缓存+预测；汉得/元宝建 SLA |
+| R5 | 混元算力成本超预算 | M | M | 模型蒸馏；高频缓存；按用量定价 |
+| R6 | PMF 客户流失 | M | H | 专属 CSM；双月 advisory；多签 7 家 LOI |
+| R7 | 灰度区域选错 | M | M | β 跨 2 区域+2 业态；分层数据看板 |
+| R8 | 核心人员流失 | M | H | 关键岗位双备份；ADR 文档化；期权锁定 |
+| R9 | 数据合规事故 | L | H | 个保法审计；字段分级；漏洞赏金 |
+| R10 | 企微 ISV 审批 >8 周 | M | H | Kick-off 第 1 周提交；代开发版兜底 |
+
+### 4.7 灰度策略
+
+```
+α 内部（S6 起，4 周）→ β PMF 客户（S11 起，6 周）→ GA 200 家门店（S12 后 12 周）
+```
+
+- **α**：内部 30 名员工 + 1 家友好单店；崩溃率 <0.5%；DAU 占比 ≥80%；FF 5 分钟回滚
+- **β**：3-5 家 PMF（1 家华东合资 4S + 1 家新能源直营 + 1 家二三线品牌+ 备 2 家）；周度 War Room；NSM +30%、NPS ≥40
+- **GA**：每周新增 ≤20 家；优先华东+珠三角+成渝；版本灰度 10/30/100%；A/B 自动止损（关键指标跌幅 >5% 触发）
+
+### 4.8 指标时间锚点
+
+| 指标 | 起点 | M1 末 | M2 末 | M3 末 | 12 月终态 |
+|---|---|---|---|---|---|
+| 3 分钟首响率 | 35% | 60% | 72% | 78% | **80%** |
+| 留资到店率 | 55% | 60% | 65% | 68% | **70%** |
+| 试驾率 | 18% | 22% | 28% | 33% | **35%** |
+| 到店订单率 | 30% | 33% | 37% | 40% | **42%** |
+| 客户企微沉淀率 | 40% | 55% | 65% | 72% | **75%** |
+| 离职继承率 | 40% | 80% | 90% | 93% | **95%** |
+| 顾问 DAU/MAU | 60% | 70% | 75% | 78% | **80%** |
+| **NSM 人均月产能** | 10-15 台 | 13 台 | 15 台 | 17 台 | **18 台** |
+
+> M1 末重点拉升 K1/K6/K7（功能即上线即兑现）；M2 末重点拉升 K2/K3/K5（SCRM+试驾电子化生效）；M3 末由 AI 助手撬动 K3/K4 最后一跃。
+
+---
+
+## 5. 利益相关者沟通要点（按受众三版本）
+
+### 5.1 高管视图（月报）
+
+> **本月 KPI 一句话**：北极星 / ARR / 签约门店 / TOP3 风险 / 关键决策请示
+
+**关键信息**：
+- M1 6 个月跑通"线索→交付"主链，2026-12-23 GA 至 200 家
+- 3 年累计 ARR ≈ 6 亿（Y1 0.48 / Y2 1.69 / Y3 3.81）
+- 双关键路径：企微 ISV 审批（4-8 周）+ 首家 OEM 接口（一汽-大众/比亚迪/理想任一）
+- 商业差异化：VIN 一体引擎 + 企微原生 SCRM + 二手车置换闭环（避开销售易锁定的传统 OEM 总部）
+- TOP3 风险：销售易先发抢单 / OEM 数据延迟 / 混元算力成本
+
+### 5.2 工程视图（双周 Sprint Review）
+
+**关键信息**：
+- 27 人团队 M1 满载（26 人）；FE/BE 峰值在 M1，算法峰值在 M2-M3
+- Sprint 燃尽 + 阻塞清单 + 技术债 TOP3
+- 关键技术决策：移动+企微原生为地基；OEM/DMS 集成走中间层适配器；AI 走混元 + 多模型路由兜底
+- 缺陷密度目标 <0.3/KLOC；性能 P95<800ms；崩溃率 <0.2%
+
+### 5.3 设计视图（周会）
+
+**关键信息**：
+- 移动 + 企微原生为设计第一原则；PC 仅服务管理层
+- 信息架构按"客户旅程"而非"模块"组织（线索→跟进→到店→订单→交付→车主）
+- 关键写入路径"3 步内 + 自动化"（首电录音自动转跟进、AI 自动打标签、模板话术一键发）
+- 客户归属与归属规则做成"透明可审计"的一等公民
+- 组件库更新 + 用户测试结论双周复盘
+
+### 5.4 商务/销售/客成视图（季度 QBR）
+
+- ACV 锚点 5-7 万/店/年；增值 +30-50%；NDR 目标 ≥110%
+- β 客户必须跨"合资 4S + 新能源直营"两业态
+- 优先华东+珠三角+成渝；客户结构 ≤30% 单一集团
+- 生态合作：车音智能（DCC）+ 精真估（估值）+ e签宝/法大大（电签）
+
+### 5.5 客户 Advisory Board（季度闭门会）
+
+- 6-10 家 β/GA 客户 + 团队负责人
+- Roadmap 投票 / 行业洞察 / 共建 RFP
+- "保护期 30 天 / 45 天 / 60 天"等关键参数共创定下来
+
+---
+
+## ✅ 行动清单
+
+| # | 行动 | 负责方 | 时间窗 |
+|---|------|--------|--------|
+| 1 | Kick-off（2026-06-15）+ 启动企微 ISV 审批 + 首家 OEM 接口商务作战室 | 团队负责人 + PM2 + 商务 | 2026-06-15 当周 |
+| 2 | 锁定 β 试点 7 家 PMF 客户 LOI | 销售 VP | 2026-09-30 前 |
+| 3 | α 内测启动（S6） | PM1 + QA Lead | 2026-09-09 |
+| 4 | β 试点 3 家上线（S11） | PM1 + CSM | 2026-11-18 |
+| 5 | GA 发布 200 家门店 | 全员 | 2026-12-23 |
+| 6 | M2 末（2027-03）AI ROI 复盘，决定 M3 全量推进 vs 选择性子集 | 算法负责人 + PM | 2027-03-31 |
+| 7 | M3 末（2027-06）M4 规模化复盘 + OEM 横向扩展启动 | 团队负责人 + 商务 | 2027-06-30 |
+
+---
+
+## ⚠️ 待确认 / 假设 / Non-goals
+
+- **M1 时长**：6 个月是否压缩到 5 个月？需要团队负责人决定（默认建议 6 个月，给 12/23 圣诞前最后一周 GA 留缓冲）
+- **β 试点选型**：1 家头部 4S 集团 vs 3 家新势力代理商，两条路径产品兼容设计差异大
+- **关键假设**：① 企微 ISV 8 周内审批通过；② 首家 OEM 接口 9 月底就绪；③ β 客户 NSM 提升 ≥30%；④ 混元算力单座席月成本 <¥35
+- **不在本路线图范围**：海外版本规划（v1 仅服务中国大陆，v2 之后再议）
+
+---
+
+## 📚 数据来源 & 成员产出索引
+
+- **路径（主交付）**：4 里程碑（M1-M4）/ 24 双周 Sprint / 10 条依赖矩阵 / 27 人资源分配 / 10 条风险登记册 / α-β-GA 三段灰度 / 8 类利益相关者沟通节奏 / 7 大 KPI 时间锚点
+- **数析（指标基线）**：北极星=人均月产能 / 7 大二级指标起点与目标 / 3 年 ARR ≈ 6 亿测算
+- **瑞思（用户反馈）**：KANO 必备/期望/兴奋分层 / 3 条关键洞察
+- **竞析（竞品动态）**：销售易/Salesforce/纷享销客/新势力自研最新动态 / 4 个差异化机会
+- **析客（需求池）**：25 条 P0/P1/P2 需求与人天估算
+
+---
+
+> 本报告由产品战略团队 AI 协作生成，重要决策请由产品负责人审定。
+
+</script>
+
+<script>
+// ===== Mermaid init (light theme matched) =====
+try{
+  mermaid.initialize({
+    startOnLoad:false,
+    theme:'base',
+    themeVariables:{
+      primaryColor:'#EAF2FF',
+      primaryTextColor:'#0B1426',
+      primaryBorderColor:'#0066FF',
+      lineColor:'#0066FF',
+      secondaryColor:'#F9FBFE',
+      tertiaryColor:'#FFFFFF',
+      fontFamily:'"HarmonyOS Sans SC","Inter",sans-serif',
+      fontSize:'13px'
+    },
+    flowchart:{curve:'basis',padding:18,nodeSpacing:36,rankSpacing:48}
+  });
+}catch(e){ console.warn('mermaid init failed', e); }
+
+// ===== Markdown -> HTML (marked v4 API, with fallback) =====
+function mdToHtml(src){
+  if(typeof marked === 'undefined'){
+    // ultra-minimal fallback so content is never blank
+    return '<pre style="white-space:pre-wrap">'+
+      src.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</pre>';
+  }
+  const renderer = new marked.Renderer();
+  // marked v4: code(code, infostring); marked v5+: code({text, lang})
+  renderer.code = function(code, infostring){
+    let text = code, lang = infostring;
+    if(code && typeof code === 'object'){ text = code.text; lang = code.lang; }
+    if((lang||'').trim().split(/\s+/)[0] === 'mermaid'){
+      return '<div class="mermaid">'+text+'</div>';
+    }
+    const escaped = String(text).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    return '<pre><code>'+escaped+'</code></pre>';
+  };
+  try{
+    return marked.parse(src, {renderer, gfm:true, breaks:false});
+  }catch(e){
+    console.warn('marked parse failed, fallback', e);
+    return '<pre style="white-space:pre-wrap">'+
+      src.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</pre>';
+  }
+}
+
+// ===== Render =====
+function render(){
+  ['prd','comp','road'].forEach(id=>{
+    const node = document.getElementById('md-'+id);
+    const src = node ? node.textContent.trim() : '';
+    document.getElementById(id).innerHTML = mdToHtml(src);
+  });
+  // run mermaid on already-injected blocks
+  try{
+    if(typeof mermaid !== 'undefined' && document.querySelector('.mermaid')){
+      mermaid.run({querySelector:'.mermaid'});
+    }
+  }catch(e){ console.warn('mermaid run failed', e); }
+}
+
+// ===== Tabs =====
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    const wrap=document.querySelector('.tabs-wrap');
+    if(wrap) window.scrollTo({top:wrap.offsetTop-60,behavior:'smooth'});
+  });
+});
+
+render();
+</script>
+
+</body>
+</html>
+

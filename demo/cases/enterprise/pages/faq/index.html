@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkBuddy 数据安全与客户咨询 FAQ 手册</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:#f5f7fa; color:#1a2233; line-height:1.7; }
+.layout { display:flex; max-width:1280px; margin:0 auto; }
+/* 左侧目录 */
+.sidebar { width:280px; flex:0 0 280px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#0f2747; padding:28px 0; }
+.sidebar .side-brand { padding:0 24px 20px; border-bottom:1px solid rgba(255,255,255,.1); margin-bottom:16px; }
+.sidebar .side-brand .badge { font-size:11px; letter-spacing:2px; color:#7da3d9; text-transform:uppercase; }
+.sidebar .side-brand h2 { font-size:17px; color:#fff; font-weight:600; margin-top:6px; line-height:1.4; }
+.toc-sec { display:block; padding:10px 24px 6px; font-size:13px; font-weight:600; color:#9fc0ec; text-decoration:none; margin-top:8px; }
+.toc-q { display:block; padding:5px 24px 5px 32px; font-size:12.5px; color:#c5d4e8; text-decoration:none; border-left:2px solid transparent; transition:all .15s; }
+.toc-q:hover { color:#fff; background:rgba(255,255,255,.06); border-left-color:#4a90e2; }
+.toc-q.active { color:#fff; background:rgba(74,144,226,.18); border-left-color:#4a90e2; }
+/* 右侧正文 */
+.content { flex:1; min-width:0; padding:48px 56px 80px; background:#fff; }
+.doc-title { font-size:30px; font-weight:700; color:#0f2747; margin-bottom:8px; letter-spacing:-.5px; }
+h2.sec { font-size:21px; font-weight:600; color:#0f2747; margin:44px 0 18px; padding:10px 16px; background:linear-gradient(90deg,#eaf1fb,#f5f9ff); border-left:4px solid #1d4e8a; border-radius:3px; scroll-margin-top:20px; }
+h3.q { font-size:16.5px; font-weight:600; color:#13315c; margin:30px 0 12px; padding-bottom:8px; border-bottom:1px dashed #d4ddea; scroll-margin-top:20px; }
+h4 { font-size:14.5px; font-weight:600; color:#1d4e8a; margin:18px 0 8px; }
+p { font-size:14.5px; color:#33425b; margin:10px 0; }
+strong { color:#0f2747; font-weight:600; }
+code { background:#eef2f8; color:#c0392b; padding:1px 6px; border-radius:3px; font-family:"SF Mono",Consolas,Monaco,monospace; font-size:13px; }
+ul,ol { margin:10px 0 10px 24px; }
+li { font-size:14.5px; color:#33425b; margin:5px 0; }
+blockquote { border-left:4px solid #4a90e2; background:#f3f8ff; padding:12px 18px; margin:14px 0; color:#33536e; font-size:14px; border-radius:0 4px 4px 0; }
+hr { border:none; border-top:1px solid #eef0f4; margin:8px 0; }
+.tbl-wrap { overflow-x:auto; margin:14px 0; }
+table { border-collapse:collapse; width:100%; font-size:13.5px; }
+th { background:#0f2747; color:#fff; font-weight:600; text-align:left; padding:10px 14px; white-space:nowrap; }
+td { padding:9px 14px; border-bottom:1px solid #eef0f4; color:#33425b; vertical-align:top; }
+tbody tr:nth-child(even) { background:#f8fafd; }
+tbody tr:hover { background:#eef5ff; }
+.topbar { display:none; }
+@media (max-width:900px) {
+  .sidebar { display:none; }
+  .content { padding:28px 18px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="side-brand">
+      <div class="badge">WBD · FAQ</div>
+      <h2>数据安全与客户咨询<br>FAQ 手册</h2>
+    </div>
+    <nav id="toc">
+<a class="toc-sec" href="#sec-1">一、数据安全类（最核心）</a>
+<a class="toc-q" href="#q-1">Q1：我把文档/Excel 传给 WorkBuddy 的那一刻，产…</a>
+<a class="toc-q" href="#q-2">Q2：「不落盘」承诺是什么意思？有几种强度？</a>
+<a class="toc-q" href="#q-3">Q3：合同里要盯紧哪 4 个条款？</a>
+<a class="toc-q" href="#q-4">Q4：技术同事说"文档给豆包做切片处理，模型不会拼接原文，所以数据…</a>
+<a class="toc-q" href="#q-5">Q5：豆包/通义千问处理文档时，是做 RAG 吗？</a>
+<a class="toc-q" href="#q-6">Q6：「切片 / 分片 / 分块」三个词是一回事吗？</a>
+<a class="toc-q" href="#q-7">Q7：模型根本不"拼"东西，为什么说"不拼回原文"是伪命题？</a>
+<a class="toc-q" href="#q-8">Q8：客户问"我上传了敏感文件，模型会不会能看到我的敏感文件信息"…</a>
+<a class="toc-q" href="#q-9">Q9：VPC 方案，我的文件最后也是传到公网给模型了吧？为什么说 …</a>
+<a class="toc-sec" href="#sec-2">二、产品形态类</a>
+<a class="toc-q" href="#q-10">Q10：WorkBuddy 小程序云上版本，在电脑上怎么查看？</a>
+<a class="toc-q" href="#q-11">Q11：WorkBuddy 小程序，云上的会话，能同步到 Work…</a>
+<a class="toc-q" href="#q-12">Q12：WorkBuddy 小程序端可以登陆企业版吗？</a>
+<a class="toc-sec" href="#sec-3">三、技术机制类</a>
+<a class="toc-q" href="#q-13">Q13：WorkBuddy 在处理 Excel 的时候，本质的工作…</a>
+<a class="toc-q" href="#q-14">Q14：如果用户是接口对接的数据呢，会传给模型吗？</a>
+<a class="toc-q" href="#q-15">Q15：如果是文档呢，模型会阅读全部文档吗，还是会写代码再本地沙箱…</a>
+<a class="toc-q" href="#q-16">Q16：WorkBuddy 的安全沙箱机制是怎么定义的，包括沙箱是…</a>
+<a class="toc-q" href="#q-17">Q17：有时候会出现同一个任务会话中，之前的上下文不见了，是什么原…</a>
+<a class="toc-sec" href="#sec-4">四、售前实战话术模板</a>
+<a class="toc-q" href="#q-18">话术 1：客户问"你们有沙箱吗"</a>
+<a class="toc-q" href="#q-19">话术 2：客户问"XX 厂商说他们做切片处理，所以数据安全"</a>
+<a class="toc-q" href="#q-20">话术 3：客户问"VPC 是不是绝对安全"</a>
+<a class="toc-sec" href="#sec-5">七、6 月增量：数据安全深化</a>
+<a class="toc-q" href="#q-21">Q18：客户有数十万行表格数据，在 WorkBuddy 上运行，表…</a>
+<a class="toc-q" href="#q-22">Q19：如果是接口对接的数据呢，会传给模型吗？</a>
+<a class="toc-sec" href="#sec-6">八、6 月增量：产品形态与多端</a>
+<a class="toc-q" href="#q-23">Q20：WorkBuddy PC 端能打开移动端云上创建的任务吗？</a>
+<a class="toc-q" href="#q-24">Q21：右上角默认助手「WorkBuddy Beta」能改名吗？</a>
+<a class="toc-q" href="#q-25">Q22：网站访问白名单能设置吗？入口在哪？</a>
+<a class="toc-sec" href="#sec-7">九、6 月增量：技术机制深化</a>
+<a class="toc-q" href="#q-26">Q23：本地沙箱 coding 中，大语言模型扮演什么角色？</a>
+<a class="toc-q" href="#q-27">Q24：Agent 的 Tool Call 是干什么用的？</a>
+<a class="toc-q" href="#q-28">Q25：上下文折叠的技术实现和作用是什么？</a>
+<a class="toc-q" href="#q-29">Q26：Graph RAG 过时了吗？</a>
+<a class="toc-sec" href="#sec-8">十、6 月增量：SDK 与生态</a>
+<a class="toc-q" href="#q-30">Q27：WorkBuddy 客户端有 API / SDK 开放吗？</a>
+<a class="toc-q" href="#q-31">Q28：客户能基于 CodeBuddy Agent SDK 封装成…</a>
+<a class="toc-q" href="#q-32">Q29：客户说 Coze 支持拉起本地的 Codex 和 Clau…</a>
+<a class="toc-q" href="#q-33">Q30：这类 Agent 编排层产品的真实价值是什么？</a>
+<a class="toc-sec" href="#sec-9">十一、6 月增量：概念科普（客户常问的"这是什么"）</a>
+<a class="toc-q" href="#q-34">Q31：pandas / SQL / groupby / sum …</a>
+<a class="toc-q" href="#q-35">Q32：Python / Node.js / npm / Git …</a>
+<a class="toc-sec" href="#sec-10">十二、一句话沉淀（售前必背）</a>
+<a class="toc-sec" href="#sec-11">十三、附录：咨询最终收束链</a>
+    </nav>
+  </aside>
+  <main class="content">
+<h1 class="doc-title">WorkBuddy 数据安全与客户咨询 FAQ 手册</h1>
+<blockquote>本文档沉淀自 2026-05-26 至 2026-06-15 的多轮客户咨询对话，涵盖数据安全、产品形态、技术机制、生态竞品四大类共 32 个高频问题。<br>适用对象：售前架构师、客户成功经理、产品经理<br>更新时间：2026-06-15（Q1-Q17 为 5 月沉淀，Q18-Q32 为 6 月增量）</blockquote>
+<hr>
+<h2 id="sec-1" class="sec">一、数据安全类（最核心）</h2>
+<h3 id="q-1" class="q">Q1：我把文档/Excel 传给 WorkBuddy 的那一刻，产品方就有能力获取我的文档，对吗？</h3>
+<p><strong>✅ 结论：对，这是物理事实。</strong></p>
+<ul><li>任何 SaaS 产品，只要数据上传到服务端，厂商在技术层面就有能力获取</li><li>关键问题不是"会不会被获取"，而是"获取后怎么处理"</li><li>真正的数据安全保护来自：<strong>协议承诺 + 部署隔离 + 合同 SLA</strong></li></ul>
+<hr>
+<h3 id="q-2" class="q">Q2：「不落盘」承诺是什么意思？有几种强度？</h3>
+<p><strong>✅ 「不落盘」分四级强度：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>强度</th><th>名称</th><th>内容</th><th>法律效力</th></tr></thead><tbody><tr><td>L0</td><td>口头话术</td><td>"我们不存你数据"</td><td>几乎为零</td></tr><tr><td>L1</td><td>用户协议</td><td>隐私政策写"处理后即删除"</td><td>弱</td></tr><tr><td>L2</td><td>商业合同 SLA</td><td>DPA + 违约赔偿</td><td>强</td></tr><tr><td>L3</td><td>VPC/私有化</td><td>数据物理上不离开客户环境</td><td>最强</td></tr></tbody></table></div>
+<p><strong>关键</strong>：协议保护是"事后赔偿"，部署隔离才是"事前阻断"。</p>
+<hr>
+<h3 id="q-3" class="q">Q3：合同里要盯紧哪 4 个条款？</h3>
+<p><strong>✅ 必盯 4 条款：</strong></p>
+<ol><li><strong>数据保留期</strong>（具体天数，不能是"处理完毕后"）</li><li><strong>训练用途</strong>（明确不用于训练，不能是"可能改进服务"）</li><li><strong>第三方共享</strong>（不分享给任何第三方，含子公司）</li><li><strong>审计权 + 违约金</strong>（客户可审计 + 具体赔偿金额）</li></ol>
+<hr>
+<h3 id="q-4" class="q">Q4：技术同事说"文档给豆包做切片处理，模型不会拼接原文，所以数据不会被训练"，对吗？</h3>
+<p><strong>❌ 不对，这是话术陷阱。</strong></p>
+<p><strong>三层错误：</strong></p>
+<ol><li><strong>混淆推理 vs 训练</strong>：切片是推理时的技术处理；训练是后台数据用途。两个独立系统/团队。</li><li><strong>混淆上传 vs 入库</strong>：文档切片后通常落盘到对象存储，给了未来训练的可能。</li><li><strong>混淆切片不拼接 vs 切片不被记忆</strong>：训练吃海量小片段，从来不需要"整份文件"，碎片就能学习。</li></ol>
+<p><strong>类比反驳</strong>：</p>
+<blockquote>"你存银行的钱会不会被员工挪用？" <br>"不会，因为 ATM 取钱一次只能取 5000 块" —— 逻辑跳跃。</blockquote>
+<p><strong>真正决定"是否被训练"的三件事：</strong></p>
+<ol><li><strong>协议写了什么</strong>（默认是否允许训练？能否关闭？）</li><li><strong>部署在哪里</strong>（公有云 / VPC / 私有化）</li><li><strong>合同有没有 SLA</strong>（违约赔偿、审计权）</li></ol>
+<p><strong>结论</strong>：是否训练是法律 + 商业问题，不是技术问题。</p>
+<hr>
+<h3 id="q-5" class="q">Q5：豆包/通义千问处理文档时，是做 RAG 吗？</h3>
+<p><strong>❌ 不一定，这是常见误解。</strong></p>
+<p><strong>通用 LLM 产品处理文档实际有 3 种路径：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>路径</th><th>触发条件</th><th>是否切片</th><th>是否 RAG</th></tr></thead><tbody><tr><td>A. 全文进上下文</td><td>小文档（&lt;50页）对话框直接传</td><td>❌</td><td>❌</td></tr><tr><td>B. 代码处理（沙箱）</td><td>中等文档 / 结构化数据</td><td>❌</td><td>❌</td></tr><tr><td>C. RAG 切片向量化</td><td>知识库功能 / 超大文档 / 多文档库</td><td>✅</td><td>✅</td></tr></tbody></table></div>
+<p><strong>关键分水岭</strong>：</p>
+<ul><li>对话框拖 PDF → 多数走 A 或 B，<strong>不是 RAG</strong></li><li>创建"知识库"丢文档 → 才是 C，RAG</li></ul>
+<hr>
+<h3 id="q-6" class="q">Q6：「切片 / 分片 / 分块」三个词是一回事吗？</h3>
+<p><strong>❌ 不是，三个词容易被混用。</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>词</th><th>实际指</th><th>场景</th></tr></thead><tbody><tr><td><strong>切片（slicing）</strong></td><td>RAG 把文档切成块，向量化入库</td><td>知识库 / RAG</td></tr><tr><td><strong>分片（sharding）</strong></td><td>数据/计算分布式拆分到多机</td><td>后端架构（跟数据安全无关）</td></tr><tr><td><strong>分块（chunking）</strong></td><td>长文本超过上下文窗口，分批喂给模型</td><td>推理时长文档处理</td></tr></tbody></table></div>
+<p>那位同事大概率说的是<strong>分块（chunking）</strong>：文档太长 → 拆块依次读 → 不还原成原文件存起来。</p>
+<p><strong>但他的论证依然不成立（不管哪个词）：</strong></p>
+<ol><li><strong>分块属于推理层，训练属于数据用途层</strong> —— 两层独立，互不证明</li><li><strong>"不拼回原文"是伪命题</strong> —— 模型不需要拼回（处理 token 序列），且不拼回 ≠ 不记得（GPT-3 已被证明能背诵训练集）</li><li><strong>决定"是否被训练"的是协议条款 + 训练授权 + 数据治理流程</strong> —— 跟分不分块、切不切片毫无关系</li></ol>
+<hr>
+<h3 id="q-7" class="q">Q7：模型根本不"拼"东西，为什么说"不拼回原文"是伪命题？</h3>
+<p><strong>✅ 技术层面深挖：</strong></p>
+<p><strong>第一层：模型根本不"拼"东西</strong></p>
+<ul><li>LLM 工作流：原文 → tokenize → token 序列 → embedding → Transformer → 输出 token 概率</li><li><strong>整个流程没有「拼接」这一步</strong> —— 模型处理的是 token 序列，"拼回原文"是人脑的概念</li><li>"模型不拼回原文"在技术上是废话，等于说"鱼不会走路"</li></ul>
+<p><strong>第二层：训练 vs 推理是两条独立流水线</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>维度</th><th>推理（inference）</th><th>训练（training）</th></tr></thead><tbody><tr><td>时机</td><td>用户每次提问时</td><td>离线批处理</td></tr><tr><td>数据流向</td><td>输入→权重→输出（权重不变）</td><td>输入→loss→反向传播→<strong>更新权重</strong></td></tr><tr><td>"分块/切片"在哪</td><td>这一层</td><td>不在这一层</td></tr><tr><td>"是否被记住"</td><td>不留痕（理论上）</td><td>被编码进权重永久记住</td></tr></tbody></table></div>
+<p><strong>关键</strong>：分块是推理时怎么喂；训练是离线时数据用途。两条流水线物理独立，<strong>用前者论证后者无依据</strong>。</p>
+<p><strong>第三层：模型确实能"记住"原文（已被论文证实）</strong></p>
+<ol><li><strong>GPT-2 训练集萃取攻击</strong>（Carlini et al., USENIX Security 2021）：从 GPT-2 提取出训练集真实数据，含姓名/电话/代码/新闻原文逐字一致</li><li><strong>Quantifying Memorization</strong>（Google 2022）：175B 模型对训练集中只出现 1 次的文本仍有约 1% 概率原文复现</li><li><strong>NYT vs OpenAI 诉讼</strong>（2023）：用特定 prompt 让 ChatGPT 输出与 NYT 文章一字不差的段落</li></ol>
+<p><strong>结论</strong>：不拼回 ≠ 不记得。模型的"记忆"不是靠"拼回"，是靠<strong>权重编码的统计模式</strong>。</p>
+<hr>
+<h3 id="q-8" class="q">Q8：客户问"我上传了敏感文件，模型会不会能看到我的敏感文件信息"，怎么回答？</h3>
+<p><strong>✅ 标准回答模板（售前必背）：</strong></p>
+<p>❌ 错误："不会，我们做了切片处理"（客户秒懂这是话术）</p>
+<p>✅ 正确：</p>
+<blockquote>"模型一定会看到——这是它工作的前提，任何 AI 产品都绕不开。<br>真正的问题是看完之后会不会被记住、会不会被别人看到。<br>我们的承诺是：<br>1. 不进训练集（合同第 X 条）<br>2. 日志保留 X 天后自动删除（合同第 Y 条）<br>3. 跨用户严格隔离（架构保证）<br>如果你需要更高合规，我们提供 VPC 部署，数据完全在你的环境里，连'看到'都不发生在我们这边。"</blockquote>
+<p><strong>这套话术的关键</strong>：先承认物理事实（建立专业可信感），再分层给承诺（合同+部署），最后给最高合规出口（VPC）。</p>
+<hr>
+<h3 id="q-9" class="q">Q9：VPC 方案，我的文件最后也是传到公网给模型了吧？为什么说 VPC 是物理隔离传不出来？</h3>
+<p><strong>❌ 我前面说错的地方：</strong></p>
+<p>我说"VPC = 物理隔离传不出来"——<strong>这是话术，不是真相</strong>。</p>
+<p>真相是：<strong>"VPC"这个词被厂商滥用，里面藏了 3 种完全不同的部署模式</strong>，安全等级差好几个数量级。</p>
+<p><strong>「VPC 部署」3 种模式：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>模式</th><th>数据在哪</th><th>模型在哪</th><th>推理时数据出 VPC 吗</th><th>真物理隔离吗</th></tr></thead><tbody><tr><td><strong>1. VPC 网络对接（伪 VPC）</strong></td><td>你的 VPC</td><td>厂商公网</td><td>✅ 出（走专线，但还是出去了）</td><td>❌ 假隔离</td></tr><tr><td><strong>2. VPC 模型私有部署（真 VPC）</strong></td><td>你的 VPC</td><td><strong>你的 VPC（厂商把模型权重部署过来）</strong></td><td>❌ 不出</td><td>✅ 真隔离</td></tr><tr><td><strong>3. 完全私有化</strong></td><td>你的机房</td><td>你的机房 GPU</td><td>❌ 不出</td><td>✅✅ 物理+网络双隔离</td></tr></tbody></table></div>
+<p><strong>辨别真假 VPC 唯一硬指标</strong>：<strong>模型权重部署在哪</strong>。在客户 VPC = 真；在厂商公网 = 假。</p>
+<p><strong>验真 3 问（被厂商说"支持 VPC 部署"时反问）：</strong></p>
+<ol><li><strong>模型权重部署在哪？</strong> 答"我们 VPC" → 模式 1；答"客户 VPC" → 模式 2</li><li><strong>推理时数据出不出客户 VPC？</strong> 答"走专线很安全" → 还是出去了；答"VPC 内闭环" → 真隔离</li><li><strong>你们怎么升级模型？</strong> 答"实时同步" → 有运维通道；答"客户审批人工部署" → 真隔离</li></ol>
+<hr>
+<h2 id="sec-2" class="sec">二、产品形态类</h2>
+<h3 id="q-10" class="q">Q10：WorkBuddy 小程序云上版本，在电脑上怎么查看？</h3>
+<p><strong>✅ 3 条路径：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>路径</th><th>操作</th><th>推荐度</th><th>说明</th></tr></thead><tbody><tr><td><strong>A. 微信 PC 版直接打开</strong></td><td>电脑装微信 PC 版 → 侧边栏小程序面板 → 找「腾讯 WorkBuddy」</td><td>⭐⭐⭐ <strong>最推荐</strong></td><td>会话跟手机端实时同步</td></tr><tr><td><strong>B. 手机扫码同步到 PC 客户端</strong></td><td>手机端点右上角「在电脑打开」→ 电脑端自动弹出</td><td>⭐⭐</td><td>需要电脑端已装 PC 客户端</td></tr><tr><td><strong>C. Web 网页版</strong></td><td>浏览器打开 codebuddy.cn → 微信扫码登录</td><td>⭐⭐</td><td>跟 PC 客户端账号体系打通</td></tr></tbody></table></div>
+<p><strong>常见坑</strong>：</p>
+<ul><li>微信版本太低 → 小程序面板不显示</li><li>企业微信不支持小程序面板</li><li>Linux 用户微信 PC 版功能受限</li><li><strong>会话不互通</strong>：4 个端（PC/Web/小程序/CLI）= 4 套独立会话</li></ul>
+<hr>
+<h3 id="q-11" class="q">Q11：WorkBuddy 小程序，云上的会话，能同步到 WorkBuddy 的 PC 客户端吗？</h3>
+<p><strong>❌ 不能，这是产品架构决定的。</strong></p>
+<p><strong>核心原因：</strong></p>
+<ul><li>小程序云上版 = 微信小程序运行时 + 云端沙箱</li><li>PC 客户端 = Electron 桌面应用 + 本地 Agent 运行时</li><li><strong>4 个端（PC/Web/小程序/CLI）= 4 套独立会话</strong>，互相不打通</li></ul>
+<p><strong>为什么不做跨端同步？</strong></p>
+<ol><li><strong>技术原因</strong>：上下文窗口、工具调用历史、文件上传记录——这些状态在桌面端和云端之间序列化成成本很高</li><li><strong>产品定位</strong>：小程序 = 轻量随身用；PC 客户端 = 生产力主战场</li><li><strong>合规考虑</strong>：跨端同步 = 数据在多端持久化，增加泄露面</li></ol>
+<p><strong>正确工作流</strong>：</p>
+<ul><li>电脑上深度工作 → 用 PC 客户端</li><li>手机上随手问 → 用小程序</li><li>重要对话/文件处理 → <strong>优先 PC 客户端</strong></li></ul>
+<hr>
+<h3 id="q-12" class="q">Q12：WorkBuddy 小程序端可以登陆企业版吗？</h3>
+<p><strong>✅ 技术上可以，但有重要限制。</strong></p>
+<p><strong>核心校准</strong>：</p>
+<ul><li><strong>登录方式 ≠ 账号权益</strong> —— 这两件事必须分开看</li><li>小程序端<strong>只有 1 种登录方式</strong> = 微信授权 + 手机号</li><li><strong>个人版 / 企业版区别不在登录方式上</strong>，而是在"你这个微信号绑定的腾讯云账号属于哪种租户"</li></ul>
+<p><strong>翻译</strong>：小程序端<strong>根本没有"企业版登录入口"这个东西</strong>。企业版能力是跟着<strong>腾讯云账号体系</strong>走的，不是跟着<strong>登录入口</strong>走的。</p>
+<p><strong>所以正确说法不是"小程序不支持企业版"，而是</strong>：</p>
+<blockquote>"小程序登录入口只有微信一种；登录后你拿到个人版还是企业版能力，由这个微信绑定的腾讯云账号是否开通了 SaaS 企业版决定。"</blockquote>
+<hr>
+<h2 id="sec-3" class="sec">三、技术机制类</h2>
+<h3 id="q-13" class="q">Q13：WorkBuddy 在处理 Excel 的时候，本质的工作过程是怎样的？是把 Excel 给到大模型处理了吗？</h3>
+<p><strong>❌ 不会把 Excel 喂给大模型。</strong></p>
+<p><strong>Excel 不会被整个塞给大模型</strong>。大模型只是"指挥官"，pandas 才是"干活的工人"。</p>
+<p><strong>5 步流程：</strong></p>
+<ol><li><strong>文件落地</strong>：上传到本地工作空间，模型只看到「文件名 + 路径 + 大小」，不看内容</li><li><strong>Peek 探查</strong>：模型写代码 <code>df.head()</code> / <code>df.shape</code> / <code>df.columns</code>，<strong>只把 100 行输出回灌给模型</strong></li><li><strong>决策</strong>：模型基于 peek 结果写真正的统计代码（groupby/agg/...）</li><li><strong>沙箱执行</strong>：pandas 真干活，<strong>这一步无大模型参与</strong>，数据不出沙箱</li><li><strong>回灌+解读</strong>：只回灌结果（一张小表/几行数字），模型写自然语言解读</li></ol>
+<p><strong>为什么这么设计（3 个根本原因）：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>原因</th><th>说明</th></tr></thead><tbody><tr><td>Token 经济性</td><td>10 万行 Excel ≈ 200 万 token，上下文爆炸</td></tr><tr><td>准确性</td><td>模型直接看数据会幻觉，代码精确计算</td></tr><tr><td>安全性</td><td>数据只在沙箱，模型只见结果（VPC 版加固）</td></tr></tbody></table></div>
+<p><strong>关键差异</strong>：</p>
+<ul><li><strong>截图</strong>：真给模型看（多模态视觉），1 张图≈1500 token，不爆</li><li><strong>Excel</strong>：必须代码处理，绝不能整表喂模型</li></ul>
+<hr>
+<h3 id="q-14" class="q">Q14：如果用户是接口对接的数据呢，会传给模型吗？</h3>
+<p><strong>✅ 分 3 种场景，3 种处理：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>场景</th><th>谁调</th><th>数据是否进模型</th><th>例子</th></tr></thead><tbody><tr><td><strong>A. 模型直接调 API（tool/MCP）</strong></td><td>模型</td><td>✅ 完整返回值进模型</td><td>查股票/天气/腾讯文档</td></tr><tr><td><strong>B. 模型写代码调 API</strong></td><td>沙箱</td><td>❌ 只有处理后摘要进模型</td><td>拉 10 万订单做统计</td></tr><tr><td><strong>C. 平台预集成连接器</strong></td><td>客户端/平台层</td><td>⚠️ 脱敏后进模型</td><td>企微/腾讯会议/iWiki</td></tr></tbody></table></div>
+<p><strong>会进模型的（要警惕）：</strong></p>
+<ul><li>tool 调用返回值、模型主动调的 API 响应</li><li>用户输入文字、贴的截图（vision）</li><li>上传文档的 <strong>摘要</strong>（不是全文）</li></ul>
+<p><strong>不会进模型的（默认安全）：</strong></p>
+<ul><li>沙箱代码处理过的中间数据</li><li>大文件原始内容（Excel/CSV/PDF 全文）</li><li>VPC 内被脱敏过滤掉的字段</li><li>数据库里没被查到的数据</li></ul>
+<hr>
+<h3 id="q-15" class="q">Q15：如果是文档呢，模型会阅读全部文档吗，还是会写代码再本地沙箱阅读？</h3>
+<p><strong>✅ 分 3 档处理策略：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>档位</th><th>文档规模</th><th>处理方式</th><th>数据是否全进模型</th></tr></thead><tbody><tr><td><strong>1. 小文档（&lt;50 页）</strong></td><td>单份 PDF/Word/MD</td><td>直接抽文本进上下文</td><td>✅ 全进</td></tr><tr><td><strong>2. 中等文档（50-500 页）</strong></td><td>单份大手册</td><td>模型写代码 + PyPDF2 处理</td><td>❌ 只进摘要/相关段</td></tr><tr><td><strong>3. 超大/多份（&gt;500 页 或 ≥10 份）</strong></td><td>知识库</td><td>RAG（embedding + 向量检索）</td><td>❌ 只进 Top K 段</td></tr></tbody></table></div>
+<p><strong>类型对照：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>类型</th><th>默认档位</th></tr></thead><tbody><tr><td>MD/TXT</td><td>1</td></tr><tr><td>小 PDF (&lt;20页)</td><td>1</td></tr><tr><td>大 PDF (&gt;20页)</td><td>2</td></tr><tr><td>Word</td><td>1-2</td></tr><tr><td>Excel</td><td><strong>2 强制</strong></td></tr><tr><td>PPT</td><td>1</td></tr><tr><td>扫描件</td><td>1 + OCR</td></tr><tr><td>知识库</td><td>3 (RAG)</td></tr></tbody></table></div>
+<p><strong>关键校准</strong>：</p>
+<ul><li><strong>PDF/Word/PPT 都先转纯文本</strong>，不是图像形式进模型</li><li>模型会<strong>动态切档</strong>：开始走档位 1，发现内容长 → 主动切档位 2</li><li><strong>贴长文本进对话框 = 全文进模型</strong>（售前最常被忽视的盲点！客户以为不上传就安全）</li></ul>
+<hr>
+<h3 id="q-16" class="q">Q16：WorkBuddy 的安全沙箱机制是怎么定义的，包括沙箱是什么时候创建的？</h3>
+<p><strong>✅ WorkBuddy 没有"一个沙箱"，至少 3 种沙箱混用</strong> —— 工具级 / 会话级 / 任务级，触发时机、隔离强度、销毁时机完全不同。客户问"你们有沙箱吗"，得反问"你说的是哪种"。</p>
+<p><strong>WorkBuddy 沙箱 3 种类型：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>维度</th><th>1. 工具级</th><th>2. 会话级</th><th>3. 任务级</th></tr></thead><tbody><tr><td><strong>本质</strong></td><td>单次命令的子进程</td><td>一整个云端 workspace 容器</td><td>临时部署/预览的独立容器</td></tr><tr><td><strong>跑在哪</strong></td><td>本地（PC 客户端）或云端（小程序/Web）</td><td>云端容器集群</td><td>云端容器集群（CloudStudio sandbox）</td></tr><tr><td><strong>何时创建</strong></td><td>模型每次调 Bash/Python 时</td><td>会话开启 / 用户首次进入云端 workspace 时</td><td>模型主动调 <code>cloudstudio_deploy</code> 等部署工具时</td></tr><tr><td><strong>隔离方式</strong></td><td>进程级（cwd 限制 + 超时 + 工具白名单）</td><td>容器级（独立文件系统/独立网络/资源配额）</td><td>容器级（独立公网域名 + 独立运行时）</td></tr><tr><td><strong>生命周期</strong></td><td>命令结束就销毁</td><td>会话关闭/超时回收（小时级）</td><td>任务完成或闲置回收</td></tr><tr><td><strong>销毁后数据</strong></td><td>stdout/stderr 写回模型上下文，临时文件随进程消失</td><td>容器整体销毁，挂载卷视配置而定</td><td>容器整体销毁</td></tr><tr><td><strong>典型对应</strong></td><td>你让 WorkBuddy 跑一行 <code>pandas</code> 处理 Excel</td><td>你在 codebuddy.cn 网页版打开一个项目 workspace</td><td>你让 WorkBuddy 把 HTML 部署到云上预览</td></tr></tbody></table></div>
+<hr>
+<h3 id="q-17" class="q">Q17：有时候会出现同一个任务会话中，之前的上下文不见了，是什么原因？</h3>
+<p><strong>✅ 先区分两类"上下文消失"：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>类型</th><th>A. 模型上下文压缩</th><th>B. UI 历史消失</th></tr></thead><tbody><tr><td>发生位置</td><td>后端 LLM 输入层</td><td>前端渲染/缓存层</td></tr><tr><td>现象</td><td>AI 突然忘了前面</td><td>滚不到上面的消息</td></tr><tr><td>用户体验</td><td>"刚说的它怎么忘了"</td><td>"界面上找不到那条"</td></tr><tr><td>消息本身</td><td>消息存在，AI 看不全</td><td>消息在不在 AI 眼里另说，但屏幕上人看不到</td></tr></tbody></table></div>
+<p><strong>你这种情况的 4 类根因（按概率排序）：</strong></p>
+<ol><li><strong>虚拟列表渲染上限</strong>：超长会话只保留最近 N 条 DOM</li><li><strong>本地缓存截断</strong>：IndexedDB / 文件存储只留最近 X 条</li><li><strong>分页加载接口失败</strong>：滚到顶要拉历史，接口挂了静默失败</li><li><strong>后端持久化策略截断</strong>：服务端只存最近 Y 轮（最严重）</li></ol>
+<p><strong>自查 4 步 —— 3 分钟定位是哪类：</strong></p>
+<ol><li><strong>滚到最顶看有没有"加载更多/loading"圈</strong> —— 有 = 第 3 类（分页问题）；什么都没有 = 第 1 或第 2 类</li><li><strong>关闭 WorkBuddy 完全重启 → 重开同一会话</strong> —— 历史回来了 = 第 1 类内存渲染；还是没 = 第 2 类缓存或第 4 类后端</li><li><strong>换一台设备登录同账号打开同会话</strong> —— 另一台有 = 本端缓存问题；两端都没 = 第 4 类后端截断（最坏情况）</li><li><strong>直接问 AI："你还记得我们一开始聊 XX 那段吗？"</strong> —— 它能复述 = 纯 UI 层 bug，数据其实在；它也不记得 = A+B 都中了</li></ol>
+<hr>
+<h2 id="sec-4" class="sec">四、售前实战话术模板</h2>
+<h3 id="q-18" class="q">话术 1：客户问"你们有沙箱吗"</h3>
+<p><strong>❌ 错误</strong>："我们有安全沙箱，所以您的数据不会泄露"（被秒拆）</p>
+<p><strong>✅ 正确（分版本）：</strong></p>
+<p><strong>对 PC 客户端用户</strong>：</p>
+<blockquote>"工具级隔离——AI 生成的代码跑在受限子进程里，cwd 锁定工作目录，命令结束即销毁。但本质还是您本地的进程，所以<strong>安全靠的是数据根本没上云</strong>，不是沙箱本身。"</blockquote>
+<p><strong>对云上版/企业版客户</strong>：</p>
+<blockquote>"三层沙箱：工具级（每次命令独立子进程）+ 会话级（独立容器，会话结束销毁）+ 任务级（部署预览独立容器）。容器之间网络/文件系统完全隔离。但请注意：沙箱执行结果会回到模型上下文——所以<strong>真正的数据安全要看合同条款（保留期/训练用途），不是沙箱</strong>。"</blockquote>
+<p><strong>对最高合规客户</strong>：</p>
+<blockquote>"我们提供 VPC 模式 2 + 网络出站白名单——沙箱跑在客户 VPC 内的 GPU 集群上，连出站都受您的网络策略管控。这是把沙箱机制和部署隔离叠加起来。"</blockquote>
+<hr>
+<h3 id="q-19" class="q">话术 2：客户问"XX 厂商说他们做切片处理，所以数据安全"</h3>
+<p><strong>✅ 正确回应：</strong></p>
+<ol><li><strong>先问</strong>："你说的切片是 RAG 切片，还是长文档分块？"（暴露对方词不达意）</li><li><strong>再说</strong>："不管哪种，<strong>这些都是推理时的技术细节，不能证明数据用途</strong>"</li><li><strong>收尾</strong>："数据会不会被训练，<strong>只看用户协议第 X 条 + 商业合同</strong>，技术机制不背书合规"</li></ol>
+<hr>
+<h3 id="q-20" class="q">话术 3：客户问"VPC 是不是绝对安全"</h3>
+<p><strong>✅ 主动甩 3 个反方压测点，建立专业可信感：</strong></p>
+<ol><li><strong>运维通道</strong>：厂商升级模型、排查故障时进得来——合同要写"运维必须客户审批 + 全程录像"</li><li><strong>模型权重保护反向监控</strong>：厂商怕模型被拿走 → 加密/限速/水印 → 客户在自己 VPC 里反被监控</li><li><strong>"逻辑 VPC" 陷阱</strong>：有的 "VPC" 是厂商在自己机房划个 VLAN 给你用，物理机还是共享 → 不是真物理隔离</li></ol>
+<p><strong>所以最高合规永远是模式 3：自建机房 + GPU 自买 + 模型私有授权</strong>。</p>
+<hr>
+<h2 id="sec-5" class="sec">七、6 月增量：数据安全深化</h2>
+<h3 id="q-21" class="q">Q18：客户有数十万行表格数据，在 WorkBuddy 上运行，表格数据会泄漏给大模型训练吗？</h3>
+<p><strong>✅ 结论：数十万行物理上喂不进大模型，"整张表被训练"是伪命题。</strong></p>
+<p>数十万行 ≈ 几百万 token，远超模型窗口（128K~200K），所以根本进不了模型。WorkBuddy 走<strong>代码处理路径</strong>：模型只当"指挥官"写代码，pandas 在沙箱当"工人"啃全量数据。</p>
+<p><strong>模型从头到尾只接触 3 样东西：</strong></p>
+<ol><li>文件元信息（名 / 路径 / 大小）</li><li>几十行样本（<code>df.head()</code>）</li><li>最终结果数字</li></ol>
+<p><strong>六步真实路径：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>步骤</th><th>动作</th><th>模型看到什么</th></tr></thead><tbody><tr><td>1 文件落地</td><td>上传到工作空间</td><td>只有文件名/路径/大小</td></tr><tr><td>2 Peek 探查</td><td>模型写 <code>df.head()</code>/<code>df.shape</code></td><td>几十行样本+列名+行数</td></tr><tr><td>3 写统计代码</td><td>模型基于样本写 pandas/SQL</td><td>自己写的代码</td></tr><tr><td>4 全量计算</td><td>沙箱 pandas 独立跑</td><td><strong>无模型参与，数十万行不出沙箱</strong></td></tr><tr><td>5 产出结果</td><td>体积从几百万 token 骤降</td><td>—</td></tr><tr><td>6 解读结果</td><td>模型拿汇总数字写分析</td><td>几十~几百 token 的结果</td></tr></tbody></table></div>
+<p><strong>"会被训练吗"分两层看：</strong></p>
+<ul><li>第一层：全量表进不了模型 → 无从被训练</li><li>第二层：那"几十行样本 + 结果"会不会被训练 = <strong>协议 + 部署 + 合同问题</strong>（非技术问题）</li></ul>
+<p><strong>两种破例（售前要主动声明）：</strong></p>
+<ol><li>用户手动把表格内容<strong>粘进对话框</strong> → 绕过沙箱，这部分会进模型</li><li>超大表被当<strong>知识库做 RAG 向量化</strong> → 切片落对象存储，是另一条路径</li></ol>
+<p>正常"上传 Excel 让我分析"默认走代码路径，不是 RAG。</p>
+<hr>
+<h3 id="q-22" class="q">Q19：如果是接口对接的数据呢，会传给模型吗？</h3>
+<p><strong>✅ 分 3 种场景，3 种处理（接 Q14）：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>场景</th><th>谁调</th><th>数据是否进模型</th></tr></thead><tbody><tr><td>A. 模型直接调 API（tool/MCP）</td><td>模型</td><td>✅ 完整返回值进模型</td></tr><tr><td>B. 模型写代码调 API</td><td>沙箱</td><td>❌ 只有处理后摘要进模型</td></tr><tr><td>C. 平台预集成连接器</td><td>客户端/平台层</td><td>⚠️ 脱敏后进模型</td></tr></tbody></table></div>
+<p><strong>判断口诀</strong>：模型亲自调的（A）→ 返回值进模型；模型写代码让沙箱调的（B）→ 只有结果摘要进。数据量大就走 B。</p>
+<hr>
+<h2 id="sec-6" class="sec">八、6 月增量：产品形态与多端</h2>
+<h3 id="q-23" class="q">Q20：WorkBuddy PC 端能打开移动端云上创建的任务吗？</h3>
+<p><strong>❌ 不能（接 Q11）。</strong></p>
+<ul><li>小程序云上版的任务 = 跑在<strong>云端容器</strong>里</li><li>PC 客户端的任务 = 跑在<strong>本地 Agent 运行时</strong>里</li><li><strong>4 个端（PC/Web/小程序/CLI）= 4 套独立会话</strong>，互不打通</li></ul>
+<p><strong>想跨端用，正确做法：</strong></p>
+<ul><li>重要文件 → 在 PC 客户端重新上传处理</li><li>或把小程序端结果<strong>复制/导出</strong>，手动带到 PC 端</li></ul>
+<p>不要期待"手机建的任务 PC 自动出现"——架构上就不通。</p>
+<hr>
+<h3 id="q-24" class="q">Q21：右上角默认助手「WorkBuddy Beta」能改名吗？</h3>
+<p><strong>❌ 内置默认助手名字锁死，改不了。</strong></p>
+<ul><li>「智能体设置」里只有"禁用插件 / 禁用团队"两个开关，<strong>没有名称字段</strong> → 证明名字是系统写死的</li><li>想要自定义名字（如「囷囷」）→ <strong>新建一个自定义助手</strong>：主界面「专家」入口或「➕ 新建助手」，名称/人设/技能随你定</li><li>新建后右上角切换过去用，把默认那个晾一边</li></ul>
+<p><strong>售前提醒</strong>：客户想要品牌化命名（如「XX 客服」），引导走自定义助手，别在默认助手上找改名入口。</p>
+<hr>
+<h3 id="q-25" class="q">Q22：网站访问白名单能设置吗？入口在哪？</h3>
+<p><strong>✅ 能力存在，但入口属企业管控范畴。</strong></p>
+<ul><li>白名单本质 = 沙箱<strong>出站网络管控</strong>（控制 AI 生成的代码能访问哪些外部站点）</li><li>个人版用户通常看不到入口；企业版的白名单一般在<strong>企业管理后台</strong>（仅管理员可见）或 VPC 安全组层面配置</li><li>透明披露：没有公开文档给出精确路径，建议直接问产品侧/管理员</li></ul>
+<p><strong>售前要点</strong>：白名单是企业级管控能力，跟"出站 vs 入站"要分清——白名单管的是<strong>出站</strong>（代码往外连），不是入站（谁能访问你）。</p>
+<hr>
+<h2 id="sec-7" class="sec">九、6 月增量：技术机制深化</h2>
+<h3 id="q-26" class="q">Q23：本地沙箱 coding 中，大语言模型扮演什么角色？</h3>
+<p><strong>✅ 模型是"大脑/指挥官"，不是"工人"。</strong></p>
+<ul><li>模型<strong>不亲自处理数据</strong>，它负责：理解需求 → 写代码 → 看执行结果 → 决定下一步</li><li>真正干活的是<strong>沙箱里的 Python/Node/pandas</strong> —— 数据在这层流动，模型碰不到原始数据</li><li>这就是为什么"数十万行表"安全：工人（沙箱）啃全量，大脑（模型）只看汇报</li></ul>
+<p><strong>一句话</strong>：模型动嘴（写代码+读结果），沙箱动手（跑代码+啃数据）。</p>
+<hr>
+<h3 id="q-27" class="q">Q24：Agent 的 Tool Call 是干什么用的？</h3>
+<p><strong>✅ Tool Call = 模型"点单"，平台"上菜"的闭环机制。</strong></p>
+<p><strong>完整闭环：</strong></p>
+<ol><li>模型决定要用某个工具 → 输出一段 <strong>JSON 请求</strong>（工具名 + 参数）</li><li>平台<strong>审计</strong>这次调用（命令安全检查）</li><li>沙箱<strong>执行</strong>工具，拿到结果</li><li>结果<strong>回灌</strong>给模型上下文</li><li>模型判断<strong>是否还要再调</strong>（不够就再点单，够了就总结）</li></ol>
+<p><strong>关键认知</strong>：模型本身不会执行任何操作，它只会"说要调什么"。真正执行靠平台的工具运行时。这是 Agent 和普通聊天机器人的本质区别。</p>
+<hr>
+<h3 id="q-28" class="q">Q25：上下文折叠的技术实现和作用是什么？</h3>
+<p><strong>✅ 作用：解决长会话超出模型 token 上限的问题。</strong></p>
+<p><strong>触发→处理流程：</strong></p>
+<ol><li><strong>触发</strong>：上下文接近模型窗口上限</li><li><strong>切分</strong>：保留最近 N 轮原文（保留区）</li><li><strong>生成摘要</strong>：把更早的历史压缩成摘要</li><li><strong>替换重组</strong>：摘要 + 保留区 = 新上下文</li><li><strong>续跑</strong>：在压缩后的上下文上继续</li></ol>
+<p><strong>三种策略：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>策略</th><th>做法</th><th>代价</th></tr></thead><tbody><tr><td>截断</td><td>直接丢最早的</td><td>简单粗暴，丢信息</td></tr><tr><td>摘要</td><td>早期历史压成摘要</td><td>平衡，有信息损耗</td></tr><tr><td>分层记忆</td><td>摘要 + 关键信息单独存</td><td>最优，实现复杂</td></tr></tbody></table></div>
+<p><strong>用户侧表现</strong>：有时"AI 突然忘了前面" = 折叠时把那段压进摘要、细节丢了（接 Q17 上下文消失 A 类）。</p>
+<hr>
+<h3 id="q-29" class="q">Q26：Graph RAG 过时了吗？</h3>
+<p><strong>❌ 没过时，但要看场景。</strong></p>
+<ul><li><strong>普通 RAG</strong>：把文档切片向量化，按相似度召回 Top K —— 适合"事实查找"</li><li><strong>Graph RAG</strong>：在切片之上再建<strong>实体关系图谱</strong>，能回答"多跳推理"问题（A 和 C 通过 B 有什么关系）</li></ul>
+<p><strong>判断用哪个：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>需求</th><th>选择</th></tr></thead><tbody><tr><td>单点事实查找（"X 的定义"）</td><td>普通 RAG 够了</td></tr><tr><td>关系推理（"谁和谁有关联"）</td><td>Graph RAG 有价值</td></tr><tr><td>全局摘要（"整个库讲了什么"）</td><td>Graph RAG 优势明显</td></tr></tbody></table></div>
+<p><strong>结论</strong>：Graph RAG 是普通 RAG 的"增强款"，不是替代关系，更不是过时——只是成本更高，按场景选。</p>
+<hr>
+<h2 id="sec-8" class="sec">十、6 月增量：SDK 与生态</h2>
+<h3 id="q-30" class="q">Q27：WorkBuddy 客户端有 API / SDK 开放吗？</h3>
+<p><strong>✅ 区分两个层面：</strong></p>
+<ul><li><strong>WorkBuddy 客户端本身</strong>：是终端产品（壳），通常不直接对外开放"客户端 API"</li><li><strong>底层 CodeBuddy 有 Agent SDK</strong>：TS + Python 双语言，<code>npm install @tencent-ai/agent-sdk</code>，提供 14 个 Hook 事件</li></ul>
+<p><strong>"客户端 API"概念澄清</strong>：客户端是给人用的 GUI，不是给程序调的接口。真正能被二次开发调用的是<strong>底层 Agent SDK</strong>，不是客户端。</p>
+<hr>
+<h3 id="q-31" class="q">Q28：客户能基于 CodeBuddy Agent SDK 封装成类似 WorkBuddy 的客户端吗？</h3>
+<p><strong>✅ 能封装壳和内核，但底座永远依赖平台。</strong></p>
+<p><strong>三层边界：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>层</th><th>内容</th><th>客户能自己做吗</th></tr></thead><tbody><tr><td>① 壳</td><td>UI、多端入口、交互</td><td>✅ 完全自由</td></tr><tr><td>② 内核</td><td>Agent 编排（基于 SDK）</td><td>✅ 可封装</td></tr><tr><td>③ 底座</td><td>模型 / 算力 / 计费</td><td>❌ <strong>永远依赖平台</strong></td></tr></tbody></table></div>
+<p><strong>翻译</strong>：客户可以做一个"长得不一样的 WorkBuddy"，但模型推理、算力、计费这层绕不开腾讯。壳和编排是客户的，发动机是平台的。</p>
+<hr>
+<h3 id="q-32" class="q">Q29：客户说 Coze 支持拉起本地的 Codex 和 Claude Code，形成跨平台多 Agent，怎么实现的？</h3>
+<p><strong>✅ 机制：反向通道 + 本地 CLI 发现 + 远程代理执行。</strong></p>
+<ol><li>本地跑一个 <strong>bridge 进程</strong>（如 <code>npx coze-bridge</code>），建立到云端的反向通道</li><li>bridge <strong>发现本地已装的 CLI</strong>（codex / claude-code 等）</li><li>云端 Coze 通过反向通道<strong>远程触发</strong>本地 CLI 执行，结果回传</li></ol>
+<p><strong>本质</strong>：Coze 在云端当编排大脑，本地 bridge 当"手"，把本地 Agent 当成远程工具调用。</p>
+<hr>
+<h3 id="q-33" class="q">Q30：这类 Agent 编排层产品的真实价值是什么？</h3>
+<p><strong>✅ 价值真实，但护城河浅。</strong></p>
+<p><strong>编排层（胶水层）做四件事：</strong></p>
+<ol><li><strong>连接</strong> —— 把分散的 Agent/工具接到一起</li><li><strong>编排</strong> —— 定义多 Agent 协作流程</li><li><strong>远程触达</strong> —— 跨设备/跨平台调度</li><li><strong>工作台</strong> —— 给用户一个统一操作界面</li></ol>
+<p><strong>反方压测（护城河浅在哪）：</strong></p>
+<ul><li>夹在<strong>模型底座</strong>（上游有议价权）和<strong>终端入口</strong>（下游抢用户）之间</li><li>连接和编排能力容易被复制</li><li>一旦模型厂商/入口方自己做编排，胶水层被挤压</li></ul>
+<p><strong>结论</strong>：解决真实痛点（多 Agent 协作乱），但长期要么向上做模型、要么向下抢入口，单纯做胶水难守。</p>
+<hr>
+<h2 id="sec-9" class="sec">十一、6 月增量：概念科普（客户常问的"这是什么"）</h2>
+<h3 id="q-34" class="q">Q31：pandas / SQL / groupby / sum 这些是什么？是脚本吗？</h3>
+<p><strong>✅ 是数据处理的代码工具，不是"脚本"那么笼统。</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>名词</th><th>是什么</th><th>类比</th></tr></thead><tbody><tr><td><strong>pandas</strong></td><td>Python 的数据处理库（操作表格）</td><td>Excel 的代码版</td></tr><tr><td><strong>SQL</strong></td><td>查询数据库的语言</td><td>跟数据库对话的话术</td></tr><tr><td><strong>groupby</strong></td><td>按某列分组</td><td>Excel 数据透视的"行分组"</td></tr><tr><td><strong>sum / agg</strong></td><td>分组后求和/聚合</td><td>透视表的"值=求和"</td></tr></tbody></table></div>
+<p><strong>"生成 pandas"是什么意思</strong>：模型<strong>写一段用 pandas 库的 Python 代码</strong>，让沙箱执行去处理表格。不是模型自己算，是模型写代码让工具算。</p>
+<p><strong>类似 pandas 的工具库</strong>：Polars（更快）、NumPy（数值计算）、Dask（超大数据分布式）、DuckDB（SQL 直查文件）。</p>
+<hr>
+<h3 id="q-35" class="q">Q32：Python / Node.js / npm / Git 这四个是什么？</h3>
+<p><strong>✅ 开发者四件套：</strong></p>
+<div class="tbl-wrap"><table><thead><tr><th>工具</th><th>是什么</th><th>一句话</th></tr></thead><tbody><tr><td><strong>Python</strong></td><td>编程语言</td><td>数据/AI 最常用的语言</td></tr><tr><td><strong>Node.js</strong></td><td>JavaScript 运行环境</td><td>让 JS 能跑在电脑上（不只浏览器）</td></tr><tr><td><strong>npm</strong></td><td>Node 的包管理器</td><td>装 JS 第三方库的"应用商店"</td></tr><tr><td><strong>Git</strong></td><td>版本控制工具</td><td>代码的"时光机+协作系统"</td></tr></tbody></table></div>
+<p><strong>跟 WorkBuddy 的关系</strong>：沙箱里<strong>内嵌了这四件套</strong>，所以 AI 写的代码能直接跑、能装库、能管版本——这就是"运行环境一致化"（根治"在我电脑上是好的"）。</p>
+<hr>
+<h2 id="sec-10" class="sec">十二、一句话沉淀（售前必背）</h2>
+<blockquote><strong>"切片+不拼回=数据不被训练"是伪逻辑</strong> —— 混淆推理 vs 训练、上传 vs 入库、切片不拼回 vs 切片不被记忆。</blockquote>
+<blockquote><strong>"不落盘"承诺是分级的</strong> —— L0 口头 / L1 用户协议 / L2 商业合同 SLA / L3 VPC/私有化。 </blockquote>
+<blockquote><strong>"传出去 = 被获取"是物理事实</strong> —— 协议保护是事后赔偿，部署隔离才是事前阻断。 </blockquote>
+<blockquote><strong>"VPC 物理隔离" ≠ 数据不出公网</strong> —— 只有模式 2（模型权重部署到客户 VPC）才是真隔离；厂商口中 "VPC" 多数是<strong>模式 1（VPC 网络对接）</strong> —— 走专线 ≠ 不出去了。 </blockquote>
+<blockquote><strong>沙箱解决"代码跑在哪"，不解决"数据流向哪"</strong>。 <br>真正的数据安全 = 沙箱（执行隔离）+ 合同（用途承诺）+ 部署（VPC 网络隔离）+ 治理（权限审计），<strong>四件套缺一不可</strong>。 </blockquote>
+<blockquote><strong>客户问"模型会不会看到我的敏感文件"——这是个伪问题</strong>。 <br>一定会看到（物理事实）。 <br>真问题是"看完之后"——这才是合同+部署能管的地方。 </blockquote>
+<hr>
+<h2 id="sec-11" class="sec">十三、附录：咨询最终收束链</h2>
+<ul><li><strong>第一轮</strong>：「不落盘」四级强度（L0-L3）+ 4 条款必盯</li><li><strong>第二轮</strong>：切片/分片/分块三词区分 + 技术机制 ≠ 合规承诺</li><li><strong>第三轮</strong>：模型不"拼" + 推理 ≠ 训练 + 论文证据（GPT-2/Google/NYT）</li><li><strong>第四轮</strong>：客户真问题不是"会不会看到"，是"看完之后"</li><li><strong>第五轮</strong>：VPC 3 模式 + 验真 3 问</li><li><strong>第六轮</strong>：沙箱 3 类型 + PC vs 云反直觉 + 5 反方压测 → <strong>数据安全四件套</strong>（沙箱+合同+部署+治理）</li><li><strong>第七轮（6月）</strong>：数十万行表走代码路径 + 模型只当指挥官 + Tool Call 闭环 + 沙箱位置由端形态决定（与版本正交）</li><li><strong>第八轮（6月）</strong>：SDK 三层边界（壳/内核/底座）+ Coze Bridge 反向通道 + 编排层护城河浅 + 概念科普（pandas/四件套/上下文折叠/Graph RAG）</li></ul>
+<hr>
+<p>*本文档由 WorkBuddy 协助整理，基于真实客户咨询场景沉淀。如需更新或补充，请联系产品架构师。*</p>
+  </main>
+</div>
+<script>
+(function(){
+  var links = document.querySelectorAll('.toc-q, .toc-sec');
+  var map = [];
+  links.forEach(function(l){
+    var id = l.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if(el) map.push({link:l, el:el});
+  });
+  function onScroll(){
+    var pos = window.scrollY + 100;
+    var cur = null;
+    map.forEach(function(m){ if(m.el.offsetTop <= pos) cur = m; });
+    links.forEach(function(l){ l.classList.remove('active'); });
+    if(cur && cur.link.classList.contains('toc-q')) cur.link.classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+})();
+</script>
+</body>
+</html>
+

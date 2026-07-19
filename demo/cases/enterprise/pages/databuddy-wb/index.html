@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataBuddy vs WorkBuddy · 产品方案对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-900: #0B1E3F;
+  --primary-800: #14286B;
+  --primary-700: #1E40AF;
+  --primary-600: #2563EB;
+  --primary-100: #DBEAFE;
+  --primary-50:  #EFF6FF;
+  --ink-900: #0F172A;
+  --ink-700: #334155;
+  --ink-500: #64748B;
+  --ink-400: #94A3B8;
+  --ink-200: #E2E8F0;
+  --ink-100: #F1F5F9;
+  --bg:      #F8FAFC;
+  --paper:   #FFFFFF;
+  --gold:    #B8860B;
+  --success: #047857;
+  --danger:  #B91C1C;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.serif { font-family: "Source Serif 4", "Songti SC", Georgia, serif; }
+
+/* ===== 顶部 hero ===== */
+.hero {
+  background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 100%);
+  color: #fff;
+  padding: 64px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 40%);
+}
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: "Source Serif 4", serif;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+.hero h1 .accent { color: #93C5FD; }
+.hero-sub {
+  font-size: 17px;
+  color: rgba(255,255,255,0.8);
+  max-width: 720px;
+  line-height: 1.7;
+}
+.hero-meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 32px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+}
+.hero-meta span { display: flex; align-items: center; gap: 8px; }
+.hero-meta span::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #93C5FD;
+}
+
+/* ===== 主容器 ===== */
+.wrap {
+  max-width: 1100px;
+  margin: -40px auto 0;
+  padding: 0 32px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== 结论卡（最先看到） ===== */
+.tldr {
+  background: var(--paper);
+  border: 1px solid var(--ink-200);
+  border-top: 4px solid var(--primary-700);
+  border-radius: 6px;
+  padding: 40px 48px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+  margin-bottom: 48px;
+}
+.tldr-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--primary-700);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.tldr h2 {
+  font-family: "Source Serif 4", serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+.tldr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+.tldr-col h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary-800);
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.tldr-col h3::before {
+  content: "";
+  width: 4px; height: 16px; background: var(--primary-700);
+  border-radius: 2px;
+}
+.tldr-col p {
+  color: var(--ink-700);
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* ===== 章节通用 ===== */
+section { margin-bottom: 56px; }
+.sec-num {
+  font-family: "Source Serif 4", serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.sec-title {
+  font-family: "Source Serif 4", serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+.sec-desc {
+  color: var(--ink-500);
+  font-size: 14.5px;
+  margin-bottom: 28px;
+  max-width: 780px;
+}
+
+/* ===== 对比表 ===== */
+.compare {
+  background: var(--paper);
+  border: 1px solid var(--ink-200);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+}
+.compare table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.compare thead tr {
+  background: var(--primary-50);
+}
+.compare thead th {
+  padding: 18px 24px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--primary-800);
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid var(--primary-100);
+  text-transform: uppercase;
+}
+.compare thead th:first-child {
+  width: 18%;
+  background: var(--ink-100);
+  color: var(--ink-700);
+  border-bottom-color: var(--ink-200);
+}
+.compare tbody td {
+  padding: 18px 24px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--ink-200);
+  color: var(--ink-700);
+  line-height: 1.65;
+}
+.compare tbody tr:last-child td { border-bottom: none; }
+.compare tbody td:first-child {
+  font-weight: 600;
+  color: var(--ink-900);
+  background: var(--ink-100);
+  font-size: 13.5px;
+}
+.compare tbody td:nth-child(2) {
+  border-right: 1px solid var(--ink-200);
+}
+.compare tbody tr:hover td:not(:first-child) {
+  background: rgba(239, 246, 255, 0.4);
+}
+.compare em {
+  font-style: normal;
+  color: var(--primary-700);
+  font-weight: 600;
+}
+
+/* ===== 三差异化卡片 ===== */
+.diff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.diff-card {
+  background: var(--paper);
+  border: 1px solid var(--ink-200);
+  border-radius: 6px;
+  padding: 28px 26px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.diff-card:hover {
+  border-color: var(--primary-700);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.08);
+}
+.diff-num {
+  position: absolute;
+  top: 20px; right: 24px;
+  font-family: "Source Serif 4", serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--primary-100);
+  line-height: 1;
+}
+.diff-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--primary-700);
+  background: var(--primary-50);
+  padding: 4px 10px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.diff-card h3 {
+  font-family: "Source Serif 4", serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin-bottom: 12px;
+  letter-spacing: -0.2px;
+  line-height: 1.4;
+}
+.diff-card p {
+  font-size: 13.5px;
+  color: var(--ink-700);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.diff-card .key {
+  font-size: 12px;
+  color: var(--primary-700);
+  font-weight: 600;
+  padding-top: 12px;
+  border-top: 1px dashed var(--ink-200);
+}
+
+/* ===== 售前话术（双栏） ===== */
+.pitch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.pitch-card {
+  background: var(--paper);
+  border: 1px solid var(--ink-200);
+  border-radius: 6px;
+  padding: 28px 28px 32px;
+  position: relative;
+}
+.pitch-card.win {
+  border-left: 3px solid var(--success);
+}
+.pitch-card.lose {
+  border-left: 3px solid var(--ink-400);
+}
+.pitch-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.pitch-card.win .pitch-label { color: var(--success); }
+.pitch-card.lose .pitch-label { color: var(--ink-500); }
+.pitch-card h4 {
+  font-family: "Source Serif 4", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin-bottom: 14px;
+}
+.pitch-card ul {
+  list-style: none;
+  margin-top: 8px;
+}
+.pitch-card li {
+  font-size: 13.5px;
+  color: var(--ink-700);
+  padding: 6px 0 6px 22px;
+  position: relative;
+  line-height: 1.65;
+}
+.pitch-card.win li::before {
+  content: "✓";
+  position: absolute;
+  left: 0; top: 6px;
+  color: var(--success);
+  font-weight: 700;
+}
+.pitch-card.lose li::before {
+  content: "—";
+  position: absolute;
+  left: 0; top: 6px;
+  color: var(--ink-400);
+}
+
+/* ===== 反方压测 ===== */
+.devil {
+  background: linear-gradient(180deg, #FEF7E6 0%, #FDF6E3 100%);
+  border: 1px solid #F0E0B0;
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
+  padding: 32px 36px;
+}
+.devil-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.devil h3 {
+  font-family: "Source Serif 4", serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #5C4A11;
+  margin-bottom: 16px;
+}
+.devil p {
+  color: #5C4A11;
+  font-size: 14.5px;
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+.devil p strong { color: #3D3008; font-weight: 700; }
+
+/* ===== ABCD 决策清单 ===== */
+.abcd {
+  background: var(--primary-900);
+  color: #fff;
+  border-radius: 6px;
+  padding: 40px 44px;
+}
+.abcd-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #93C5FD;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.abcd h3 {
+  font-family: "Source Serif 4", serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: -0.3px;
+}
+.abcd-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 28px;
+}
+.abcd-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 0;
+}
+.abcd-tag {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 4px;
+  background: var(--primary-700);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: "Source Serif 4", serif;
+}
+.abcd-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.65;
+}
+.abcd-text strong { color: #fff; font-weight: 600; }
+
+/* ===== 页脚 ===== */
+.foot {
+  text-align: center;
+  padding: 40px 32px;
+  color: var(--ink-400);
+  font-size: 12px;
+  letter-spacing: 1px;
+  border-top: 1px solid var(--ink-200);
+  margin-top: 40px;
+}
+.foot a { color: var(--primary-700); text-decoration: none; }
+
+/* ===== 响应 ===== */
+@media (max-width: 880px) {
+  .hero h1 { font-size: 32px; }
+  .tldr-grid { grid-template-columns: 1fr; gap: 20px; }
+  .diff-grid { grid-template-columns: 1fr; }
+  .pitch { grid-template-columns: 1fr; }
+  .abcd-list { grid-template-columns: 1fr; }
+  .compare { font-size: 12px; }
+  .compare thead th, .compare tbody td { padding: 12px 14px; }
+  .tldr { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">PRODUCT BRIEF · 2026-06</div>
+    <h1>DataBuddy <span class="accent">vs</span> WorkBuddy<br>定位边界与协作分工</h1>
+    <p class="hero-sub">两者都挂着「Buddy」前缀，但解决的是同一家企业里完全不同的两个人的问题。本文用六维度对比 + 三个差异化能力 + 售前话术，把客户最常混淆的边界一次讲清楚。</p>
+    <div class="hero-meta">
+      <span>腾讯云内部</span>
+      <span>售前 / 客户成功参考</span>
+      <span>更新于 2026 年 6 月</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ TLDR ============ -->
+  <section class="tldr">
+    <div class="tldr-label">先结论 · TL;DR</div>
+    <h2 class="serif">不是同一条产品线，更不是新旧版本关系。</h2>
+    <p style="color:var(--ink-700); font-size:15px; line-height:1.75;">
+      <strong>DataBuddy</strong>（数智助手）是腾讯云 2026-05-19 正式发布的<em style="font-style:normal;color:var(--primary-700);font-weight:600;">数据智能体平台</em>，对接 WeData + DLC，目标是把数据分析师/数据工程师从「写 SQL、调字段、跑指标」里解放出来。<br><br>
+      <strong>WorkBuddy</strong> 是面向<em style="font-style:normal;color:var(--primary-700);font-weight:600;">所有职能岗位</em>（HR / 销售 / 运营 / 法务 / 财务 / 售前 / 行政）的通用 AI Agent 工作台，靠 Skill + Connector 把日常工作流自动化。
+    </p>
+    <div class="tldr-grid">
+      <div class="tldr-col">
+        <h3>DataBuddy 服务对象</h3>
+        <p>已经买了腾讯云数据底座（WeData / DLC / TBase）的客户，他们的<strong>数据分析师团队</strong>。诉求：用对话式分析替代写 SQL、做指标体系、看板下钻、数据治理。</p>
+      </div>
+      <div class="tldr-col">
+        <h3>WorkBuddy 服务对象</h3>
+        <p>所有需要在电脑前处理「日常事务」的<strong>非数据岗职能人员</strong>。诉求：写文档、订会议、跑流程、出报告、对客户、调外部 API。本质是「AI 时代的个人电脑」。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 六维度对比 ============ -->
+  <section>
+    <div class="sec-num">— 01 —</div>
+    <h2 class="sec-title">六维度对比表</h2>
+    <p class="sec-desc">客户最常混淆的几个维度逐项对照。如果某一行客户表示「都需要」，那不是产品选择题，是两条产品线都得引入。</p>
+    <div class="compare">
+      <table>
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th>DataBuddy（数智助手）</th>
+            <th>WorkBuddy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>定位</td>
+            <td>面向<em>数据分析师/数据工程师</em>的<em>数据智能体平台</em></td>
+            <td>面向<em>全体知识工作者</em>的<em>通用 AI Agent 工作台</em></td>
+          </tr>
+          <tr>
+            <td>核心场景</td>
+            <td>对话式数据分析、指标体系搭建、数据治理、看板下钻、数仓查询、ETL 调度</td>
+            <td>文档撰写、会议预定、邮件处理、客户管理、流程自动化、内部知识检索、跨系统协同</td>
+          </tr>
+          <tr>
+            <td>技术底座</td>
+            <td>深度对接 WeData + DLC + TBase，<em>六层语义体系</em>（业务 → 模型 → 指标 → 主题 → 物理 → 元数据）</td>
+            <td>Skill + Connector + MCP + Memory 四层；底层不绑定特定数据库，靠插件接入业务系统</td>
+          </tr>
+          <tr>
+            <td>能力边界</td>
+            <td>只在<em>结构化数据 + 数仓</em>范围内强；不写文档、不订会议、不连飞书企微</td>
+            <td>覆盖<em>所有日常事务</em>；但深度数据分析弱于 DataBuddy（没有数仓语义层）</td>
+          </tr>
+          <tr>
+            <td>目标用户</td>
+            <td>已经买了<em>腾讯云数据底座</em>的存量客户的数据团队</td>
+            <td><em>任何企业</em>的职能岗员工，不强依赖云产品（个人版可纯本地）</td>
+          </tr>
+          <tr>
+            <td>商业化</td>
+            <td>跟 WeData / DLC <em>捆绑售卖</em>，扩大数据云的客单价和续费</td>
+            <td>独立产品线（个人版 + 企业版），按 Token / 席位计费</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 三个差异化能力 ============ -->
+  <section>
+    <div class="sec-num">— 02 —</div>
+    <h2 class="sec-title">DataBuddy 的三个差异化能力</h2>
+    <p class="sec-desc">这三件事 WorkBuddy 做不到 ——  它们正是 DataBuddy 与<strong>所有通用 AI 助手</strong>的护城河，也是售前判断「该上 DataBuddy 还是 WorkBuddy」的核心决策点。</p>
+    <div class="diff-grid">
+      <article class="diff-card">
+        <div class="diff-num">01</div>
+        <span class="diff-tag">语义体系</span>
+        <h3>六层语义模型</h3>
+        <p>从业务概念逐层下钻到物理表/字段，让大模型「真懂业务」而不只是抄 SQL 模板。比如客户问「上周华南区高价值客户的留存率」，DataBuddy 能自动定位到「华南区 = 省份 ∈ {广东, 广西, 海南}」「高价值 = ARR ≥ 100 万」「留存率 = 7 日内有登录的客户数占比」。</p>
+        <div class="key">关键词：业务 → 模型 → 指标 → 主题 → 物理 → 元数据</div>
+      </article>
+      <article class="diff-card">
+        <div class="diff-num">02</div>
+        <span class="diff-tag">治理自动化</span>
+        <h3>数据治理自动化</h3>
+        <p>自动生成数据质量规则、血缘分析、字段一致性校验、敏感字段脱敏建议。这是数据团队最痛但最不愿做的「脏活」，传统做法依赖治理专员手工梳理几个月。DataBuddy 把它做成开箱可用的能力，让数据团队从「救火」转向「治理」。</p>
+        <div class="key">关键词：质量规则 / 血缘 / 一致性 / 脱敏</div>
+      </article>
+      <article class="diff-card">
+        <div class="diff-num">03</div>
+        <span class="diff-tag">交付形态</span>
+        <h3>数仓对话式交付</h3>
+        <p>客户问什么 → 直接出图、表、洞察，无需工程师写 SQL、做看板。一句「最近三个月哪个产品线毛利率最低，按月给我列出来」，5 秒后回出可视化趋势 + 异常归因 + 建议。把<strong>数据分析门槛从 SQL 拉到自然语言</strong>，是数据团队最大的解放。</p>
+        <div class="key">关键词：自然语言 → 图表 + 洞察 + 归因</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 售前话术 ============ -->
+  <section>
+    <div class="sec-num">— 03 —</div>
+    <h2 class="sec-title">售前话术：怎么对客户讲</h2>
+    <p class="sec-desc">面对「这俩有什么区别」这种问题，按下面的对照框架回答 —— 一句话定位 + 三条特征锚定客户的真实诉求。</p>
+    <div class="pitch">
+      <div class="pitch-card win">
+        <div class="pitch-label">推荐 DataBuddy 的客户特征</div>
+        <h4>已有数据底座 + 数据团队 + 分析压力大</h4>
+        <ul>
+          <li>已经在用 WeData / DLC / TBase 等腾讯云数据产品</li>
+          <li>有专职数据分析师团队（≥ 3 人），日常被 SQL 任务淹没</li>
+          <li>业务方反馈「想要一个数」要等一周以上</li>
+          <li>有指标体系搭建、数据治理、看板下钻、自助分析等明确诉求</li>
+          <li>愿意按「数据云客单价提升」的逻辑买单</li>
+        </ul>
+      </div>
+      <div class="pitch-card win">
+        <div class="pitch-label">推荐 WorkBuddy 的客户特征</div>
+        <h4>多岗位 + 流程繁杂 + 想用 AI 提效</h4>
+        <ul>
+          <li>诉求来自 HR / 销售 / 运营 / 法务 / 财务等<strong>非数据岗</strong></li>
+          <li>核心场景是写文档、订会议、跑流程、对客户、做报告</li>
+          <li>数据底座没买、或买了但不打算让全员用</li>
+          <li>客户在意「跨系统协同」「私有部署」「Skill 自定义」</li>
+          <li>愿意按席位 / Token 包年包月付费</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 反方压测 ============ -->
+  <section>
+    <div class="sec-num">— 04 —</div>
+    <h2 class="sec-title">反方压测：客户最容易抛出的 3 个反对意见</h2>
+    <p class="sec-desc">对立面分析。客户说出这些话时，不要顺着圆，要把问题点回去，问出真实诉求再答。</p>
+    <div class="devil">
+      <div class="devil-label">DEVIL'S ADVOCATE</div>
+      <h3 class="serif">「我用 WorkBuddy 接 DLC 不就行了？为什么还要 DataBuddy？」</h3>
+      <p><strong>表层答：</strong>WorkBuddy 通过 MCP / Skill 也能查 DLC，但只能做「字段级查询」 —— 客户问「华南区高价值客户的留存率」，WorkBuddy 不知道「华南区」「高价值」对应哪些字段，只能让客户自己拼 SQL。</p>
+      <p><strong>深层答：</strong>DataBuddy 的核心是「六层语义体系」，把业务术语映射到物理字段。这不是写几个 Skill 能补上的工程量 —— 它是数据团队<strong>用半年到一年时间</strong>把业务概念沉淀到平台里的资产。</p>
+      <p><strong>反问回去：</strong>「贵司的数据团队现在能在多久内，把『高价值客户』这个词的定义统一到所有业务方？」 —— 大部分客户答不上来，正是 DataBuddy 价值所在。</p>
+      <br>
+      <h3 class="serif" style="margin-top:8px;">「DataBuddy 是不是就是 WeData 套了个 LLM 壳？」</h3>
+      <p><strong>关键反驳：</strong>WeData 是<strong>开发工具</strong>，给数据工程师写 ETL、调度、建模型用的；DataBuddy 是<strong>消费层</strong>，给业务方对话式提问、出图、出洞察用的。前者面向「生产数据」的人，后者面向「消费数据」的人 —— 两类人在企业里至少差 50 倍人数。</p>
+      <br>
+      <h3 class="serif" style="margin-top:8px;">「你们一家公司同时推两个 Buddy，是不是内部赛马？」</h3>
+      <p><strong>诚实答：</strong>是有边界协调成本，但不是赛马。DataBuddy 卡死在「结构化数据 + 数仓」场景，WorkBuddy 卡死在「日常事务 + 跨系统」场景。客户两个都买，是常态而非冲突 —— 数据分析师用 DataBuddy，HR / 销售用 WorkBuddy，财务两个都用。</p>
+    </div>
+  </section>
+
+  <!-- ============ ABCD 决策清单 ============ -->
+  <section>
+    <div class="abcd">
+      <div class="abcd-label">DECISION CHECKLIST · 售前快速判定</div>
+      <h3>客户该上 DataBuddy 还是 WorkBuddy？</h3>
+      <div class="abcd-list">
+        <div class="abcd-item">
+          <div class="abcd-tag">A</div>
+          <div class="abcd-text"><strong>客户已经在用 WeData/DLC + 有数据团队</strong> —— 主推 DataBuddy；WorkBuddy 作为「全员提效补充包」二线推。</div>
+        </div>
+        <div class="abcd-item">
+          <div class="abcd-tag">B</div>
+          <div class="abcd-text"><strong>客户没有数据底座、也没有专职数据团队</strong> —— 只推 WorkBuddy；提 DataBuddy 反而增加客户的认知负担。</div>
+        </div>
+        <div class="abcd-item">
+          <div class="abcd-tag">C</div>
+          <div class="abcd-text"><strong>客户有底座但数据团队太小</strong>（&lt; 3 人）—— DataBuddy 价值释放不出来，先用 WorkBuddy 接 DLC 跑起来，等团队扩张再切 DataBuddy。</div>
+        </div>
+        <div class="abcd-item">
+          <div class="abcd-tag">D</div>
+          <div class="abcd-text"><strong>客户两个都问</strong> —— 不要选边，用本文表格画清楚边界，让客户的数据团队 + 业务团队各自决策预算。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="foot">
+  WBD · DataBuddy vs WorkBuddy 产品方案对比 · 2026-06 · 服务于 anialang-any4 · 内网仅供内部使用<br>
+  <a href="/">返回 WBD 数据看板首页</a>
+</div>
+
+</body>
+</html>
+

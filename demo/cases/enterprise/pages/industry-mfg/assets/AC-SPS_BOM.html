@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>AC-SPS 物料清单 BOM</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#f4f5f7;color:#1a1a1a;padding:28px 32px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1a3a6b;padding-bottom:14px;margin-bottom:6px}
+h1{font-size:24px;color:#1a3a6b;letter-spacing:.5px}
+.sub{color:#666;font-size:13px;margin-top:4px}
+.meta{text-align:right;font-size:12.5px;color:#555;line-height:1.7}
+.meta b{color:#1a3a6b}
+.summary{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.chip{background:#fff;border:1px solid #d8dce3;border-radius:20px;padding:6px 14px;font-size:13px;color:#444}
+.chip b{color:#1a3a6b;font-size:15px;margin-right:3px}
+.kpi{display:flex;gap:14px;margin:8px 0 18px}
+.kpi .box{background:linear-gradient(135deg,#1a3a6b,#2d5599);color:#fff;border-radius:10px;padding:14px 22px;flex:0 0 auto}
+.kpi .box .n{font-size:28px;font-weight:800}
+.kpi .box .l{font-size:12px;opacity:.85;margin-top:2px}
+.kpi .box.alt{background:linear-gradient(135deg,#0a7a52,#13a06d)}
+.kpi .box.alt2{background:linear-gradient(135deg,#b8860b,#d4a017)}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:12.5px;box-shadow:0 2px 12px rgba(0,0,0,.06);border-radius:8px;overflow:hidden}
+thead th{background:#1a3a6b;color:#fff;padding:11px 8px;text-align:left;font-weight:600;font-size:12px;white-space:nowrap}
+tbody td{padding:8px;border-bottom:1px solid #eef0f3;vertical-align:top}
+tbody tr:nth-child(even){background:#fafbfc}
+tbody tr:hover{background:#eef4ff}
+.num{color:#999;text-align:center;width:34px}
+.qty{text-align:center;font-weight:700;color:#c0392b;width:42px}
+.desig{color:#1a3a6b;font-weight:500;max-width:230px;line-height:1.5}
+.val{font-weight:700}
+.pn{font-family:'SF Mono',Consolas,monospace;font-size:11.5px;color:#0a5}
+.cat{color:#888;font-size:11px}
+.foot{margin-top:14px;font-size:11.5px;color:#888;line-height:1.7;border-top:1px solid #ddd;padding-top:10px}
+.foot b{color:#c0392b}
+@media print{body{background:#fff;padding:0}table{box-shadow:none}}
+</style></head>
+<body>
+<div class="head">
+  <div><h1>物料清单 BOM · AC-SPS</h1>
+  <div class="sub">Bill of Materials · 自 Altium SchDoc 原理图自动提取</div></div>
+  <div class="meta"><b>源文件：</b>AC-SPS(1).SchDoc<br><b>提取日期：</b>2026-06-25<br><b>工具：</b>WorkBuddy 自动解析</div>
+</div>
+<div class="kpi">
+  <div class="box"><div class="n">140</div><div class="l">元件总数 PCS</div></div>
+  <div class="box alt"><div class="n">64</div><div class="l">物料种类 Items</div></div>
+  <div class="box alt2"><div class="n">8</div><div class="l">器件类别 Categories</div></div>
+</div>
+<div class="summary"><span class="chip"><b>54</b> 电阻</span><span class="chip"><b>36</b> 电容</span><span class="chip"><b>25</b> 二极管</span><span class="chip"><b>11</b> 测试点</span><span class="chip"><b>6</b> 晶体管</span><span class="chip"><b>4</b> 电感/磁珠</span><span class="chip"><b>3</b> IC/集成电路</span><span class="chip"><b>1</b> 变压器</span></div>
+<table>
+<thead><tr>
+<th>#</th><th>位号 Designator</th><th>数量</th><th>品名 Type</th><th>参数值</th>
+<th>封装 Package</th><th>功率</th><th>容差</th><th>厂家料号 Part No.</th><th>厂家</th><th>类别</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="num">1</td>
+<td class="desig">C12, C13, C14, C15, C19, C87, C88</td>
+<td class="qty">7</td>
+<td>片状电容</td>
+<td class="val">1uF</td>
+<td>1206</td>
+<td></td>
+<td>±10%</td>
+<td class="pn">1206B105K500NT</td>
+<td>风华高科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">2</td>
+<td class="desig">C16, C17</td>
+<td class="qty">2</td>
+<td>铝电解电容</td>
+<td class="val">2200uF</td>
+<td>16*25mm</td>
+<td></td>
+<td>20%</td>
+<td class="pn">ZH222M035J250A</td>
+<td>丰宾</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">3</td>
+<td class="desig">C18, C86</td>
+<td class="qty">2</td>
+<td>片状电容</td>
+<td class="val">4.7uF</td>
+<td>1210</td>
+<td></td>
+<td>10%</td>
+<td class="pn">1210B475K500CT</td>
+<td>华新科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">4</td>
+<td class="desig">C20, C21</td>
+<td class="qty">2</td>
+<td>贴片电容</td>
+<td class="val">2.2nF</td>
+<td>1206</td>
+<td></td>
+<td>10%</td>
+<td class="pn">1206B222K202NT</td>
+<td>FENGHUA</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">5</td>
+<td class="desig">C22</td>
+<td class="qty">1</td>
+<td>片状电容</td>
+<td class="val">1nF</td>
+<td>1206</td>
+<td></td>
+<td>10%</td>
+<td class="pn">AM06B102K102AT</td>
+<td>风华高科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">6</td>
+<td class="desig">C35, C36</td>
+<td class="qty">2</td>
+<td>聚丙烯薄膜电容</td>
+<td class="val">10nF</td>
+<td>17.5*6*12mm</td>
+<td></td>
+<td>5%</td>
+<td class="pn">C323C103J60A601</td>
+<td>FALA</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">7</td>
+<td class="desig">C37</td>
+<td class="qty">1</td>
+<td>聚丙烯薄膜电容</td>
+<td class="val">3uF</td>
+<td>32*24.5*15mm</td>
+<td></td>
+<td>10%</td>
+<td class="pn">C3D3A305KB00C00</td>
+<td>法拉(FALA)</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">8</td>
+<td class="desig">C38, C39, C108</td>
+<td class="qty">3</td>
+<td>安规电容</td>
+<td class="val">1nf</td>
+<td>11*5</td>
+<td></td>
+<td>10%</td>
+<td class="pn">YP5AH102K100D04A0H</td>
+<td>华新科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">9</td>
+<td class="desig">C56</td>
+<td class="qty">1</td>
+<td>铝电解电容</td>
+<td class="val">560uF</td>
+<td>直径10*本体20mm，Pin间距5mm</td>
+<td></td>
+<td>20%</td>
+<td class="pn">ERZ1VM561G20OT</td>
+<td>艾华科技</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">10</td>
+<td class="desig">C89</td>
+<td class="qty">1</td>
+<td>贴片电容</td>
+<td class="val">10uF</td>
+<td>1206</td>
+<td></td>
+<td>10%</td>
+<td class="pn">CL31B106KBHNNNE</td>
+<td>SAMSUNG</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">11</td>
+<td class="desig">C91, C103</td>
+<td class="qty">2</td>
+<td>片状电容</td>
+<td class="val">10nF</td>
+<td>0603</td>
+<td></td>
+<td>±10%</td>
+<td class="pn">0603B103K500NT</td>
+<td>风华高科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">12</td>
+<td class="desig">C94, C106</td>
+<td class="qty">2</td>
+<td>片状电容</td>
+<td class="val">470pF</td>
+<td>0603</td>
+<td></td>
+<td>±10%</td>
+<td class="pn">0603B471K500NT</td>
+<td>风华高科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">13</td>
+<td class="desig">C99, C104</td>
+<td class="qty">2</td>
+<td>片状电容</td>
+<td class="val">22nF</td>
+<td>0603</td>
+<td></td>
+<td>10%</td>
+<td class="pn">0603B223K500NT</td>
+<td>FENGHUA</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">14</td>
+<td class="desig">C102, C111</td>
+<td class="qty">2</td>
+<td>片状电容</td>
+<td class="val">1nF</td>
+<td>0603</td>
+<td></td>
+<td>±5%</td>
+<td class="pn">0603CG102J500NT</td>
+<td>风华高科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">15</td>
+<td class="desig">C105, C113</td>
+<td class="qty">2</td>
+<td>片状电容</td>
+<td class="val">100nF</td>
+<td>0603</td>
+<td></td>
+<td>±10%</td>
+<td class="pn">0603B104K500</td>
+<td>华新科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">16</td>
+<td class="desig">C107</td>
+<td class="qty">1</td>
+<td>片状电容</td>
+<td class="val">100pF</td>
+<td>0603</td>
+<td></td>
+<td>±5%</td>
+<td class="pn">0603CG101J500NT</td>
+<td>风华高科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">17</td>
+<td class="desig">C110, C114</td>
+<td class="qty">2</td>
+<td>片状电容</td>
+<td class="val">1uF</td>
+<td>0603</td>
+<td></td>
+<td>10%</td>
+<td class="pn">0603B105K500N</td>
+<td>风华高科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">18</td>
+<td class="desig">C112</td>
+<td class="qty">1</td>
+<td>片状电容</td>
+<td class="val">2.2uF</td>
+<td>0805</td>
+<td></td>
+<td>±10%</td>
+<td class="pn">0805B225K160</td>
+<td>华新科</td>
+<td class="cat">电容</td>
+</tr><tr>
+<td class="num">19</td>
+<td class="desig">D1, D2, D26</td>
+<td class="qty">3</td>
+<td>快恢复二极管</td>
+<td class="val">ES1D_R2_00001</td>
+<td>DO-214AC(SMA)</td>
+<td></td>
+<td></td>
+<td class="pn">ES1D_R2_00001</td>
+<td>PANJIT</td>
+<td class="cat">二极管</td>
+</tr><tr>
+<td class="num">20</td>
+<td class="desig">D3</td>
+<td class="qty">1</td>
+<td>高效率二极管</td>
+<td class="val">STTH1003SB-TR</td>
+<td>DPAK</td>
+<td></td>
+<td></td>
+<td class="pn">STTH1003SB-TR</td>
+<td>ST</td>
+<td class="cat">二极管</td>
+</tr><tr>
+<td class="num">21</td>
+<td class="desig">D4, D5, D13, D14, D15, D16, D17, D18, D19</td>
+<td class="qty">9</td>
+<td>雪崩二极管</td>
+<td class="val">BY228TAP</td>
+<td>SOD-64</td>
+<td></td>
+<td></td>
+<td class="pn">BY228TAP</td>
+<td>VISHAY</td>
+<td class="cat">二极管</td>
+</tr><tr>
+<td class="num">22</td>
+<td class="desig">D12</td>
+<td class="qty">1</td>
+<td>发光二极管</td>
+<td class="val">BL-HGE35A-TRB</td>
+<td>0805</td>
+<td></td>
+<td></td>
+<td class="pn">BL-HGE35A-TRB</td>
+<td>佰鸿</td>
+<td class="cat">二极管</td>
+</tr><tr>
+<td class="num">23</td>
+<td class="desig">D21, D22, D29, D30, D31, D32, D33</td>
+<td class="qty">7</td>
+<td>开关二极管</td>
+<td class="val">MMSD4148T1G</td>
+<td>SOD-123</td>
+<td></td>
+<td></td>
+<td class="pn">MMSD4148T1G</td>
+<td>ON</td>
+<td class="cat">二极管</td>
+</tr><tr>
+<td class="num">24</td>
+<td class="desig">D23, D27</td>
+<td class="qty">2</td>
+<td>稳压二极管</td>
+<td class="val">SMAZ18-13-F</td>
+<td>DO-214AC(SMA)</td>
+<td></td>
+<td></td>
+<td class="pn">SMAZ18-13-F</td>
+<td>DIODES(美台)</td>
+<td class="cat">二极管</td>
+</tr><tr>
+<td class="num">25</td>
+<td class="desig">D25, D28</td>
+<td class="qty">2</td>
+<td>线性电路;电压基准源</td>
+<td class="val">TL431AQDBZR</td>
+<td>SOT-23-3</td>
+<td></td>
+<td></td>
+<td class="pn">TL431AQDBZR</td>
+<td>TI</td>
+<td class="cat">二极管</td>
+</tr><tr>
+<td class="num">26</td>
+<td class="desig">L2</td>
+<td class="qty">1</td>
+<td>功率电感</td>
+<td class="val">LQH32PN2R2NNCL</td>
+<td>2.7*2.5*1.55mm/1210 (3225)</td>
+<td></td>
+<td></td>
+<td class="pn">LQH32PN2R2NNCL</td>
+<td>MURATA/村田</td>
+<td class="cat">电感/磁珠</td>
+</tr><tr>
+<td class="num">27</td>
+<td class="desig">L5</td>
+<td class="qty">1</td>
+<td>共模电感</td>
+<td class="val">PE1102L3</td>
+<td>17*11*14.8mm</td>
+<td></td>
+<td></td>
+<td class="pn">PE1102L3</td>
+<td>英达特</td>
+<td class="cat">电感/磁珠</td>
+</tr><tr>
+<td class="num">28</td>
+<td class="desig">Q1, Q5</td>
+<td class="qty">2</td>
+<td>NPN三极管</td>
+<td class="val">BC817</td>
+<td>SOT-23-3</td>
+<td></td>
+<td></td>
+<td class="pn">BC817</td>
+<td>江苏长电</td>
+<td class="cat">晶体管</td>
+</tr><tr>
+<td class="num">29</td>
+<td class="desig">Q2</td>
+<td class="qty">1</td>
+<td>NPN三极管</td>
+<td class="val">2SC5569G-AB3-R</td>
+<td>PCP</td>
+<td></td>
+<td></td>
+<td class="pn">2SC5569G-AB3-R</td>
+<td>ON</td>
+<td class="cat">晶体管</td>
+</tr><tr>
+<td class="num">30</td>
+<td class="desig">Q3</td>
+<td class="qty">1</td>
+<td>PNP三极管</td>
+<td class="val">2SA2016G-AB3-R</td>
+<td>PCP</td>
+<td></td>
+<td></td>
+<td class="pn">2SA2016G-AB3-R</td>
+<td>ON</td>
+<td class="cat">晶体管</td>
+</tr><tr>
+<td class="num">31</td>
+<td class="desig">Q4</td>
+<td class="qty">1</td>
+<td>NMOS管</td>
+<td class="val">IMBF170R1K0M1</td>
+<td>TO263-7</td>
+<td></td>
+<td></td>
+<td class="pn">IMBF170R1K0M1</td>
+<td>INFINEON</td>
+<td class="cat">晶体管</td>
+</tr><tr>
+<td class="num">32</td>
+<td class="desig">Q6</td>
+<td class="qty">1</td>
+<td>NMOS管</td>
+<td class="val">DMN10H220L-7</td>
+<td>SOT-23-3</td>
+<td></td>
+<td></td>
+<td class="pn">DMN10H220L-7</td>
+<td>DIODES(美台)</td>
+<td class="cat">晶体管</td>
+</tr><tr>
+<td class="num">33</td>
+<td class="desig">R8, R13, R14, R16, R17, R18</td>
+<td class="qty">6</td>
+<td>片状电阻</td>
+<td class="val">300K</td>
+<td>2512</td>
+<td>1W</td>
+<td>0.01</td>
+<td class="pn">WR25X3003FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">34</td>
+<td class="desig">R9, R28</td>
+<td class="qty">2</td>
+<td>片状电阻</td>
+<td class="val">10K</td>
+<td>1206</td>
+<td>1/4W</td>
+<td>0.05</td>
+<td class="pn">WR12X103 JTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">35</td>
+<td class="desig">R10</td>
+<td class="qty">1</td>
+<td>金属薄膜电阻</td>
+<td class="val">150K</td>
+<td>17*6</td>
+<td>3W</td>
+<td>0.01</td>
+<td class="pn">MFR03BF0T011150K0</td>
+<td>百亨</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">36</td>
+<td class="desig">R11, R12, R15</td>
+<td class="qty">3</td>
+<td>金属膜电阻器</td>
+<td class="val">56Ω</td>
+<td>17*D6竖插</td>
+<td>3W</td>
+<td>0.01</td>
+<td class="pn">MFR03BF0T01156R00</td>
+<td>百亨( ST)</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">37</td>
+<td class="desig">R19, R26, R27, R30</td>
+<td class="qty">4</td>
+<td>片状电阻</td>
+<td class="val">10Ω</td>
+<td>1206</td>
+<td>1/4W</td>
+<td>0.01</td>
+<td class="pn">WR12X10R0FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">38</td>
+<td class="desig">R20</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">5.1KΩ</td>
+<td>1206</td>
+<td>1/4W</td>
+<td>0.05</td>
+<td class="pn">WR12X512JTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">39</td>
+<td class="desig">R21, R25, R40, R73</td>
+<td class="qty">4</td>
+<td>片状电阻</td>
+<td class="val">5.1K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X5101FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">40</td>
+<td class="desig">R22</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">300K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X3003FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">41</td>
+<td class="desig">R23</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">47K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X4702FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">42</td>
+<td class="desig">R24</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">3Ω</td>
+<td>1206</td>
+<td>1/4W</td>
+<td>0.01</td>
+<td class="pn">1206W4F300KT5E</td>
+<td>UNI-ROYAL(厚声)</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">43</td>
+<td class="desig">R29, R74, R76, R106, R117</td>
+<td class="qty">5</td>
+<td>片状电阻</td>
+<td class="val">1K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X1001FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">44</td>
+<td class="desig">R31, R36</td>
+<td class="qty">2</td>
+<td>片状电阻</td>
+<td class="val">1K</td>
+<td>1206</td>
+<td>1/4W</td>
+<td>0.01</td>
+<td class="pn">WR12X1001FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">45</td>
+<td class="desig">R33</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">1Ω</td>
+<td>2512</td>
+<td>1W</td>
+<td>0.05</td>
+<td class="pn">WR25X1R0JTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">46</td>
+<td class="desig">R34, R35</td>
+<td class="qty">2</td>
+<td>片状电阻</td>
+<td class="val">16K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X1602FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">47</td>
+<td class="desig">R37</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">3.6K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X3601FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">48</td>
+<td class="desig">R38, R71, R101, R125</td>
+<td class="qty">4</td>
+<td>片状电阻</td>
+<td class="val">10K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X1002FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">49</td>
+<td class="desig">R39</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">0Ω</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X0000FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">50</td>
+<td class="desig">R41</td>
+<td class="qty">1</td>
+<td>薄膜电阻</td>
+<td class="val">200kΩ</td>
+<td>0603</td>
+<td>100mW</td>
+<td>0.001</td>
+<td class="pn">RT0603BRE07200KL</td>
+<td>YAGEO</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">51</td>
+<td class="desig">R42, R102</td>
+<td class="qty">2</td>
+<td>片状电阻</td>
+<td class="val">100Ω</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X1000FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">52</td>
+<td class="desig">R43, R121</td>
+<td class="qty">2</td>
+<td>片状电阻</td>
+<td class="val">200Ω</td>
+<td>0805</td>
+<td>1/8W</td>
+<td>0.05</td>
+<td class="pn">WF08P201JTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">53</td>
+<td class="desig">R45, R58, R126</td>
+<td class="qty">3</td>
+<td>片状电阻</td>
+<td class="val">20K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X2002FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">54</td>
+<td class="desig">R55</td>
+<td class="qty">1</td>
+<td>贴片电阻</td>
+<td class="val">910K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">RC0603FR-07910KL</td>
+<td>国巨</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">55</td>
+<td class="desig">R78</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">51K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">WR06X5102FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">56</td>
+<td class="desig">R124</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">470Ω</td>
+<td>1206</td>
+<td>1/4W</td>
+<td>0.01</td>
+<td class="pn">WR12X471JTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">57</td>
+<td class="desig">R127</td>
+<td class="qty">1</td>
+<td>贴片电阻</td>
+<td class="val">82K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">RC0603FR-0782KL</td>
+<td>国巨</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">58</td>
+<td class="desig">R128</td>
+<td class="qty">1</td>
+<td>贴片电阻</td>
+<td class="val">620K</td>
+<td>0603</td>
+<td>1/10W</td>
+<td>0.01</td>
+<td class="pn">RC0603BR-07620KL</td>
+<td>国巨</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">59</td>
+<td class="desig">R129</td>
+<td class="qty">1</td>
+<td>片状电阻</td>
+<td class="val">39K</td>
+<td>0603</td>
+<td>0.1W</td>
+<td>0.01</td>
+<td class="pn">WR06X3902FTL</td>
+<td>华新科</td>
+<td class="cat">电阻</td>
+</tr><tr>
+<td class="num">60</td>
+<td class="desig">T8</td>
+<td class="qty">1</td>
+<td>变压器类</td>
+<td class="val"></td>
+<td></td>
+<td></td>
+<td></td>
+<td class="pn">LF-XG26001</td>
+<td>LFDJ</td>
+<td class="cat">变压器</td>
+</tr><tr>
+<td class="num">61</td>
+<td class="desig">TP193, TP194, TP195, TP196, TP197, TP198, TP199, TP200, TP201, TP202, TP203</td>
+<td class="qty">11</td>
+<td>SMT测试点</td>
+<td class="val">TEST_POINT_SMT_1MM</td>
+<td></td>
+<td></td>
+<td></td>
+<td class="pn"></td>
+<td></td>
+<td class="cat">测试点</td>
+</tr><tr>
+<td class="num">62</td>
+<td class="desig">U1, U2</td>
+<td class="qty">2</td>
+<td>光耦</td>
+<td class="val">TLP383(D4GL-TL,E</td>
+<td>SOP-4</td>
+<td></td>
+<td></td>
+<td class="pn">TLP383(D4GL-TL,E</td>
+<td>TOSHIBA</td>
+<td class="cat">IC/集成电路</td>
+</tr><tr>
+<td class="num">63</td>
+<td class="desig">U3</td>
+<td class="qty">1</td>
+<td>PWM转换器</td>
+<td class="val">UCC28600DR</td>
+<td>SOlC-8</td>
+<td></td>
+<td></td>
+<td class="pn">UCC28600DR</td>
+<td>TI</td>
+<td class="cat">IC/集成电路</td>
+</tr><tr>
+<td class="num">64</td>
+<td class="desig">U5, U5</td>
+<td class="qty">2</td>
+<td>双比较器</td>
+<td class="val">LM2903VQDR</td>
+<td>SOIC-8</td>
+<td></td>
+<td></td>
+<td class="pn">LM2903VQDR</td>
+<td>TI</td>
+<td class="cat">电感/磁珠</td>
+</tr>
+</tbody></table>
+<div class="foot">
+说明：本 BOM 由 WorkBuddy 直接读取 Altium Designer 原理图文件（.SchDoc）自动提取并去重归并，共 <b>64</b> 种物料、<b>140</b> 个元件。参数值、封装、厂家料号均取自原理图元件库参数。<br>
+⚠ 此为<b>自动提取初稿</b>，建议工程师核对：① 部分元件值/封装以原理图标注为准；② 测试点(TP)、连接器等非采购件可按需剔除；③ 采购前请二次确认厂家料号与替代型号。
+</div>
+</body></html>

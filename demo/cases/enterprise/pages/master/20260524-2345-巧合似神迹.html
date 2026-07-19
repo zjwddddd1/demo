@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>巧合似神迹 · 专家团评分报告</title>
+<style>
+  :root {
+    --primary: #1E40AF;
+    --primary-light: #EFF6FF;
+    --text: #111827;
+    --text-2: #4B5563;
+    --text-3: #9CA3AF;
+    --border: #E5E7EB;
+    --border-2: #F3F4F6;
+    --bg: #FAFAFA;
+    --card: #FFFFFF;
+    --radius: 4px;
+    --warn: #DC2626;
+    --warn-bg: #FEE2E2;
+    --ok: #047857;
+    --ok-bg: #ECFDF5;
+    --hint: #B45309;
+    --hint-bg: #FEF3C7;
+    --feynman: #F59E0B;
+    --zhuangzi: #6B7280;
+    --hinton: #0369A1;
+    --foucault: #6D28D9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+  .container { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* Header */
+  .header { padding: 28px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .badge { font-size: 12px; padding: 3px 10px; border-radius: var(--radius); background: var(--primary-light); color: var(--primary); border: 1px solid #DBEAFE; }
+  .badge.muted { background: var(--bg); color: var(--text-2); border-color: var(--border); }
+  h1 { font-size: 28px; font-weight: 700; line-height: 1.4; letter-spacing: -0.5px; }
+  .meta { margin-top: 10px; color: var(--text-3); font-size: 13px; }
+
+  /* Cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 18px; font-weight: 700; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-2); }
+  .card h3 { font-size: 15px; font-weight: 700; margin: 14px 0 8px; color: var(--primary); }
+
+  /* Routing */
+  .routing-grid { display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; font-size: 14px; }
+  .routing-grid dt { color: var(--text-2); }
+  .routing-grid dd { color: var(--text); }
+  .conflict-axis { display: inline-block; background: var(--warn-bg); color: var(--warn); padding: 2px 8px; border-radius: var(--radius); font-size: 13px; margin-right: 6px; margin-bottom: 4px; }
+
+  /* Master row */
+  .master-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .master-chip { padding: 12px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg); }
+  .master-chip .name { font-weight: 700; font-size: 15px; }
+  .master-chip .stance { font-size: 12px; color: var(--text-2); margin-top: 4px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+  /* Expert analysis */
+  .expert-card { border-left: 4px solid var(--border); padding-left: 18px; margin-bottom: 24px; }
+  .expert-card.feynman { border-color: var(--feynman); }
+  .expert-card.zhuangzi { border-color: var(--zhuangzi); }
+  .expert-card.hinton { border-color: var(--hinton); }
+  .expert-card.foucault { border-color: var(--foucault); }
+  .expert-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .expert-tag { font-size: 12px; color: var(--text-2); margin-bottom: 12px; }
+  .quote { background: var(--bg); padding: 12px 14px; border-radius: var(--radius); margin: 10px 0; font-size: 14px; color: var(--text); border-left: 2px solid var(--border); font-style: italic; }
+  .self-claim { font-size: 13px; color: var(--text-2); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-2); }
+  .self-claim strong { color: var(--text); }
+
+  /* Score table */
+  .score-tbl { width: 100%; font-size: 13px; margin-top: 10px; border-collapse: collapse; }
+  .score-tbl td { padding: 6px 8px; border-bottom: 1px solid var(--border-2); }
+  .score-tbl td:first-child { color: var(--text-2); width: 50%; }
+  .score-tbl td:last-child { text-align: right; font-weight: 700; }
+  .s5 { color: #047857; font-weight: 800; }
+  .s4 { color: #16A34A; }
+  .s3 { color: var(--text-2); }
+  .s2 { color: #EA580C; }
+  .s1 { color: var(--warn); font-weight: 700; }
+
+  /* Synthesis blocks */
+  .syn-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .syn-block { padding: 14px; border-radius: var(--radius); border: 1px solid; font-size: 14px; }
+  .syn-block.agree { background: var(--ok-bg); border-color: #A7F3D0; color: var(--ok); }
+  .syn-block.diff { background: var(--warn-bg); border-color: #FECACA; color: var(--warn); }
+  .syn-block.blind { background: var(--hint-bg); border-color: #FDE68A; color: var(--hint); }
+  .syn-block .label { font-weight: 700; font-size: 13px; margin-bottom: 6px; letter-spacing: 0.3px; }
+
+  /* Decision list */
+  .deci-list { list-style: none; counter-reset: d; }
+  .deci-list li { counter-increment: d; padding: 14px 14px 14px 50px; position: relative; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; font-size: 14px; }
+  .deci-list li::before { content: counter(d); position: absolute; left: 14px; top: 14px; width: 24px; height: 24px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .deci-list li.warn { background: #FFFBEB; border-color: #FDE68A; }
+  .deci-list li.warn::before { background: var(--warn); color: #fff; }
+  .deci-list li .lead { font-weight: 700; display: block; margin-bottom: 4px; color: var(--text); }
+  .deci-list li.warn .lead { color: var(--warn); }
+
+  /* Mystery */
+  .myst-list li { padding: 8px 0 8px 18px; position: relative; font-size: 14px; color: var(--text-2); border-bottom: 1px dashed var(--border-2); }
+  .myst-list li:last-child { border-bottom: none; }
+  .myst-list li::before { content: '?'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+
+  /* Radar */
+  .radar-wrap { background: var(--card); padding: 12px; border-radius: var(--radius); }
+  .radar-wrap svg { width: 100%; height: auto; display: block; }
+
+  /* Print btn */
+  .print-btn { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: var(--radius); cursor: pointer; font-size: 13px; }
+  .print-btn:hover { background: #1E3A8A; }
+
+  /* Footer */
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-3); font-size: 12px; text-align: center; }
+
+  @media print {
+    .print-btn { display: none; }
+    body { background: #fff; font-size: 13px; }
+    .container { padding: 16px; }
+  }
+  @media (max-width: 640px) {
+    .container { padding: 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+
+<style id="unified-nav-style">
+  .unified-nav {
+    position: sticky; top: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 10px 20px;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+    font-size: 13px; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .unified-nav a {
+    color: #4F46E5; text-decoration: none; padding: 6px 12px;
+    border-radius: 6px; transition: all 0.15s;
+    border: 1px solid transparent; white-space: nowrap;
+  }
+  .unified-nav a:hover { background: #EEF2FF; border-color: #C7D2FE; }
+  .unified-nav a.disabled { color: #9CA3AF; pointer-events: none; opacity: 0.5; }
+  .unified-nav .nav-back { font-weight: 600; }
+  .unified-nav .nav-pages { display: flex; gap: 8px; }
+  .unified-nav .nav-current { color: #6B7280; font-size: 12px; padding: 0 8px; }
+  @media print { .unified-nav { display: none !important; } }
+</style>
+
+</head>
+<body>
+<nav class="unified-nav">
+  <a href="./index.html" class="nav-back">← 大师召唤系统目录</a>
+  <span class="nav-current">巧合似神迹 · 2 / 3</span>
+  <div class="nav-pages">
+    <a href="./20260524-1743-信息本体论.html" title="信息本体论 v1">← 上一份</a>
+    <a href="./20260607-1918-韬定律.html" title="某科技公司韬定律">下一份 →</a>
+  </div>
+</nav>
+
+<button class="print-btn" onclick="window.print()">📄 打印 / 存 PDF</button>
+<div class="container">
+
+  <header class="header">
+    <div class="badges">
+      <span class="badge">专家团评分</span>
+      <span class="badge muted">认知现象</span>
+      <span class="badge muted">中等复杂度</span>
+      <span class="badge muted">4 位大师</span>
+    </div>
+    <h1>"我刚想到一件事，它就出现在眼前"——这到底是怎么回事？</h1>
+    <div class="meta">2026-05-24 · 23:45 · 大师召唤系统 v0.4.0</div>
+  </header>
+
+  <section class="card">
+    <h2>路由分析</h2>
+    <dl class="routing-grid">
+      <dt>问题域</dt><dd>认知现象 / 解释体系（心理学 ↔ 玄学边界）</dd>
+      <dt>复杂度</dt><dd>中等（机制解释 + 心理代价 + 世界观影响）</dd>
+      <dt>核心冲突</dt>
+      <dd>
+        <span class="conflict-axis">去魅 ↔ 留意</span>
+        <span class="conflict-axis">机制级解释 ↔ 话语建构</span>
+        <span class="conflict-axis">客观随机 ↔ 主观显著</span>
+      </dd>
+      <dt>评分模板</dt><dd>认知/解释定制 5 维：机制解释力 / 可证伪性 / 心理代价 / 行动价值 / 世界观一致性</dd>
+    </dl>
+  </section>
+
+  <section class="card">
+    <h2>专家阵容（按冲突最大化选）</h2>
+    <div class="master-row">
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--feynman);"></span>费曼</div><div class="stance">科学方法 · 机制级祛魅</div></div>
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--zhuangzi);"></span>庄子</div><div class="stance">东方思辨 · 保留神秘</div></div>
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--hinton);"></span>辛顿</div><div class="stance">AI / 神经预测 · 模式识别</div></div>
+      <div class="master-chip"><div class="name"><span class="dot" style="background: var(--foucault);"></span>福柯</div><div class="stance">权力/话语 · 解构"上帝送来"这句话</div></div>
+    </div>
+    <p style="margin-top: 14px; color: var(--text-2); font-size: 13px;">已排除：苏格拉底（与福柯部分重叠）、王阳明（命题偏认知不偏道德）、芒格/纳瓦尔（不在认知科学优势区）。</p>
+  </section>
+
+  <!-- ============ 蛛网图 ============ -->
+  <section class="card">
+    <h2>蛛网图：4 位评分叠加</h2>
+    <div class="radar-wrap">
+      <svg viewBox="0 0 760 620" style="overflow: visible;" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(380,310)">
+          <!-- 同心环 5 圈 -->
+          <g fill="none" stroke="#E5E7EB" stroke-width="0.8">
+            <polygon points="0,-50 47.55,-15.45 29.39,40.45 -29.39,40.45 -47.55,-15.45"/>
+            <polygon points="0,-100 95.11,-30.9 58.78,80.9 -58.78,80.9 -95.11,-30.9"/>
+            <polygon points="0,-150 142.66,-46.35 88.17,121.35 -88.17,121.35 -142.66,-46.35"/>
+            <polygon points="0,-200 190.21,-61.8 117.56,161.8 -117.56,161.8 -190.21,-61.8"/>
+            <polygon points="0,-250 237.76,-77.25 146.95,202.25 -146.95,202.25 -237.76,-77.25"/>
+          </g>
+          <!-- 5 条轴线 -->
+          <g stroke="#D1D5DB" stroke-width="0.6">
+            <line x1="0" y1="0" x2="0" y2="-250"/>
+            <line x1="0" y1="0" x2="237.76" y2="-77.25"/>
+            <line x1="0" y1="0" x2="146.95" y2="202.25"/>
+            <line x1="0" y1="0" x2="-146.95" y2="202.25"/>
+            <line x1="0" y1="0" x2="-237.76" y2="-77.25"/>
+          </g>
+
+          <!-- 费曼 5/5/2/3/3 -->
+          <polygon points="0,-250 95.11,-30.9 35.27,48.54 -88.17,121.35 -142.66,-46.35"
+                   fill="#F59E0B" fill-opacity="0.18" stroke="#F59E0B" stroke-width="2"/>
+          <!-- 庄子 2/1/5/3/4 -->
+          <polygon points="0,-100 47.55,-15.45 88.17,121.35 -88.17,121.35 -190.21,-61.8"
+                   fill="#6B7280" fill-opacity="0.18" stroke="#6B7280" stroke-width="2"/>
+          <!-- 辛顿 5/4/3/3/4 -->
+          <polygon points="0,-250 190.21,-61.8 88.17,121.35 -88.17,121.35 -190.21,-61.8"
+                   fill="#0369A1" fill-opacity="0.18" stroke="#0369A1" stroke-width="2"/>
+          <!-- 福柯 3/2/2/4/2 -->
+          <polygon points="0,-150 95.11,-30.9 35.27,48.54 -117.56,161.8 -95.11,-30.9"
+                   fill="#6D28D9" fill-opacity="0.18" stroke="#6D28D9" stroke-width="2"/>
+
+          <!-- 分歧高亮：可证伪性维度（费曼5↔庄子1，分差4） -->
+          <line x1="0" y1="0" x2="237.76" y2="-77.25" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="4 3"/>
+          <!-- 分歧高亮：心理代价维度（庄子5↔费曼2，分差3） -->
+          <line x1="0" y1="0" x2="146.95" y2="202.25" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="4 3"/>
+
+          <!-- 5 个维度标签 -->
+          <text x="0" y="-265" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">机制解释力</text>
+          <text x="0" y="-280" text-anchor="middle" font-size="11" fill="#6B7280">最高：费曼/辛顿 5</text>
+
+          <text x="252" y="-77" text-anchor="start" font-size="14" font-weight="700" fill="#111827">可证伪性</text>
+          <text x="252" y="-62" text-anchor="start" font-size="11" fill="#DC2626">⚠ 分歧最大 (5↔1)</text>
+
+          <text x="156" y="222" text-anchor="start" font-size="14" font-weight="700" fill="#111827">心理代价</text>
+          <text x="156" y="237" text-anchor="start" font-size="11" fill="#DC2626">⚠ 分差 3（庄子 5↔费曼 2）</text>
+
+          <text x="-156" y="222" text-anchor="end" font-size="14" font-weight="700" fill="#111827">行动价值</text>
+          <text x="-156" y="237" text-anchor="end" font-size="11" fill="#6B7280">最高：福柯 4</text>
+
+          <text x="-252" y="-77" text-anchor="end" font-size="14" font-weight="700" fill="#111827">世界观一致性</text>
+          <text x="-252" y="-62" text-anchor="end" font-size="11" fill="#6B7280">最高：庄子/辛顿 4</text>
+
+          <!-- 数值刻度（顶部轴） -->
+          <g font-size="9" fill="#9CA3AF" text-anchor="middle">
+            <text x="0" y="-46">1</text>
+            <text x="0" y="-96">2</text>
+            <text x="0" y="-146">3</text>
+            <text x="0" y="-196">4</text>
+            <text x="0" y="-244">5</text>
+          </g>
+        </g>
+
+        <!-- 图例 -->
+        <g transform="translate(40, 560)" font-size="13">
+          <g><rect x="0" y="-12" width="14" height="14" fill="#F59E0B" fill-opacity="0.6" stroke="#F59E0B"/><text x="20" y="0">费曼</text></g>
+          <g transform="translate(90,0)"><rect x="0" y="-12" width="14" height="14" fill="#6B7280" fill-opacity="0.6" stroke="#6B7280"/><text x="20" y="0">庄子</text></g>
+          <g transform="translate(180,0)"><rect x="0" y="-12" width="14" height="14" fill="#0369A1" fill-opacity="0.6" stroke="#0369A1"/><text x="20" y="0">辛顿</text></g>
+          <g transform="translate(270,0)"><rect x="0" y="-12" width="14" height="14" fill="#6D28D9" fill-opacity="0.6" stroke="#6D28D9"/><text x="20" y="0">福柯</text></g>
+          <g transform="translate(360,0)"><line x1="0" y1="-6" x2="20" y2="-6" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4 3"/><text x="26" y="0" fill="#DC2626">分歧轴</text></g>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============ 4 位独立分析 ============ -->
+  <section class="card">
+    <h2>四位大师独立分析</h2>
+
+    <!-- 费曼 -->
+    <div class="expert-card feynman">
+      <div class="expert-name" style="color: var(--feynman);">费曼 · "你只是在数中奖号码，忘了没中的那些"</div>
+      <div class="expert-tag">科学方法 · 费曼学习法 + 不要骗自己</div>
+
+      <p>好，我把这个现象用大白话讲一遍，能不能讲清楚就看我自己。</p>
+      <p>你说"想到一件事，它就出现在眼前"。但你<strong>没记住</strong>另外那种情况：你想到一件事，它<strong>没</strong>出现。这才是大多数。问题是大脑不会专门去登记"我今天想了 173 件事但只有 1 件应验了"——它只标记那一件。</p>
+      <p>这有名字，叫 <strong>巴德尔-迈因霍夫现象</strong>（频率错觉），还有一个叫 <strong>确认偏误</strong>。心理学跑了 70 年实验——你买了红色车，第二天到处看见红色车。不是城里突然多了红车，是你大脑的"模式匹配过滤器"被那个想法激活了。</p>
+
+      <div class="quote">最容易骗你的人是你自己。你不是被上帝选中的，你只是在统计上做了一次<strong>选择性回忆</strong>——而且你做得很自然，自然到你自己都没察觉。</div>
+
+      <p><strong>反例收集法</strong>（达尔文也教过这一招）：拿个小本子。今天起，把你想到的每一件具体事写下来——哪怕想"吃个橘子"也写。明天看哪几件应验。一周后看比例。我打赌远远低于你回忆里那种"经常发生"。</p>
+
+      <table class="score-tbl">
+        <tr><td>机制解释力</td><td class="s5">5</td></tr>
+        <tr><td>可证伪性</td><td class="s5">5</td></tr>
+        <tr><td>心理代价（信这个解释你舒服吗）</td><td class="s2">2</td></tr>
+        <tr><td>行动价值</td><td class="s3">3</td></tr>
+        <tr><td>世界观一致性</td><td class="s3">3</td></tr>
+      </table>
+      <div class="self-claim"><strong>我最在乎</strong>：可证伪性——能不能用实验打掉。<strong>最忽视</strong>：心理代价——祛魅可能让人失落，这不是我擅长照顾的事。</div>
+    </div>
+
+    <!-- 庄子 -->
+    <div class="expert-card zhuangzi">
+      <div class="expert-name" style="color: var(--zhuangzi);">庄子 · "你急着把它定为真，或定为假，都是被自己绊住"</div>
+      <div class="expert-tag">东方思辨 · 齐物论 + 视角反转</div>
+
+      <p>你问"是不是上帝送来的"——这个问句本身已经被两个答案困住了：一个说"是"，一个说"不是"。两个都不是真的让你松开的答案。</p>
+      <p>你想一件事，它出现在眼前，你惊讶。这惊讶<strong>本身</strong>是真的。至于解释——是上帝、是巧合、是大脑预测，都是你后来给惊讶配的字幕。字幕换了，惊讶不变。</p>
+
+      <div class="quote">天地与我并生，万物与我为一。你想到事，事到你眼前。这中间是不是一定要有"谁送过来"？没有谁送，也没人不送，只是<strong>同时发生了</strong>。</div>
+
+      <p>梦里的鱼跳进网里，你说是渔夫的功劳还是鱼的命运？争论这个的渔夫，那一天没钓到鱼。</p>
+      <p><strong>给你的话</strong>：留着惊讶，扔掉解释。每一次"巧合"都是世界给你递的一个无所求的礼物——你拿着就好，不必非要写收据。</p>
+
+      <table class="score-tbl">
+        <tr><td>机制解释力</td><td class="s2">2</td></tr>
+        <tr><td>可证伪性</td><td class="s1">1</td></tr>
+        <tr><td>心理代价</td><td class="s5">5</td></tr>
+        <tr><td>行动价值</td><td class="s3">3</td></tr>
+        <tr><td>世界观一致性</td><td class="s4">4</td></tr>
+      </table>
+      <div class="self-claim"><strong>我最在乎</strong>：心理代价——一个解释让你紧还是让你松。<strong>最忽视</strong>：可证伪性——证不证伪与齐物之心无关。</div>
+    </div>
+
+    <!-- 辛顿 -->
+    <div class="expert-card hinton">
+      <div class="expert-name" style="color: var(--hinton);">辛顿 · "大脑是一台预测机器，命中时它会给自己发奖励"</div>
+      <div class="expert-tag">AI / 神经科学 · 30 年判断尺度 + 模式识别原理</div>
+
+      <p>这件事我可以讲机制——讲到神经层。</p>
+      <p>大脑做的事 90% 是<strong>预测</strong>：下一秒会看到什么、听到什么、谁要打电话来。它在每一个清醒瞬间都在跑无数个预测。绝大部分预测它<strong>压根不告诉意识</strong>，因为没用。</p>
+      <p>但凡有一个预测命中——你想了某个朋友，TA 真的发消息来——大脑里有个回路（多巴胺中脑边缘系统）会闪一下，给自己发<strong>奖励信号</strong>。这一闪，意识被通知到了，所以你"惊到"。<strong>那些没命中的几千个预测，根本没启动这个奖励回路，所以你不知道你预测过</strong>。</p>
+
+      <div class="quote">我跑了 30 年神经网络。它们的成功就是这样——预测、命中、加权、强化。你的大脑是一台跑了几十年训练的更复杂的网络。所谓"上帝把东西送到我面前"，是你的奖励信号在大声说话。这不是神迹，但它<strong>也不是错觉</strong>——你确实做出了正确的预测。</p>
+      </div>
+
+      <p><strong>但有个事我必须警告</strong>：这种机制有一个滑坡——它会让你<strong>过度自信</strong>。一旦你开始相信"我有特殊感应"，你会在新的输入上做更多狂野预测，进一步过滤性记住命中的，最后会判断错重大决策。这是心理学上的"幻觉性相关"（illusory correlation），有人因此倾家荡产。</p>
+      <p>所以我给的态度：<strong>承认机制、敬畏机制、不把机制当神授</strong>。</p>
+
+      <table class="score-tbl">
+        <tr><td>机制解释力</td><td class="s5">5</td></tr>
+        <tr><td>可证伪性</td><td class="s4">4</td></tr>
+        <tr><td>心理代价</td><td class="s3">3</td></tr>
+        <tr><td>行动价值</td><td class="s3">3</td></tr>
+        <tr><td>世界观一致性</td><td class="s4">4</td></tr>
+      </table>
+      <div class="self-claim"><strong>我最在乎</strong>：机制能不能讲到神经层。<strong>最忽视</strong>：心理代价——机制级解释对人冷，但对错误判断有保护性。</div>
+    </div>
+
+    <!-- 福柯 -->
+    <div class="expert-card foucault">
+      <div class="expert-name" style="color: var(--foucault);">福柯 · "'上帝把东西放到你面前'——这句话是哪一套话语训练出来的？"</div>
+      <div class="expert-tag">权力 / 话语 · 知识考古 + 装置分析</div>
+
+      <p>你们都在争"这是不是真的"。我换个问题：<strong>"这是上帝送过来的"——这套表达，是从哪里来的？</strong></p>
+      <p>不是从你脑子里凭空冒出来的。它是基督教叙事 + 19 世纪浪漫主义 + 20 世纪自助文学（"宇宙在听你的愿望")的合成产物。<strong>《秘密》《吸引力法则》</strong>这种话语在 2006 年之后被全球分发了几亿次，它给了"我想，故万物到来"这种感受一套现成的语言。</p>
+      <p>你想一件事，它出现了。这是经验。但你立刻把它命名为"上帝/宇宙在送"——这<strong>不是经验</strong>，这是<strong>一套语言在借你的嘴说话</strong>。</p>
+
+      <div class="quote">问题不是"这件事是真的还是假的"。问题是：当你说出"上帝把它放到我面前"的瞬间，你已经接受了一整套关于"自我—宇宙—因果"的预设。这套预设让谁受益？让<strong>那些卖你这套语言的人</strong>受益（自助书作者、灵性导师、付费课）。</p>
+      </div>
+
+      <p><strong>给你的拆解动作</strong>：把这件事重新讲一遍，但禁止使用"上帝/宇宙/感应/吸引/送过来/被选中"这一整套词。强迫自己讲：<em>"我注意到 X，不久后 X 出现在我视野里。"</em> 你会发现现象本身没消失，但围绕它的<strong>命运感、特殊感、被选中感</strong>——全都消失了。</p>
+      <p>那些感受去哪了？回到了它们应该在的地方——商品市场。</p>
+
+      <table class="score-tbl">
+        <tr><td>机制解释力</td><td class="s3">3</td></tr>
+        <tr><td>可证伪性</td><td class="s2">2</td></tr>
+        <tr><td>心理代价</td><td class="s2">2</td></tr>
+        <tr><td>行动价值</td><td class="s4">4</td></tr>
+        <tr><td>世界观一致性</td><td class="s2">2</td></tr>
+      </table>
+      <div class="self-claim"><strong>我最在乎</strong>：你说话用的词是谁卖给你的。<strong>最忽视</strong>：现象本身——我对"它真不真"没兴趣。</div>
+    </div>
+  </section>
+
+  <!-- ============ 合成 ============ -->
+  <section class="card">
+    <h2>合成卡：一致 / 分歧 / 盲点</h2>
+    <div class="syn-grid">
+      <div class="syn-block agree">
+        <div class="label">✅ 一致区（4 位都给到 ≥3）</div>
+        <strong>世界观一致性</strong>（费曼 3 / 庄子 4 / 辛顿 4 / 福柯 2 ≈ 中位 3.25）——都承认这个体验<strong>不一定要</strong>颠覆你已有信念。<br>
+        <strong>行动价值</strong>（3 / 3 / 3 / 4）——都认为这个体验值得做点什么（写下来、看话语、做实验、保持惊讶），不是白来一遭。
+      </div>
+      <div class="syn-block diff">
+        <div class="label">⚠ 分歧区（分差 ≥3，重点）</div>
+        <strong>可证伪性</strong>（费曼 5 ↔ 庄子 1，分差 4）：要不要把这件事拉进"实验—验证"的框架？费曼/辛顿说要，庄子说证伪本身错过重点。<br><br>
+        <strong>心理代价</strong>（庄子 5 ↔ 费曼 2，分差 3）：祛魅会不会让你失去某种珍贵的感受？庄子说这惊讶本身是礼物，费曼说"舒服"不是评判解释好坏的标准。
+      </div>
+      <div class="syn-block blind">
+        <div class="label">⚠ 盲点区（4 位都没人打到 5 的维度）</div>
+        没有维度全员低分——但 <strong>"心理代价"</strong> 这个维度，4 位的均值只有 3.0，而费曼/福柯都给 2。这意味着：<strong>专家团整体在"祛魅之后你怎么活"这件事上是冷的</strong>。如果你下来还是觉得失落，那是合理的——大师们没有完美回答这一段。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 决策清单 ============ -->
+  <section class="card">
+    <h2>决策清单（按"今天就能做 → 本周 → 长期"排序）</h2>
+    <ol class="deci-list">
+      <li class="warn">
+        <span class="lead">⚠ 你不想听但最该听的：你不是被选中的，你是大脑模式匹配回路在响（费曼 + 辛顿 联合）</span>
+        "上帝把东西放到我面前"这种感受 99% 是<strong>巴德尔-迈因霍夫频率错觉</strong> + <strong>大脑预测命中时的奖励信号</strong>共同生成的。这不否定它真实发生过——但它<strong>不是关于你的</strong>。它是关于这个回路在所有人身上每天都在工作。承认这一点会让你少做一些以"我有特殊感应"为基础的决定——而那种决定常常是危险的。
+      </li>
+      <li>
+        <span class="lead">今天就能做：一周日记反例实验（费曼）</span>
+        准备一个本子。每天睡前写下你<strong>白天想到的所有具体事</strong>（哪怕是"想喝可乐"），不评判，全写。每天醒来，圈出昨晚写过、今天<strong>真的发生</strong>的那几件。一周后看比例。你会发现"想了就出现"的命中率远低于你的回忆——这就是错觉的尺寸。
+      </li>
+      <li>
+        <span class="lead">本周做的：禁用"上帝送来"那套词一周（福柯）</span>
+        把所有"上帝/宇宙/感应/被选中/吸引/送过来"的表达从你描述这类经验时摘掉一周。强迫自己只能说"我注意到 X，后来 X 出现"。看看你对这件事的"特殊感"会不会自动减弱——那种感觉是<strong>被语言塑造</strong>的，不是被现象塑造的。
+      </li>
+      <li>
+        <span class="lead">长期态度：留着惊讶，扔掉解释（庄子）</span>
+        当一次"巧合"再发生：先享受 30 秒的惊讶——这是观察的礼物。然后<strong>不要</strong>立即把它打包成"这意味着什么"。意义是你后加的，惊讶是你白拿的。不打包，就能继续白拿下一次。
+      </li>
+      <li>
+        <span class="lead">机制级护栏：永远不让"我有感应"参与重大决定（辛顿）</span>
+        小事可以诗意。但任何涉及金钱、健康、人际重大走向的决定，前面加一道闸：<strong>"如果我没有这种感应，我会做这个决定吗？"</strong> 答案如果是"不会"，停下来检查——你正在让多巴胺奖励回路替你拍板。
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ 未解之谜 ============ -->
+  <section class="card">
+    <h2>未解之谜（专家团没收敛）</h2>
+    <ul class="myst-list">
+      <li>频率错觉 + 预测命中机制能解释 99% 的此类体验。但<strong>能否解释 100%</strong>？极低概率事件无法用实验完全证伪——这是科学的边界，不是科学的失败。</li>
+      <li>人为什么<strong>本能地</strong>渴望把巧合解读为"被送过来"？这种渴望本身的进化心理学起源，目前各家答案不一致。</li>
+      <li>福柯 vs 辛顿 没收敛：是先有神经机制产生惊讶感、再被话语命名？还是话语先训练了你"哪些事值得惊讶"、再让回路这样响？这是<strong>身体—语言谁先</strong>的老问题。</li>
+      <li>庄子 vs 全部三位 没收敛：留着不解释，是逃避还是更高的清醒？这道题没有客观答案——取决于你想做什么样的人。</li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    生成时间：2026-05-24 23:45 · 大师召唤系统 v0.4.0 · 4 位专家：费曼 / 庄子 / 辛顿 / 福柯<br>
+    文件：20260524-2345-巧合似神迹.html · 命题域：认知现象 · 复杂度：中
+  </footer>
+</div>
+</body>
+</html>

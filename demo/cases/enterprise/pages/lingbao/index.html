@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>某黄金矿企 · AI智能办公助手落地方案</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+:root{
+  --ink:#1c1a17; --ink2:#262320; --gold:#b8901f; --gold-d:#9a7716; --gold-l:#d4af37;
+  --paper:#faf7f1; --paper2:#f3ede2; --white:#fff;
+  --tx:#272421; --tx2:#6b6359; --line:#e6dcc9; --line2:#d8cbb2;
+  --hi:#b8302a; --shadow:0 1px 3px rgba(40,30,10,.06),0 8px 28px rgba(40,30,10,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--paper);color:var(--tx);line-height:1.7;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Noto Serif SC',serif}
+code{font-family:'SF Mono',Menlo,monospace;background:#efe8d8;color:#7a5e10;padding:.06em .4em;border-radius:4px;font-size:.86em}
+strong{color:var(--ink);font-weight:700}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(160deg,#1c1a17 0%,#2a2620 55%,#34291a 100%);color:#f5efe2;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 82% 18%,rgba(212,175,55,.22),transparent 46%);pointer-events:none}
+.hero-in{max-width:1180px;margin:0 auto;padding:64px 40px 56px;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:34px}
+.brand-logo{width:46px;height:46px;border-radius:9px;background:linear-gradient(135deg,var(--gold-l),var(--gold-d));display:flex;align-items:center;justify-content:center;font-weight:900;color:#1c1a17;font-size:22px;font-family:'Noto Serif SC',serif;box-shadow:0 4px 14px rgba(212,175,55,.35)}
+.brand-tx b{font-family:'Noto Serif SC',serif;font-size:18px;letter-spacing:.06em;color:#f8f2e4;display:block;font-weight:700}
+.brand-tx span{font-size:11.5px;letter-spacing:.34em;color:var(--gold-l);text-transform:uppercase}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:46px;font-weight:900;line-height:1.18;letter-spacing:.01em;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--gold-l)}
+.hero p.sub{font-size:16px;color:#cfc6b4;max-width:680px;font-weight:300;line-height:1.85}
+.hero-tags{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.htag{font-size:12.5px;padding:6px 15px;border:1px solid rgba(212,175,55,.4);border-radius:30px;color:var(--gold-l);letter-spacing:.05em}
+
+/* ===== STATS ===== */
+.stats{max-width:1180px;margin:-34px auto 0;padding:0 40px;position:relative;z-index:3;display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.stat{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center;box-shadow:var(--shadow)}
+.stat .num{font-family:'Noto Serif SC',serif;font-size:34px;font-weight:900;color:var(--gold-d);line-height:1}
+.stat .lbl{font-size:12px;color:var(--tx2);margin-top:8px;letter-spacing:.02em}
+.stat.accent .num{color:var(--hi)}
+
+/* ===== WRAP ===== */
+.wrap{max-width:1180px;margin:0 auto;padding:0 40px}
+.sec{padding:54px 0 10px}
+.sec-h{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.sec-h .kid{font-family:'Noto Serif SC',serif;font-size:13px;font-weight:700;color:var(--gold-d);letter-spacing:.3em;border:1px solid var(--line2);padding:3px 11px;border-radius:5px}
+.sec-h h2{font-family:'Noto Serif SC',serif;font-size:27px;font-weight:800;color:var(--ink)}
+.sec-desc{color:var(--tx2);font-size:14.5px;margin-bottom:24px;max-width:760px}
+.divider{height:2px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-l) 30%,transparent 70%);border-radius:2px;margin:6px 0 0}
+
+/* ===== LEGEND ===== */
+.legend{display:flex;gap:22px;flex-wrap:wrap;background:var(--paper2);border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin-bottom:22px}
+.lg{font-size:13px;color:var(--tx2);display:flex;align-items:center;gap:8px}
+.bdg{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:.02em;white-space:nowrap}
+.b-official{background:#e3f0e0;color:#2f6b33;border:1px solid #b9dcb4}
+.b-third{background:#dcebf7;color:#1f5d8a;border:1px solid #b1cfe8}
+.b-custom{background:#f7ecd6;color:#9a6a16;border:1px solid #e6cf9f}
+
+/* ===== FILTER CHIPS ===== */
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
+.chip{font-family:inherit;font-size:13px;padding:7px 16px;border:1px solid var(--line2);background:var(--white);color:var(--tx2);border-radius:30px;cursor:pointer;transition:.18s;font-weight:500}
+.chip:hover{border-color:var(--gold);color:var(--gold-d)}
+.chip.active{background:var(--ink);color:var(--gold-l);border-color:var(--ink)}
+
+/* ===== TABLE ===== */
+.tbl-wrap{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead th{background:var(--ink);color:#e9dcc0;font-weight:600;text-align:left;padding:13px 16px;font-size:12.5px;letter-spacing:.04em;white-space:nowrap}
+tbody tr{border-top:1px solid var(--line);cursor:pointer;transition:.13s}
+tbody tr:hover{background:#fbf6ea}
+td{padding:12px 16px;vertical-align:middle}
+.t-seq{font-family:'Noto Serif SC',serif;font-weight:800;color:var(--gold-d);font-size:15px;width:48px}
+.t-name{font-weight:600;color:var(--ink);min-width:170px}
+.t-pain{color:var(--tx2);font-size:12.5px;min-width:360px;line-height:1.6}
+.t-sys{color:var(--tx2);font-size:12px;max-width:140px;word-break:break-all;line-height:1.6}
+.t-badges{white-space:nowrap}
+.prio{font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:20px}
+.p-hi{background:#fbe4e2;color:var(--hi)}
+.p-md{background:#fdf0d8;color:#a9760f}
+.p-lo{background:#ece8e0;color:#857a68}
+
+/* ===== SOLUTION CARDS ===== */
+.dept-block{margin-top:38px;scroll-margin-top:20px}
+.dept-bar{display:flex;align-items:center;gap:13px;margin-bottom:18px;padding-bottom:0}
+.dept-mark{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--ink),var(--ink2));color:var(--gold-l);display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-weight:800;font-size:14px;flex-shrink:0}
+.dept-bar h3{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:800;color:var(--ink)}
+.dept-cnt{font-size:12.5px;color:var(--tx2);background:var(--paper2);padding:3px 12px;border-radius:20px;border:1px solid var(--line)}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:.2s;scroll-margin-top:20px;display:flex;flex-direction:column}
+.card:hover{border-color:var(--line2);box-shadow:0 4px 12px rgba(40,30,10,.08),0 16px 40px rgba(40,30,10,.09);transform:translateY(-2px)}
+.card.flash{animation:flash 1.6s ease}
+@keyframes flash{0%,100%{box-shadow:var(--shadow)}20%{box-shadow:0 0 0 3px var(--gold-l),0 16px 40px rgba(184,144,31,.25)}}
+.card-h{display:flex;gap:13px;padding:16px 18px 13px;background:linear-gradient(180deg,#fdfaf3,#fff);border-bottom:1px solid var(--line)}
+.card-no{width:38px;height:38px;border-radius:9px;background:var(--paper2);border:1px solid var(--line2);color:var(--gold-d);font-family:'Noto Serif SC',serif;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-tt{flex:1;min-width:0}
+.card-tt h4{font-size:16px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:7px}
+.card-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.diff{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px}
+.diff-lo{background:#e3f0e0;color:#2f6b33}
+.diff-md{background:#fdf0d8;color:#a9760f}
+.diff-hi{background:#fbe9da;color:#c0681c}
+.diff-xh{background:#fbe4e2;color:var(--hi)}
+.card-b{padding:6px 18px 18px;flex:1}
+.fld{padding:11px 0;border-bottom:1px dashed var(--line)}
+.fld:last-child{border-bottom:none}
+.fld-l{font-size:12.5px;font-weight:700;color:var(--gold-d);display:flex;align-items:center;gap:7px;margin-bottom:5px;letter-spacing:.02em}
+.fic{font-size:11px;opacity:.8}
+.fld-v{font-size:13.5px;color:var(--tx);line-height:1.72}
+.fld-plan{background:#fdfaf2;margin:0 -18px;padding:13px 18px;border-radius:0}
+.fld-plan .fld-v{color:var(--ink2)}
+.fld-effect .fld-v{color:#2f6b33;font-weight:600}
+.fld-diff{border-bottom:1px dashed var(--line)}
+
+/* ===== ARCH / FOOTER ===== */
+.arch{background:var(--ink);color:#e9dcc0;border-radius:16px;padding:34px;margin-top:32px}
+.arch h3{font-family:'Noto Serif SC',serif;color:var(--gold-l);font-size:18px;margin-bottom:20px;text-align:center;font-weight:700}
+.arch-layers{display:flex;flex-direction:column;gap:9px}
+.layer{background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.22);border-radius:9px;padding:13px 18px;display:flex;align-items:center;gap:16px}
+.layer .ly-n{font-size:11.5px;color:var(--gold-l);font-weight:700;letter-spacing:.1em;min-width:84px}
+.layer .ly-c{font-size:13px;color:#d8cdb6;flex:1}
+.layer .ly-c b{color:#f2e6c8}
+
+footer{text-align:center;padding:46px 40px 40px;color:var(--tx2);font-size:12.5px;line-height:2}
+footer .ft-line{width:60px;height:2px;background:var(--gold);margin:0 auto 18px;border-radius:2px}
+
+/* back-to-top */
+.toTop{position:fixed;right:26px;bottom:26px;width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--gold-l);border:none;cursor:pointer;font-size:18px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.25s;z-index:50}
+.toTop.show{opacity:1;pointer-events:auto}
+
+@media(max-width:920px){
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .cards{grid-template-columns:1fr}
+  .hero h1{font-size:33px}
+  .wrap,.hero-in,.stats{padding-left:20px;padding-right:20px}
+  .t-pain,.t-sys{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <div class="brand">
+      <div class="brand-tx"><b>某黄金矿企集团</b><span>LINGBAO GOLD</span></div>
+    </div>
+    <h1>AI 智能办公助手<br><em>需求落地方案</em></h1>
+    <p class="sub">基于「AI智能办公助手需求调研场景征集表(06)」，覆盖 7 大部门 34 个核心场景，逐项给出 WorkBuddy 落地路径、依赖能力、实现难度与预期效果。</p>
+    <div class="hero-tags">
+      <span class="htag">7 大部门</span>
+      <span class="htag">34 个场景</span>
+      <span class="htag">WorkBuddy 落地评估</span>
+      <span class="htag">Skill · MCP · Automation</span>
+    </div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="num">34</div><div class="lbl">需求场景总数</div></div>
+  <div class="stat accent"><div class="num">15</div><div class="lbl">高优先级</div></div>
+  <div class="stat"><div class="num">7</div><div class="lbl">涉及部门</div></div>
+  <div class="stat"><div class="num">3</div><div class="lbl">🟢 开箱即用</div></div>
+  <div class="stat"><div class="num">1</div><div class="lbl">🔵 第三方生态</div></div>
+  <div class="stat"><div class="num">31</div><div class="lbl">🟡 自定义开发</div></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 需求清单 -->
+  <section class="sec" id="reqs">
+    <div class="sec-h"><span class="kid">壹</span><h2>需求场景清单</h2></div>
+    <div class="divider"></div>
+    <p class="sec-desc" style="margin-top:18px">各部门提报的 AI 协助场景一览。点击任意一行可跳转至对应的 WorkBuddy 落地方案详解。</p>
+    <div class="legend"><span class="lg"><span class="bdg b-official">官方Skill</span>技能市场安装即用</span>
+<span class="lg"><span class="bdg b-third">第三方生态</span>合作伙伴封装，安装即用</span>
+<span class="lg"><span class="bdg b-custom">自定义开发</span>基于官方Skill+MCP+Python构建</span></div>
+    <div class="chips"><button class="chip active" data-d="all" onclick="filterDept(this)">全部 (34)</button><button class="chip" data-d="财务部" onclick="filterDept(this)">财务部 (4)</button><button class="chip" data-d="资源管理部" onclick="filterDept(this)">资源管理部 (3)</button><button class="chip" data-d="证券法律合规部" onclick="filterDept(this)">证券法律合规部 (2)</button><button class="chip" data-d="海外事业部" onclick="filterDept(this)">海外事业部 (6)</button><button class="chip" data-d="人力资源部" onclick="filterDept(this)">人力资源部 (10)</button><button class="chip" data-d="金达财务部" onclick="filterDept(this)">金达财务部 (5)</button><button class="chip" data-d="金达结算室" onclick="filterDept(this)">金达结算室 (4)</button></div>
+    <div class="tbl-wrap">
+      <table>
+        <colgroup>
+          <col style="width:50px"><col style="width:170px"><col style="width:72px">
+          <col style="width:auto"><col style="width:130px"><col style="width:120px">
+        </colgroup>
+        <thead><tr>
+          <th>序号</th><th>场景名称</th><th>优先级</th><th>当前主要痛点</th><th>涉及系统</th><th>方案类型</th>
+        </tr></thead>
+        <tbody id="reqBody"><tr data-dept="财务部" data-prio="高" onclick="goSol('1')">
+      <td class="t-seq">1</td>
+      <td class="t-name">发票验真</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">人工逐项核对耗时较长，易遗漏异常票据或信息不一致情况。</td>
+      <td class="t-sys">财务系统、报销系统</td>
+      <td class="t-badges"><span class="bdg b-official">官方Skill</span><span class="bdg b-third">第三方生态</span></td>
+    </tr><tr data-dept="财务部" data-prio="—" onclick="goSol('2')">
+      <td class="t-seq">2</td>
+      <td class="t-name">资金计划与执行数据过表过表</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">人工复制耗时</td>
+      <td class="t-sys">线下数据汇总</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="财务部" data-prio="—" onclick="goSol('3')">
+      <td class="t-seq">3</td>
+      <td class="t-name">合并报表底稿数据过表</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">人工复制耗时</td>
+      <td class="t-sys">线下合并</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="财务部" data-prio="—" onclick="goSol('4')">
+      <td class="t-seq">4</td>
+      <td class="t-name">银行账户余额统计</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">人工复制耗时</td>
+      <td class="t-sys">线下数据汇总</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="资源管理部" data-prio="高" onclick="goSol('5')">
+      <td class="t-seq">5</td>
+      <td class="t-name">周报</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">数据与实际工程进度有出入，内容复杂、数据繁多、汇总校对工作量大、效率低</td>
+      <td class="t-sys">—</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="资源管理部" data-prio="高" onclick="goSol('6')">
+      <td class="t-seq">6</td>
+      <td class="t-name">月报</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">数据与实际工程进度、投资有出入，内容复杂、数据繁多、汇总校对工作量大、效率低</td>
+      <td class="t-sys">—</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="资源管理部" data-prio="中" onclick="goSol('7')">
+      <td class="t-seq">7</td>
+      <td class="t-name">矿业权交易市场信息智能抓取</td>
+      <td><span class="prio p-md">中</span></td>
+      <td class="t-pain">1.流程相对固定，不能完全利用AI自主整理多个项目信息；2.缺失信息比对，比如重复性项目信息录入；3.AI识别能力层次不齐，有录入错误情况，需要人工核对。</td>
+      <td class="t-sys">网站信息</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="证券法律合规部" data-prio="高" onclick="goSol('8')">
+      <td class="t-seq">8</td>
+      <td class="t-name">合同提交内容提取</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">人工填写的各项数据容易出现错误以及与合同内容不相符的情况</td>
+      <td class="t-sys">合同管理系系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="证券法律合规部" data-prio="高" onclick="goSol('9')">
+      <td class="t-seq">9</td>
+      <td class="t-name">合同提交内容筛查</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">1、即使使用模版，分子公司提交的合同中仍出现错别字、条款重复、表述矛盾等问题；
+2、自行拟定以及使用对方的模版，存在双方权利义务不对等、条款缺失、表述前后矛盾等…</td>
+      <td class="t-sys">合同管理系系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="海外事业部" data-prio="高" onclick="goSol('10')">
+      <td class="t-seq">10</td>
+      <td class="t-name">海外矿山简报自动生成</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">人工搜集耗时较长，需要人工分辨渠道来源信息正确与否、人工输入简报工作量大</td>
+      <td class="t-sys">Word、标普数据库</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="海外事业部" data-prio="—" onclick="goSol('11')">
+      <td class="t-seq">11</td>
+      <td class="t-name">矿业动态周报的整理编制</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">人工搜集耗时较长，信息归类不太正确</td>
+      <td class="t-sys">Word、标普数据库</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="海外事业部" data-prio="—" onclick="goSol('12')">
+      <td class="t-seq">12</td>
+      <td class="t-name">会议纪要自动生成</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">人工整理速度慢，效率低下，记录信息偶尔会有遗漏现象</td>
+      <td class="t-sys">录音设备、word、</td>
+      <td class="t-badges"><span class="bdg b-official">官方Skill</span></td>
+    </tr><tr data-dept="海外事业部" data-prio="—" onclick="goSol('13')">
+      <td class="t-seq">13</td>
+      <td class="t-name">知识库知识收集入库</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">人工搜索速度慢，部分资料收费（如百度文库等）、广告多</td>
+      <td class="t-sys">相关网站、相关电子版资料、部门数据库</td>
+      <td class="t-badges"><span class="bdg b-official">官方Skill</span></td>
+    </tr><tr data-dept="海外事业部" data-prio="—" onclick="goSol('14')">
+      <td class="t-seq">14</td>
+      <td class="t-name">固定垂类搜索、纯净版官网地址，支持选型和智能对比</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">人工搜索速度慢，部分资料收费（如百度文库等）、广告多</td>
+      <td class="t-sys">相关网站，相关公司官网</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="海外事业部" data-prio="—" onclick="goSol('15')">
+      <td class="t-seq">15</td>
+      <td class="t-name">三维建模软件钻孔导入数据校验核对纠错</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">钻孔数据类别多、总量也多，人工检查工作量大，导入软件时如有错误，需人工检查，工作量大</td>
+      <td class="t-sys">EXCEL、access</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="高" onclick="goSol('16')">
+      <td class="t-seq">16</td>
+      <td class="t-name">新进人员入职程序办理</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">信息不联通</td>
+      <td class="t-sys">I人事系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="高" onclick="goSol('17')">
+      <td class="t-seq">17</td>
+      <td class="t-name">员工入职材料自动审核与归档</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">材料种类多，易漏传、错传，核对工作量大，归档不规范。人工审核补充耗时较长，易遗漏不完整项</td>
+      <td class="t-sys">HR系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="高" onclick="goSol('18')">
+      <td class="t-seq">18</td>
+      <td class="t-name">薪资拆分</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">易拆分错误</td>
+      <td class="t-sys">EXCEL、I人事系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="高" onclick="goSol('19')">
+      <td class="t-seq">19</td>
+      <td class="t-name">各渠道简历整合与初筛</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">多平台切换、机械式检索，挤占招聘核心环节较多时间。</td>
+      <td class="t-sys">智联招聘、猎聘、三门峡直聘、腾讯企业邮箱、钉钉人才库、各高校就业网。</td>
+      <td class="t-badges"><span class="bdg b-official">官方Skill</span><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="中" onclick="goSol('20')">
+      <td class="t-seq">20</td>
+      <td class="t-name">考勤异常自动识别与通知</td>
+      <td><span class="prio p-md">中</span></td>
+      <td class="t-pain">数据量大，异常情况判断标准复杂，通知员工耗时长。</td>
+      <td class="t-sys">考勤系统、OA、企业微信/钉钉</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="中" onclick="goSol('21')">
+      <td class="t-seq">21</td>
+      <td class="t-name">参保基数抓取，及社保中断</td>
+      <td><span class="prio p-md">中</span></td>
+      <td class="t-pain">1、各险种生效时间存在差异，需人工手动调整对应数据；
+2、员工离职审批流程中，社保、公积金最后缴纳月非必选项，导致人工需二次维护调整最后缴纳时间，存在重复性工作…</td>
+      <td class="t-sys">I人事系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="中" onclick="goSol('22')">
+      <td class="t-seq">22</td>
+      <td class="t-name">薪资抓取</td>
+      <td><span class="prio p-md">中</span></td>
+      <td class="t-pain">重复性工作</td>
+      <td class="t-sys">I人事系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="中" onclick="goSol('23')">
+      <td class="t-seq">23</td>
+      <td class="t-name">offer发放</td>
+      <td><span class="prio p-md">中</span></td>
+      <td class="t-pain">校招offer/社招国内岗位offer有较统一格式的薪资体系及Offer模板，流程偏机械，可优化该环节以释放时间与人力成本。</td>
+      <td class="t-sys">腾讯企业邮箱、Foxmail。</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="中" onclick="goSol('24')">
+      <td class="t-seq">24</td>
+      <td class="t-name">内退人员认证</td>
+      <td><span class="prio p-md">中</span></td>
+      <td class="t-pain">联系内退人员困难较大</td>
+      <td class="t-sys">暂无</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="人力资源部" data-prio="中" onclick="goSol('25')">
+      <td class="t-seq">25</td>
+      <td class="t-name">校招报名与排期</td>
+      <td><span class="prio p-md">中</span></td>
+      <td class="t-pain">春/秋招报名院校累计至少20所，目前仅3名HR负责前期报名筹备工作，同步还需推进校招物料设计、印制及运输跟进，以及社招相关工作，人员精力严重不足。</td>
+      <td class="t-sys">云校招、各高校就业服务平台</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达财务部" data-prio="高" onclick="goSol('27')">
+      <td class="t-seq">27</td>
+      <td class="t-name">发票验真-查重</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">人工逐项核对耗时较长，易遗漏异常票据或信息不一致情况。</td>
+      <td class="t-sys">财务系统、报销系统</td>
+      <td class="t-badges"><span class="bdg b-official">官方Skill</span><span class="bdg b-third">第三方生态</span><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达财务部" data-prio="高" onclick="goSol('28')">
+      <td class="t-seq">28</td>
+      <td class="t-name">账龄分析</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">供应商较多，达到几百家，手工分析耗时过长</td>
+      <td class="t-sys">财务系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达财务部" data-prio="高" onclick="goSol('29')">
+      <td class="t-seq">29</td>
+      <td class="t-name">现金流分析</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">每录入一张凭证，都需要手工选</td>
+      <td class="t-sys">财务系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达财务部" data-prio="高" onclick="goSol('30')">
+      <td class="t-seq">30</td>
+      <td class="t-name">发票未收取情况</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">需要根据供应商余额表逐家核查具体发票未开具未结算金额及对应时间</td>
+      <td class="t-sys">NC系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达财务部" data-prio="高" onclick="goSol('31')">
+      <td class="t-seq">31</td>
+      <td class="t-name">票据到期预警</td>
+      <td><span class="prio p-hi">高</span></td>
+      <td class="t-pain">每月需人工查询票据到期再进行账务处理。月末和各分子公司对账出现未做到同时进行账务处理。</td>
+      <td class="t-sys">NC系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达结算室" data-prio="—" onclick="goSol('32')">
+      <td class="t-seq">32</td>
+      <td class="t-name">金精粉进厂统计表</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">系统导出来的明细里边啥都有，需要人工去筛选它 进行分类</td>
+      <td class="t-sys">NC精矿结算系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达结算室" data-prio="—" onclick="goSol('33')">
+      <td class="t-seq">33</td>
+      <td class="t-name">吨矿毛利差统计表</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">现需要人工统计、筛选、人工输入各个元素的计算公式（当月、年累计）</td>
+      <td class="t-sys">NC精矿结算系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达结算室" data-prio="—" onclick="goSol('34')">
+      <td class="t-seq">34</td>
+      <td class="t-name">金精粉结算暂估明细表</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain">现需要人工统计</td>
+      <td class="t-sys">NC精矿结算系统</td>
+      <td class="t-badges"><span class="bdg b-custom">自定义开发</span></td>
+    </tr><tr data-dept="金达结算室" data-prio="—" onclick="goSol('35')">
+      <td class="t-seq">35</td>
+      <td class="t-name">PDF转Excel、格式转换</td>
+      <td><span class="prio p-lo">—</span></td>
+      <td class="t-pain"></td>
+      <td class="t-sys">—</td>
+      <td class="t-badges"><span class="bdg b-official">官方Skill</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 方案详解 -->
+  <section class="sec" id="sols">
+    <div class="sec-h"><span class="kid">贰</span><h2>逐项落地方案详解</h2></div>
+    <div class="divider"></div>
+    <p class="sec-desc" style="margin-top:18px">按部门组织，每个场景给出当前痛点、WorkBuddy 落地方案、核心依赖能力、实现难度与预期效果。徽章标识方案类型。</p>
+    <section class="dept-block" id="dept-财务部">
+      <div class="dept-bar"><span class="dept-mark">财</span><h3>财务部</h3><span class="dept-cnt">4 个场景</span></div>
+      <div class="cards"><article class="card" id="sol-1">
+          <div class="card-h">
+            <div class="card-no">1</div>
+            <div class="card-tt">
+              <h4>发票验真</h4>
+              <div class="card-meta"><span class="bdg b-official">官方Skill</span><span class="bdg b-third">第三方生态</span><span class="diff diff-md">⭐⭐ 中等（百望Skill安装即用，台账登记需少量脚本）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">人工逐项核对发票耗时，易遗漏异常票据</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🔵 <strong>百望发票专家团</strong>（第三方生态Skill，安装即用）— 支持自然语言查验发票真伪、交易对手合规初筛；🟢 <strong>invoice-processor</strong>（官方Skill）— OCR识别发票图片/PDF，提取票面关键字段（发票代码、号码、金额、开票日期、销方信息），生成报销表</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① 百望：发票验真+合规评估+风险归集 ② invoice-processor：发票OCR+结构化提取 ③ Python脚本：异常标记与台账登记</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">安装百望发票专家团 + invoice-processor + Python脚本（台账登记逻辑）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等（百望Skill安装即用，台账登记需少量脚本）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">审核效率提升80%+，差错率降低90%+</div></div></div>
+        </article><article class="card" id="sol-2">
+          <div class="card-h">
+            <div class="card-no">2</div>
+            <div class="card-tt">
+              <h4>资金计划与执行数据过表</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-md">⭐⭐ 中等（核心是字段映射逻辑，需根据某黄金矿企表头定制）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">各分子公司上报月度/周资金计划表，人工复制粘贴至汇总表</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>excel-processor</code> + Python脚本）— 上传多份Excel文件，通过Python脚本（openpyxl/pandas）自动识别表头结构，按字段映射一键合并至汇总模板，支持增量追加与覆盖更新</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① excel-processor：数据计算与公式 ② Python脚本：智能表头识别与字段映射+数据清洗与去重 ③ docx-creator/excel-processor：汇总表自动生成</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill（封装字段映射规则），用户上传Excel后自动处理</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等（核心是字段映射逻辑，需根据某黄金矿企表头定制）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">合并效率提升90%，消除人工复制错误</div></div></div>
+        </article><article class="card" id="sol-3">
+          <div class="card-h">
+            <div class="card-no">3</div>
+            <div class="card-tt">
+              <h4>合并报表底稿数据过表</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-md">⭐⭐ 中等</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">各分子公司上报三大报表（资产负债、利润、现金流），人工复制粘贴至合并底稿</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>复用场景2自定义Skill</strong> — 增加三大报表专属映射规则，自动识别资产负债表/利润表/现金流表结构，一键合并</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">同场景2，增加三大报表专属映射规则</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">场景2 Skill的配置变体</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">合并结账效率提升80%+</div></div></div>
+        </article><article class="card" id="sol-4">
+          <div class="card-h">
+            <div class="card-no">4</div>
+            <div class="card-tt">
+              <h4>银行账户余额统计</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-lo">⭐ 低（复用场景2已开发逻辑，仅需调整字段映射）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">各分子公司上报周资金支付及账面结余表，人工复制粘贴至汇总表</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>复用场景2自定义Skill</strong> — 模板适配银行余额汇总格式</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">上传各分子公司Excel → Python脚本自动识别&quot;银行名称/账号/余额&quot;等字段 → 合并至汇总表</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐ 低（复用场景2已开发逻辑，仅需调整字段映射）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">同场景2</div></div></div>
+        </article></div>
+    </section><section class="dept-block" id="dept-资源管理部">
+      <div class="dept-bar"><span class="dept-mark">资</span><h3>资源管理部</h3><span class="dept-cnt">3 个场景</span></div>
+      <div class="cards"><article class="card" id="sol-5">
+          <div class="card-h">
+            <div class="card-no">5</div>
+            <div class="card-tt">
+              <h4>周报</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（需建立数据采集通道）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">分子公司技术科填报周数据，人工汇总校对上传，数据与实际有出入</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>excel-processor</code> + MCP连接器 + Python脚本）— ① 通过MCP连接器对接数据采集平台（或微信/钉钉表单），自动拉取各分子公司填报数据；② Python脚本内置校验规则自动核验数据一致性；③ 异常数据标红提示；④ excel-processor自动生成汇总周报</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP连接器：表单/API数据拉取 ② Python脚本：规则校验引擎+数据对比与异常标记 ③ excel-processor：周报模板自动填充</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP连接器（对接I人事或自建表单）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（需建立数据采集通道）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">数据真实性提升，校对工作量减少70%+</div></div></div>
+        </article><article class="card" id="sol-6">
+          <div class="card-h">
+            <div class="card-no">6</div>
+            <div class="card-tt">
+              <h4>月报</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-md">⭐⭐ 中等（复用为主）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">同场景5，月度维度，数据更复杂含投资数据</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>复用场景5自定义Skill，增加月度模板</strong> — 额外增加投资完成率等月度专属字段校验</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等（复用为主）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">同场景5</div></div></div>
+        </article><article class="card" id="sol-7">
+          <div class="card-h">
+            <div class="card-no">7</div>
+            <div class="card-tt">
+              <h4>矿业权交易市场信息智能抓取</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（需稳定抓取逻辑，目标网站可能反爬）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">需人工截取网页/复制网址给AI整理，信息识别不稳定，缺失比对去重</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>WebFetch</code> + <code>auto-task</code> + <code>tavily-search</code> + Python脚本）— ① auto-task定时（每日）触发；② WebFetch抓取指定矿业权交易网站页面；③ Python脚本+AI提取关键信息（项目名、矿种、面积、价格等）；④ 与历史数据比对去重；⑤ 自动生成挂牌项目提醒及汇总表格</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① WebFetch网页抓取 ② AI结构化信息提取 ③ Python脚本：去重比对 ④ auto-task定时任务 ⑤ MCP企业微信推送</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + auto-task定时调度 + MCP推送通知</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（需稳定抓取逻辑，目标网站可能反爬）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">全自动化信息监控，人工仅需审核最终汇总</div></div></div>
+        </article></div>
+    </section><section class="dept-block" id="dept-证券法律合规部">
+      <div class="dept-bar"><span class="dept-mark">法</span><h3>证券法律合规部</h3><span class="dept-cnt">2 个场景</span></div>
+      <div class="cards"><article class="card" id="sol-8">
+          <div class="card-h">
+            <div class="card-no">8</div>
+            <div class="card-tt">
+              <h4>合同提交内容提取</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-md">⭐⭐ 中等（条款提取逻辑需与法务确认字段）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">合同提交系统后，业务人员需人工逐项填写数据</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>pdf-processor</code> + <code>docx-creator</code> + Python脚本）— 上传合同文档（Word/PDF），pdf-processor进行OCR识别与文本提取，Python脚本+AI自动提取合同编号、甲乙方信息、合同金额、期限、标的等关键条款，结构化输出为系统表单格式（JSON/Excel），业务人员仅需校对确认</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① pdf-processor：文档解析（Word/PDF） ② AI+Python：NER实体识别+关键条款提取 ③ excel-processor：结构化输出</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP对接合同管理系统</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等（条款提取逻辑需与法务确认字段）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">合同提交效率提升60%+，差错率降低80%+</div></div></div>
+        </article><article class="card" id="sol-9">
+          <div class="card-h">
+            <div class="card-no">9</div>
+            <div class="card-tt">
+              <h4>合同提交内容筛查</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（合同审查规则需与法务团队共建，标准模板需入库）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">合同存在错别字、条款重复、表述矛盾、权利义务不对等等问题</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>pdf-processor</code> + ima-skills/乐享MCP + Python脚本）— ① pdf-processor提取合同文本；② 上传待审合同与ima知识库/乐享中存储的标准合同模板进行对比；③ Python脚本+AI检测错别字、重复条款、缺失条款、前后矛盾；④ 标记权利义务不对等条款；⑤ 输出审查报告（docx-creator），高亮问题条款</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① pdf-processor：合同文本提取 ② ima-skills/乐享MCP：标准合同模板存储与比对 ③ AI：语义矛盾检测+条款完整性检查 ④ docx-creator：审查报告生成</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + ima-skills/乐享MCP（存储标准合同模板与已审合同）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（合同审查规则需与法务团队共建，标准模板需入库）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">预估可减少15万元以下合同的法律风险，提升合规审核效率50%+</div></div></div>
+        </article></div>
+    </section><section class="dept-block" id="dept-海外事业部">
+      <div class="dept-bar"><span class="dept-mark">外</span><h3>海外事业部</h3><span class="dept-cnt">6 个场景</span></div>
+      <div class="cards"><article class="card" id="sol-10">
+          <div class="card-h">
+            <div class="card-no">10</div>
+            <div class="card-tt">
+              <h4>海外矿山简报自动生成</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-xh">⭐⭐⭐⭐ 高（标普等付费数据源需API对接，公开信息质量参差）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">人工多渠道搜集数据填入评价简表，耗时长、需人工辨别信息真伪</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>tavily-search</code> + <code>WebFetch</code> + <code>docx-creator</code> + Python脚本）— ① 输入项目名称/关键词，tavily-search搜索卖方公司官网、矿业权官网；② WebFetch定向抓取页面内容；③ Python脚本+AI按固定字段模板提取信息（资源量、矿种、位置、权属等）；④ 标注信息来源及可信度；⑤ docx-creator自动填充简报表</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① tavily-search：多源搜索 ② WebFetch：定向抓取 ③ AI+Python：结构化信息提取+来源标注 ④ docx-creator：Word模板填充</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill（标普数据库需API或MCP对接）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐⭐ 高（标普等付费数据源需API对接，公开信息质量参差）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">简报生成效率提升70%+，人工仅需复核</div></div></div>
+        </article><article class="card" id="sol-11">
+          <div class="card-h">
+            <div class="card-no">11</div>
+            <div class="card-tt">
+              <h4>矿业动态周报整理编制</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（新闻源需稳定抓取）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">人工搜集标普及矿业新闻网站信息，归类不准确</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>auto-task</code> + <code>WebFetch</code> + <code>docx-creator</code> + Python脚本）— ① auto-task每周自动触发；② WebFetch抓取指定新闻源；③ Python脚本+AI按类别（金价/铜价/政策/并购/勘探等）自动归类；④ docx-creator按模板生成周报Word文档；⑤ 支持人工微调后一键发送</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① auto-task：定时抓取 ② WebFetch：新闻源抓取 ③ AI：文本分类+摘要生成 ④ docx-creator：Word模板输出</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + auto-task定时调度</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（新闻源需稳定抓取）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">人工耗时降低80%，分类准确率提升</div></div></div>
+        </article><article class="card" id="sol-12">
+          <div class="card-h">
+            <div class="card-no">12</div>
+            <div class="card-tt">
+              <h4>会议纪要自动生成</h4>
+              <div class="card-meta"><span class="bdg b-official">官方Skill</span><span class="diff diff-lo">⭐ 低（开箱即用）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">人工记录/录音整理慢，信息遗漏</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟢 <strong>官方Skill：<code>meeting-minutes</code></strong>（安装即用）— 上传录音文件，自动：① local-whisper语音转文字；② AI智能提取会议要点；③ 按会议纪要模板生成文档；④ 支持多语言翻译</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① local-whisper：语音转文字 ② AI：要点提取+模板填充 ③ translation：多语言翻译</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">安装meeting-minutes Skill + 自定义纪要模板</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐ 低（开箱即用）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">纪要生成效率提升90%+，信息完整度显著提升</div></div></div>
+        </article><article class="card" id="sol-13">
+          <div class="card-h">
+            <div class="card-no">13</div>
+            <div class="card-tt">
+              <h4>知识库知识收集入库</h4>
+              <div class="card-meta"><span class="bdg b-official">官方Skill</span><span class="diff diff-md">⭐⭐ 中等（需批量导入历史资料，MCP需授权配置）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">人工搜索国标/行标/法规/政策等，速度慢、部分收费</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟢 <strong>MCP连接器（乐享/ima）</strong> + 🟢 <strong>pdf-processor</strong> — ① 利用乐享/ima MCP建立部门专属知识库；② pdf-processor自动导入国标/行标/法规PDF文档；③ ima-skills/乐享MCP支持语义搜索，输入关键词快速定位相关内容；④ Automation定期更新知识库内容</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① ima-skills/乐享MCP：知识库创建与语义搜索 ② pdf-processor：文档批量导入解析 ③ Automation：定期维护</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">配置ima-skills/乐享MCP连接器 + 安装pdf-processor + 批量导入历史资料</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等（需批量导入历史资料，MCP需授权配置）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">查询效率提升80%+，跨专业检索可用</div></div></div>
+        </article><article class="card" id="sol-14">
+          <div class="card-h">
+            <div class="card-no">14</div>
+            <div class="card-tt">
+              <h4>固定垂类搜索、纯净版官网地址、选型智能对比</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（地址库需持续维护，设备参数结构化需领域知识）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">人工搜索厂家/设备/设计院信息，速度慢、信息杂乱</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 ima-skills/乐享MCP + <code>WebFetch</code> + <code>tavily-search</code> + Python脚本）— ① ima-skills/乐享MCP建立纯净官网地址库；② tavily-search输入需求自动检索目标网站；③ WebFetch定向抓取设备/厂家信息；④ Python脚本+AI结构化提取+多维对比（参数/价格/口碑）智能输出</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① ima-skills/乐享MCP：官网地址库存储与检索 ② WebFetch：定向抓取 ③ tavily-search：联网搜索 ④ AI+Python：结构化提取+对比分析</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + ima-skills/乐享MCP</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（地址库需持续维护，设备参数结构化需领域知识）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">形成100+纯净官网库，选型对比效率提升70%+</div></div></div>
+        </article><article class="card" id="sol-15">
+          <div class="card-h">
+            <div class="card-no">15</div>
+            <div class="card-tt">
+              <h4>三维建模软件钻孔导入数据校验核对纠错</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（领域规则需专业梳理）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">钻孔数据类别多、总量大，人工检查工作量大</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>excel-processor</code> + Python脚本）— ① excel-processor读取Excel/Access钻孔数据；② Python脚本按预置校验规则（坐标范围/深度逻辑/岩性编码/重复孔号等）自动检查；③ 标记错误类型并建议修正值；④ excel-processor/docx-creator生成校验报告</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① excel-processor：Excel数据读取 ② Python脚本：规则校验引擎+异常标记 ③ docx-creator：校验报告生成</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill（需与地质工程师共建校验规则）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（领域规则需专业梳理）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">数据检查效率提升80%+，导入返工率降低90%+</div></div></div>
+        </article></div>
+    </section><section class="dept-block" id="dept-人力资源部">
+      <div class="dept-bar"><span class="dept-mark">人</span><h3>人力资源部</h3><span class="dept-cnt">10 个场景</span></div>
+      <div class="cards"><article class="card" id="sol-16">
+          <div class="card-h">
+            <div class="card-no">16</div>
+            <div class="card-tt">
+              <h4>新进人员入职程序办理</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-xh">⭐⭐⭐⭐ 高（需深度对接I人事系统多个模块）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">入职→合同→参保→发薪各环节不联通</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 MCP I人事连接器 + <code>auto-task</code> + 企业微信MCP）— ① MCP对接I人事系统检测入职手续完成状态；② 企业微信MCP自动推送门禁/就餐开通指令；③ auto-task定时跟踪合同签订状态与持续提醒；④ 参保办理状态跟踪；⑤ 薪酬档案自动纳入</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接I人事系统 ② auto-task：工作流编排（多步骤联动）+状态跟踪与自动提醒 ③ 企业微信MCP：通知推送</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP连接器（I人事系统API）+ auto-task定时提醒</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐⭐ 高（需深度对接I人事系统多个模块）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">入职全流程自动化串联，减少80%+重复沟通</div></div></div>
+        </article><article class="card" id="sol-17">
+          <div class="card-h">
+            <div class="card-no">17</div>
+            <div class="card-tt">
+              <h4>员工入职材料自动审核与归档</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（证件真伪验证需外部API）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">材料种类多，易漏传错传，核对工作量大</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>pdf-processor</code> + MCP HR系统连接器 + Python脚本）— ① pdf-processor OCR识别身份证、毕业证、学位证等关键信息；② Python脚本与系统信息自动比对；③ 缺失材料清单自动生成；④ 证件真伪初步识别（对接学信网等API）；⑤ 自动分类归档</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① pdf-processor：OCR证件识别 ② Python脚本：信息比对验证+缺失检测+归档分类 ③ 外部API：证件真伪识别（学信网等）</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP对接HR系统 + 外部API（学信网等）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（证件真伪验证需外部API）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">入职审核效率提升70%+，遗漏率降低至近零</div></div></div>
+        </article><article class="card" id="sol-18">
+          <div class="card-h">
+            <div class="card-no">18</div>
+            <div class="card-tt">
+              <h4>薪资拆分</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-md">⭐⭐ 中等（规则需HR部门确认）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">Excel中根据年薪包拆分薪资结构，易拆分错误</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>salary-calculator</code> + Python脚本）— ① 输入年薪包金额；② Python脚本自动匹配职级→岗位津贴/异地津贴标准；③ 按基本/绩效比例自动拆分；④ salary-calculator/excel-processor输出薪资结构明细表；⑤ 异常值标红预警</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① salary-calculator：薪资核算基础能力 ② Python脚本：薪酬制度规则引擎+自动拆分计算 ③ excel-processor：输出Excel</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill（薪酬制度规则需HR部门确认后内置）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等（规则需HR部门确认）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">拆分错误率降至近零，效率提升80%+</div></div></div>
+        </article><article class="card" id="sol-19">
+          <div class="card-h">
+            <div class="card-no">19</div>
+            <div class="card-tt">
+              <h4>各渠道简历整合与初筛</h4>
+              <div class="card-meta"><span class="bdg b-official">官方Skill</span><span class="bdg b-custom">自定义开发</span><span class="diff diff-xh">⭐⭐⭐⭐ 高（需RPA对接多个招聘平台，各平台反爬策略不同）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">多平台切换，机械式检索挤占核心时间</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟢 <strong>官方Skill：<code>resume-screener</code></strong>（关键词匹配+评估报告）+ 🟡 <strong>RPA增强</strong>（基于 <code>agent-browser</code> + <code>auto-task</code>）— ① resume-screener按岗位关键词筛选+匹配度评分；② agent-browser自动登录各招聘平台（智联/猎聘/直聘等）检索下载简历；③ auto-task非工作时段自动运行</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① resume-screener：简历解析与结构化+匹配度评分 ② agent-browser：RPA自动登录检索 ③ auto-task：定时执行</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">安装resume-screener + 自定义RPA脚本（agent-browser）+ auto-task</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐⭐ 高（需RPA对接多个招聘平台，各平台反爬策略不同）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">简历筛选效率提升5倍+，HR聚焦二次面试筛选</div></div></div>
+        </article><article class="card" id="sol-20">
+          <div class="card-h">
+            <div class="card-no">20</div>
+            <div class="card-tt">
+              <h4>考勤异常自动识别与通知</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（需对接考勤系统）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">数据量大，异常标准复杂，通知员工耗时长</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>salary-calculator</code> + MCP考勤系统连接器 + <code>auto-task</code> + 企业微信MCP）— ① auto-task每日自动触发；② MCP对接考勤系统读取数据；③ salary-calculator+Python脚本按规则识别迟到/早退/旷工/漏打卡；④ 生成异常清单；⑤ 企业微信MCP自动推送提醒给员工及主管</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接考勤/OA系统：数据读取 ② salary-calculator+Python脚本：规则引擎+异常检测 ③ auto-task：定时调度 ④ 企业微信MCP：自动通知推送</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP对接考勤/OA系统 + auto-task + 企业微信MCP</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（需对接考勤系统）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">人工核对时间减少90%，异常处理及时性显著提升</div></div></div>
+        </article><article class="card" id="sol-21">
+          <div class="card-h">
+            <div class="card-no">21</div>
+            <div class="card-tt">
+              <h4>参保基数抓取及社保中断</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-xh">⭐⭐⭐⭐ 高（需I人事系统深度对接）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">合同与社保无联动，需手动输入基数，异常提示模糊</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 MCP I人事连接器 + <code>salary-calculator</code> + Python脚本）— ① MCP对接I人事系统，合同签署/离职审批后自动同步参保基数；② salary-calculator+Python按险种自动计算生效时间；③ 福利台账自动校验，精确提示错误字段；④ 离职时自动计算社保最后缴纳月</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接I人事系统：跨模块数据联动 ② salary-calculator：自动计算校验 ③ Python脚本：精确错误定位</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP（I人事系统）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐⭐ 高（需I人事系统深度对接）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">人工操作减少80%+，数据准确性显著提升</div></div></div>
+        </article><article class="card" id="sol-22">
+          <div class="card-h">
+            <div class="card-no">22</div>
+            <div class="card-tt">
+              <h4>薪资抓取</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 中等（依赖场景21）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">合同签署与薪资档案无联动，需手动导入</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>同场景21的子功能</strong> — 合同签署完成后，通过MCP对接I人事系统，自动从合同数据提取薪资信息，写入薪资档案</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">场景21自定义Skill的子模块</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 中等（依赖场景21）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">消除重复性手动操作</div></div></div>
+        </article><article class="card" id="sol-23">
+          <div class="card-h">
+            <div class="card-no">23</div>
+            <div class="card-tt">
+              <h4>offer发放</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（需邮箱系统对接）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">offer模板统一，流程机械，可优化释放人力</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>docx-creator</code> + MCP邮箱连接器 + Python脚本）— ① Python脚本从招录明细自动抓取数据；② docx-creator按模板自动填充offer内容；③ MCP对接腾讯企业邮箱自动生成邮件（含主题/问候语）；④ 存放至邮箱草稿箱，HR确认后一键发送</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① Python脚本：数据抓取与填充 ② docx-creator：Word模板生成 ③ MCP邮箱：邮件草稿生成 ④ 人工确认机制</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP（腾讯企业邮箱/QQ邮箱）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（需邮箱系统对接）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">offer制作效率提升80%+</div></div></div>
+        </article><article class="card" id="sol-24">
+          <div class="card-h">
+            <div class="card-no">24</div>
+            <div class="card-tt">
+              <h4>内退人员认证</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-xh">⭐⭐⭐⭐ 高（需前端开发+人脸API+小程序审核）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">无现有环节，联系内退人员困难</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义方案</strong>（基于 企业微信MCP + <code>auto-task</code> + 外部API）— ① 开发微信小程序/企业微信H5页面，内退人员每月登录扫脸核验；② 核验通过通过MCP自动同步至I人事系统；③ 未核验人员企业微信MCP自动发送短信/微信提醒；④ auto-task每月定时触发核验提醒</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① 外部API：人脸核验 ② 小程序/H5开发（需前端开发） ③ MCP：数据同步 ④ auto-task：定时提醒</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + 企业微信MCP + auto-task + 人脸核验API</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐⭐ 高（需前端开发+人脸API+小程序审核）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">内退人员信息实时跟踪，认证率提升至95%+</div></div></div>
+        </article><article class="card" id="sol-25">
+          <div class="card-h">
+            <div class="card-no">25</div>
+            <div class="card-tt">
+              <h4>校招报名与排期</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-xh">⭐⭐⭐⭐ 高（多平台对接，高校就业网站结构各异）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">院校数量多（20+），HR仅3人，精力不足</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>WebFetch</code> + <code>gantt-generator</code> + <code>tavily-search</code> + Python脚本）— ① 输入招聘需求，AI匹配目标院校并排序；② WebFetch+tavily-search自动检索各高校就业网招聘会时间；③ gantt-generator生成排期表；④ Python脚本结合差旅标准筛选酒店/车次；⑤ 提交HR审核后辅助预定</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① tavily-search：院校匹配搜索 ② WebFetch：高校就业网抓取 ③ gantt-generator：排期甘特图 ④ Python脚本：差旅标准匹配+审核流程</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + WebFetch + MCP（差旅平台API）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐⭐ 高（多平台对接，高校就业网站结构各异）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">排期效率提升5倍+，HR从筹备中释放</div></div></div>
+        </article></div>
+    </section><section class="dept-block" id="dept-金达财务部">
+      <div class="dept-bar"><span class="dept-mark">达财</span><h3>金达财务部</h3><span class="dept-cnt">5 个场景</span></div>
+      <div class="cards"><article class="card" id="sol-27">
+          <div class="card-h">
+            <div class="card-no">27</div>
+            <div class="card-tt">
+              <h4>发票验真-查重</h4>
+              <div class="card-meta"><span class="bdg b-official">官方Skill</span><span class="bdg b-third">第三方生态</span><span class="bdg b-custom">自定义开发</span><span class="diff diff-md">⭐⭐ 中等</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">同场景1，额外需查重</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🔵 <strong>百望发票专家团</strong> + 🟢 <strong>invoice-processor</strong> + 🟡 <strong>查重增强脚本</strong> — 百望Skill做验真，invoice-processor做OCR识别，Python脚本增加发票号码/代码在已有台账中的去重检查，标记重复报销</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">百望Skill + invoice-processor + 自定义查重脚本</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">同场景1 + 重复报销100%拦截</div></div></div>
+        </article><article class="card" id="sol-28">
+          <div class="card-h">
+            <div class="card-no">28</div>
+            <div class="card-tt">
+              <h4>账龄分析</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（需NC系统API）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">供应商几百家，手工分析耗时过长</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>excel-processor</code> + MCP NC系统连接器 + Python脚本）— ① MCP对接NC系统API自动拉取明细账；② Python脚本按供应商+账龄区间（1-3月/3-6月/6-12月/1年以上）自动分类汇总；③ excel-processor/data-visualization生成账龄分析表与图表；④ 异常账龄标红预警</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接NC系统：数据拉取 ② Python脚本：账龄区间自动分类+汇总计算 ③ excel-processor/data-visualization：预警标记+图表生成</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP（NC系统API）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（需NC系统API）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">账龄分析效率提升80%+，实时性提升</div></div></div>
+        </article><article class="card" id="sol-29">
+          <div class="card-h">
+            <div class="card-no">29</div>
+            <div class="card-tt">
+              <h4>现金流分析</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高（匹配规则需积累，现金流科目体系复杂）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">每录一张凭证需手工选择适配的现金流</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>excel-processor</code> + MCP财务系统连接器 + Python脚本）— ① MCP对接财务系统获取凭证数据；② Python脚本分析凭证内容（摘要/科目/金额）；③ 基于规则+AI自动匹配现金流项目；④ excel-processor输出匹配结果供确认；⑤ 学习人工修正，持续优化匹配准确率</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接财务系统：凭证内容解析 ② Python脚本+AI：规则+语义匹配 ③ excel-processor：结果输出 ④ 人工确认闭环+自学习优化</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP（财务系统）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高（匹配规则需积累，现金流科目体系复杂）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">手工选择减少80%+，匹配准确率95%+</div></div></div>
+        </article><article class="card" id="sol-30">
+          <div class="card-h">
+            <div class="card-no">30</div>
+            <div class="card-tt">
+              <h4>发票未收取情况</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">需逐家核查供应商发票未开具金额及对应时间</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>invoice-processor</code> + MCP NC系统连接器 + Python脚本）— ① MCP对接NC系统拉取供应商余额表；② invoice-processor+Python脚本自动比对已入库未开票金额；③ 按供应商+时间节点生成&quot;应开未开&quot;明细表；④ auto-task到期预警提醒</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接NC系统：数据拉取 ② invoice-processor+Python：交叉比对 ③ excel-processor：明细生成 ④ auto-task：到期预警</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP（NC系统）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">追踪效率提升80%+，漏查率降至近零</div></div></div>
+        </article><article class="card" id="sol-31">
+          <div class="card-h">
+            <div class="card-no">31</div>
+            <div class="card-tt">
+              <h4>票据到期预警</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">人工查询票据到期日做账，月末对账不同步</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 MCP NC系统连接器 + <code>auto-task</code> + 企业微信MCP）— ① MCP对接NC系统自动读取票据到期日；② auto-task每日定时检查即将到期票据；③ 企业微信MCP到期前N天自动推送预警；④ 同步提醒做账</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接NC系统：数据读取 ② auto-task：到期计算+定时检查 ③ 企业微信MCP：多渠道预警推送</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + auto-task + 企业微信MCP</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">票据到期遗漏率降至零，做账及时性提升</div></div></div>
+        </article></div>
+    </section><section class="dept-block" id="dept-金达结算室">
+      <div class="dept-bar"><span class="dept-mark">达结</span><h3>金达结算室</h3><span class="dept-cnt">4 个场景</span></div>
+      <div class="cards"><article class="card" id="sol-32">
+          <div class="card-h">
+            <div class="card-no">32</div>
+            <div class="card-tt">
+              <h4>金精粉进厂统计表</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-hi">⭐⭐⭐ 较高</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">NC导出明细含大量无关数据，需人工筛选分类</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>excel-processor</code> + MCP NC系统连接器 + Python脚本）— ① MCP对接NC精矿结算系统拉取明细；② Python脚本按采购组织（深圳金达/某矿企金达）+类别（进厂/外采采销）自动分类汇总；③ 按业务维度（暂估/结算/补结）分别统计；④ excel-processor生成标准统计表</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接NC系统：数据拉取 ② Python脚本：多维度分类汇总 ③ excel-processor：模板化输出</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP（NC精矿结算系统）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐ 较高</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">分类统计效率提升80%+，差错率降低90%+</div></div></div>
+        </article><article class="card" id="sol-33">
+          <div class="card-h">
+            <div class="card-no">33</div>
+            <div class="card-tt">
+              <h4>吨矿毛利差统计表</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-xh">⭐⭐⭐⭐ 高（需对接MES系统）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">需人工统计、筛选、输入计算公式（当月/年累计）</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>自定义Skill</strong>（基于 <code>excel-processor</code> + MCP NC+MES连接器 + Python脚本）— ① MCP对接MES/NC系统拉取精矿结算明细；② Python脚本按供应商+矿物性质+结算类别+送货人自动分组；③ 内置金/银/铜吨矿毛利差计算公式；④ excel-processor自动输出当月+年累计统计表</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① MCP对接NC+MES系统：多源数据整合 ② Python脚本：自动分组+内置计算公式+累计统计 ③ excel-processor：输出统计表</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">自定义Skill + MCP（NC + 冶炼MES）</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐⭐⭐ 高（需对接MES系统）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">统计效率提升90%+，计算准确率100%</div></div></div>
+        </article><article class="card" id="sol-34">
+          <div class="card-h">
+            <div class="card-no">34</div>
+            <div class="card-tt">
+              <h4>金精粉结算暂估明细表</h4>
+              <div class="card-meta"><span class="bdg b-custom">自定义开发</span><span class="diff diff-md">⭐⭐ 中等（复用为主）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">需人工统计</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟡 <strong>复用场景32自定义Skill的变体</strong> — 按采购组织+供应商维度统计当月及累计暂估数据</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">场景32 Skill配置变体</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐⭐ 中等（复用为主）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">同场景32</div></div></div>
+        </article><article class="card" id="sol-35">
+          <div class="card-h">
+            <div class="card-no">35</div>
+            <div class="card-tt">
+              <h4>PDF转Excel/格式转换</h4>
+              <div class="card-meta"><span class="bdg b-official">官方Skill</span><span class="diff diff-lo">⭐ 低（开箱即用）</span></div>
+            </div>
+          </div>
+          <div class="card-b"><div class="fld"><div class="fld-l"><span class="fic">⚠</span>当前痛点</div><div class="fld-v">PDF格式数据需转Excel</div></div><div class="fld fld-plan"><div class="fld-l"><span class="fic">◆</span>WorkBuddy 落地方案</div><div class="fld-v">🟢 <strong>官方Skill：<code>pdf-processor</code></strong>（安装即用）— 直接读取PDF文件，提取表格数据，配合excel-processor输出为Excel格式。用户上传PDF即可自动识别表格结构并转换</div></div><div class="fld"><div class="fld-l"><span class="fic">✦</span>核心能力</div><div class="fld-v">① pdf-processor：PDF解析+表格识别 ② excel-processor：Excel输出</div></div><div class="fld"><div class="fld-l"><span class="fic">▸</span>落地方式</div><div class="fld-v">安装pdf-processor + excel-processor，无需额外开发</div></div><div class="fld fld-diff"><div class="fld-l"><span class="fic">◷</span>落地难度</div><div class="fld-v">⭐ 低（开箱即用）</div></div><div class="fld fld-effect"><div class="fld-l"><span class="fic">✓</span>预期效果</div><div class="fld-v">格式转换效率提升90%+</div></div></div>
+        </article></div>
+    </section>
+  </section>
+
+  <!-- 架构 -->
+  <section class="sec" id="arch">
+    <div class="sec-h"><span class="kid">叁</span><h2>技术能力架构</h2></div>
+    <div class="divider"></div>
+    <div class="arch">
+      <h3>WorkBuddy 落地能力分层</h3>
+      <div class="arch-layers">
+        <div class="layer"><span class="ly-n">交互层</span><span class="ly-c">WorkBuddy 对话 / 企业微信 / 邮件 / 小程序</span></div>
+        <div class="layer"><span class="ly-n">SKILL 层</span><span class="ly-c"><b>🟢 官方</b> xlsx·pdf·docx·pptx·会议纪要 &nbsp;|&nbsp; <b>🔵 生态</b> 百望发票专家团·MiniMax &nbsp;|&nbsp; <b>🟡 自定义</b> 跨表汇总·合同审查·薪资拆分</span></div>
+        <div class="layer"><span class="ly-n">核心能力</span><span class="ly-c">OCR · NLP · Python 沙箱 · 模板引擎 · RPA 浏览器自动化</span></div>
+        <div class="layer"><span class="ly-n">MCP 连接</span><span class="ly-c">I人事 · NC系统 · 财务系统 · 企业微信 · 乐享 · ima · 邮箱</span></div>
+        <div class="layer"><span class="ly-n">调度层</span><span class="ly-c">Automation 定时任务 · 工作流引擎 · 事件触发</span></div>
+        <div class="layer"><span class="ly-n">数据知识</span><span class="ly-c">ima 知识库 · 乐享知识库 · 文档库 · 历史数据</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="ft-line"></div>
+  <p><strong style="color:var(--gold-d)">某黄金矿企集团 · AI 智能办公助手落地方案</strong></p>
+  <p>基于 WorkBuddy 能力评估 · 共 34 个需求场景 · 7 大部门 · 配色取自某黄金矿企集团官网</p>
+  <p style="opacity:.7;margin-top:6px">文档生成 2026年6月 · 仅供内部评估参考</p>
+</footer>
+
+<button class="toTop" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function filterDept(btn){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  var d=btn.dataset.d;
+  document.querySelectorAll('#reqBody tr').forEach(tr=>{
+    tr.style.display=(d==='all'||tr.dataset.dept===d)?'':'none';
+  });
+}
+function goSol(seq){
+  var el=document.getElementById('sol-'+seq);
+  if(!el){return;}
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');
+}
+window.addEventListener('scroll',function(){
+  document.getElementById('toTop').classList.toggle('show',window.scrollY>500);
+});
+</script>
+</body>
+</html>
