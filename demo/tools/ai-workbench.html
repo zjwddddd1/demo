@@ -370,6 +370,14 @@ body {
   </div>
 
   <div class="filter-section">
+    <h3>地域筛选</h3>
+    <div class="filter-tags" id="regionTags">
+      <span class="filter-tag active" data-region="all">🌍 国际（全包含）</span>
+      <span class="filter-tag" data-region="cn">🇨🇳 国内</span>
+    </div>
+  </div>
+
+  <div class="filter-section">
     <h3>分类筛选</h3>
     <div class="filter-tags" id="filterTags">
       <span class="filter-tag active" data-cat="all">全部</span>
@@ -487,12 +495,21 @@ function scoreClass(s) {
 
 // ===== STATE =====
 let currentCat = 'all';
+let currentRegion = 'all';
 let currentTime = 'all';
 let currentSearch = '';
 let currentSort = 'score';
 let starred = JSON.parse(localStorage.getItem('ai_wb_starred') || '[]');
 let history = JSON.parse(localStorage.getItem('ai_wb_history') || '[]');
 let readIds = JSON.parse(localStorage.getItem('ai_wb_read') || '[]');
+
+// 国内来源关键词
+const CN_SOURCES = ['IT之家','公众号','腾讯','小红书','通义','金山','蜜度','WPS','月之暗面',
+  '阿里','百度','字节','华为','网易','搜狐','新浪','36氪','钛媒体','量子位','机器之心',
+  '财新','界面','澎湃','极客公园','品玩'];
+function isDomestic(source) {
+  return CN_SOURCES.some(k => source.includes(k));
+}
 
 function saveStarred() { localStorage.setItem('ai_wb_starred', JSON.stringify(starred)); }
 function saveHistory() { localStorage.setItem('ai_wb_history', JSON.stringify(history)); }
@@ -563,6 +580,10 @@ function updateChips() {
     chips += '<span class="filter-chip">⭐ 已收藏 <span class="chip-close" onclick="clearTimeFilter()">✕</span></span>';
   }
 
+  if (currentRegion === 'cn') {
+    chips += '<span class="filter-chip">🇨🇳 国内 <span class="chip-close" onclick="clearRegionFilter()">✕</span></span>';
+  }
+
   if (currentCat !== 'all') {
     chips += '<span class="filter-chip">' + CAT_LABELS[currentCat] + ' <span class="chip-close" onclick="clearCatFilter()">✕</span></span>';
   }
@@ -584,9 +605,17 @@ function clearTimeFilter() {
 
 function clearCatFilter() {
   currentCat = 'all';
-  document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-  document.querySelector('.filter-tag[data-cat="all"]').classList.add('active');
+  document.querySelectorAll('#filterTags .filter-tag').forEach(t => t.classList.remove('active'));
+  document.querySelector('#filterTags .filter-tag[data-cat="all"]').classList.add('active');
   updateTitle();
+  updateChips();
+  render();
+}
+
+function clearRegionFilter() {
+  currentRegion = 'all';
+  document.querySelectorAll('#regionTags .filter-tag').forEach(t => t.classList.remove('active'));
+  document.querySelector('#regionTags .filter-tag[data-region="all"]').classList.add('active');
   updateChips();
   render();
 }
@@ -629,6 +658,11 @@ function render() {
   // Category filter (skip if viewing starred)
   if (currentTime !== 'starred' && currentCat !== 'all') {
     items = items.filter(d => d.category === currentCat);
+  }
+
+  // Region filter
+  if (currentRegion === 'cn') {
+    items = items.filter(d => isDomestic(d.source));
   }
 
   // Search
@@ -729,10 +763,19 @@ document.getElementById('stats').addEventListener('click', e => {
 // Category filter
 document.getElementById('filterTags').addEventListener('click', e => {
   if (!e.target.classList.contains('filter-tag')) return;
-  document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#filterTags .filter-tag').forEach(t => t.classList.remove('active'));
   e.target.classList.add('active');
   currentCat = e.target.dataset.cat;
   updateTitle();
+  render();
+});
+
+// Region filter
+document.getElementById('regionTags').addEventListener('click', e => {
+  if (!e.target.classList.contains('filter-tag')) return;
+  document.querySelectorAll('#regionTags .filter-tag').forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  currentRegion = e.target.dataset.region;
   render();
 });
 
