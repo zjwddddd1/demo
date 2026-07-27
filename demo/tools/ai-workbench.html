@@ -75,11 +75,12 @@ body {
   color: var(--text-tertiary); margin-bottom: 8px; font-weight: 700;
 }
 
-.filter-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.filter-tags { display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
 .filter-tag {
-  padding: 5px 11px; border-radius: 16px; font-size: 12px; cursor: pointer;
+  padding: 7px 11px; border-radius: var(--radius-sm); font-size: 12px; cursor: pointer;
   border: 1.5px solid var(--border); background: var(--bg); color: var(--text-secondary);
   transition: all var(--transition); white-space: nowrap; font-weight: 500;
+  text-align: center;
 }
 .filter-tag:hover:not(.active) { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
 .filter-tag.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
@@ -422,8 +423,8 @@ body {
       <div class="active-filters" id="activeFilters"></div>
     </div>
     <div class="top-bar-right">
-      <button class="sort-btn" data-sort="time" id="sortTime">🕐 最新优先</button>
       <button class="sort-btn active" data-sort="score" id="sortScore">🔥 热度优先</button>
+      <button class="sort-btn" data-sort="time" id="sortTime">🕐 最新优先</button>
       <span class="result-count" id="resultCount"></span>
     </div>
   </div>
