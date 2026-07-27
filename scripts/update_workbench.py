@@ -76,6 +76,10 @@ def fetch_aihot_items():
             "score": item.get("score") or 50
         })
 
+    # 按热度排序，取前 20 条
+    result.sort(key=lambda x: x["score"], reverse=True)
+    result = result[:20]
+
     return result
 
 
@@ -178,7 +182,6 @@ def main():
         print(f"Successfully updated with {len(items)} items!")
         # 输出到 GitHub Actions output
         if "GITHUB_OUTPUT" in os.environ:
-            import os
             with open(os.environ["GITHUB_OUTPUT"], "a") as f:
                 f.write("changed=true\n")
     else:
