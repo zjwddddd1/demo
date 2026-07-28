@@ -85,15 +85,16 @@ body {
 .filter-tag.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
 
 /* History date picker */
-.history-dates { display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
-.history-date {
-  padding: 6px 11px; border-radius: var(--radius-sm); font-size: 12px; cursor: pointer;
-  border: 1.5px solid var(--border); background: var(--bg); color: var(--text-secondary);
-  transition: all var(--transition); text-align: center; font-weight: 500;
+.history-section { display: flex; flex-direction: column; gap: 6px; }
+.history-select {
+  padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px;
+  border: 1.5px solid var(--border); background: var(--bg); color: var(--text);
+  transition: all var(--transition); font-weight: 500; cursor: pointer;
+  width: 100%; outline: none;
 }
-.history-date:hover:not(.active) { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
-.history-date.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
-.history-date.loading { opacity: 0.6; pointer-events: none; }
+.history-select:focus { border-color: var(--primary); }
+.history-select option { font-size: 13px; padding: 4px; }
+.history-select optgroup { font-weight: 700; color: var(--text-secondary); font-size: 12px; }
 
 /* Clickable Stats */
 .stats { display: flex; flex-direction: column; gap: 6px; }
@@ -424,8 +425,10 @@ body {
 
   <div class="filter-section">
     <h3>📅 历史快照</h3>
-    <div class="history-dates" id="historyDates">
-      <span class="history-date active" data-date="today">今天</span>
+    <div class="history-section">
+      <select class="history-select" id="historySelect" onchange="onHistorySelect(this.value)">
+        <option value="today" selected>今天</option>
+      </select>
     </div>
   </div>
 
@@ -876,78 +879,59 @@ document.addEventListener('keydown', e => {
 });
 
 // ===== HISTORY =====
-let historyData = null;  // 加载的历史数据，null 表示用当前 DATA
+let historyData = null;
 const HISTORY_BASE = 'demo/tools/history/';
+const HISTORY_DAYS = 365;
 
-function buildHistoryDates() {
-  const container = document.getElementById('historyDates');
+function buildHistorySelect() {
+  const select = document.getElementById('historySelect');
   const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
-  const formatLabel = (dateStr) => {
-    const [y, m, d] = dateStr.split('-').map(Number);
-    const dt = new Date(y, m - 1, d);
-    return `${m}/${d} ${weekdays[dt.getDay()]}`;
-  };
 
-  // "今天" always first and active
-  let html = '<span class="history-date active" data-date="today">今天</span>';
+  let html = '<option value="today" selected>今天</option>';
 
-  // 显示最近 30 天的日期（不论是否有数据，点击时再判断）
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  for (let i = 1; i <= 30; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    html += `<span class="history-date" data-date="${dateStr}">${formatLabel(dateStr)}</span>`;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const months = {};
+  for (let i = 1; i <= HISTORY_DAYS; i++) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if (!months[key]) months[key] = [];
+    const dt = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    months[key].push({
+      value: key + '-' + String(d.getDate()).padStart(2,'0'),
+      label: `${d.getMonth()+1}/${d.getDate()} ${weekdays[dt.getDay()]}`
+    });
   }
 
-  container.innerHTML = html;
-}
-
-async function loadHistory(dateStr) {
-  const container = document.getElementById('historyDates');
-
-  // Highlight active
-  container.querySelectorAll('.history-date').forEach(d => {
-    d.classList.toggle('active', d.dataset.date === dateStr);
-    d.classList.add('loading');
-  });
-
-  try {
-    const resp = await fetch(`${HISTORY_BASE}${dateStr}.json`);
-    if (!resp.ok) {
-      throw new Error(`HTTP ${resp.status}`);
-    }
-    const data = await resp.json();
-    historyData = data;
-    render();
-    document.getElementById('mainTitle').textContent = `📅 ${dateStr} 历史快照`;
-  } catch (err) {
-    showToast('📭 该日期暂无快照数据', 'info');
-    historyData = null;
-    render();
-    document.getElementById('mainTitle').textContent = '📰 最新 AI 动态';
-  } finally {
-    container.querySelectorAll('.history-date').forEach(d => d.classList.remove('loading'));
+  for (const [mk, dates] of Object.entries(months).sort((a,b) => b[0].localeCompare(a[0]))) {
+    const [y, m] = mk.split('-');
+    html += `<optgroup label="${y}年${parseInt(m)}月">`;
+    for (const d of dates) html += `<option value="${d.value}">${d.label}</option>`;
+    html += '</optgroup>';
   }
+  select.innerHTML = html;
 }
 
-// History date click handler
-document.getElementById('historyDates').addEventListener('click', e => {
-  if (!e.target.classList.contains('history-date')) return;
-  const dateStr = e.target.dataset.date;
-
+async function onHistorySelect(dateStr) {
   if (dateStr === 'today') {
     historyData = null;
     document.getElementById('mainTitle').textContent = '📰 最新 AI 动态';
-    document.getElementById('historyDates').querySelectorAll('.history-date').forEach(d => {
-      d.classList.toggle('active', d.dataset.date === 'today');
-    });
     render();
-  } else {
-    loadHistory(dateStr);
+    return;
   }
-});
+  try {
+    const resp = await fetch(`${HISTORY_BASE}${dateStr}.json`);
+    if (!resp.ok) throw new Error();
+    historyData = await resp.json();
+    render();
+    document.getElementById('mainTitle').textContent = `📅 ${dateStr} 历史快照`;
+  } catch (err) {
+    showToast('📭 该日期暂无快照，等它生成后再来看', 'info');
+    document.getElementById('historySelect').value = 'today';
+    historyData = null;
+    render();
+    document.getElementById('mainTitle').textContent = '📰 最新 AI 动态';
+  }
+}
 
 // Modify render to use historyData when available
 const _originalRender = render;
@@ -1083,7 +1067,7 @@ function updateStatsFrom(items) {
   document.getElementById('currentDate').textContent =
     bj.getFullYear() + '年' + (bj.getMonth()+1) + '月' + bj.getDate() + '日 ' + weekdays[bj.getDay()];
 
-  buildHistoryDates();
+  buildHistorySelect();
   render();
 })();
 </script>
