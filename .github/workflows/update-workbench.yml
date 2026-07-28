@@ -1,5 +1,6 @@
 name: Update AI Workbench
 
+# 每日自动拉取 AI HOT 数据并更新工作台
 on:
   push:
     paths:
