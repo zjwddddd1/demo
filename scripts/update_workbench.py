@@ -147,20 +147,30 @@ def format_js_array(items):
 
 
 def save_history(items):
-    """保存今日快照到 history/YYYY-MM-DD.json"""
+    """保存今日快照 + 更新 manifest.json"""
     os.makedirs(HISTORY_DIR, exist_ok=True)
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     history_file = os.path.join(HISTORY_DIR, f"{today_str}.json")
 
-    # 检查是否已存在（避免重复保存）
-    if os.path.exists(history_file):
+    if not os.path.exists(history_file):
+        with open(history_file, "w", encoding="utf-8") as f:
+            json.dump(items, f, ensure_ascii=False, indent=2)
+        print(f"Saved history snapshot: {history_file}")
+    else:
         print(f"History snapshot {today_str}.json already exists, skipping.")
-        return
 
-    with open(history_file, "w", encoding="utf-8") as f:
-        json.dump(items, f, ensure_ascii=False, indent=2)
-
-    print(f"Saved history snapshot: {history_file}")
+    # 生成 manifest.json（列出所有历史快照日期）
+    manifest = {
+        "lastUpdated": today_str,
+        "snapshots": sorted(
+            [f.replace(".json", "") for f in os.listdir(HISTORY_DIR) if f.endswith(".json") and f != "manifest.json"],
+            reverse=True
+        )
+    }
+    manifest_file = os.path.join(HISTORY_DIR, "manifest.json")
+    with open(manifest_file, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2)
+    print(f"Updated manifest: {len(manifest['snapshots'])} snapshots")
 
 
 def update_html(html_path, new_data_js):

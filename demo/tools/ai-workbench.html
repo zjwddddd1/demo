@@ -56,9 +56,8 @@ body {
 .sidebar-header h1 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
 .sidebar-header .subtitle { font-size: 12px; color: var(--text-tertiary); }
 
-.date-display { text-align: center; }
-.date-display .day { font-size: 32px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 2px; }
-.date-display .date-str { font-size: 13px; color: var(--text-secondary); }
+.date-display { text-align: center; padding: 6px 0 12px; }
+.date-display .date-str { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
 
 .search-box { position: relative; }
 .search-box input {
@@ -371,7 +370,6 @@ body {
   </div>
 
   <div class="date-display">
-    <div class="day" id="currentDay">27</div>
     <div class="date-str" id="currentDate">2026年7月27日 周一</div>
   </div>
 
@@ -881,20 +879,31 @@ document.addEventListener('keydown', e => {
 let historyData = null;  // 加载的历史数据，null 表示用当前 DATA
 const HISTORY_BASE = 'demo/tools/history/';
 
-function buildHistoryDates() {
+async function buildHistoryDates() {
   const container = document.getElementById('historyDates');
-  // "今天" is always first and active
+  const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
+  const formatLabel = (dateStr) => {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const dt = new Date(y, m - 1, d);
+    return `${m}/${d} ${weekdays[dt.getDay()]}`;
+  };
+
+  // "今天" always first and active
   let html = '<span class="history-date active" data-date="today">今天</span>';
 
-  // Generate last 7 days (excluding today)
-  for (let i = 1; i <= 7; i++) {
-    const d = new Date(Date.now() - i * 86400000);
-    const dateStr = d.toISOString().slice(0, 10);
-    // Format: MM/DD 周X
-    const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
-    const label = `${d.getMonth()+1}/${d.getDate()} ${weekdays[d.getDay()]}`;
-    html += `<span class="history-date" data-date="${dateStr}">${label}</span>`;
+  // 从 manifest 加载所有快照日期
+  try {
+    const resp = await fetch('demo/tools/history/manifest.json');
+    if (resp.ok) {
+      const manifest = await resp.json();
+      for (const dateStr of manifest.snapshots || []) {
+        html += `<span class="history-date" data-date="${dateStr}">${formatLabel(dateStr)}</span>`;
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to load history manifest:', err);
   }
+
   container.innerHTML = html;
 }
 
@@ -1076,7 +1085,6 @@ function updateStatsFrom(items) {
 (function init() {
   const now = new Date();
   const bj = new Date(now.getTime() + 8*3600000);
-  document.getElementById('currentDay').textContent = bj.getDate();
   const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
   document.getElementById('currentDate').textContent =
     bj.getFullYear() + '年' + (bj.getMonth()+1) + '月' + bj.getDate() + '日 ' + weekdays[bj.getDay()];
