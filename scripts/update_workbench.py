@@ -2,6 +2,8 @@
 """
 AI 工作台每日数据更新脚本
 - 从 AI HOT API 拉取最近 7 天精选数据
+- 时间衰减排序：近3天热度加分，取前 30 条
+- 保存每日快照到 history/ 目录
 - 将新数据注入 ai-workbench.html
 - 由 GitHub Actions 每日自动执行
 """
@@ -17,6 +19,8 @@ from datetime import datetime, timezone, timedelta
 API_URL = "https://aihot.virxact.com/api/public/items"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 HTML_PATH = "demo/tools/ai-workbench.html"
+HISTORY_DIR = "demo/tools/history"
+TOP_N = 30
 
 # 手动维护的国内产品数据（不在 AI HOT 覆盖范围内的补充）
 MANUAL_ITEMS = [
@@ -43,6 +47,35 @@ MANUAL_ITEMS = [
 ]
 
 
+def parse_datetime(s):
+    """安全解析 ISO 8601 时间字符串"""
+    if not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return None
+
+
+def time_weighted_score(item, now):
+    """近3天热度加分：今天+30，昨天+20，前天+10，3天前+5，更早+0"""
+    base_score = item.get("score", 50) or 50
+    pub_at = parse_datetime(item.get("publishedAt", ""))
+    if pub_at is None:
+        return base_score
+
+    diff_days = (now - pub_at).days
+    if diff_days <= 0:
+        return base_score + 30
+    elif diff_days == 1:
+        return base_score + 20
+    elif diff_days == 2:
+        return base_score + 10
+    elif diff_days == 3:
+        return base_score + 5
+    return base_score
+
+
 def fetch_aihot_items():
     """从 AI HOT API 拉取最近 7 天精选数据"""
     since = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -62,7 +95,6 @@ def fetch_aihot_items():
     items = data.get("items", [])
     print(f"Fetched {len(items)} items from AI HOT (since={since})")
 
-    # 只保留需要的字段，缺失字段给默认值
     result = []
     for item in items:
         result.append({
@@ -76,36 +108,29 @@ def fetch_aihot_items():
             "score": item.get("score") or 50
         })
 
-    # 按热度排序，取前 20 条
-    result.sort(key=lambda x: x["score"], reverse=True)
-    result = result[:20]
+    # 时间衰减排序，取前 N 条
+    now = datetime.now(timezone.utc)
+    result.sort(key=lambda x: time_weighted_score(x, now), reverse=True)
+    result = result[:TOP_N]
 
     return result
 
 
 def format_js_array(items):
     """将 Python 数据格式化为 JavaScript 数组字符串"""
-    # 只保留 30 天内的手动条目
     cutoff = datetime.now(timezone.utc) - timedelta(days=30)
     manual_filtered = []
     for m in MANUAL_ITEMS:
-        pub_date = m.get("publishedAt", "")
-        if pub_date:
-            try:
-                d = datetime.fromisoformat(pub_date.replace("Z", "+00:00"))
-                if d >= cutoff:
-                    manual_filtered.append(m)
-            except ValueError:
-                manual_filtered.append(m)
-        else:
+        pub_date = parse_datetime(m.get("publishedAt", ""))
+        if pub_date and pub_date >= cutoff:
+            manual_filtered.append(m)
+        elif pub_date is None:
             manual_filtered.append(m)
 
     all_items = items + manual_filtered
 
-    # 转换为 JS 对象字符串，压缩格式
     js_objects = []
     for item in all_items:
-        # 转义标题和摘要中的特殊字符
         title = item["title"].replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
         summary = item["summary"].replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
         source = item["source"].replace("\\", "\\\\").replace('"', '\\"')
@@ -121,19 +146,33 @@ def format_js_array(items):
     return "[" + ",".join(js_objects) + "]"
 
 
+def save_history(items):
+    """保存今日快照到 history/YYYY-MM-DD.json"""
+    os.makedirs(HISTORY_DIR, exist_ok=True)
+    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    history_file = os.path.join(HISTORY_DIR, f"{today_str}.json")
+
+    # 检查是否已存在（避免重复保存）
+    if os.path.exists(history_file):
+        print(f"History snapshot {today_str}.json already exists, skipping.")
+        return
+
+    with open(history_file, "w", encoding="utf-8") as f:
+        json.dump(items, f, ensure_ascii=False, indent=2)
+
+    print(f"Saved history snapshot: {history_file}")
+
+
 def update_html(html_path, new_data_js):
     """替换 HTML 中的 DATA 数组"""
     with open(html_path, "r", encoding="utf-8") as f:
         html = f.read()
 
-    # 匹配 const DATA = [...] 并替换
     pattern = r'const DATA = \[.*?\];'
     replacement = f'const DATA = {new_data_js};'
 
-    # 检查是否能匹配到
     match = re.search(pattern, html, re.DOTALL)
     if not match:
-        # 尝试更宽松的匹配
         pattern2 = r'const DATA = \[[\s\S]*?\];\s*\n\s*const CAT_LABELS'
         match2 = re.search(pattern2, html)
         if match2:
@@ -170,17 +209,16 @@ def main():
         print("No items returned from API, aborting.")
         sys.exit(1)
 
-    # 2. 格式化
-    print(f"Formatting {len(items)} items (+ {len(MANUAL_ITEMS)} manual)...")
-    new_data = format_js_array(items)
+    # 2. 保存历史快照
+    save_history(items)
 
-    # 3. 更新 HTML
-    print(f"Updating {HTML_PATH}...")
+    # 3. 格式化并更新 HTML
+    new_data = format_js_array(items)
+    print(f"Updating {HTML_PATH} with {len(items)} items...")
     changed = update_html(HTML_PATH, new_data)
 
     if changed:
-        print(f"Successfully updated with {len(items)} items!")
-        # 输出到 GitHub Actions output
+        print(f"Successfully updated HTML!")
         if "GITHUB_OUTPUT" in os.environ:
             with open(os.environ["GITHUB_OUTPUT"], "a") as f:
                 f.write("changed=true\n")
