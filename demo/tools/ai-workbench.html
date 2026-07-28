@@ -879,7 +879,7 @@ document.addEventListener('keydown', e => {
 let historyData = null;  // 加载的历史数据，null 表示用当前 DATA
 const HISTORY_BASE = 'demo/tools/history/';
 
-async function buildHistoryDates() {
+function buildHistoryDates() {
   const container = document.getElementById('historyDates');
   const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
   const formatLabel = (dateStr) => {
@@ -891,17 +891,14 @@ async function buildHistoryDates() {
   // "今天" always first and active
   let html = '<span class="history-date active" data-date="today">今天</span>';
 
-  // 从 manifest 加载所有快照日期
-  try {
-    const resp = await fetch('demo/tools/history/manifest.json');
-    if (resp.ok) {
-      const manifest = await resp.json();
-      for (const dateStr of manifest.snapshots || []) {
-        html += `<span class="history-date" data-date="${dateStr}">${formatLabel(dateStr)}</span>`;
-      }
-    }
-  } catch (err) {
-    console.warn('Failed to load history manifest:', err);
+  // 显示最近 30 天的日期（不论是否有数据，点击时再判断）
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  for (let i = 1; i <= 30; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    html += `<span class="history-date" data-date="${dateStr}">${formatLabel(dateStr)}</span>`;
   }
 
   container.innerHTML = html;
@@ -926,13 +923,10 @@ async function loadHistory(dateStr) {
     render();
     document.getElementById('mainTitle').textContent = `📅 ${dateStr} 历史快照`;
   } catch (err) {
-    showToast('该日期暂无快照数据', 'info');
-    // Revert to today
-    container.querySelectorAll('.history-date').forEach(d => {
-      d.classList.toggle('active', d.dataset.date === 'today');
-    });
+    showToast('📭 该日期暂无快照数据', 'info');
     historyData = null;
     render();
+    document.getElementById('mainTitle').textContent = '📰 最新 AI 动态';
   } finally {
     container.querySelectorAll('.history-date').forEach(d => d.classList.remove('loading'));
   }
