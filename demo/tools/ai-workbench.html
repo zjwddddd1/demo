@@ -303,7 +303,7 @@ body {
   background: var(--bg-card); backdrop-filter: blur(8px);
   font-size: 12px; color: var(--text-secondary);
   transition: all var(--transition); font-weight: 500; white-space: nowrap;
-  user-select: none; position: relative;
+  user-select: none; position: relative; z-index: 51;
 }
 .gradient-toggle:hover { border-color: var(--border-focus); }
 .gradient-toggle.active {
@@ -324,7 +324,7 @@ body {
   display: none; position: absolute; top: 100%; right: 0;
   margin-top: 6px; background: var(--bg); border-radius: var(--radius-sm);
   box-shadow: var(--shadow-lg); border: 1px solid var(--border);
-  min-width: 180px; z-index: 50; overflow: hidden;
+  min-width: 200px; z-index: 100; overflow: hidden;
 }
 .gradient-dropdown.show { display: block; }
 .gradient-option {
