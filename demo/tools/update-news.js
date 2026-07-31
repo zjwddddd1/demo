@@ -71,8 +71,10 @@ async function fetchAINews() {
 
 function toDataItem(story, idx) {
   const now = new Date();
-  const hoursAgo = Math.floor(idx * 0.6);
-  const publishedAt = new Date(now.getTime() - hoursAgo * 3600000).toISOString();
+  // 所有新数据日期标记为今天，分散到不同时间点
+  const hour = 8 + Math.floor(idx * 0.3) % 14;
+  const minute = Math.floor(Math.random() * 50);
+  const publishedAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0).toISOString();
 
   let hostname = 'Hacker News';
   if (story.url) {
