@@ -301,12 +301,11 @@ body {
   padding: 6px 12px; border-radius: var(--radius-xs);
   border: 1.5px solid var(--border); cursor: pointer;
   background: var(--bg-card); backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   font-size: 12px; color: var(--text-secondary);
   transition: all var(--transition); font-weight: 500; white-space: nowrap;
-  user-select: none;
+  user-select: none; position: relative;
 }
-.gradient-toggle:hover { border-color: var(--border-focus); color: var(--primary); }
+.gradient-toggle:hover { border-color: var(--border-focus); }
 .gradient-toggle.active {
   border-color: var(--primary); color: var(--primary);
   box-shadow: 0 0 0 3px var(--primary-lighter);
@@ -317,14 +316,38 @@ body {
 }
 .gradient-toggle.active .toggle-dot {
   background: linear-gradient(135deg, #f0f8ff, #3d82cc);
-  box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 6px rgba(59,130,246,0.4);
 }
 
-/* 渐变模式 0-关闭 */
-.main.gradient-off::before { animation-play-state: paused; opacity: 0 !important; }
+/* 下拉菜单 */
+.gradient-dropdown {
+  display: none; position: absolute; top: 100%; right: 0;
+  margin-top: 6px; background: var(--bg); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+  min-width: 180px; z-index: 50; overflow: hidden;
+}
+.gradient-dropdown.show { display: block; }
+.gradient-option {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px; cursor: pointer; font-size: 12px;
+  color: var(--text-secondary); transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--border);
+}
+.gradient-option:last-child { border-bottom: none; }
+.gradient-option:hover { background: var(--primary-lighter); color: var(--primary); }
+.gradient-option.selected { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+.gradient-option .opt-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+}
+.gradient-option .opt-dot.off  { background: #ccc; }
+.gradient-option .opt-dot.hori { background: linear-gradient(90deg, #f0f8ff, #1a4b8c); }
+.gradient-option .opt-dot.diag { background: linear-gradient(135deg, #f0f8ff, #1a4b8c); }
+.gradient-option .opt-dot.upload { background: var(--border-focus); }
+
+/* 模式类同上 */
+.main.gradient-off::before { opacity: 0 !important; }
 .main.gradient-off { background-color: #f0f8ff; }
 
-/* 渐变模式 1-水平呼吸 */
 .main.gradient-hori::before {
   opacity: 1;
   background: linear-gradient(90deg, #f0f8ff, #a8cde8, #3d82cc, #1a4b8c);
@@ -335,7 +358,6 @@ body {
   50%      { opacity: 1; }
 }
 
-/* 渐变模式 2-斜角蔓延 */
 .main.gradient-diag::before {
   opacity: 1;
   background: linear-gradient(135deg, #f0f8ff, #b8d4ee, #4a90c9, #1a4b8c);
@@ -347,24 +369,25 @@ body {
   100% { opacity: 0.3;  }
 }
 
-/* 渐变模式 3-自定义 */
 .main.gradient-custom::before {
   opacity: 1;
   background: var(--custom-gradient, linear-gradient(90deg, #f0f8ff, #a8cde8, #3d82cc));
   animation: breatheColor 12s ease-in-out infinite;
 }
 
-/* 自定义上传 */
-.gradient-upload-wrap { display: none; padding: 4px 0; }
-.gradient-upload-wrap.show { display: block; }
-.upload-label {
-  display: inline-block; padding: 4px 10px; border-radius: 4px;
-  font-size: 11px; cursor: pointer; border: 1px dashed var(--border-focus);
-  color: var(--text-tertiary); transition: all var(--transition);
+/* 自定义上传行 */
+.gradient-upload-row {
+  display: flex; align-items: center; gap: 6px; padding: 6px 14px;
+  border-top: 1px solid var(--border);
 }
-.upload-label:hover { background: var(--primary-lighter); color: var(--primary); }
+.upload-label {
+  font-size: 11px; cursor: pointer; color: var(--primary);
+  transition: all var(--transition); text-decoration: underline;
+}
+.upload-label:hover { color: var(--primary-hover); }
 #gradientFileInput { display: none; }
-.upload-status { font-size: 10px; color: var(--primary); margin-left: 6px; }
+.upload-status { font-size: 10px; margin-left: auto; }
+.upload-status.ok { color: var(--green); }
 
 /* ===== CARDS ===== */
 .cards-grid {
@@ -713,15 +736,33 @@ body {
       <button class="sort-btn active" data-sort="score" id="sortScore">🔥 热度优先</button>
       <button class="sort-btn" data-sort="time" id="sortTime">🕐 最新优先</button>
       <span class="result-count" id="resultCount"></span>
-      <button class="gradient-toggle" id="gradientToggle" title="切换渐变模式">
+      <div class="gradient-toggle" id="gradientToggle" style="position:relative;">
         <span class="toggle-dot"></span>
         <span id="gradientLabel">渐变</span>
-      </button>
-      <span class="gradient-upload-wrap" id="gradientUploadWrap">
-        <label for="gradientFileInput" class="upload-label" title="上传你喜欢的渐变HTML">📁 自定义</label>
-        <input type="file" id="gradientFileInput" accept=".html,.htm" onchange="onCustomGradient(this)">
-        <span class="upload-status" id="uploadStatus"></span>
-      </span>
+        <span style="font-size:10px;">▾</span>
+        <div class="gradient-dropdown" id="gradientDropdown">
+          <div class="gradient-option selected" data-mode="0">
+            <span class="opt-dot off"></span> 关闭渐变
+          </div>
+          <div class="gradient-option" data-mode="1">
+            <span class="opt-dot hori"></span> 水平呼吸
+          </div>
+          <div class="gradient-option" data-mode="2">
+            <span class="opt-dot diag"></span> 斜角蔓延
+          </div>
+          <div class="gradient-option" data-mode="3">
+            <span class="opt-dot upload"></span> 自定义渐变
+          </div>
+          <div class="gradient-upload-row">
+            <label for="gradientFileInput" class="upload-label">📁 上传配色HTML</label>
+            <input type="file" id="gradientFileInput" accept=".html,.htm" onchange="onCustomGradient(this)">
+            <span class="upload-status" id="uploadStatus"></span>
+          </div>
+          <div style="font-size:10px;color:var(--text-tertiary);padding:4px 14px 6px;">
+            上传包含 linear-gradient 的 HTML 文件
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="cards-grid" id="cardsGrid"></div>
@@ -1079,37 +1120,51 @@ document.getElementById('sortScore').addEventListener('click', function() {
   render();
 });
 
-// ===== GRADIENT TOGGLE (3-mode) =====
-let gradientMode = 0; // 0=off, 1=水平呼吸, 2=斜角蔓延, 3=自定义
+// ===== GRADIENT DROPDOWN =====
+let gradientMode = 0;
+const GRADIENT_MODES = ['gradient-off', 'gradient-hori', 'gradient-diag', 'gradient-custom'];
 const GRADIENT_LABELS = ['渐变', '呼吸', '斜角', '自定义'];
-const GRADIENT_CLASSES = ['gradient-off', 'gradient-hori', 'gradient-diag', 'gradient-custom'];
 
-document.getElementById('gradientToggle').addEventListener('click', function() {
-  gradientMode = (gradientMode + 1) % 4;
-  const main = document.querySelector('.main');
-  const toggle = this;
-  const label = document.getElementById('gradientLabel');
-  const uploadWrap = document.getElementById('gradientUploadWrap');
-
-  // Remove all gradient classes
-  GRADIENT_CLASSES.forEach(c => main.classList.remove(c));
-  // Add the current one
-  main.classList.add(GRADIENT_CLASSES[gradientMode]);
-
-  if (gradientMode === 0) {
-    toggle.classList.remove('active');
-  } else {
-    toggle.classList.add('active');
-  }
-  label.textContent = GRADIENT_LABELS[gradientMode];
-
-  // Show upload UI for custom mode
-  if (gradientMode === 3) {
-    uploadWrap.classList.add('show');
-  } else {
-    uploadWrap.classList.remove('show');
-  }
+// 点击主按钮切换下拉
+document.getElementById('gradientToggle').addEventListener('click', function(e) {
+  e.stopPropagation();
+  document.getElementById('gradientDropdown').classList.toggle('show');
 });
+
+// 点击选项
+document.querySelectorAll('.gradient-option').forEach(opt => {
+  opt.addEventListener('click', function(e) {
+    e.stopPropagation();
+    gradientMode = parseInt(this.dataset.mode);
+    applyGradient();
+    document.getElementById('gradientDropdown').classList.remove('show');
+  });
+});
+
+// 点击外部关闭
+document.addEventListener('click', function() {
+  document.getElementById('gradientDropdown').classList.remove('show');
+});
+
+function applyGradient() {
+  const main = document.querySelector('.main');
+  const toggle = document.getElementById('gradientToggle');
+  const label = document.getElementById('gradientLabel');
+
+  GRADIENT_MODES.forEach(c => main.classList.remove(c));
+  main.classList.add(GRADIENT_MODES[gradientMode]);
+
+  label.textContent = GRADIENT_LABELS[gradientMode];
+  if (gradientMode > 0) {
+    toggle.classList.add('active');
+  } else {
+    toggle.classList.remove('active');
+  }
+
+  // 高亮选中项
+  document.querySelectorAll('.gradient-option').forEach(o => o.classList.remove('selected'));
+  document.querySelector('.gradient-option[data-mode="' + gradientMode + '"]')?.classList.add('selected');
+}
 
 // ===== CUSTOM GRADIENT UPLOAD =====
 function onCustomGradient(input) {
