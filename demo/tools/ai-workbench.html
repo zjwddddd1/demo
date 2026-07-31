@@ -665,7 +665,7 @@ body {
 </aside>
 
 <!-- Main -->
-<main class="main">
+<main class="main gradient-off">
   <div class="top-bar">
     <div class="top-bar-left">
       <h2 id="mainTitle">📰 最新 AI 动态</h2>
@@ -675,7 +675,7 @@ body {
       <button class="sort-btn active" data-sort="score" id="sortScore">🔥 热度优先</button>
       <button class="sort-btn" data-sort="time" id="sortTime">🕐 最新优先</button>
       <span class="result-count" id="resultCount"></span>
-      <button class="gradient-toggle active" id="gradientToggle" title="开关渐变背景">
+      <button class="gradient-toggle" id="gradientToggle" title="开关渐变背景">
         <span class="toggle-dot"></span>
         渐变
       </button>
@@ -1037,7 +1037,7 @@ document.getElementById('sortScore').addEventListener('click', function() {
 });
 
 // ===== GRADIENT TOGGLE =====
-let gradientOn = true;
+let gradientOn = false;
 document.getElementById('gradientToggle').addEventListener('click', function() {
   gradientOn = !gradientOn;
   const main = document.querySelector('.main');
