@@ -465,13 +465,11 @@ body {
 }
 .btn-star .star-hint {
   font-size: 11px; font-weight: 500; color: var(--text-tertiary);
-  opacity: 0;
   transition: opacity 0.2s;
-  max-width: 0; overflow: hidden;
   white-space: nowrap;
 }
-.btn-star:hover .star-hint { opacity: 1; max-width: 40px; }
-.btn-star.starred .star-hint { opacity: 1; max-width: 40px; color: var(--star); }
+.btn-star:hover .star-hint { color: var(--star); }
+.btn-star.starred .star-hint { color: var(--star); }
 
 .btn-link {
   color: var(--primary); text-decoration: none; font-weight: 600;
