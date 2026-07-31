@@ -351,7 +351,7 @@ body {
 .gradient-option.selected .opt-dot { border-color: var(--primary); }
 .gradient-option .opt-dot.off  { background: #cbd5e1; }
 .gradient-option .opt-dot.hori { background: linear-gradient(90deg, #e0f0ff, #3d82cc); }
-.gradient-option .opt-dot.diag { background: linear-gradient(135deg, #e0f0ff, #3d82cc); }
+.gradient-option .opt-dot.diag { background: linear-gradient(to bottom left, #1a4b8c, #e0f0ff); }
 .gradient-option .opt-dot.upload { background: var(--border-focus); }
 
 /* 模式类同上 */
@@ -370,7 +370,7 @@ body {
 
 .main.gradient-diag::before {
   opacity: 1;
-  background: linear-gradient(135deg, #f0f8ff, #b8d4ee, #4a90c9, #1a4b8c);
+  background: linear-gradient(to bottom left, #1a4b8c, #4a90c9, #b8d4ee, #f0f8ff);
   animation: diagSpread 15s ease-in-out infinite;
 }
 @keyframes diagSpread {
