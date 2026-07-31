@@ -87,13 +87,9 @@ body {
 /* 深色覆盖层：通过 opacity 呼吸实现深浅交替 */
 .main::before {
   content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  /* 呼吸渐变覆盖层 */
-  background: linear-gradient(90deg, #f0f8ff, #c8dcee, #6e9ec7, #2d5a88);
-  z-index: 0;
-  animation: breatheColor 18s ease-in-out infinite;
-  pointer-events: none;
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0; pointer-events: none;
+  opacity: 0; /* 默认隐藏，由模式类控制显示 */
 }
 
 /* 卡片层要在渐变之上 */
@@ -302,7 +298,7 @@ body {
 /* ===== 渐变开关 ===== */
 .gradient-toggle {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: var(--radius-xs);
+  padding: 6px 12px; border-radius: var(--radius-xs);
   border: 1.5px solid var(--border); cursor: pointer;
   background: var(--bg-card); backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -316,17 +312,59 @@ body {
   box-shadow: 0 0 0 3px var(--primary-lighter);
 }
 .gradient-toggle .toggle-dot {
-  width: 18px; height: 18px; border-radius: 50%;
+  width: 16px; height: 16px; border-radius: 50%;
   background: var(--border); transition: all var(--transition);
-  position: relative;
 }
 .gradient-toggle.active .toggle-dot {
-  background: linear-gradient(135deg, #f0f8ff, #1a4b8c, #3d82cc);
+  background: linear-gradient(135deg, #f0f8ff, #3d82cc);
   box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
 }
-/* 当关闭时，主区域恢复纯色 */
+
+/* 渐变模式 0-关闭 */
 .main.gradient-off::before { animation-play-state: paused; opacity: 0 !important; }
 .main.gradient-off { background-color: #f0f8ff; }
+
+/* 渐变模式 1-水平呼吸 */
+.main.gradient-hori::before {
+  opacity: 1;
+  background: linear-gradient(90deg, #f0f8ff, #a8cde8, #3d82cc, #1a4b8c);
+  animation: breatheColor 12s ease-in-out infinite;
+}
+@keyframes breatheColor {
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 1; }
+}
+
+/* 渐变模式 2-斜角蔓延 */
+.main.gradient-diag::before {
+  opacity: 1;
+  background: linear-gradient(135deg, #f0f8ff, #b8d4ee, #4a90c9, #1a4b8c);
+  animation: diagSpread 15s ease-in-out infinite;
+}
+@keyframes diagSpread {
+  0%   { opacity: 0.3; }
+  50%  { opacity: 1;    }
+  100% { opacity: 0.3;  }
+}
+
+/* 渐变模式 3-自定义 */
+.main.gradient-custom::before {
+  opacity: 1;
+  background: var(--custom-gradient, linear-gradient(90deg, #f0f8ff, #a8cde8, #3d82cc));
+  animation: breatheColor 12s ease-in-out infinite;
+}
+
+/* 自定义上传 */
+.gradient-upload-wrap { display: none; padding: 4px 0; }
+.gradient-upload-wrap.show { display: block; }
+.upload-label {
+  display: inline-block; padding: 4px 10px; border-radius: 4px;
+  font-size: 11px; cursor: pointer; border: 1px dashed var(--border-focus);
+  color: var(--text-tertiary); transition: all var(--transition);
+}
+.upload-label:hover { background: var(--primary-lighter); color: var(--primary); }
+#gradientFileInput { display: none; }
+.upload-status { font-size: 10px; color: var(--primary); margin-left: 6px; }
 
 /* ===== CARDS ===== */
 .cards-grid {
@@ -675,10 +713,15 @@ body {
       <button class="sort-btn active" data-sort="score" id="sortScore">🔥 热度优先</button>
       <button class="sort-btn" data-sort="time" id="sortTime">🕐 最新优先</button>
       <span class="result-count" id="resultCount"></span>
-      <button class="gradient-toggle" id="gradientToggle" title="开关渐变背景">
+      <button class="gradient-toggle" id="gradientToggle" title="切换渐变模式">
         <span class="toggle-dot"></span>
-        渐变
+        <span id="gradientLabel">渐变</span>
       </button>
+      <span class="gradient-upload-wrap" id="gradientUploadWrap">
+        <label for="gradientFileInput" class="upload-label" title="上传你喜欢的渐变HTML">📁 自定义</label>
+        <input type="file" id="gradientFileInput" accept=".html,.htm" onchange="onCustomGradient(this)">
+        <span class="upload-status" id="uploadStatus"></span>
+      </span>
     </div>
   </div>
   <div class="cards-grid" id="cardsGrid"></div>
@@ -1036,20 +1079,61 @@ document.getElementById('sortScore').addEventListener('click', function() {
   render();
 });
 
-// ===== GRADIENT TOGGLE =====
-let gradientOn = false;
+// ===== GRADIENT TOGGLE (3-mode) =====
+let gradientMode = 0; // 0=off, 1=水平呼吸, 2=斜角蔓延, 3=自定义
+const GRADIENT_LABELS = ['渐变', '呼吸', '斜角', '自定义'];
+const GRADIENT_CLASSES = ['gradient-off', 'gradient-hori', 'gradient-diag', 'gradient-custom'];
+
 document.getElementById('gradientToggle').addEventListener('click', function() {
-  gradientOn = !gradientOn;
+  gradientMode = (gradientMode + 1) % 4;
   const main = document.querySelector('.main');
   const toggle = this;
-  if (gradientOn) {
-    main.classList.remove('gradient-off');
-    toggle.classList.add('active');
-  } else {
-    main.classList.add('gradient-off');
+  const label = document.getElementById('gradientLabel');
+  const uploadWrap = document.getElementById('gradientUploadWrap');
+
+  // Remove all gradient classes
+  GRADIENT_CLASSES.forEach(c => main.classList.remove(c));
+  // Add the current one
+  main.classList.add(GRADIENT_CLASSES[gradientMode]);
+
+  if (gradientMode === 0) {
     toggle.classList.remove('active');
+  } else {
+    toggle.classList.add('active');
+  }
+  label.textContent = GRADIENT_LABELS[gradientMode];
+
+  // Show upload UI for custom mode
+  if (gradientMode === 3) {
+    uploadWrap.classList.add('show');
+  } else {
+    uploadWrap.classList.remove('show');
   }
 });
+
+// ===== CUSTOM GRADIENT UPLOAD =====
+function onCustomGradient(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const status = document.getElementById('uploadStatus');
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const html = e.target.result;
+    // Extract background style from the HTML
+    const styleMatch = html.match(/background\s*:\s*(linear-gradient\([^)]+\)[^;]*)/i);
+    if (styleMatch) {
+      const main = document.querySelector('.main');
+      main.style.setProperty('--custom-gradient', styleMatch[1]);
+      status.textContent = '✓ 已应用';
+      status.style.color = 'var(--green)';
+    } else {
+      status.textContent = '✗ 未找到渐变样式';
+      status.style.color = 'var(--red)';
+    }
+  };
+  reader.readAsText(file);
+}
 
 // ===== DRAWER =====
 let drawerMode = 'starred';
