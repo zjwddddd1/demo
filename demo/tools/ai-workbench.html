@@ -89,7 +89,7 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  /* 超宽8阶渐变：多色过渡 + 首尾同色，无缝循环 */
+  /* 超宽8阶渐变：多色过渡 + 首尾同色 */
   background: linear-gradient(90deg,
     #f0f8ff 0%,
     #dfeef8 12%,
@@ -101,7 +101,7 @@ body {
     #f0f8ff 100%
   );
   background-size: 300% 100%;
-  animation: smoothDrift 20s linear infinite;
+  animation: smoothDrift 25s ease-in-out alternate infinite;
   z-index: 0;
   pointer-events: none;
 }
@@ -111,7 +111,7 @@ body {
 .top-bar { position: relative; z-index: 1; }
 .result-count { position: relative; z-index: 1; }
 
-/* 超平滑位移：色带从左向右缓缓漂移，首尾同色无缝 */
+/* 来回漂移：左→右→左，不跳转，永远丝滑 */
 @keyframes smoothDrift {
   0%   { background-position: 0% 0%; }
   100% { background-position: 100% 0%; }
