@@ -89,19 +89,14 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  /* 超宽8阶渐变：多色过渡 + 首尾同色 */
+  /* 极简3色渐变 + 超大宽度：过渡极其平缓，无可见分界 */
   background: linear-gradient(90deg,
-    #f0f8ff 0%,
-    #dfeef8 12%,
-    #c4def0 25%,
-    #9ec8e4 40%,
-    #6aafd6 55%,
-    #3a8cc3 70%,
-    #1f62a0 85%,
-    #f0f8ff 100%
+    #eef6fc 0%,
+    #b0cee8 35%,
+    #2a6cb4 100%
   );
-  background-size: 300% 100%;
-  animation: smoothDrift 25s ease-in-out alternate infinite;
+  background-size: 500% 100%;
+  animation: smoothDrift 30s ease-in-out alternate infinite;
   z-index: 0;
   pointer-events: none;
 }
