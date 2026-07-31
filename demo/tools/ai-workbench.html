@@ -89,15 +89,10 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  /* 极简3色渐变 + 超大宽度：过渡极其平缓，无可见分界 */
-  background: linear-gradient(90deg,
-    #eef6fc 0%,
-    #b0cee8 35%,
-    #2a6cb4 100%
-  );
-  background-size: 500% 100%;
-  animation: smoothDrift 30s ease-in-out alternate infinite;
+  /* 呼吸渐变覆盖层 */
+  background: linear-gradient(90deg, #f0f8ff, #c8dcee, #6e9ec7, #2d5a88);
   z-index: 0;
+  animation: breatheColor 18s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -106,10 +101,10 @@ body {
 .top-bar { position: relative; z-index: 1; }
 .result-count { position: relative; z-index: 1; }
 
-/* 来回漂移：左→右→左，不跳转，永远丝滑 */
-@keyframes smoothDrift {
-  0%   { background-position: 0% 0%; }
-  100% { background-position: 100% 0%; }
+/* 呼吸动画：浅→深→浅，缓进缓出 */
+@keyframes breatheColor {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
 }
 
 /* ===== SIDEBAR ===== */
