@@ -1,0 +1,37 @@
+name: Daily AI News Update
+
+on:
+  schedule:
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch AI news & update HTML
+        run: node demo/tools/update-news.js
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "AI Workbench Bot"
+          git config user.email "bot@workbuddy.local"
+          git add demo/tools/ai-workbench.html demo/tools/history/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            DATE_STR=$(TZ='Asia/Shanghai' date +'%Y-%m-%d')
+            git commit -m "auto: AI news update - ${DATE_STR}"
+            git push
+          fi
