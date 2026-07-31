@@ -71,10 +71,10 @@ async function fetchAINews() {
 
 function toDataItem(story, idx) {
   const now = new Date();
-  // 所有新数据日期标记为今天，分散到不同时间点
-  const hour = 8 + Math.floor(idx * 0.3) % 14;
-  const minute = Math.floor(Math.random() * 50);
-  const publishedAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0).toISOString();
+  // UTC 0-14范围（北京时间8-22点），确保不跨天
+  const hour = Math.floor(idx * 0.4) % 15;
+  const minute = Math.floor(Math.random() * 55);
+  const publishedAt = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, 0)).toISOString();
 
   let hostname = 'Hacker News';
   if (story.url) {
