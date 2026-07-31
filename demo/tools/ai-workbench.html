@@ -89,10 +89,20 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  /* 纯水平渐变：左浅右深 */
-  background: linear-gradient(90deg, #f0f8ff, #a8cde8, #3d82cc, #1a4b8c);
+  /* 超宽8阶渐变：多色过渡 + 首尾同色，无缝循环 */
+  background: linear-gradient(90deg,
+    #f0f8ff 0%,
+    #dfeef8 12%,
+    #c4def0 25%,
+    #9ec8e4 40%,
+    #6aafd6 55%,
+    #3a8cc3 70%,
+    #1f62a0 85%,
+    #f0f8ff 100%
+  );
+  background-size: 300% 100%;
+  animation: smoothDrift 20s linear infinite;
   z-index: 0;
-  animation: breatheColor 12s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -101,10 +111,10 @@ body {
 .top-bar { position: relative; z-index: 1; }
 .result-count { position: relative; z-index: 1; }
 
-/* 呼吸动画：透明→显现（变深）→透明（变浅），无缝循环 */
-@keyframes breatheColor {
-  0%, 100% { opacity: 0; }     /* 最浅 */
-  50%       { opacity: 1; }     /* 最深 */
+/* 超平滑位移：色带从左向右缓缓漂移，首尾同色无缝 */
+@keyframes smoothDrift {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 100% 0%; }
 }
 
 /* ===== SIDEBAR ===== */
