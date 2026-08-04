@@ -65,7 +65,7 @@
     "url": "https://x.com/Kimi_Moonshot/status/2084245860339298423",
     "source": "X：Kimi.ai (@Kimi_Moonshot)",
     "publishedAt": "2026-08-03T11:51:51.000Z",
-    "summary": "使用 Kimi Work 制作幻灯片 - 教程 #1。\n\nKimi Slides 处理整个幻灯片制作流程：\n- 清晰的结构与研究，由 Kimi K3 驱动\n- 连贯的设计，包括精美的图表和 SmartArts\n- 可编辑并可直接下载\n\n欢迎在评论区告诉我们你还想看什么内容！",
+    "summary": "使用 Kimi Work 制作幻灯片 - 教程 #1。  Kimi Slides 处理整个幻灯片制作流程： - 清晰的结构与研究，由 Kimi K3 驱动 - 连贯的设计，包括精美的图表和 SmartArts - 可编辑并可直接下载  欢迎在评论区告诉我们你还想看什么内容！",
     "category": "tip",
     "score": 70
   },
@@ -75,228 +75,428 @@
     "url": "https://x.com/OpenRouter/status/2084301100078027143",
     "source": "X：OpenRouter (@OpenRouter)",
     "publishedAt": "2026-08-03T15:31:21.000Z",
-    "summary": "推出 Ori Eval：编写首个评估的最简单方式。\n\n没有绝对最好的模型，只有最适合每项任务的模型。Ori Eval 利用 OpenRouter 的 API 处理代码库中的每项任务，然后评估结果。\n\ncurl -fsSL https://openrouter.ai/skills/spawn-ori-eval",
+    "summary": "推出 Ori Eval：编写首个评估的最简单方式。  没有绝对最好的模型，只有最适合每项任务的模型。Ori Eval 利用 OpenRouter 的 API 处理代码库中的每项任务，然后评估结果。  curl -fsSL https://openrouter.ai/skills/spawn-ori-eval",
     "category": "ai-products",
     "score": 68
   },
   {
-    "id": "cmsdczxnl0138rotj8fjenm4b",
-    "title": "商汤发布 SenseNova U1.5-Lite-Preview 开源模型",
-    "url": "https://x.com/SenseTime_AI/status/2084288424236782073",
-    "source": "X：商汤 SenseTime (@SenseTime_AI)",
-    "publishedAt": "2026-08-03T14:40:59.000Z",
-    "summary": "商汤推出 SenseNova U1.5-Lite-Preview，一个基于 NEO-Unify 架构的轻量级原生统一多模态模型，仅 8B-MoT 参数即可达到商业闭源模型的生成与编辑质量。",
-    "category": "ai-models",
-    "score": 68
-  },
-  {
-    "id": "cmsdal06c16pxroeu5xtlavmg",
-    "title": "Cloudflare 推出 @cloudflare/computer 预览版：为智能体提供虚拟文件系统与多执行环境",
-    "url": "https://blog.cloudflare.com/cloudflare-computer",
-    "source": "Cloudflare Blog",
-    "publishedAt": "2026-08-03T13:15:24.000Z",
-    "summary": "Cloudflare 发布 @cloudflare/computer 早期预览版，这是一个开源智能体运行时，为每个智能体提供虚拟文件系统，并支持在 isolate、容器沙箱或浏览器中执行代码。",
-    "category": "ai-products",
-    "score": 68
-  },
-  {
-    "id": "cmsdt5gom0130rojfwd72clkl",
-    "title": "GPT-Live实时音频新架构发布",
-    "url": "https://x.com/gdb/status/2084405421041963356",
-    "source": "X：Greg Brockman (@gdb)",
-    "publishedAt": "2026-08-03T22:25:53.000Z",
-    "summary": "GPT-Live 是一种用于实时音频的新架构和栈：\n\nGPT-Live 可以在说话的同时聆听。\n\n为了让这种体验在 ChatGPT 规模下显得自然，我们从客户端到模型重建了语音栈。\n\n这一新架构让音频持续流动，因此更深入的推理和工具使用不会打断对话。",
-    "category": "ai-products",
-    "score": 66
-  },
-  {
-    "id": "cmsdqxlyq00giromaftad8bdu",
-    "title": "Claude Code 连接器可复用至 Artifacts",
-    "url": "https://x.com/trq212/status/2084387303959740449",
-    "source": "X：Thariq (@trq212)",
-    "publishedAt": "2026-08-03T21:13:53.000Z",
-    "summary": "我想很多人没有意识到--如果你连接了一个 Claude 连接器（例如你的 Gmail、日历、Slack 等），Claude Code 也将能够使用它们，包括在 Artifacts 中。",
-    "category": "tip",
-    "score": 65
-  },
-  {
-    "id": "cmsdo0x3203dmro0ovomuyfqx",
-    "title": "EA 首席战略官谈生成式 AI 如何进入可游玩的实时游戏世界",
-    "url": "https://runwayml.com/news/company-news/electronic-arts-ai-summit-2026",
-    "source": "Runway：News（网页）",
-    "publishedAt": "2026-08-03T20:12:03.229Z",
-    "summary": "EA 首席战略官 Mihir Vaidya 认为，游戏是 AI 的试验场，但生成式 AI 进入游戏面临 60 帧/秒、数千玩家同步和低延迟等严苛约束，不能只追求\"看起来真实\"，而必须\"行为正确\"。他主张采用神经符号架构，在生成能力之外保留确定性与可控性，并称\"控制是下一个前沿\"。EA 将 AI 影响分为效率、扩展和转型三个层面，其中《模拟人生》已服务超 5 亿玩家，拥有近万亿种游玩排列组合。",
-    "category": "tip",
-    "score": 65
-  },
-  {
-    "id": "cmsdnp8wy035jro0oflgpii8f",
-    "title": "微软开源 Orchard 智能体训练框架",
-    "url": "https://x.com/MSFTResearch/status/2084364547142418722",
-    "source": "X：Microsoft Research (@MSFTResearch)",
-    "publishedAt": "2026-08-03T19:43:28.000Z",
-    "summary": "Orchard 是一个面向研究社区的开源框架，用于跨任务类型训练和评估 AI 智能体。它降低了复杂性，同时通过让研究人员复用同一套基础设施，支持较小模型也能实现强劲性能。https://msft.it/6019a8fqP",
-    "category": "ai-products",
-    "score": 65
-  },
-  {
-    "id": "cmsbowa0l0m77rohvw8s15ia1",
-    "title": "Codex 用 Sol 指挥 Luna Max 省额度翻倍产出",
-    "url": "https://x.com/AYi_AInotes/status/2083867265179537565",
-    "source": "X：阿易 AI Notes (@AYi_AInotes)",
-    "publishedAt": "2026-08-02T10:47:27.000Z",
-    "summary": "Codex 高阶玩法：让 Sol 在 `~/.codex/agents/` 下创建 `luna-worker.toml` 子代理，模型设 `gpt-5.6-luna`、reasoning effort 设 max，Sol 负责拆任务与审代码，具体实现自动委托给 Luna Max。",
-    "category": "tip",
-    "score": 75
-  },
-  {
-    "id": "cmsdu2uhb013jrofz7ggai8af",
-    "title": "腾讯混元 Hyra 攻克加法组合学 50 年未解难题",
-    "url": "https://mp.weixin.qq.com/s?__biz=MzkwODU2OTQyNQ%3D%3D&mid=2247498145&idx=1&sn=6968b330e01b1f306db418dc19ae4843",
-    "source": "公众号：腾讯混元",
-    "publishedAt": "2026-07-31T04:10:45.000Z",
-    "summary": "腾讯混元上周推出的科研智能体 Hyra，基于本月开源的 Hy3 模型（总参数 295B、激活参数 21B），为加法组合学中悬置半个多世纪的开放问题给出完整答案，证明 2 是该问题指数的上确界。Hyra 先在有限搜索中将最好结果从约 1.14 提高到 1.21，经约 24 小时运行提出核心构造思路，并给出 Lean 4 形式化证明。论文预印本、显式构造和形式化证明均已公开。",
-    "category": "paper",
-    "score": 89
-  },
-  {
-    "id": "cmsdwjgim0327ro2ek45x3jz5",
-    "title": "从零开始，教你用Codex搓出属于你自己的第一个硬件",
-    "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647684924&idx=1&sn=f9ecf13ac374f13dfa75f98f685a231d",
-    "source": "公众号：数字生命卡兹克",
-    "publishedAt": "2026-08-04T00:06:00.000Z",
-    "summary": "作者以零基础身份，全程通过与Codex对话，从需求讨论、电路搭建、代码烧录到3D打印组装，5天内做出一个能提醒久坐的猫爪硬件。文中还介绍了用Agent调试宏键盘、以及OpenAI与Work Louder联名发布的Codex Micro键盘（13个机械按键，售价230美元）等案例，强调\"干中学\"的AI开发方式。",
-    "category": "tip",
-    "score": 63
-  },
-  {
-    "id": "cmsddya2a01t3rotjo94tdap8",
-    "title": "Google Agent Skills 幕后：如何构建、测试与规模化",
-    "url": "https://dev.to/googleai/behind-the-scenes-how-we-build-test-and-scale-google-agent-skills-1am5",
-    "source": "Google AI：DEV 作者专属（RSS）",
-    "publishedAt": "2026-08-03T14:33:20.000Z",
-    "summary": "Google Agent Skills 团队详解其开源技能库的构建与治理流程：项目始于 Google Cloud Next 2026 前的\"swarm\"冲刺，发布后 GitHub 星标超 15，000。为保证规模化下的质量，每个技能须通过标准化目录结构、CI/CD 流水线（含 linter、链接检查、AI 辅助清单）及提交时与每周的持续评估，并优先引用远程 MCP 工具。",
-    "category": "tip",
-    "score": 63
-  },
-  {
-    "id": "cmsdu4z39018qrofzyoa60l6w",
-    "title": "实测MiniMax H3做后期和动效：视频届的审美王来了",
-    "url": "https://mp.weixin.qq.com/s?__biz=Mzg3MTk3NzYzNw%3D%3D&mid=2247509055&idx=1&sn=28254c9e78532b336895b8c541905d49",
-    "source": "公众号：卡尔的AI沃茨",
-    "publishedAt": "2026-08-02T13:26:14.000Z",
-    "summary": "MiniMax H3视频模型实测覆盖广告TVC、短剧、创意片头、动态海报、UI动效和游戏实机六类场景，可生成5-15秒视频、原生双声道、直出2K，一次最多放9张图、3段视频和3段音频，提示语最高支持7000字符。",
-    "category": "tip",
-    "score": 72
-  },
-  {
-    "id": "cmsbf9by90dq7rohvp1oggqmk",
-    "title": "Grok 支持分析任意视频",
-    "url": "https://x.com/elonmusk/status/2083800942927839307",
-    "source": "X：Elon Musk (@elonmusk, xAI)",
-    "publishedAt": "2026-08-02T06:23:54.000Z",
-    "summary": "Grok 可以分析任何视频 https://grok.com/share/bGVnYWN5_8013f7a3-f604-4351-8cd7-acecf3ef165b",
-    "category": "ai-products",
-    "score": 72
-  },
-  {
-    "id": "cmsdal06d16pyroeu00obye0v",
-    "title": "Cloudflare Workers 与 Containers 现已支持入站 TCP 连接和 gRPC",
-    "url": "https://blog.cloudflare.com/grpc-workers",
-    "source": "Cloudflare Blog",
-    "publishedAt": "2026-08-03T13:00:00.000Z",
-    "summary": "Cloudflare 在 Agents Week 期间推出 Workers 运行时新处理器 connect（socket），可直接接受 Spectrum 提供的入站 TCP 套接字，并支持将套接字转发至 Durable Objects 或 Containers，实现全双工通信。",
-    "category": "ai-products",
-    "score": 60
-  },
-  {
-    "id": "cmscc62eo033broeusw72isi0",
-    "title": "OpenAI 新模型 Astra 数学表现出色，但被过度吹捧",
-    "url": "https://garymarcus.substack.com/p/openais-amazing-but-vastly-oversold",
-    "source": "Gary Marcus：The Road to AI We Can Trust（RSS）",
-    "publishedAt": "2026-08-02T21:25:27.000Z",
-    "summary": "OpenAI 内部测试的新模型 Astra 在数学问题上表现惊艳，但 Gary Marcus 指出相关讨论犯了\"合成谬误\"：擅长某类数学不等于擅长所有数学、科学乃至一切认知任务。数学之所以成为突破口，是因为它便于用符号工具验证且能廉价生成海量合成数据，而开放世界问题无法如此模拟。此外，OpenAI 未公布方法细节，尚无法评估其真实意义。",
-    "category": "tip",
-    "score": 66
-  },
-  {
-    "id": "cms9udxq00qybro9kc2il6w0c",
-    "title": "GLM 5.2 助 Hugging Face 抵御秘密模型攻击",
-    "url": "https://x.com/AYi_AInotes/status/2083401614623133921",
-    "source": "X：阿易 AI Notes (@AYi_AInotes)",
-    "publishedAt": "2026-08-01T03:57:07.000Z",
-    "summary": "Hugging Face 遭 OpenAI 未发布秘密模型发起的全自主 Agent 网络攻击，四天半内完成 17000 个攻击动作，包括 0day 逃沙箱、提权、横向移动等。",
+    "id": "hn_49175826",
+    "title": "AI fuels more than half of cybercrime in Africa as digital scams surge: INTERPOL",
+    "url": "https://www.africanews.com/2026/08/04/ai-fuels-more-than-half-of-cybercrime-in-africa-as-digital-scams-surge-interpol/",
+    "source": "africanews.com",
+    "publishedAt": "2026-08-04T00:39:00.000Z",
+    "summary": "HN 47分 | 16评论 | africanews.com",
     "category": "industry",
-    "score": 75
+    "score": 66
   },
   {
-    "id": "cmsa9czys01chrojdrdvterw0",
-    "title": "德国法院裁定AI音乐生成器Suno侵犯版权，驳回合理使用抗辩",
-    "url": "https://the-decoder.com/german-court-rules-ai-music-generator-suno-violated-copyrights-rejects-fair-use-defense",
-    "source": "The Decoder：AI News（RSS）",
-    "publishedAt": "2026-08-01T10:40:50.000Z",
-    "summary": "慕尼黑法院裁定，AI音乐生成器Suno在训练过程及输出结果中均侵犯版权，并驳回其合理使用抗辩。法院认定Suno 3.5和4版本模型可复现六首知名歌曲的原创元素，构成\"记忆化\"侵权，且责任归于Suno而非用户。该判决还认定美国版权法下的合理使用不适用于此案，目前尚未最终生效。",
+    "id": "hn_49171268",
+    "title": "Mistral's Shieldstral: 3B open-weights model for multimodal moderation",
+    "url": "https://mistral.ai/news/shieldstral/",
+    "source": "mistral.ai",
+    "publishedAt": "2026-08-04T00:15:00.000Z",
+    "summary": "HN 257分 | 63评论 | mistral.ai",
+    "category": "ai-models",
+    "score": 92
+  },
+  {
+    "id": "hn_49175717",
+    "title": "Security Incident INC-2026-07-28-01 – UK AI Security Institute [pdf]",
+    "url": "https://cdn.prod.website-files.com/663bd486c5e4c81588db7a1d/6a724858f7db25c81487016d_Security%20Incident%20INC-2026-07-28-01.pdf",
+    "source": "cdn.prod.website-files.co",
+    "publishedAt": "2026-08-04T00:26:00.000Z",
+    "summary": "HN 46分 | 36评论 | cdn.prod.website-files.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_49175248",
+    "title": "Third-party cyber evaluations involving OpenAI models",
+    "url": "https://openai.com/index/third-party-cyber-evaluations-involving-openai-models/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-08-04T01:05:00.000Z",
+    "summary": "HN 23分 | 2评论 | openai.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49166386",
+    "title": "DeepSeek V4 Flash on a Single AMD MI300X",
+    "url": "https://github.com/ryanzhou/deepseek-v4-flash-mi300x",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T01:22:00.000Z",
+    "summary": "HN 356分 | 87评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49172936",
+    "title": "Launch HN: EdotEnv (YC S26) – Quant Trading RL Envs to Teach LLMs Research",
+    "url": "https://edotenv.com/",
+    "source": "edotenv.com",
+    "publishedAt": "2026-08-04T02:49:00.000Z",
+    "summary": "HN 26分 | 19评论 | edotenv.com",
+    "category": "paper",
+    "score": 63
+  },
+  {
+    "id": "hn_49170915",
+    "title": "When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation",
+    "url": "https://arxiv.org/abs/2602.16763",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-08-04T02:12:00.000Z",
+    "summary": "HN 67分 | 74评论 | arxiv.org",
+    "category": "paper",
+    "score": 68
+  },
+  {
+    "id": "hn_49170479",
+    "title": "Apple says more ex-employees may have taken confidential data to OpenAI",
+    "url": "https://techcrunch.com/2026/08/04/apple-says-more-ex-employees-may-have-taken-confidential-data-to-openai/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-08-04T02:47:00.000Z",
+    "summary": "HN 312分 | 238评论 | techcrunch.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49171766",
+    "title": "The Warp Agent CLI",
+    "url": "https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent",
+    "source": "warp.dev",
+    "publishedAt": "2026-08-04T03:12:00.000Z",
+    "summary": "HN 90分 | 54评论 | warp.dev",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_49171068",
+    "title": "MariaDB: Promote getting to 10k GitHub stars in server log and client prompt",
+    "url": "https://github.com/MariaDB/server/pull/4262",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T03:03:00.000Z",
+    "summary": "HN 44分 | 22评论 | github.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_49161518",
+    "title": "LLMs reward expertise",
+    "url": "https://www.seangoedecke.com/llms-reward-expertise/",
+    "source": "seangoedecke.com",
+    "publishedAt": "2026-08-04T04:34:00.000Z",
+    "summary": "HN 1312分 | 544评论 | seangoedecke.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49166984",
+    "title": "Show HN: Fine-tune an 8B model on a 4 GB laptop GPU",
+    "url": "https://github.com/MakazhanAlpamys/Soup",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T04:02:00.000Z",
+    "summary": "HN 115分 | 23评论 | github.com",
+    "category": "ai-models",
+    "score": 74
+  },
+  {
+    "id": "hn_49175066",
+    "title": "Bypassing AI guardrails is so easy a script kiddie can do it",
+    "url": "https://www.theregister.com/security/2026/08/04/bypassing-ai-guardrails-is-so-easy-a-script-kiddie-can-do-it/5282973",
+    "source": "theregister.com",
+    "publishedAt": "2026-08-04T04:29:00.000Z",
+    "summary": "HN 9分 | 1评论 | theregister.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49169227",
+    "title": "It's not a fear of \"AI communism\"; it's a fear of competitive market capitalism",
+    "url": "http://observationalepidemiology.blogspot.com/2026/07/its-not-fear-of-ai-communism-its-fear.html",
+    "source": "observationalepidemiology",
+    "publishedAt": "2026-08-04T05:27:00.000Z",
+    "summary": "HN 75分 | 69评论 | observationalepidemiology.blogspot.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_49172433",
+    "title": "AI Data Centers Are Driving Up Power Bills – This Map Shows Where",
+    "url": "https://www.gadgetreview.com/ai-data-centers-are-driving-up-power-bills-this-map-shows-where",
+    "source": "gadgetreview.com",
+    "publishedAt": "2026-08-04T05:18:00.000Z",
+    "summary": "HN 59分 | 20评论 | gadgetreview.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49170704",
+    "title": "Show HN: Jido Assembly; Slack Clone in Pure Elixir with Integrated Agents",
+    "url": "https://jido.run/blog/jido-assembly-slack-clone",
+    "source": "jido.run",
+    "publishedAt": "2026-08-04T06:40:00.000Z",
+    "summary": "HN 13分 | 0评论 | jido.run",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49171390",
+    "title": "The Knowledge Chipper: An Agentic Coding Story",
+    "url": "https://jg.gg/2026/08/04/the-knowledge-chipper/",
+    "source": "jg.gg",
+    "publishedAt": "2026-08-04T06:52:00.000Z",
+    "summary": "HN 11分 | 1评论 | jg.gg",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49167113",
+    "title": "AI-Generated Images Discourage Me from Reading Your Blog",
+    "url": "https://nelson.cloud/ai-generated-images-discourage-me-from-reading-your-blog/",
+    "source": "nelson.cloud",
+    "publishedAt": "2026-08-04T06:00:00.000Z",
+    "summary": "HN 718分 | 429评论 | nelson.cloud",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49175307",
+    "title": "Resistance grows nationwide against AI data center boom",
+    "url": "https://www.cbsnews.com/video/resistance-grows-nationwide-against-ai-data-center-boom/",
+    "source": "cbsnews.com",
+    "publishedAt": "2026-08-04T07:20:00.000Z",
+    "summary": "HN 7分 | 0评论 | cbsnews.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49157997",
+    "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
+    "url": "https://hoplite.sh",
+    "source": "hoplite.sh",
+    "publishedAt": "2026-08-04T07:53:00.000Z",
+    "summary": "HN 77分 | 62评论 | hoplite.sh",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_49158333",
+    "title": "Show HN: Run an 80B Qwen in 4.3 GB of RAM on a Mac, and a 35B on an iPhone",
+    "url": "https://github.com/leonickson1/Swiftlet",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T08:50:00.000Z",
+    "summary": "HN 298分 | 134评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49166308",
+    "title": "Homebench – Benchmark local LLMs for speed, memory, and quality",
+    "url": "https://github.com/david-g-3654/homebench",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T08:18:00.000Z",
+    "summary": "HN 58分 | 6评论 | github.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49162086",
+    "title": "Windows XP 2002 for the Itanium: Unbridled rage",
+    "url": "https://virtuallyfun.com/2026/08/03/windows-xp-2002-for-the-itanium-unbridled-rage/",
+    "source": "virtuallyfun.com",
+    "publishedAt": "2026-08-04T08:41:00.000Z",
+    "summary": "HN 124分 | 76评论 | virtuallyfun.com",
+    "category": "industry",
+    "score": 76
+  },
+  {
+    "id": "hn_49168450",
+    "title": "Cloudflare Wallets: The programmable wallet for the agentic Internet",
+    "url": "https://blog.cloudflare.com/wallets/",
+    "source": "blog.cloudflare.com",
+    "publishedAt": "2026-08-04T09:16:00.000Z",
+    "summary": "HN 12分 | 1评论 | blog.cloudflare.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49150470",
+    "title": "Qwen3.8-Max: A New Bar for Coding and Cowork",
+    "url": "https://qwen.ai/blog?id=qwen3.8",
+    "source": "qwen.ai",
+    "publishedAt": "2026-08-04T09:03:00.000Z",
+    "summary": "HN 1097分 | 598评论 | qwen.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49170037",
+    "title": "Benchmarking Fable, Sol, and Kimi K3 on SlopCodeBench",
+    "url": "https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/benchmarking-sol-fable-kimi-on-slop-code-bench.md",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T10:36:00.000Z",
+    "summary": "HN 8分 | 1评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49153374",
+    "title": "Prevent cognitive debt by manually retyping LLM-generated code",
+    "url": "https://ankursethi.com/blog/prevent-cognitive-debt-by-manually-retyping-llm-generated-code/",
+    "source": "ankursethi.com",
+    "publishedAt": "2026-08-04T10:11:00.000Z",
+    "summary": "HN 523分 | 434评论 | ankursethi.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49169818",
+    "title": "Show HN: OpenEdit – Your coding agent can now edit videos",
+    "url": "https://github.com/veedstudio/open-edit",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T10:44:00.000Z",
+    "summary": "HN 8分 | 2评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49169771",
+    "title": "Show HN: Simple self-hosted LLM assistant with user-steered compounding context",
+    "url": "https://github.com/kol3x/pawmc",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T11:53:00.000Z",
+    "summary": "HN 5分 | 0评论 | github.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_49158581",
+    "title": "Smaller, faster, safer: running Kimi and GLM at scale",
+    "url": "https://blog.cloudflare.com/smaller-faster-safer-models/",
+    "source": "blog.cloudflare.com",
+    "publishedAt": "2026-08-04T11:41:00.000Z",
+    "summary": "HN 260分 | 65评论 | blog.cloudflare.com",
+    "category": "industry",
+    "score": 93
+  },
+  {
+    "id": "hn_49170374",
+    "title": "Show HN: Korvo – Local-first AI workspace that traces answers to the source",
+    "url": "https://www.korvo.xyz/",
+    "source": "korvo.xyz",
+    "publishedAt": "2026-08-04T12:29:00.000Z",
+    "summary": "HN 6分 | 0评论 | korvo.xyz",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49157786",
+    "title": "What's the largest software project AI can complete on its own?",
+    "url": "https://epoch.ai/MirrorCode",
+    "source": "epoch.ai",
+    "publishedAt": "2026-08-04T12:02:00.000Z",
+    "summary": "HN 100分 | 105评论 | epoch.ai",
     "category": "industry",
     "score": 73
   },
   {
-    "id": "cms9hiyz80fdvro9kepvm1qvk",
-    "title": "DeepSeek V4 Flash 0731 开源，登顶开源模型前三",
-    "url": "https://x.com/ArtificialAnlys/status/2083306229074739285",
-    "source": "X：Artificial Analysis (@ArtificialAnlys)",
-    "publishedAt": "2026-07-31T21:38:05.000Z",
-    "summary": "DeepSeek 发布开源模型 DeepSeek V4 Flash 0731，在 Artificial Analysis 智能指数上得分 50，位列开源模型前三。该模型采用 MIT 许可，总参数 284B（激活 13B），FP4/FP8 混合精度约 167GB，与 V4 Flash 架构和定价一致，并已上线官方 API。",
-    "category": "ai-models",
-    "score": 78
-  },
-  {
-    "id": "cmsdu108a00u8rofzj55w3j8n",
-    "title": "小红书 dots 团队发布 VibeLifeBench 与 VibeSearchBench：七个最强模型无一及格",
-    "url": "https://mp.weixin.qq.com/s?__biz=Mzg4OTc2MzczNg%3D%3D&mid=2247495889&idx=1&sn=abb72082b7b1e1b12cc7dc6e4c812a50",
-    "source": "公众号：小红书技术（dots.llm）",
-    "publishedAt": "2026-07-31T10:00:00.000Z",
-    "summary": "小红书 dots 团队推出 VibeLifeBench 与 VibeSearchBench 两个生活场景评测基准，测试中七个当前最强模型无一在正确时间点解决护照有效期等关键问题，最高分仅 0.325（Opus 5）。",
-    "category": "paper",
-    "score": 78
-  },
-  {
-    "id": "cms8rt1ml06j0roghw1n7a4bq",
-    "title": "MiniMax H3 发布：开源全能多模态生成模型，支持 2K 原生立体声视频",
-    "url": "https://www.minimax.io/blog/minimax-h3",
-    "source": "MiniMax：Blog（网页）",
-    "publishedAt": "2026-07-31T09:59:02.996Z",
-    "summary": "MiniMax 正式推出全能多模态生成模型 H3，可联合理解文本、图像、视频和音频，生成最高 2K 分辨率、15 秒时长且带原生立体声的视频。H3 在指令跟随、文字与品牌呈现、V2V 动作迁移上表现突出，2K 下每秒价格低于主流模型三分之一，768p 下低于主流 720p 价格一半。官方计划近日开源模型权重，以支持开源社区并加速硬件兼容。",
-    "category": "ai-models",
-    "score": 78
-  },
-  {
-    "id": "cms8i3p4m0ek6rot0xc8l3gak",
-    "title": "Show HN：将 DeepSeek 整合到 GPT-OSS 中不会带来审查机制",
-    "url": "https://www.ctgt.ai/research/distillation-censorship-transfer",
-    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
-    "publishedAt": "2026-07-31T04:57:18.494Z",
-    "summary": "一项受控实验表明，用深度审查的中国模型 DeepSeek V4 Flash 的输出训练美国模型 GPT-OSS-120B，可显著提升其金融推理能力，但审查行为并未迁移。",
-    "category": "paper",
-    "score": 78
-  },
-  {
-    "id": "cms54h60d003troehb9tvgl3z",
-    "title": "Hugging Face 公开自主智能体网络攻击详情",
-    "url": "https://x.com/ClementDelangue/status/2082201245813514613",
-    "source": "X：Clément Delangue（Hugging Face CEO） (@ClementDelangue)",
-    "publishedAt": "2026-07-28T20:27:17.000Z",
-    "summary": "首次自主智能体网络攻击是一次前所未有的事件，理应获得前所未有的透明度。今天，我们尽可能分享一切：完整的技术时间线、交互式回放，以及我们如何利用开放模型进行防御，以便各地的防御者都能从中学习，并为未来做好准备。\n\nhttps://huggingface.co/blog/agent-intrusion-technical-timeline",
+    "id": "hn_49152222",
+    "title": "The AI Productivity Gap",
+    "url": "https://bjorg.bjornroche.com/management/ai-productivity-gap/",
+    "source": "bjorg.bjornroche.com",
+    "publishedAt": "2026-08-04T12:11:00.000Z",
+    "summary": "HN 134分 | 109评论 | bjorg.bjornroche.com",
     "category": "industry",
-    "score": 83
+    "score": 77
   },
   {
-    "id": "cmsa302cc01xaro41omun2e1h",
-    "title": "OpenAI Astra 以约2000美元证明10项数学难题",
-    "url": "https://x.com/gdb/status/2083457463337287721",
-    "source": "X：Greg Brockman (@gdb)",
-    "publishedAt": "2026-08-01T07:39:02.000Z",
-    "summary": "OpenAI 用下一代模型 Astra 内部版解决了数学与理论计算机科学领域的10项重大进展，总成本约2000美元（按 Sol API 价格计算）。Astra 证明了非 sofic 群的存在，并推翻 Connes 刚性猜想，成果涵盖 von Neumann 代数、高维球堆积、电路复杂度等。OpenAI 已发布全部10项证明，附 Lean 证书与 CoT 逐步推导。",
-    "category": "paper",
-    "score": 70
+    "id": "hn_49169668",
+    "title": "Agents that narrate their work are the best team players – Jon Udell",
+    "url": "https://blog.jonudell.net/2026/07/23/agents-that-narrate-their-work-are-the-best-team-players/",
+    "source": "blog.jonudell.net",
+    "publishedAt": "2026-08-04T13:36:00.000Z",
+    "summary": "HN 4分 | 0评论 | blog.jonudell.net",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49154332",
+    "title": "SQLite Critical CVEs or LLM Slop?",
+    "url": "https://research.jfrog.com/post/sqlite-critical-cves-or-llm-slops/",
+    "source": "research.jfrog.com",
+    "publishedAt": "2026-08-04T13:52:00.000Z",
+    "summary": "HN 720分 | 371评论 | research.jfrog.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49125065",
+    "title": "Why we write our own C and C++ inference engines",
+    "url": "https://localai.io/blog/why-we-write-our-own-engines/",
+    "source": "localai.io",
+    "publishedAt": "2026-08-04T14:40:00.000Z",
+    "summary": "HN 128分 | 50评论 | localai.io",
+    "category": "industry",
+    "score": 76
+  },
+  {
+    "id": "hn_49154127",
+    "title": "Show HN: Nightcrawler – A local AI pentesting agent running on a smartphone",
+    "url": "https://github.com/garagehq/nightcrawler/",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T14:02:00.000Z",
+    "summary": "HN 114分 | 32评论 | github.com",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "hn_49172693",
+    "title": "Elon Musk: In 36 months, the cheapest place to put AI will be space [video]",
+    "url": "https://www.youtube.com/watch?v=BYXbuik3dgA",
+    "source": "youtube.com",
+    "publishedAt": "2026-08-04T14:42:00.000Z",
+    "summary": "HN 8分 | 16评论 | youtube.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49169590",
+    "title": "Less Protein, Not More, May Lead to Healthier Aging",
+    "url": "https://nautil.us/less-protein-not-more-may-lead-to-healthier-aging-1283315",
+    "source": "nautil.us",
+    "publishedAt": "2026-08-04T00:10:00.000Z",
+    "summary": "HN 26分 | 22评论 | nautil.us",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49172558",
+    "title": "Privacy risks from medical AI tools are not shared equally",
+    "url": "https://www.nature.com/articles/d41586-026-02288-9",
+    "source": "nature.com",
+    "publishedAt": "2026-08-04T00:39:00.000Z",
+    "summary": "HN 8分 | 0评论 | nature.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49154228",
+    "title": "AirLLM 70B inference with single 4GB GPU",
+    "url": "https://github.com/lyogavin/airllm",
+    "source": "GitHub",
+    "publishedAt": "2026-08-04T01:14:00.000Z",
+    "summary": "HN 228分 | 83评论 | github.com",
+    "category": "industry",
+    "score": 89
+  },
+  {
+    "id": "hn_49150773",
+    "title": "AI migrated legacy COBOL programs to Java, bugs included",
+    "url": "https://arxiv.org/abs/2607.28271",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-08-04T01:04:00.000Z",
+    "summary": "HN 94分 | 97评论 | arxiv.org",
+    "category": "industry",
+    "score": 72
   }
 ]
