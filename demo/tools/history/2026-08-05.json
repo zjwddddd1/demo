@@ -1,0 +1,302 @@
+[
+  {
+    "id": "cmsebb0mc0kn1ro2ejvmi5lg8",
+    "title": "Swiftlet：在 Mac 上运行 80B 版 Qwen（内存 4.3 GB），在 iPhone 上运行 35B 版",
+    "url": "https://github.com/leonickson1/Swiftlet",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-08-04T06:32:44.149Z",
+    "summary": "Swiftlet 是一个 Swift + Metal 运行时，可在普通 Apple 设备上运行 Qwen3-Next 和 Qwen3.5/3.6 MoE 混合模型，仅将小型稠密核心驻留内存，按需从存储流式加载路由专家权重。",
+    "category": "ai-products",
+    "score": 81
+  },
+  {
+    "id": "cmsfdkkcs1ocxro2ed4z3s131",
+    "title": "LLM 0.32 发布：新增推理轨迹、OpenAI Responses、服务端工具与更智能的日志",
+    "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm",
+    "source": "Simon Willison 博客",
+    "publishedAt": "2026-08-04T23:58:24.000Z",
+    "summary": "Simon Willison 发布 LLM 0.32，这是该项目自启动以来最重要的新版本。新版本支持显示推理轨迹、服务端工具、OpenAI Responses API，并默认使用 GPT-5.6 Luna 模型。",
+    "category": "ai-products",
+    "score": 79
+  },
+  {
+    "id": "cmsefnjpn0q20ro2el7g7lyjw",
+    "title": "Reflex 开源 XY：基于 Rust 的超快 Python 绘图库，可保持 1 亿点图表交互流畅",
+    "url": "https://www.marktechpost.com/2026/08/04/reflex-open-sources-xy-a-rust-backed-super-fast-python-charting-library-that-keeps-100-million-point-charts-interactive",
+    "source": "MarkTechPost（RSS）",
+    "publishedAt": "2026-08-04T08:57:47.000Z",
+    "summary": "Reflex AI 发布 Apache-2.0 许可的 Python 交互式 2D 绘图库 XY，通过 Rust 原生核心、二进制缓冲传输和 WebGL2 渲染，在 1 万至 1 亿点范围内保持约 0.08 秒的渲染时间。",
+    "category": "ai-products",
+    "score": 79
+  },
+  {
+    "id": "cmsesile415d4ro2evb21j3n0",
+    "title": "Anthropic 与成立仅数月的云初创公司 Volta 签署 100 亿美元算力协议",
+    "url": "https://x.com/rohanpaul_ai/status/2084655258102546579",
+    "source": "X：Rohan Paul (@rohanpaul_ai)",
+    "publishedAt": "2026-08-04T14:58:39.000Z",
+    "summary": "Anthropic 与成立仅数月的云初创公司 Volta 签署 100 亿美元算力协议，约合每年 17 亿美元。Volta 估值 24 亿美元，硬件几乎全为租用：算力来自比特币矿商 Bitdeer 挪威 121MW 站点，芯片由 Nvidia 供应、Dell 组装。Anthropic 买的是交付速度，代价是承担超大规模云厂商合同从未有过的交易对手风险。",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "cmse5tvia0ej6ro2er0ptp9v8",
+    "title": "面壁智能开源 ForgeStencil：一周自动优化 100+ 工业与科学软件，全程零人工介入",
+    "url": "https://mp.weixin.qq.com/s?__biz=Mzg3Mzg2MTg2NQ%3D%3D&mid=2247498861&idx=1&sn=d2d16692dd7eb27f9d466803f25c2b78",
+    "source": "公众号：面壁智能（MiniCPM）",
+    "publishedAt": "2026-08-04T04:20:28.000Z",
+    "summary": "面壁智能联合 OpenBMB 开源全球首个支持 Stencil 自动研究、自动部署的 AI 优化系统 ForgeStencil，由 Kernel Agent 与 App Agent 闭环协作，实现从算子优化到应用集成的全自动流程。",
+    "category": "ai-products",
+    "score": 78
+  },
+  {
+    "id": "cmsff72yv1q6nro2etf4cmbuj",
+    "title": "开源「活人感写作.skill」：一个帮你写出没有AI味的文字的通用写作技能",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647684946&idx=1&sn=ae7edcc572b998dc4e1ac3591977aa85",
+    "source": "公众号：数字生命卡兹克",
+    "publishedAt": "2026-08-05T01:35:42.000Z",
+    "summary": "数字生命卡兹克开源「活人感写作.skill」（英文名 human Writing.skill），旨在去除AI味、帮用户写出有真实生活感的文字。该Skill鼓励用户提供真实案例与情感，并针对辞章端禁用AI常用口癖和黑话，同时适配Qwen 3.8 Max、DeepSeek V4 Pro、Kimi K3等模型，可直接用于WorkBuddy、千问办公等产品。",
+    "category": "tip",
+    "score": 76
+  },
+  {
+    "id": "cmseo63z710lvro2eblsf93az",
+    "title": "在单颗 AMD MI300X 上运行 DeepSeek V4 Flash",
+    "url": "https://github.com/ryanzhou/deepseek-v4-flash-mi300x",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-08-04T12:56:45.712Z",
+    "summary": "一个开源仓库提供了在单颗 AMD MI300X 上生产运行 DeepSeek-V4-Flash-0731 的完整配置与补丁，无需额外量化或权重卸载。该 304B 参数模型在 192 GB HBM 上实现单流 168.6 tok/s 解码、8 并发流 542 tok/s 聚合吞吐，并验证了 256K 上下文。",
+    "category": "tip",
+    "score": 76
+  },
+  {
+    "id": "cmsf2ukfc1ekiro2e4h0k2bux",
+    "title": "MiniMax-H3 通过 MLX 移植可在 Apple Silicon 上运行",
+    "url": "https://simonwillison.net/2026/Aug/4/minimax-h3-mlx",
+    "source": "Simon Willison 博客",
+    "publishedAt": "2026-08-04T19:10:09.000Z",
+    "summary": "MiniMax 发布 MiniMax-H3，一个可接受文本、图像、音频和视频并生成最长 15 秒带音频视频片段的通用全模态生成系统。Python 包 PipeNetwork/minimax-h3-mlx 将其移植到 MLX，支持 Apple Silicon 运行。作者在 M5 Max MacBook Pro 上实测，下载约 115 GB 模型文件，视频生成耗时不到 45 分钟。",
+    "category": "tip",
+    "score": 74
+  },
+  {
+    "id": "cmseekz5g0oncro2ehfyz40ps",
+    "title": "用 NVIDIA SkillSpector、LangGraph、YARA 规则、SARIF 与 CI 策略门构建高级 AI 技能安全审计流水线",
+    "url": "https://www.marktechpost.com/2026/08/04/building-an-advanced-ai-skill-security-auditing-pipeline-with-nvidia-skillspector-langgraph-yara-rules-sarif-and-ci-policy-gates",
+    "source": "MarkTechPost（RSS）",
+    "publishedAt": "2026-08-04T08:12:36.000Z",
+    "summary": "本教程演示如何用 NVIDIA SkillSpector 评估 AI 技能的安全态势，构建包含干净、风险、恶意及 MCP 示例的合成技能市场，并通过 LangGraph 检查流水线扫描每个技能。",
+    "category": "tip",
+    "score": 74
+  },
+  {
+    "id": "cmsezylz31cadro2eoq1np3vh",
+    "title": "Soup v0.72.4：在4 GB显存笔记本GPU上微调8B模型",
+    "url": "https://github.com/MakazhanAlpamys/Soup",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-08-04T18:17:29.648Z",
+    "summary": "Soup 推出 v0.72.4，支持在配备 4 GB 显存的笔记本 GPU 上通过 QLoRA 微调 8B 模型，无需 SSH 或云服务。",
+    "category": "ai-products",
+    "score": 73
+  },
+  {
+    "id": "cmseyfjcz1au8ro2enx0b7os6",
+    "title": "SpecForge v0.3.0 发布：统一解耦与共置投机解码栈，新增开放 SpecBundle 草稿模型",
+    "url": "https://www.lmsys.org/blog/2026-08-04-specforge-v0-3",
+    "source": "LMSYS：Blog（Chatbot Arena 团队）",
+    "publishedAt": "2026-08-04T17:51:09.590Z",
+    "summary": "SpecForge v0.3.0 将目标模型推理与草稿模型训练分离，支持 EAGLE3、EAGLE3.1、P-EAGLE、DFlash、Domino、DSpark 等多种投机解码算法，并统一在线、离线与解耦工作流。",
+    "category": "ai-products",
+    "score": 72
+  },
+  {
+    "id": "cmsek09wz0vq7ro2eayzzt3uq",
+    "title": "工信部发布首部L3/L4自动驾驶系统安全要求强制性国标，2027年7月实施",
+    "url": "https://www.ithome.com/0/985/665.htm",
+    "source": "IT之家（RSS）",
+    "publishedAt": "2026-08-04T11:06:29.000Z",
+    "summary": "工信部组织制定的《智能网联汽车 自动驾驶系统安全要求》（GB 44721-2026）强制性国家标准获批发布，拟于2027年7月1日起实施。这是我国首部针对L3级有条件自动驾驶和L4级高度自动驾驶系统的强制性国标，由2024年推荐性国标GB/T 44721-2024升级而来，为自动驾驶产品明确了统一的安全准入基线。",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "cmsf7gr271ii5ro2eiu0hihb5",
+    "title": "Replit 环境智能：免提示词自动生成设计",
+    "url": "https://x.com/Replit/status/2084761337570144424",
+    "source": "X：Replit (@Replit)",
+    "publishedAt": "2026-08-04T22:00:10.000Z",
+    "summary": "你无需提示词，也无需设计语言。\n\n环境智能（Ambient Intelligence）会在每个画面旁显示建议卡片，每张卡片都指向你的设计的一个不同方向。点击你喜欢的那张，即可看到它生成一个新的画面。\n\n你再也不必纠结下一步该做什么。\n\n立即在 http://replit.com/design 体验。",
+    "category": "ai-products",
+    "score": 69
+  },
+  {
+    "id": "cmseq167s12m3ro2eas0pbc9y",
+    "title": "Cloudflare 如何用软件工厂将 Astro 的 GitHub issue 数降至零",
+    "url": "https://blog.cloudflare.com/astro-issue-triage",
+    "source": "Cloudflare Blog",
+    "publishedAt": "2026-08-04T13:00:00.000Z",
+    "summary": "Cloudflare 在 Astro 仓库上运行自动化 triage 流水线，通过隔离的 AI 子代理复现、诊断并修复 bug，将开放 issue 从 200 多个降至约 30 个，预计下月归零。该流水线由 issue 标签驱动，修复后自动发布预览版本供用户验证。其底层引擎已发展为 Flue，一个开源的平台无关框架，用于构建持久化智能体与工作流。",
+    "category": "tip",
+    "score": 69
+  },
+  {
+    "id": "cmscldw820c4kroeu7bw1kb27",
+    "title": "Qwen3.8-Max 发布：开源最强编码与协作模型，2.4T 参数",
+    "url": "https://qwen.ai/blog?id=qwen3.8",
+    "source": "Qwen：Blog Retrieval（API）",
+    "publishedAt": "2026-08-03T02:00:00.000Z",
+    "summary": "Qwen 正式发布 Qwen3.8-Max，这是 Qwen 家族迄今最强的模型，拥有 2.4T 参数（95B 激活），并首次开源 Qwen-Max 级权重，开放权重将于下周发布。",
+    "category": "ai-models",
+    "score": 89
+  },
+  {
+    "id": "cmsesrlcn15j6ro2ecpj577wj",
+    "title": "NVIDIA Alpamayo 2 Super 开放商用，面向 Robotaxi 与自动驾驶的前沿开源模型",
+    "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available",
+    "source": "NVIDIA Blog（RSS）",
+    "publishedAt": "2026-08-04T15:00:49.000Z",
+    "summary": "NVIDIA Alpamayo 2 Super 现已开放商用，基于 Cosmos 3 Super Reasoner 构建，采用强化学习后训练，支持轨迹预测、因果链推理、元动作、自动标注及视觉问答等多任务输出。",
+    "category": "ai-models",
+    "score": 68
+  },
+  {
+    "id": "cmseq167s12m2ro2efhh7h5ia",
+    "title": "Cloudflare 让智能体通过本地追踪调试 Workers",
+    "url": "https://blog.cloudflare.com/local-tracing",
+    "source": "Cloudflare Blog",
+    "publishedAt": "2026-08-04T13:00:00.000Z",
+    "summary": "Cloudflare 即日起在 wrangler dev 和 vite dev 中自动为本地 Worker 调用捕获 OpenTelemetry 追踪，无需安装 SDK 或配置智能体。智能体可通过 Local Explorer API 查询追踪数据，定位失败操作、修复本地环境并验证结果。开发者也可在浏览器界面 Local Explorer 中可视化查看 spans、时序、错误及关联控制台日志。",
+    "category": "ai-products",
+    "score": 68
+  },
+  {
+    "id": "cmsewck8518x6ro2e32q4bksr",
+    "title": "GitHub 如何用堆叠式 Pull Request 拆解 AI 生成的巨型代码",
+    "url": "https://github.blog/engineering/turn-one-giant-ai-generated-pull-request-to-a-reviewable-stack",
+    "source": "GitHub Blog",
+    "publishedAt": "2026-08-04T16:47:18.000Z",
+    "summary": "GitHub 介绍用堆叠式 Pull Request（stacked PR）解决 AI 编码智能体生成巨型代码难以审查的问题。通过将 1，000+ 行的大 diff 按数据、API、接线、UI 拆成 L1-L4 四个独立分层，每层可分配不同审查者。",
+    "category": "tip",
+    "score": 67
+  },
+  {
+    "id": "cmseuq5vh17o9ro2eomueivmi",
+    "title": "商汤 SenseNova U1 开源：统一推理与图像生成",
+    "url": "https://x.com/SenseTime_AI/status/2084667189479837741",
+    "source": "X：商汤 SenseTime (@SenseTime_AI)",
+    "publishedAt": "2026-08-04T15:46:03.000Z",
+    "summary": "商汤发布开源模型 SenseNova U1，可在统一流程中同时进行推理与图像生成。其信息图模式可将单条提示词转为结构化幻灯片，交错模式则逐步生成图文内容，如演示六步画龙教程。模型已上线 SenseNova Studio、HuggingFace 及 GitHub。",
+    "category": "ai-models",
+    "score": 67
+  },
+  {
+    "id": "cmseyrhcj1bgmro2ed47t5b0k",
+    "title": "OpenRouter 上线 FLUX 3 Video 统一多模态模型",
+    "url": "https://x.com/OpenRouter/status/2084699413898027064",
+    "source": "X：OpenRouter (@OpenRouter)",
+    "publishedAt": "2026-08-04T17:54:06.000Z",
+    "summary": "@bfl_ai 的 FLUX 3 Video 现已在 OpenRouter 上向所有人开放。\n\n一个统一的视频、音频、图像和动作预测多模态模型家族。严肃、有趣、创意、真实、电影感，随你所需。基于统一架构联合训练。",
+    "category": "ai-models",
+    "score": 66
+  },
+  {
+    "id": "cmsesgyzp159kro2efe58vs2u",
+    "title": "蚂蚁百灵发布Ling-3.0-flash开源权重",
+    "url": "https://x.com/AntLingAGI/status/2084656533489754475",
+    "source": "X：蚂蚁百灵 (@AntLingAGI)",
+    "publishedAt": "2026-08-04T15:03:43.000Z",
+    "summary": "今天，我们发布了 Ling-3.0-flash 的开源权重。🎉\n\n官方 BF16 和 FP8 量化版本现已可用，您可以根据自己的硬件、性能要求和部署需求选择最合适的版本。",
+    "category": "ai-models",
+    "score": 66
+  },
+  {
+    "id": "cmseq167r12m1ro2eqjsdn6wd",
+    "title": "Cloudflare 推出 Agents 平台，率先上线智能体追踪功能",
+    "url": "https://blog.cloudflare.com/agents-on-cloudflare",
+    "source": "Cloudflare Blog",
+    "publishedAt": "2026-08-04T13:00:00.000Z",
+    "summary": "Cloudflare 推出 Cloudflare Agents，将部署在平台上的智能体会话统一到一个视图中，并率先上线 agent tracing 功能。该功能支持 OpenTelemetry 兼容的 Think、Flue 和 AI SDK 等智能体框架，可测量每次模型调用、工具执行和 token 消耗。",
+    "category": "ai-products",
+    "score": 66
+  },
+  {
+    "id": "cmse7yrut0gupro2ejfet4a10",
+    "title": "GPT-5.6 Luna降价80%永久生效",
+    "url": "https://x.com/thsottiaux/status/2084506501834829833",
+    "source": "X：Tibo (@thsottiaux)",
+    "publishedAt": "2026-08-04T05:07:32.000Z",
+    "summary": "有些人显然误解了，但 GPT-5.6 Luna 降价 80% 不是临时噱头，而是永久的。效率提升不会消失。幸运的是。",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "cmsffpu8h1qz2ro2erlnfwib9",
+    "title": "Any-OPD：面向流匹配模型的异构同策略蒸馏框架",
+    "url": "https://arxiv.org/abs/2608.03316",
+    "source": "HuggingFace Daily Papers（社区热门论文）",
+    "publishedAt": "2026-08-04T00:00:00.000Z",
+    "summary": "Any-OPD 提出首个支持任意异构流匹配生成器对的同策略蒸馏框架，仅通过冻结的 DINOv2 表示空间桥接教师与学生模型，无需共享 VAE、架构或噪声调度。将 FLUX.1-dev 蒸馏至 SD3.5-Medium 后，学生模型 PickScore 与 HPSv3 均显著提升，以教师五分之一的参数量达到接近其性能，而直接潜在回归训练完全失败。",
+    "category": "paper",
+    "score": 76
+  },
+  {
+    "id": "cmsdg55m700l4roca3x3gtfb1",
+    "title": "AirLLM 实现单块 4GB GPU 运行 70B 模型推理",
+    "url": "https://github.com/lyogavin/airllm",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-08-03T16:24:45.027Z",
+    "summary": "AirLLM 项目支持在单块 4GB 显存 GPU 上运行 70B 参数大模型推理，无需多卡或大规模显存配置。该项目已开源，相关讨论在 Hacker News 上获得 103 点热度，引发社区关注。",
+    "category": "tip",
+    "score": 76
+  },
+  {
+    "id": "cmsee1mhf0nn6ro2em6rt7tr4",
+    "title": "腾讯混元发布 Hy ASR 3.0 preview：真正懂上下文的语音识别",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzkwODU2OTQyNQ%3D%3D&mid=2247498223&idx=1&sn=ae271ec2c72723393d3e1d8074a33205",
+    "source": "公众号：腾讯混元",
+    "publishedAt": "2026-08-04T08:12:36.000Z",
+    "summary": "腾讯混元发布新一代语音识别模型 Hy ASR 3.0 preview，基于大语言模型 Hy3 与 MoE 架构，融合高精度识别与语义理解。其在开源评测集中中文普通话 WER 3.34%、英语 WER 2.62%、粤语 WER 3.12%，并支持上下文纠错、热词注入及高噪耳语等场景。该模型已上线腾讯云 API，元宝 App 首发并免费开放。",
+    "category": "ai-models",
+    "score": 65
+  },
+  {
+    "id": "cmsdu3hyr015xrofzqxuosm3y",
+    "title": "MiniMax H3 正式开源：通用全模态生成系统支持 2K 视频与原生立体声",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzE5MTA3NzcxMQ%3D%3D&mid=2247488931&idx=1&sn=0506e1d52edd5166becf35f5ebd83a07",
+    "source": "公众号：MiniMax（稀宇科技）",
+    "publishedAt": "2026-08-03T02:44:09.000Z",
+    "summary": "MiniMax 正式开源新一代通用视频模型 H3，可统一理解文本、图像、视频和音频，生成最高 2K 分辨率、最长 15 秒、带 32 kHz 原生立体声音频的视频。",
+    "category": "ai-models",
+    "score": 75
+  },
+  {
+    "id": "cmsevo9td18ehro2e4owyq95q",
+    "title": "OpenRouter 推出 ori CLI：为 Claude Code 等 Harness 提供开箱即用的优化配置",
+    "url": "https://openrouter.ai/blog/announcements/ori-harness",
+    "source": "OpenRouter：Announcements（RSS）",
+    "publishedAt": "2026-08-04T00:00:00.000Z",
+    "summary": "OpenRouter 发布 ori CLI，用户安装并登录后即可获得针对 Claude Code、Codex、OpenCode、Hermes 等 harness 的优化配置，省去手动设置大量环境变量的麻烦。",
+    "category": "ai-products",
+    "score": 73
+  },
+  {
+    "id": "cmsdkgj9m00hnro0ocrleteo0",
+    "title": "欧盟《人工智能法案》透明度规则生效，违规最高罚 1500 万欧元",
+    "url": "https://www.theverge.com/ai-artificial-intelligence/974571/eu-ai-act-transparency-labels-rules-deepfakes",
+    "source": "The Verge：AI（RSS）",
+    "publishedAt": "2026-08-03T17:38:45.000Z",
+    "summary": "欧盟《人工智能法案》下的新透明度义务于 8 月 2 日生效，要求公司披露用户何时与 AI 模型互动，并为合成音视频和文本添加机器可读标记。欧盟还推出了一套可选的 AI 披露标签供平台采用，但标注要求本身是强制性的。违规公司面临最高 1500 万欧元（约 1720 万美元）或全球年营业额 3% 的罚款，8 月 2 日前推出的模型有 4 个月宽限期。",
+    "category": "industry",
+    "score": 73
+  },
+  {
+    "id": "cmsesrlcn15j7ro2evd57my2c",
+    "title": "NVIDIA 开源 cuFile API，推动 GPU 直连存储",
+    "url": "https://blogs.nvidia.com/blog/ai-storage-fms",
+    "source": "NVIDIA Blog（RSS）",
+    "publishedAt": "2026-08-04T15:00:47.000Z",
+    "summary": "NVIDIA 在 FMS 大会上宣布开源 cuFile API 及底层存储软件栈，让 GPU 可直接读写存储，访问延迟降至微秒级。其 Vera CPU 在两级压缩与加密流水线中吞吐量比 x86 CPU 最高提升 3.21 倍，并联合 40 多家厂商推出 Storage-Next 计划。",
+    "category": "ai-products",
+    "score": 62
+  }
+]
