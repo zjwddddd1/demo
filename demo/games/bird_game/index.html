@@ -568,59 +568,29 @@ function drawObstacle(obs) {
   const obsImgW = OBS_W;
   const gap = obs.gapSize || BASE_OBS_GAP;
 
-  // Bottom pipe (normal orientation - base at bottom, top at gap)
+  // Bottom pipe — draw full image naturally from gap bottom to ground
   const botY = obs.gapY + gap;
   const botH = H - GROUND_H - botY;
   if (img) {
+    // Draw bottom portion of image (trunk/base area) without any flip or crop artifacts
     ctx.drawImage(img, obs.x, botY, obsImgW, botH);
   } else {
     ctx.fillStyle = '#666';
     ctx.fillRect(obs.x, botY, OBS_W, botH);
   }
 
-  // Top pipe (draw bottom portion of image, flipped to show base at top, opening at gap)
+  // Top pipe — draw full image naturally from screen top down to gap
+  // Use the TOP portion of source image (crown/leaves), NOT flipped
   const topH = obs.gapY;
   if (img) {
-    ctx.save();
-    ctx.translate(obs.x, obs.gapY);
-    ctx.scale(1, -1);
-    // Draw only the bottom portion of the image (base part) stretched to fill top pipe
-    const srcRatio = Math.min(topH / 300, 1); // use bottom 300px of source or less
+    // Draw from the top of the source image downwards — preserves natural orientation
+    const srcRatio = Math.min(topH / img.height, 1);
     const srcH = img.height * srcRatio;
-    ctx.drawImage(img, 0, img.height - srcH, img.width, srcH, 0, 0, obsImgW, topH);
-    ctx.restore();
+    ctx.drawImage(img, 0, 0, img.width, srcH, obs.x, 0, obsImgW, topH);
   } else {
     ctx.fillStyle = '#666';
     ctx.fillRect(obs.x, 0, OBS_W, topH);
   }
-
-  // Decorative rounded caps at pipe ends (flower-like)
-  const m = MAPS[obs.mapIndex];
-  const endCapH = 10;
-  ctx.fillStyle = m.accent;
-  ctx.globalAlpha = 0.6;
-  // Top pipe: rounded cap at the very top
-  ctx.beginPath();
-  ctx.arc(obs.x + OBS_W/2, endCapH, OBS_W/2 + 2, Math.PI, 0);
-  ctx.fill();
-  // Top pipe: inner highlight
-  ctx.fillStyle = 'rgba(255,255,255,0.25)';
-  ctx.beginPath();
-  ctx.arc(obs.x + OBS_W/2, endCapH, OBS_W/3, Math.PI, 0);
-  ctx.fill();
-  // Bottom pipe: rounded cap at ground level
-  const botBase = H - GROUND_H;
-  ctx.fillStyle = m.accent;
-  ctx.beginPath();
-  ctx.arc(obs.x + OBS_W/2, botBase - endCapH, OBS_W/2 + 2, 0, Math.PI);
-  ctx.fill();
-  // Bottom pipe: inner highlight
-  ctx.fillStyle = 'rgba(255,255,255,0.25)';
-  ctx.beginPath();
-  ctx.arc(obs.x + OBS_W/2, botBase - endCapH, OBS_W/3, 0, Math.PI);
-  ctx.fill();
-  ctx.globalAlpha = 1;
-
 }
 
 function drawDino() {
