@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>小白股票 · AI 模拟交易</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<title>小白股票 · 给人生第一支股票的人</title>
+<style>
+  :root{
+    --blue:#1e90ff; --blue2:#4facfe; --blue-deep:#1565ff;
+    --bg:#eef4ff; --card:#ffffff; --ink:#1f2a44; --muted:#7a8aa8;
+    --up:#e74c3c; --down:#21ba72; --line:#e6eefc;
+    --shadow:0 10px 30px rgba(30,110,255,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    color:var(--ink); background:linear-gradient(160deg,#eaf2ff 0%,#eef4ff 60%,#f3f8ff 100%);
+    min-height:100vh; padding-bottom:40px;
+  }
+  /* ===== 顶栏 ===== */
+  header{
+    position:sticky;top:0;z-index:30;
+    display:flex;align-items:center;gap:14px;
+    padding:14px 22px;
+    background:linear-gradient(120deg,var(--blue-deep),var(--blue2));
+    color:#fff;box-shadow:var(--shadow);
+  }
+  .logo{font-weight:800;font-size:18px;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:#fff;animation:breathe 3s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.6);opacity:1}}
+  .spacer{flex:1}
+  .toggle{display:flex;background:rgba(255,255,255,.18);border-radius:20px;padding:3px}
+  .toggle button{border:0;background:transparent;color:#fff;padding:6px 16px;border-radius:18px;cursor:pointer;font-size:13px;transition:all .6s cubic-bezier(.4,0,.2,1)}
+  .toggle button.on{background:#fff;color:var(--blue-deep);font-weight:700}
+  .pill{background:rgba(255,255,255,.2);border-radius:18px;padding:6px 14px;font-size:13px}
+  .btn-ghost{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:13px;transition:all .6s}
+  .btn-ghost:hover{background:#fff;color:var(--blue-deep)}
+
+  /* ===== 通用 ===== */
+  .view{display:none;padding:22px}
+  .view.show{display:block;animation:fade .6s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);transition:all .6s cubic-bezier(.4,0,.2,1)}
+  .card:hover{transform:translateY(-3px)}
+  .design-note{font-size:12px;color:var(--muted);background:#f1f6ff;border-left:3px solid var(--blue);padding:8px 10px;border-radius:8px;margin:8px 0 14px;line-height:1.6}
+  .design-note b{color:var(--blue-deep)}
+  .up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--muted)}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#eaf2ff;color:var(--blue-deep);margin-left:6px}
+
+  /* ===== 手机视图 ===== */
+  #phoneView{display:none}
+  #phoneView.show{display:flex;justify-content:center}
+  .phone{width:390px;max-width:100%;background:#f7faff;border-radius:34px;box-shadow:0 20px 60px rgba(30,110,255,.25);overflow:hidden;position:relative}
+  .statusbar{height:26px;background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:12px}
+  .phone-body{height:660px;overflow-y:auto;padding:14px}
+  .phone-tabbar{display:flex;background:#fff;border-top:1px solid var(--line)}
+  .phone-tabbar div{flex:1;text-align:center;padding:10px 0;font-size:12px;color:var(--muted);cursor:pointer;transition:all .6s}
+  .phone-tabbar div.on{color:var(--blue-deep);font-weight:700}
+  .phone-tabbar div.on::after{content:"";display:block;width:22px;height:3px;background:var(--blue);border-radius:3px;margin:5px auto 0}
+  .row{display:flex;align-items:center;justify-content:space-between;padding:12px;background:#fff;border-radius:14px;margin-bottom:10px;box-shadow:0 4px 14px rgba(30,110,255,.06);transition:all .6s}
+  .row:hover{transform:translateX(3px)}
+  .stock-name{font-weight:700;font-size:15px;letter-spacing:0;font-kerning:none;text-rendering:optimizeSpeed;display:inline-block;word-spacing:0;white-space:nowrap;font-feature-settings:"kern" 0}
+  .stock-code{font-size:11px;color:var(--muted)}
+  .price{font-weight:800;font-size:16px}
+  .mini-btn{border:0;background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;border-radius:12px;padding:7px 14px;font-size:12px;cursor:pointer;transition:all .6s}
+  .mini-btn:hover{filter:brightness(1.08)}
+  /* 分类芯片 */
+  .cat-bar{display:flex;gap:8px;overflow-x:auto;padding:4px 28px 10px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch;justify-content:flex-start;position:relative}
+  .cat-bar::-webkit-scrollbar{display:none}
+  .cat-bar::after{content:"";position:absolute;right:0;top:0;bottom:0;width:32px;background:linear-gradient(90deg,transparent,var(--bg));pointer-events:none;z-index:1}
+  .cat-chip{flex-shrink:0;padding:5px 14px;border-radius:20px;font-size:12px;color:#6b7d99;background:#f4f7fc;border:1px solid var(--line);cursor:pointer;transition:all .4s;white-space:nowrap}
+  .cat-chip.on{background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;border-color:transparent;font-weight:600}
+  .cat-chip:hover{filter:brightness(0.95)}
+  .cat-chip.on:hover{filter:brightness(1.05)}
+  /* 搜索栏 */
+  .search-bar{margin-bottom:6px}
+  .search-bar input{width:100%;box-sizing:border-box;padding:9px 14px;border:1px solid var(--line);border-radius:20px;font-size:13px;outline:none;background:#fbfdff;color:#33425f;transition:border .4s}
+  .search-bar input:focus{border-color:var(--blue2)}
+  .search-inline{width:100%;box-sizing:border-box;padding:7px 12px;border:1px solid var(--line);border-radius:16px;font-size:13px;outline:none;background:#fbfdff;color:#33425f;margin-bottom:10px}
+  /* 排序栏 */
+  .sort-bar{display:flex;gap:8px;padding:2px 0 8px;justify-content:flex-start}
+  .sort-chip{padding:4px 12px;border-radius:14px;font-size:11px;background:#f4f7fc;border:1px solid var(--line);color:#6b7d99;cursor:pointer;transition:all .4s;white-space:nowrap}
+  .sort-chip.on{background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;border-color:transparent;font-weight:600}
+  /* 收藏星星 */
+  .star{cursor:pointer;font-size:16px;color:#cbd5e8;transition:all .3s;user-select:none}
+  .star.on{color:#f5a623}
+  .star:hover{transform:scale(1.2)}
+  .big-num{font-size:30px;font-weight:800;background:linear-gradient(120deg,var(--blue-deep),var(--blue2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .section-title{font-size:14px;font-weight:700;margin:6px 4px 2px;color:var(--ink)}
+  .ai-box{background:linear-gradient(135deg,#eef5ff,#f6faff);border:1px solid var(--line);border-radius:16px;padding:16px 16px 16px 58px;font-size:13px;line-height:1.85;color:#33425f;position:relative;overflow:hidden}
+  .ai-box::before{content:"AI";position:absolute;left:0;top:0;bottom:0;width:42px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--blue-deep),var(--blue2));color:#fff;font-size:12px;font-weight:700;letter-spacing:1.5px;border-radius:16px 0 0 16px;box-shadow:inset -1px 0 0 rgba(255,255,255,.15)}
+
+  /* ===== 网页视图 ===== */
+  #webView{display:none}
+  #webView.show{display:block}
+  .web-shell{display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:start}
+  .web-nav{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow);position:sticky;top:84px}
+  .web-nav div{padding:11px 14px;border-radius:12px;color:var(--muted);cursor:pointer;font-size:14px;margin-bottom:6px;transition:all .6s}
+  .web-nav div.on,.web-nav div:hover{background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;font-weight:700}
+  .web-main{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+  .web-col{display:flex;flex-direction:column;gap:18px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:12px}
+  tr{transition:all .6s}
+  tr:hover{background:#f5f9ff}
+  .kpi{display:flex;gap:14px;flex-wrap:wrap}
+  .kpi .card{flex:1;min-width:140px;text-align:center}
+
+  /* ===== 登录 ===== */
+  #auth{position:fixed;inset:0;z-index:60;background:linear-gradient(160deg,var(--blue-deep),var(--blue2));display:flex;align-items:center;justify-content:center}
+  .auth-card{background:#fff;border-radius:22px;padding:30px;width:340px;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+  .auth-card h2{margin-bottom:6px;color:var(--blue-deep)}
+  .auth-card p{font-size:12px;color:var(--muted);margin-bottom:18px}
+  .auth-card input{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:12px;font-size:14px;transition:all .6s}
+  .auth-card input:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px rgba(30,144,255,.15)}
+  .auth-card button{width:100%;border:0;background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;padding:12px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:all .6s}
+  .auth-card button:hover{filter:brightness(1.08)}
+  .auth-switch{text-align:center;margin-top:14px;font-size:12px;color:var(--muted);cursor:pointer}
+  .auth-switch b{color:var(--blue-deep)}
+
+  /* ===== 交易引导弹窗 ===== */
+  #tradeModal{position:fixed;inset:0;z-index:70;background:rgba(20,40,80,.45);display:none;align-items:center;justify-content:center}
+  #tradeModal.show{display:flex;animation:fade .4s}
+  .trade-card{background:#fff;border-radius:22px;padding:26px;width:360px;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+  .trade-step{font-size:12px;color:var(--muted);margin-bottom:10px}
+  .seg{display:flex;gap:8px;margin-bottom:14px}
+  .seg button{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px;cursor:pointer;font-size:14px;transition:all .6s}
+  .seg button.on{background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;border-color:transparent;font-weight:700}
+  .preview{background:#f5f9ff;border-radius:14px;padding:14px;font-size:13px;line-height:2;margin:10px 0}
+  .preview b{color:var(--blue-deep)}
+  .trade-card .actions{display:flex;gap:10px;margin-top:8px}
+  .trade-card .actions button{flex:1;border:0;border-radius:12px;padding:11px;font-size:14px;cursor:pointer;transition:all .6s}
+  .primary{background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;font-weight:700}
+  .ghost{background:#eef4ff;color:var(--blue-deep)}
+
+  /* ===== 设计说明抽屉 ===== */
+  #notes{position:fixed;right:0;top:0;bottom:0;width:340px;background:#fff;z-index:80;box-shadow:-10px 0 40px rgba(0,0,0,.15);transform:translateX(100%);transition:transform .6s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:22px}
+  #notes.show{transform:none}
+  #notes h3{color:var(--blue-deep);margin-bottom:12px}
+  #notes .n{margin-bottom:16px}
+  #notes .n h4{font-size:14px;margin-bottom:4px}
+  #notes .n p{font-size:12px;color:var(--muted);line-height:1.7}
+  #notes .close{position:absolute;top:16px;right:16px;cursor:pointer;color:var(--muted);font-size:20px}
+
+  /* ===== 股票详情 / K线 ===== */
+  #stockModal{position:fixed;inset:0;z-index:75;background:rgba(20,40,80,.45);display:none;align-items:center;justify-content:center}
+  #stockModal.show{display:flex;animation:fade .4s}
+  .stock-detail{background:#fff;border-radius:22px;padding:22px;width:min(720px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.3);max-height:90vh;overflow-y:auto}
+  .sd-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+  .sd-head .stock-name{font-size:20px;font-weight:800;letter-spacing:0;font-kerning:none;text-rendering:optimizeSpeed;word-spacing:0;white-space:nowrap}
+  .sd-head .stock-code{font-size:12px;color:var(--muted);margin-top:2px}
+  .sd-close{border:0;background:#eef4ff;color:var(--blue-deep);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;transition:all .6s}
+  .sd-close:hover{background:var(--blue);color:#fff}
+  .sd-fullscreen{border:0;background:#eef4ff;color:var(--blue-deep);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;transition:all .6s;display:inline-flex;align-items:center;justify-content:center}
+  .sd-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+  .sd-fullscreen:hover{background:var(--blue);color:#fff}
+  /* 全屏看板 */
+  #stockModal.fullscreen{align-items:stretch;justify-content:stretch;padding:18px}
+  #stockModal.fullscreen .stock-detail{max-width:none;width:100%;height:100%;display:flex;flex-direction:column;background:#fff;border-radius:16px}
+  #stockModal.fullscreen #klineCanvas{flex:1;width:100%;height:auto;min-height:480px;align-self:stretch}
+  .sd-range{display:flex;gap:8px;margin:10px 0}
+  .sd-range button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:6px 14px;font-size:13px;cursor:pointer;color:var(--muted);transition:all .6s}
+  .sd-range button.on{background:linear-gradient(120deg,var(--blue-deep),var(--blue2));color:#fff;border-color:transparent;font-weight:700}
+  #klineCanvas{width:100%;height:auto;background:#fbfdff;border-radius:14px;border:1px solid var(--line);margin:6px 0;display:block}
+  .sd-trade{margin-top:12px;display:flex;justify-content:flex-end}
+
+  /* ===== 数据导出/导入 ===== */
+  #dataModal{position:fixed;inset:0;z-index:78;background:rgba(20,40,80,.45);display:none;align-items:center;justify-content:center}
+  #dataModal.show{display:flex;animation:fade .4s}
+  .data-card{background:#fff;border-radius:22px;padding:22px;width:min(420px,92vw);box-shadow:0 30px 80px rgba(0,0,0,.3)}
+  .data-card .stock-name{font-size:18px;letter-spacing:0}
+
+  /* ===== toast ===== */
+  #toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%) translateY(20px);background:#1f2a44;color:#fff;padding:12px 22px;border-radius:14px;font-size:14px;opacity:0;pointer-events:none;transition:all .6s;z-index:90}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .muted{color:var(--muted);font-size:12px}
+  .center{text-align:center}
+  /* ===== 真实手机响应式：去掉假手机外壳 ===== */
+  @media(max-width:768px){
+    #phoneView.show{display:block;justify-content:stretch}
+    .phone{width:100%;max-width:100%;border-radius:0;box-shadow:none;background:transparent}
+    .statusbar{display:none}
+    .phone-body{height:auto;min-height:calc(100vh - 96px);padding:14px 14px 70px 14px;border-radius:0}
+    .phone-tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;border-top:1px solid var(--line);background:#fff;padding-bottom:env(safe-area-inset-bottom,0)}
+    .phone-tabbar div{font-size:13px;padding:12px 0}
+    header{padding:10px 14px}
+    header .logo{font-size:16px}
+    header button.btn-ghost{font-size:11px;padding:4px 8px}
+    header .pill{font-size:11px;padding:4px 10px}
+    #cloudStatus{font-size:10px!important;padding:3px 6px!important}
+    .toggle{display:none!important}
+    #webView{display:none!important}
+    #tPhone,#tWeb{display:none!important}
+    .row{padding:10px;font-size:13px}
+    .stock-name{font-size:14px}
+    .mini-btn{padding:5px 10px;font-size:11px}
+    .search-bar input{padding:10px 12px}
+    #tradeModal .trade-card{width:92vw;padding:20px}
+    #stockModal .stock-detail{width:96vw;padding:16px}
+    #dataModal .data-card{width:92vw}
+    #notes{width:100vw}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="dot"></span>小白股票</div>
+  <div class="spacer"></div>
+  <div class="toggle">
+    <button id="tPhone" class="on" onclick="setView('phone')">手机端</button>
+    <button id="tWeb" onclick="setView('web')">网页端</button>
+  </div>
+  <div class="pill" id="userPill" style="display:none"></div>
+  <span id="cloudStatus" style="font-size:12px;margin-left:4px;display:none;align-self:center;white-space:nowrap;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:12px"></span>
+  <button class="btn-ghost" id="dataBtn" style="display:none" onclick="openData()">数据</button>
+  <button class="btn-ghost" id="notesBtn" onclick="openNotes()">设计说明</button>
+  <button class="btn-ghost" id="logoutBtn" style="display:none" onclick="logout()">退出</button>
+</header>
+
+<!-- 登录 -->
+<div id="auth">
+  <div class="auth-card">
+    <h2 id="authTitle">创建你的账号</h2>
+    <p>每个人独立账号 · 登录即获 100 万虚拟币用于模拟交易</p>
+    <input id="authUser" placeholder="用户名" />
+    <input id="authPwd" type="password" placeholder="密码" />
+    <button onclick="authSubmit()">进入</button>
+    <div class="auth-switch" onclick="toggleAuth()">已有账号？<b>去登录</b></div>
+  </div>
+</div>
+
+<!-- 手机视图 -->
+<section id="phoneView" class="view show">
+  <div class="phone">
+    <div class="statusbar"><span id="phoneTime">--:--</span><span>小白股票 · 模拟</span></div>
+    <div class="phone-body" id="phoneBody"></div>
+    <div class="phone-tabbar" id="phoneTabs">
+      <div class="on" data-t="market" onclick="switchTab('market')">行情</div>
+      <div data-t="hold" onclick="switchTab('hold')">持仓</div>
+      <div data-t="trade" onclick="switchTab('trade')">交易</div>
+      <div data-t="me" onclick="switchTab('me')">我的</div>
+    </div>
+  </div>
+</section>
+
+<!-- 网页视图 -->
+<section id="webView" class="view">
+  <div class="web-shell">
+    <div class="web-nav" id="webNav">
+      <div class="on" data-t="workbench" onclick="switchWeb('workbench')">综合工作台</div>
+      <div data-t="market" onclick="switchWeb('market')">行情中心</div>
+      <div data-t="hold" onclick="switchWeb('hold')">持仓与解读</div>
+      <div data-t="report" onclick="switchWeb('report')">收盘日报</div>
+    </div>
+    <div id="webMain"></div>
+  </div>
+</section>
+
+<!-- 交易引导 -->
+<div id="tradeModal">
+  <div class="trade-card">
+    <div class="trade-step" id="tradeStep">第 1 / 4 步 · 选择方向</div>
+    <div id="tradeBody"></div>
+    <div class="actions">
+      <button class="ghost" onclick="closeTrade()">取消</button>
+      <button class="primary" id="tradeNext" onclick="tradeNext()">下一步</button>
+    </div>
+  </div>
+</div>
+
+<!-- 股票详情 / K线 -->
+<div id="stockModal">
+  <div class="stock-detail">
+    <div class="sd-head">
+      <div>
+        <div class="stock-name" id="sdName">--</div>
+        <div class="stock-code" id="sdCode">--</div>
+      </div>
+      <div class="sd-actions">
+      <button class="sd-fullscreen" onclick="toggleKlineFullscreen()" title="全屏查看">⛶</button>
+      <button class="sd-close" onclick="closeStock()">×</button>
+    </div>
+    </div>
+    <div class="sd-company" id="sdCompany" style="padding:8px 12px;background:#f6faff;border-radius:10px;font-size:12px;color:#556789;line-height:1.6;margin-top:6px">加载中…</div>
+    <div class="sd-range" id="sdRange">
+      <button data-d="30" onclick="setKlineDays(30)">30日</button>
+      <button data-d="60" class="on" onclick="setKlineDays(60)">60日</button>
+      <button data-d="90" onclick="setKlineDays(90)">90日</button>
+    </div>
+    <canvas id="klineCanvas" width="680" height="340"></canvas>
+    <div class="design-note"><b>设计原因：</b>小白最怕"看不懂走势"。点击任意股票即看真实历史日K（腾讯数据），并用 AI 一句话点评把"波动"翻译成人话，强化"降门槛"的差异化定位。</div>
+    <div class="ai-box" id="sdAi">加载中…</div>
+    <div class="sd-trade"><button class="mini-btn" id="sdTradeBtn">进入引导式交易</button></div>
+  </div>
+</div>
+
+<!-- 数据导出/导入 -->
+<div id="dataModal">
+  <div class="data-card">
+    <div class="sd-head">
+      <div class="stock-name">数据备份</div>
+      <button class="sd-close" onclick="closeData()">×</button>
+    </div>
+    <div class="design-note">你的交易数据已通过 <b>Firebase 云端自动同步</b>，换设备登录同一账号即可恢复。导出 JSON 作为<b>额外备份</b>留存。</div>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="mini-btn" onclick="exportData()">导出备份文件 (.json)</button>
+    </div>
+    <div class="muted" style="margin-top:12px">当前账号：<b id="dataUser">--</b></div>
+  </div>
+</div>
+
+<!-- 设计说明 -->
+<aside id="notes">
+  <span class="close" onclick="closeNotes()">×</span>
+  <h3>功能设计说明（差异化 / 微创新）</h3>
+  <div class="n"><h4>① 账号登录 + 虚拟币</h4><p>每个人独立账号，登录即获 100 万虚拟币。无需真实资金即可完整体验买卖闭环，既符合"模拟盘先行"的新手安全网设计，也让 demo 现场零风险可演示。</p></div>
+  <div class="n"><h4>② AI 大白话持仓解读</h4><p>用规则把专业盈亏翻译成口语（"你今天赚/亏在哪、谁贡献大"）。解决新手看不懂盈亏构成的痛点，是 AI 降门槛的核心差异化，也呼应你的多模态/情感计算研究背景。</p></div>
+  <div class="n"><h4>③ 引导式交易（4 步）</h4><p>把复杂交易拆成"方向→金额→预览→确认"，关键第 3 步做模拟预览（花费/预计持仓/手续费）。降低下单恐惧与误操作焦虑，符合小白心智。</p></div>
+  <div class="n"><h4>④ 收盘 1 页纸日报</h4><p>自动汇总当日买卖与当前持仓，生成一句话复盘。解决"没时间盯盘、不会复盘"，帮用户养成习惯。</p></div>
+  <div class="n"><h4>⑤ 手机端 vs 网页端</h4><p>手机重"看一眼 + 轻操作"（底部 4 tab、单栏卡片）；网页重"深度研究 + 多窗口同屏"（左导航 + 行情/持仓/日报并排）。同一套数据，场景不同 → 信息密度与操作重心不同。</p></div>
+  <div class="n"><h4>⑥ 真实行情数据</h4><p>通过腾讯财经公开行情接口(JSONP)获取真实价格、涨跌、高低，接口不可达时回退内置示例数据并标注，保证 demo 不白屏。涨红跌绿遵循 A 股惯例。</p></div>
+</aside>
+
+<div id="toast"></div>
+
+<script>
+/* ============ Firebase 云端存储 ============ */
+const firebaseConfig = {
+  apiKey: "AIzaSyA5mEefVq_xSZ1-4wLMSiPe33FudUJ8920",
+  authDomain: "stcok-demo.firebaseapp.com",
+  projectId: "stcok-demo",
+  storageBucket: "stcok-demo.firebasestorage.app",
+  messagingSenderId: "64912052514",
+  appId: "1:64912052514:web:6c4b0a478efe1c8366157b"
+};
+let db=null, useFirebase=false, _fbError='';
+let _fbRetry=0;
+function pingFirestore(){
+  if(!db) return;
+  db.collection('_ping').doc('test').set({t:Date.now()}).then(()=>{
+    _fbError=''; _fbRetry=0;
+    console.log('✅ Firebase 云端连接成功');
+    renderCloudStatus();
+  }).catch(e=>{
+    _fbRetry++;
+    if(_fbRetry<=3){
+      console.warn('⏳ Firebase 重试',_fbRetry,'/3:',e.message);
+      setTimeout(pingFirestore, 2000*_fbRetry);
+    }else{
+      _fbError='Firestore 不可达: '+e.message;
+      console.warn('❌ Firestore 连接失败（已重试3次）:',e.message);
+    }
+    renderCloudStatus();
+  });
+}
+try{
+  firebase.initializeApp(firebaseConfig);
+  db=firebase.firestore();
+  useFirebase=true;
+  pingFirestore();
+}catch(e){
+  _fbError=e.message;
+  console.warn('❌ Firebase 初始化失败:',e.message);
+}
+function renderCloudStatus(){
+  const el=document.getElementById('cloudStatus');
+  if(!el) return;
+  if(_fbError){
+    el.innerHTML=`<span style="color:${_fbRetry>0&&_fbRetry<=3?'#f5a623':'#e74c3c'};font-weight:600;cursor:${_fbRetry>0?'pointer':'default'}" title="${_fbError.replace(/"/g,'&quot;')}">${_fbRetry>0&&_fbRetry<=3?'🟡 重试中…':'🔴 未连接'}</span>`;
+  }else if(useFirebase){
+    el.innerHTML=`<span style="color:#00ff88;font-weight:700;text-shadow:0 0 6px rgba(0,255,136,.3)" title="Firebase 已连接">🟢 云端在线</span>`;
+  }else{
+    el.innerHTML=`<span style="color:#ccc">⚫ 未配置</span>`;
+  }
+}
+
+async function cloudPull(user){
+  if(!useFirebase||!db) return null;
+  try{
+    const doc=await db.collection('accounts').doc(user).get();
+    if(doc.exists){ const d=doc.data(); return d; }
+    console.log('☁️ cloudPull: 云端无此账号', user);
+  }catch(e){
+    _fbError='cloudPull 失败: '+e.message;
+    console.warn('❌ cloudPull 失败:', e.message);
+    renderCloudStatus();
+  }
+  return null;
+}
+/* 清理对象中所有 undefined 字段（Firestore 不支持 undefined 值） */
+function cleanUndefined(obj){
+  if(obj===null||typeof obj!=='object') return obj;
+  if(Array.isArray(obj)) return obj.map(cleanUndefined);
+  const out={};
+  for(const k in obj){
+    if(obj[k]!==undefined) out[k]=cleanUndefined(obj[k]);
+  }
+  return out;
+}
+async function cloudPush(){
+  if(!useFirebase||!db||!curUser||!curAccount) return;
+  try{
+    const ts=Date.now();
+    const payload=cleanUndefined({...curAccount,_syncedAt:ts});
+    await db.collection('accounts').doc(curUser).set(payload,{merge:true});
+    console.log('☁️ cloudPush 成功:', curUser);
+    _fbError='';
+    _lastCloudPushTs=ts;  // 记录本次推送时间戳，避免 onSnapshot 回环
+    renderCloudStatus();
+  }catch(e){
+    _fbError='cloudPush 失败: '+e.message;
+    console.warn('❌ cloudPush 失败:', e.message);
+    renderCloudStatus();
+    toast('云端同步失败: '+e.message);
+  }
+}
+/* 云端实时监听：当其他设备改了数据，自动拉回并刷新页面（防止本地覆盖远端） */
+let _cloudUnsub=null;
+let _lastCloudPushTs=0;  // 上一次 cloudPush 的时间戳，防止 onSnapshot 自己触发的回环
+function startCloudWatch(user){
+  stopCloudWatch();
+  if(!useFirebase||!db||!user) return;
+  try{
+    _cloudUnsub=db.collection('accounts').doc(user).onSnapshot(doc=>{
+      if(!doc.exists||!curAccount) return;
+      const remote=doc.data();
+      const remoteTs=remote._syncedAt||0;
+      const localTs=curAccount._localTs||0;
+      // 跳过自己刚推送的数据（防止回环）
+      if(remoteTs===_lastCloudPushTs) return;
+      // 远端比本地新 → 拉取并重渲染（不弹 toast，避免每次保存都提示）
+      if(remoteTs>localTs){
+        delete remote._syncedAt;
+        curAccount=remote;
+        const acc=getAccounts(); acc[user]=curAccount; saveAccounts(acc);
+        renderAll();
+      }
+    });
+  }catch(e){}
+}
+function stopCloudWatch(){
+  if(_cloudUnsub){ try{_cloudUnsub();}catch(e){} _cloudUnsub=null; }
+}
+
+/* ============ 数据层 ============ */
+const CATEGORIES = ['全部','白酒饮料','银行','新能源','芯片半导体','科技','医药','汽车','消费','金融证券','大宗能源','中字头/基建','机械装备'];
+const STOCKS = [
+  {code:'sh600519',name:'贵州茅台',cat:'白酒饮料'},{code:'sz002304',name:'洋河股份',cat:'白酒饮料'},{code:'sz000568',name:'泸州老窖',cat:'白酒饮料'},
+  {code:'sh600809',name:'山西汾酒',cat:'白酒饮料'},{code:'sz000596',name:'古井贡酒',cat:'白酒饮料'},
+  {code:'sh601398',name:'工商银行',cat:'银行'},{code:'sh600036',name:'招商银行',cat:'银行'},{code:'sh601288',name:'农业银行',cat:'银行'},
+  {code:'sh601939',name:'建设银行',cat:'银行'},{code:'sz000001',name:'平安银行',cat:'银行'},
+  {code:'sz300750',name:'宁德时代',cat:'新能源'},{code:'sz002594',name:'比亚迪',cat:'新能源'},{code:'sh601012',name:'隆基绿能',cat:'新能源'},
+  {code:'sh600438',name:'通威股份',cat:'新能源'},{code:'sz300274',name:'阳光电源',cat:'新能源'},
+  {code:'sh688981',name:'中芯国际',cat:'芯片半导体'},{code:'sz002371',name:'北方华创',cat:'芯片半导体'},{code:'sh688012',name:'中微公司',cat:'芯片半导体'},
+  {code:'sh603501',name:'韦尔股份',cat:'芯片半导体'},{code:'sh603986',name:'兆易创新',cat:'芯片半导体'},
+  {code:'sz002230',name:'科大讯飞',cat:'科技'},{code:'sz002415',name:'海康威视',cat:'科技'},{code:'sz002475',name:'立讯精密',cat:'科技'},
+  {code:'sz000725',name:'京东方A',cat:'科技'},{code:'sh601360',name:'三六零',cat:'科技'},
+  {code:'sh600276',name:'恒瑞医药',cat:'医药'},{code:'sz300760',name:'迈瑞医疗',cat:'医药'},{code:'sh603259',name:'药明康德',cat:'医药'},
+  {code:'sz000538',name:'云南白药',cat:'医药'},{code:'sh600436',name:'片仔癀',cat:'医药'},
+  {code:'sh601633',name:'长城汽车',cat:'汽车'},{code:'sz000625',name:'长安汽车',cat:'汽车'},{code:'sh600104',name:'上汽集团',cat:'汽车'},
+  {code:'sh601127',name:'赛力斯',cat:'汽车'},{code:'sz002920',name:'德赛西威',cat:'汽车'},
+  {code:'sh600887',name:'伊利股份',cat:'消费'},{code:'sz000333',name:'美的集团',cat:'消费'},{code:'sh600690',name:'海尔智家',cat:'消费'},
+  {code:'sz000651',name:'格力电器',cat:'消费'},{code:'sh601888',name:'中国中免',cat:'消费'},
+  {code:'sh600030',name:'中信证券',cat:'金融证券'},{code:'sz300059',name:'东方财富',cat:'金融证券'},{code:'sh601688',name:'华泰证券',cat:'金融证券'},
+  {code:'sh601318',name:'中国平安',cat:'金融证券'},{code:'sh601628',name:'中国人寿',cat:'金融证券'},
+  {code:'sh600900',name:'长江电力',cat:'大宗能源'},{code:'sh601088',name:'中国神华',cat:'大宗能源'},{code:'sh601857',name:'中国石油',cat:'大宗能源'},
+  {code:'sh601899',name:'紫金矿业',cat:'大宗能源'},{code:'sh600019',name:'宝钢股份',cat:'大宗能源'},
+  {code:'sh601668',name:'中国建筑',cat:'中字头/基建'},{code:'sz000002',name:'万科A',cat:'中字头/基建'},{code:'sh601766',name:'中国中车',cat:'中字头/基建'},
+  {code:'sh601390',name:'中国中铁',cat:'中字头/基建'},{code:'sh601186',name:'中国铁建',cat:'中字头/基建'},{code:'sh600150',name:'中国船舶',cat:'中字头/基建'},
+  {code:'sh600050',name:'中国联通',cat:'中字头/基建'},{code:'sh600941',name:'中国移动',cat:'中字头/基建'},{code:'sh601816',name:'京沪高铁',cat:'中字头/基建'},
+  {code:'sz300308',name:'中际旭创',cat:'科技'},{code:'sh688111',name:'金山办公',cat:'科技'},{code:'sh600570',name:'恒生电子',cat:'科技'},
+  {code:'sh600588',name:'用友网络',cat:'科技'},{code:'sz002241',name:'歌尔股份',cat:'科技'},{code:'sh688036',name:'传音控股',cat:'科技'},
+  {code:'sh600031',name:'三一重工',cat:'机械装备'},{code:'sh603606',name:'东方电缆',cat:'机械装备'},
+  {code:'sh688599',name:'天合光能',cat:'新能源'},{code:'sz002352',name:'顺丰控股',cat:'消费'}
+];
+const FEE = 0.00025;            // 模拟手续费
+const INIT_CASH = 1000000;      // 虚拟币
+const quotes = {};              // code -> {name,price,prevClose,changePct,high,low}
+const klineCache = {};          // code -> 历史日K数组([date,open,close,high,low,vol])
+const FALLBACK = {
+  sh600519:{name:'贵州茅台',price:1320.50,prevClose:1335.00,changePct:-1.09,high:1337,low:1305},
+  sz002304:{name:'洋河股份',price:98.50,prevClose:99.80,changePct:-1.30,high:100.5,low:97.2},
+  sz000568:{name:'泸州老窖',price:90.00,prevClose:91.44,changePct:-1.57,high:91.5,low:88.2},
+  sh600809:{name:'山西汾酒',price:218.50,prevClose:215.00,changePct:1.63,high:221,low:213},
+  sz000596:{name:'古井贡酒',price:90.00,prevClose:91.44,changePct:-1.57,high:91.5,low:88.2},
+  sh601398:{name:'工商银行',price:6.52,prevClose:6.48,changePct:0.62,high:6.55,low:6.45},
+  sh600036:{name:'招商银行',price:35.80,prevClose:37.35,changePct:-4.15,high:37.5,low:35.2},
+  sh601288:{name:'农业银行',price:5.22,prevClose:5.19,changePct:0.58,high:5.25,low:5.16},
+  sh601939:{name:'建设银行',price:7.10,prevClose:7.50,changePct:-5.33,high:7.6,low:7.02},
+  sz000001:{name:'平安银行',price:11.30,prevClose:11.20,changePct:0.89,high:11.4,low:11.1},
+  sz300750:{name:'宁德时代',price:185.20,prevClose:187.00,changePct:-0.96,high:188,low:183},
+  sz002594:{name:'比亚迪',price:248.50,prevClose:245.00,changePct:1.43,high:250,low:243},
+  sh601012:{name:'隆基绿能',price:21.20,prevClose:22.80,changePct:-7.02,high:22.8,low:20.9},
+  sh600438:{name:'通威股份',price:24.80,prevClose:24.50,changePct:1.22,high:25.1,low:24.3},
+  sz300274:{name:'阳光电源',price:82.10,prevClose:81.00,changePct:1.36,high:83,low:80.5},
+  sh688981:{name:'中芯国际',price:55.30,prevClose:54.80,changePct:0.91,high:55.8,low:54.2},
+  sz002371:{name:'北方华创',price:295.00,prevClose:315.00,changePct:-6.35,high:316,low:290},
+  sh688012:{name:'中微公司',price:144.50,prevClose:142.00,changePct:1.76,high:146,low:141},
+  sh603501:{name:'韦尔股份',price:98.60,prevClose:97.50,changePct:1.13,high:100,low:96.5},
+  sh603986:{name:'兆易创新',price:70.50,prevClose:73.50,changePct:-4.08,high:74,low:69.8},
+  sz002230:{name:'科大讯飞',price:47.80,prevClose:48.20,changePct:-0.83,high:48.5,low:47.2},
+  sz002415:{name:'海康威视',price:31.50,prevClose:31.20,changePct:0.96,high:31.8,low:31.0},
+  sz002475:{name:'立讯精密',price:34.80,prevClose:34.50,changePct:0.87,high:35.2,low:34.2},
+  sz000725:{name:'京东方A',price:3.88,prevClose:4.08,changePct:-4.90,high:4.10,low:3.82},
+  sh601360:{name:'三六零',price:9.85,prevClose:9.72,changePct:1.34,high:9.95,low:9.65},
+  sh600276:{name:'恒瑞医药',price:48.20,prevClose:48.80,changePct:-1.23,high:49.0,low:47.8},
+  sz300760:{name:'迈瑞医疗',price:278.50,prevClose:276.00,changePct:0.91,high:282,low:274},
+  sh603259:{name:'药明康德',price:54.80,prevClose:55.30,changePct:-0.90,high:55.5,low:54.0},
+  sz000538:{name:'云南白药',price:54.60,prevClose:54.00,changePct:1.11,high:55.2,low:53.5},
+  sh600436:{name:'片仔癀',price:218.00,prevClose:215.00,changePct:1.40,high:222,low:213},
+  sh601633:{name:'长城汽车',price:27.80,prevClose:27.50,changePct:1.09,high:28.2,low:27.3},
+  sz000625:{name:'长安汽车',price:14.80,prevClose:14.60,changePct:1.37,high:15.0,low:14.5},
+  sh600104:{name:'上汽集团',price:16.20,prevClose:17.00,changePct:-4.71,high:17.1,low:16.0},
+  sh601127:{name:'赛力斯',price:84.50,prevClose:83.00,changePct:1.81,high:86,low:82.5},
+  sz002920:{name:'德赛西威',price:118.60,prevClose:117.00,changePct:1.37,high:120,low:116},
+  sh600887:{name:'伊利股份',price:27.90,prevClose:27.60,changePct:1.09,high:28.2,low:27.4},
+  sz000333:{name:'美的集团',price:71.80,prevClose:71.00,changePct:1.13,high:72.5,low:70.5},
+  sh600690:{name:'海尔智家',price:29.50,prevClose:29.20,changePct:1.03,high:29.8,low:29.0},
+  sz000651:{name:'格力电器',price:39.80,prevClose:39.30,changePct:1.27,high:40.2,low:39.0},
+  sh601888:{name:'中国中免',price:74.60,prevClose:75.50,changePct:-1.19,high:75.8,low:74.0},
+  sh600030:{name:'中信证券',price:26.50,prevClose:28.00,changePct:-5.36,high:28.1,low:26.2},
+  sz300059:{name:'东方财富',price:17.85,prevClose:17.60,changePct:1.42,high:18.0,low:17.5},
+  sh601688:{name:'华泰证券',price:14.20,prevClose:14.05,changePct:1.07,high:14.4,low:13.9},
+  sh601318:{name:'中国平安',price:44.80,prevClose:44.50,changePct:0.67,high:45.2,low:44.2},
+  sh601628:{name:'中国人寿',price:33.50,prevClose:33.20,changePct:0.90,high:33.8,low:33.0},
+  sh600900:{name:'长江电力',price:28.30,prevClose:28.10,changePct:0.71,high:28.5,low:27.9},
+  sh601088:{name:'中国神华',price:38.20,prevClose:37.80,changePct:1.06,high:38.5,low:37.5},
+  sh601857:{name:'中国石油',price:7.80,prevClose:8.08,changePct:-3.47,high:8.10,low:7.72},
+  sh601899:{name:'紫金矿业',price:14.10,prevClose:15.15,changePct:-6.93,high:15.2,low:13.90},
+  sh600019:{name:'宝钢股份',price:6.85,prevClose:6.80,changePct:0.74,high:6.9,low:6.75},
+  sh601668:{name:'中国建筑',price:4.52,prevClose:4.57,changePct:-1.09,high:4.57,low:4.51},
+  sz000002:{name:'万科A',price:3.22,prevClose:3.26,changePct:-1.23,high:3.27,low:3.15},
+  sh601766:{name:'中国中车',price:5.88,prevClose:5.93,changePct:-0.84,high:5.93,low:5.83},
+  sh601390:{name:'中国中铁',price:4.48,prevClose:4.49,changePct:-0.22,high:4.51,low:4.45},
+  sh601186:{name:'中国铁建',price:6.16,prevClose:6.20,changePct:-0.65,high:6.20,low:6.13},
+  sh600150:{name:'中国船舶',price:34.85,prevClose:34.90,changePct:-0.14,high:35.35,low:34.58},
+  sh600050:{name:'中国联通',price:4.30,prevClose:4.38,changePct:-1.83,high:4.38,low:4.28},
+  sh600941:{name:'中国移动',price:95.50,prevClose:96.45,changePct:-0.98,high:96.69,low:94.85},
+  sh601816:{name:'京沪高铁',price:5.04,prevClose:5.08,changePct:-0.79,high:5.09,low:5.01},
+  sz300308:{name:'中际旭创',price:919.87,prevClose:955.00,changePct:-3.68,high:999.88,low:902.00},
+  sh688111:{name:'金山办公',price:265.65,prevClose:267.10,changePct:-0.54,high:271.00,low:261.61},
+  sh600570:{name:'恒生电子',price:22.77,prevClose:23.17,changePct:-1.73,high:23.08,low:22.34},
+  sh600588:{name:'用友网络',price:11.72,prevClose:11.99,changePct:-2.25,high:11.90,low:11.41},
+  sz002241:{name:'歌尔股份',price:23.29,prevClose:23.44,changePct:-0.64,high:23.90,low:23.16},
+  sh688036:{name:'传音控股',price:57.03,prevClose:57.40,changePct:-0.64,high:58.28,low:56.40},
+  sh600031:{name:'三一重工',price:19.58,prevClose:19.76,changePct:-0.91,high:19.89,low:19.40},
+  sh603606:{name:'东方电缆',price:38.70,prevClose:38.88,changePct:-0.46,high:38.95,low:38.53},
+  sh688599:{name:'天合光能',price:13.77,prevClose:13.83,changePct:-0.43,high:14.28,low:13.59},
+  sz002352:{name:'顺丰控股',price:33.30,prevClose:33.72,changePct:-1.25,high:33.68,low:33.18}
+};
+
+/* ============ 存储 ============ */
+function getAccounts(){ try{return JSON.parse(localStorage.getItem('stockApp_accounts')||'{}')}catch(e){return{}} }
+function saveAccounts(a){ if(curAccount) curAccount._localTs=Date.now(); localStorage.setItem('stockApp_accounts',JSON.stringify(a)); pushServer(); cloudPush(); }
+function getCurrent(){ return localStorage.getItem('stockApp_current') }
+function setCurrent(u){ u?localStorage.setItem('stockApp_current',u):localStorage.removeItem('stockApp_current') }
+let curUser=null, curAccount=null;
+
+/* 固定写入文件：若通过本地服务器运行，数据自动镜像到 data.json，更新 HTML 也不丢 */
+const API='/api/data';
+let useServer=false;
+async function tryServer(){
+  try{
+    const r=await fetch(API,{cache:'no-store'});
+    if(r.ok){ const d=await r.json();
+      if(d&&d.accounts){ localStorage.setItem('stockApp_accounts',JSON.stringify(d.accounts)); }
+      if(d&&d.current!=null){ localStorage.setItem('stockApp_current',d.current); }
+      useServer=true;
+    }
+  }catch(e){ useServer=false; }
+}
+function pushServer(){
+  if(!useServer) return;
+  try{ fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accounts:getAccounts(),current:getCurrent()})}); }catch(e){}
+}
+
+/* ============ 登录 ============ */
+let authMode='reg';
+function toggleAuth(){
+  authMode = authMode==='reg'?'login':'reg';
+  document.getElementById('authTitle').textContent = authMode==='reg'?'创建你的账号':'登录账号';
+  document.querySelector('.auth-switch').innerHTML = authMode==='reg'?'已有账号？<b>去登录</b>':'还没有账号？<b>去注册</b>';
+}
+async function authSubmit(){
+  const u=document.getElementById('authUser').value.trim();
+  const p=document.getElementById('authPwd').value;
+  if(!u||!p){toast('请输入用户名和密码');return;}
+  toast('正在连接云端...');
+  const acc=getAccounts();
+
+  // 🔑 核心：任何登录/注册操作，先查 Firebase 云端
+  const cloudAcc = await cloudPull(u);
+
+  if(authMode==='reg'){
+    // 注册：如果云端已有同名账号，提示直接登录
+    if(cloudAcc){ toast('云端已有该账号，请直接登录'); return; }
+    // 云端没有 → 创建新账号
+    acc[u]={pwd:p,cash:INIT_CASH,holdings:{},history:[],favs:[]};
+    saveAccounts(acc);
+  } else {
+    // 登录：优先从云端拉取，其次查本地
+    if(cloudAcc){
+      if(cloudAcc.pwd!==p){ toast('密码错误'); return; }
+      acc[u]=cloudAcc; saveAccounts(acc);
+      toast('已从云端恢复数据！');
+    } else if(acc[u]){
+      if(acc[u].pwd!==p){ toast('密码错误'); return; }
+      // 本地有，推上云端
+      saveAccounts(acc);
+    } else {
+      toast('账号不存在'); return;
+    }
+  }
+  curUser=u; curAccount=acc[u]; setCurrent(u);
+  cloudPush(); // 设置 curUser/curAccount 后立即推上云端（saveAccounts 里推不了因为当时 curUser 还是 null）
+  document.getElementById('auth').style.display='none';
+  document.getElementById('userPill').style.display='block';
+  document.getElementById('userPill').textContent='👤 '+u;
+  document.getElementById('logoutBtn').style.display='block';
+  document.getElementById('dataBtn').style.display='block';
+  document.getElementById('cloudStatus').style.display='block';
+  renderCloudStatus();
+  loadQuotes();
+  renderAll();
+  startCloudWatch(u);
+}
+function logout(){
+  stopCloudWatch();
+  curUser=null;curAccount=null;setCurrent(null);
+  document.getElementById('cloudStatus').style.display='none';
+  document.getElementById('auth').style.display='flex';
+  document.getElementById('userPill').style.display='none';
+  document.getElementById('logoutBtn').style.display='none';
+  document.getElementById('dataBtn').style.display='none';
+}
+
+/* ============ 真实行情（腾讯 JSONP 批量 + 兜底） ============ */
+function loadQuotes(){
+  const all=STOCKS.map(s=>s.code); const bs=20; let total=0;
+  for(let i=0;i<all.length;i+=bs) total++;
+  window._qlDone=0; window._qlTotal=total;
+  for(let i=0;i<all.length;i+=bs){
+    const cs=all.slice(i,i+bs).join(',');
+    const s=document.createElement('script');
+    s.src='https://qt.gtimg.cn/q='+cs;
+    s.onload=()=>{ window._qlDone++; if(window._qlDone===window._qlTotal) parseQuotesAndRender(); };
+    s.onerror=()=>{ window._qlDone++; if(window._qlDone===window._qlTotal) parseQuotesAndRender(); };
+    document.body.appendChild(s);
+  }
+}
+function parseQuotesAndRender(){
+  let ok=false;
+  STOCKS.forEach(st=>{
+    const raw=window['v_'+st.code];
+    if(typeof raw==='string'){
+      const a=raw.replace(/^"|"$/g,'').split('~');
+      quotes[st.code]={name:a[1]||st.name,code:a[2],price:+a[3]||0,prevClose:+a[4]||0,changePct:+(a[32]||0),high:+a[33]||0,low:+a[34]||0};
+      ok=true;
+    }
+  });
+  if(!ok) useFallback(); else window._real=true;
+  renderAll();
+}
+function useFallback(){
+  STOCKS.forEach(st=>{
+    if(FALLBACK[st.code]){ quotes[st.code]={...FALLBACK[st.code]}; }
+    else{
+      const seed=st.code.split('').reduce((a,c)=>a*31+c.charCodeAt(0),0);
+      const base=5+Math.abs(seed%500); const chg=((seed%30)-10)/200;
+      quotes[st.code]={name:st.name,price:base,prevClose:base/(1+chg),changePct:chg*100,high:base*1.03,low:base*0.97};
+    }
+  });
+  window._real=false;
+}
+function pctClass(v){ return typeof v==='number' && v>0?'up':(typeof v==='number' && v<0?'down':'flat'); }
+function pctText(v){ if(typeof v!=='number'||isNaN(v)) return '--'; return (v>0?'+':'')+v.toFixed(2)+'%'; }
+
+/* ============ 视图切换 ============ */
+function tickPhoneClock(){
+  const el=document.getElementById('phoneTime'); if(!el) return;
+  const d=new Date();
+  el.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+tickPhoneClock();
+setInterval(tickPhoneClock,30000);
+/* 行情自动刷新：每 30 秒重新拉一次最新价，让持仓盈亏实时跟着变 */
+let _quoteTimer=null;
+function startQuoteAutoRefresh(){
+  if(_quoteTimer) return;
+  _quoteTimer=setInterval(()=>{
+    if(curAccount){ loadQuotes(); }
+  },30000);
+}
+startQuoteAutoRefresh();
+function setView(v){
+  document.getElementById('tPhone').classList.toggle('on',v==='phone');
+  document.getElementById('tWeb').classList.toggle('on',v==='web');
+  document.getElementById('phoneView').classList.toggle('show',v==='phone');
+  document.getElementById('webView').classList.toggle('show',v==='web');
+  renderAll();
+}
+function currentView(){ return document.getElementById('tPhone').classList.contains('on')?'phone':'web'; }
+
+/* ============ 搜索与分类筛选 ============ */
+let marketSearch='';
+let marketCat='全部';
+function setMarketCat(c){ marketCat=c; renderAll(); }
+function setMarketSearch(v){ marketSearch=v.trim(); renderAll(); }
+function filteredStocks(){
+  let favs=[];
+  if(curAccount.favs) favs=curAccount.favs;
+  const list=STOCKS.filter(st=>{
+    if(marketCat==='我的自选') return favs.includes(st.code);
+    if(marketCat!=='全部'&&st.cat!==marketCat) return false;
+    if(marketSearch&&!st.name.includes(marketSearch)&&!st.code.toUpperCase().includes(marketSearch.toUpperCase())) return false;
+    return true;
+  });
+  if(marketSort==='up') list.sort((a,b)=>{const pa=quotes[a.code]?.changePct||0, pb=quotes[b.code]?.changePct||0; return pb-pa;});
+  else if(marketSort==='down') list.sort((a,b)=>{const pa=quotes[a.code]?.changePct||0, pb=quotes[b.code]?.changePct||0; return pa-pb;});
+  return list;
+}
+function toggleFav(code){
+  if(!curAccount.favs) curAccount.favs=[];
+  const i=curAccount.favs.indexOf(code);
+  if(i>=0) curAccount.favs.splice(i,1); else curAccount.favs.push(code);
+  const acc=getAccounts(); acc[curUser]=curAccount; saveAccounts(acc);
+  renderAll();
+}
+function getCats(){ const r=[...CATEGORIES]; if(curAccount.favs&&curAccount.favs.length) r.splice(1,0,'我的自选'); return r; }
+let marketSort='default';
+function setMarketSort(s){ marketSort=s; renderAll(); }
+
+/* ============ 公司简介 ============ */
+const COMPANIES = {
+  sh600519:'贵州茅台 · 中国白酒龙头，飞天茅台的生产商，A股市值第一。',
+  sz002304:'洋河股份 · 苏酒龙头，蓝色经典系列全国热销。',
+  sz000568:'泸州老窖 · 浓香鼻祖，国窖1573闻名全国。',
+  sh600809:'山西汾酒 · 清香型白酒龙头，历史悠久的"汾老大"。',
+  sz000596:'古井贡酒 · 安徽名酒，年份原浆系列主打。',
+  sh601398:'工商银行 · 中国最大商业银行，"宇宙行"，网点遍布全国。',
+  sh600036:'招商银行 · 零售银行之王，以服务和金融科技著称。',
+  sh601288:'农业银行 · 深耕三农和县域，网点最多的大型银行。',
+  sh601939:'建设银行 · 基建领域最强的国有大行。',
+  sz000001:'平安银行 · 背靠平安集团，综合金融标签鲜明。',
+  sz300750:'宁德时代 · 全球动力电池出货量第一，新能源产业链"宁王"。',
+  sz002594:'比亚迪 · 新能源车+电池双龙头，国内电动车销量冠军。',
+  sh601012:'隆基绿能 · 全球光伏硅片和组件龙头。',
+  sh600438:'通威股份 · 硅料+电池双轮驱动，光伏产业链核心。',
+  sz300274:'阳光电源 · 逆变器全球出货量领先，储能新秀。',
+  sh688981:'中芯国际 · 中国大陆技术最先进的晶圆代工厂。',
+  sz002371:'北方华创 · 半导体设备龙头，国产替代核心标的。',
+  sh688012:'中微公司 · 刻蚀设备国内领先，半导体制造关键环节。',
+  sh603501:'韦尔股份 · CIS图像传感器龙头，手机/汽车摄像头核心供应商。',
+  sh603986:'兆易创新 · NOR Flash + MCU双主线，国产存储芯片代表。',
+  sz002230:'科大讯飞 �� AI语音技术龙头，"让机器能听会说"。',
+  sz002415:'海康威视 · 全球安防摄像头出货量第一。',
+  sz002475:'立讯精密 · 苹果供应链核心，精密制造之王。',
+  sz000725:'京东方A · 全球面板出货量领先，屏幕无处不在。',
+  sh601360:'三六零 · 网络安全龙头，"360安全卫士"家喻户晓。',
+  sh600276:'恒瑞医药 · 中国创新药龙头，研发投入遥遥领先。',
+  sz300760:'迈瑞医疗 · 医疗器械龙头，监护仪/超声全球前三。',
+  sh603259:'药明康德 · CXO一体化龙头，全球新药研发"卖水人"。',
+  sz000538:'云南白药 · 国家保密配方，国民级中药品牌。',
+  sh600436:'片仔癀 · "药中茅台"，国家绝密级配方。',
+  sh601633:'长城汽车 · SUV和皮卡领军者，坦克/哈弗品牌知名。',
+  sz000625:'长安汽车 · 老牌车企转型新能源，深蓝/阿维塔品牌。',
+  sh600104:'上汽集团 · 中国最大汽车集团，合资+自主双线。',
+  sh601127:'赛力斯 · 与华为深度合作，问界品牌制造商。',
+  sz002920:'德赛西威 · 智能座舱+自动驾驶域控制器龙头。',
+  sh600887:'伊利股份 · 亚洲乳业第一，牛奶/奶粉/冷饮全覆盖。',
+  sz000333:'美的集团 · 家电综合龙头，暖通空调全球领先。',
+  sh600690:'海尔智家 · 白电龙头，卡萨帝高端品牌深入人心。',
+  sz000651:'格力电器 · 空调市占率第一，"好空调格力造"。',
+  sh601888:'中国中免 · 免税店龙头，三亚海棠湾/机场免税。',
+  sh600030:'中信证券 · 券商"一哥"，投行和财富管理双强。',
+  sz300059:'东方财富 · 互联网券商龙头，股吧/天天基金生态。',
+  sh601688:'华泰证券 · 涨乐财富通母公司，科技驱动券商。',
+  sh601318:'中国平安 · 综合金融巨头，保险+银行+科技。',
+  sh601628:'中国人寿 · 最大寿险公司，"相知多年值得托付"。',
+  sh600900:'长江电力 · 全球最大水电公司，三峡电站运营商。',
+  sh601088:'中国神华 · 煤电运一体化能源巨头，分红优厚。',
+  sh601857:'中国石油 · 中国最大油气生产商，"两桶油"之一。',
+  sh601899:'紫金矿业 · 金铜矿龙头，全球化矿产资源布局。',
+  sh600019:'宝钢股份 · 中国最大钢企，汽车板/硅板领先。',
+  sh601668:'中国建筑 · 全球最大建筑地产企业集团，基建主力。',
+  sz000002:'万科A · 中国房地产业龙头，"万科物业"服务全国。',
+  sh601766:'中国中车 · 全球最大轨道交通装备供应商，高铁动车制造商。',
+  sh601390:'中国中铁 · 世界500强基建企业，铁路/公路/市政全能。',
+  sh601186:'中国铁建 · 特大型建筑央企，高原铁路/跨海大桥建设者。',
+  sh600150:'中国船舶 · 中国最大造船企业，航空母舰/大型LNG船制造。',
+  sh600050:'中国联通 · 三大电信运营商之一，5G网络建设主力。',
+  sh600941:'中国移动 · 全球最大移动通信运营商，用户数超10亿。',
+  sh601816:'京沪高铁 · 连接北京上海的高铁线路，中国最繁忙高铁。',
+  sz300308:'中际旭创 · 光模块全球龙头，AI算力数据中心核心供应商。',
+  sh688111:'金山办公 · 国产办公软件龙头，WPS Office拥有超5亿用户。',
+  sh600570:'恒生电子 · 中国金融IT龙头，证券/基金核心系统市占率第一。',
+  sh600588:'用友网络 · 中国最大企业级软件服务商，ERP/云服务龙头。',
+  sz002241:'歌尔股份 · 声学器件全球龙头，VR/AR核心代工商。',
+  sh688036:'传音控股 · "非洲手机之王"，新兴市场智能手机市占率第一。',
+  sh600031:'三一重工 · 中国工程机械龙头，挖掘机/混凝土机械全球领先。',
+  sh603606:'东方电缆 · 海底电缆龙头，海上风电送出工程核心供应商。',
+  sh688599:'天合光能 · 光伏组件全球前三，210mm大尺寸组件引领者。',
+  sz002352:'顺丰控股 · 中国最大民营快递企业，时效件/冷链物流龙头。'
+};
+
+/* ============ 渲染：手机 ============ */
+let phoneTab='market';
+function switchTab(t){
+  phoneTab=t;
+  document.querySelectorAll('#phoneTabs div').forEach(d=>d.classList.toggle('on',d.dataset.t===t));
+  renderPhone();
+}
+function renderPhone(){
+  if(currentView()!=='phone'||!curAccount) return;
+  const body=document.getElementById('phoneBody');
+  if(phoneTab==='market') body.innerHTML=marketHTML(false);
+  else if(phoneTab==='hold') body.innerHTML=holdHTML(false);
+  else if(phoneTab==='trade') body.innerHTML=tradeEntryHTML();
+  else body.innerHTML=meHTML();
+}
+function marketHTML(isWeb){
+  const filtered=filteredStocks();
+  const cats=getCats();
+  const catChips=cats.map(c=>`<span class="cat-chip ${c===marketCat?'on':''}" onclick="setMarketCat('${c}')">${c}</span>`).join('');
+  const favs=curAccount.favs||[];
+  const rows=filtered.map(st=>{
+    const q=quotes[st.code]||{}, isFav=favs.includes(st.code);
+    return `<div class="row">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="star${isFav?' on':''}" onclick="event.stopPropagation();toggleFav('${st.code}')">${isFav?'★':'☆'}</span>
+        <div><div class="stock-name" style="cursor:pointer" onclick="openStock('${st.code}')">${q.name||st.name}</div><div class="stock-code">${st.code.toUpperCase()}</div></div>
+      </div>
+      <div style="text-align:right">
+        <div class="price ${pctClass(q.changePct)}">${q.price?q.price.toFixed(2):'--'}</div>
+        <div class="stock-code ${pctClass(q.changePct)}">${pctText(q.changePct)}</div>
+      </div>
+      <button class="mini-btn" onclick="openTrade('${st.code}')">交易</button>
+    </div>`;
+  }).join('')||`<div class="muted" style="padding:20px;text-align:center">暂无符合的股票</div>`;
+  const sortBar=`<div class="sort-bar"><span class="sort-chip ${marketSort==='default'?'on':''}" onclick="setMarketSort('default')">默认</span><span class="sort-chip ${marketSort==='up'?'on':''}" onclick="setMarketSort('up')">涨幅↓</span><span class="sort-chip ${marketSort==='down'?'on':''}" onclick="setMarketSort('down')">跌幅↓</span></div>`;
+  const note=`<div class="design-note"><b>设计原因：</b>保留同花顺的自选收藏 + 涨跌排序，但分类精选、公司简介一句话，不做信息洪流。小白既能"找热门"也能"关注自己喜欢的"。</div>`;
+  return `<div class="search-bar"><input type="text" placeholder="搜索股票名称或代码…" oninput="setMarketSearch(this.value)" value="${marketSearch}"></div>
+    <div class="cat-bar">${catChips}</div>${sortBar}
+    <div class="section-title">${marketCat==='全部'?'全部股票':marketCat}<span class="muted" style="font-weight:700;font-size:13px;margin-left:6px">${filtered.length}支</span> ${window._real===false?'<span class="tag">示例数据</span>':'<span class="tag">真实行情</span>'}</div>${note}${rows}`;
+}
+function holdHTML(isWeb){
+  const ai=aiHoldings();
+  const list=Object.keys(curAccount.holdings).map(code=>{
+    const h=curAccount.holdings[code]; const q=quotes[code]||{};
+    const mv=h.qty*q.price; const cost=h.qty*h.avgCost; const pl=mv-cost; const plp=cost?pl/cost*100:0;
+    return `<div class="row">
+      <div><div class="stock-name">${q.name||code}</div><div class="stock-code">持仓 ${h.qty} 股</div></div>
+      <div style="text-align:right"><div class="stock-code">市值 ${mv.toFixed(0)}</div><div class="${pctClass(plp)}">${pl>=0?'+':''}${pl.toFixed(0)} (${pctText(plp)})</div></div>
+      <button class="mini-btn" style="background:linear-gradient(120deg,#e74c3c,#ff6b6b)" onclick="openTrade('${code}','sell')">卖出</button>
+    </div>`;
+  }).join('') || `<div class="muted center" style="padding:20px">还没有持仓，去行情页模拟买入吧～</div>`;
+  const note=`<div class="design-note"><b>设计原因：</b>持仓顶部放"AI 大白话解读"，先给结论再给明细，解决新手看不懂盈亏构成的核心痛点。</div>`;
+  return `<div class="section-title">我的持仓</div>${note}
+    <div class="ai-box">${ai}</div>
+    <div style="height:12px"></div>${list}`;
+}
+function tradeEntryHTML(){
+  const note=`<div class="design-note"><b>设计原因：</b>交易不直接给复杂下单板，而是引导用户从行情页"交易"按钮进入 4 步流程，降低下单恐惧。</div>`;
+  return `<div class="section-title">模拟交易</div>${note}
+    <div class="card center" style="padding:26px">
+      <div class="muted">可用虚拟币</div>
+      <div class="big-num">¥ ${curAccount.cash.toFixed(0)}</div>
+      <div style="margin-top:14px" class="muted">点击下方任一只股票「交易」按钮开始引导式买入 / 卖出</div>
+    </div>
+    ${marketHTML(false)}`;
+}
+function meHTML(){
+  const rep=dailyReport();
+  const note=`<div class="design-note"><b>设计原因：</b>"我的"页把账户、收盘日报、设计说明聚合，体现 AI 陪伴式复盘，而非冷冰冰的数字列表。</div>`;
+  return `<div class="section-title">我的</div>${note}
+    <div class="card" style="margin-bottom:14px">
+      <div class="muted">账号</div><div style="font-weight:700;font-size:16px">${curUser}</div>
+      <div class="muted" style="margin-top:8px">可用虚拟币</div><div class="big-num" style="font-size:24px">¥ ${curAccount.cash.toFixed(0)}</div>
+    </div>
+    <div class="section-title">收盘 1 页纸日报</div>
+    <div class="ai-box">${rep}</div>
+    <div class="design-note"><b>数据保存在哪里：</b>当前账号数据存于浏览器本地；若想永久留存或换设备，点顶栏「数据」导出 JSON 文件即可。</div>
+    <button class="mini-btn" style="margin-top:4px" onclick="openData()">导出 / 导入数据文件</button>`;
+}
+
+/* ============ 渲染：网页 ============ */
+let webTab='workbench';
+function switchWeb(t){
+  webTab=t;
+  document.querySelectorAll('#webNav div').forEach(d=>d.classList.toggle('on',d.dataset.t===t));
+  renderWeb();
+}
+function renderWeb(){
+  if(currentView()!=='web'||!curAccount) return;
+  const main=document.getElementById('webMain');
+  if(webTab==='workbench'){
+    main.innerHTML=`<div class="web-main">
+      <div class="web-col">
+        <div class="card">${marketTable()}</div>
+        <div class="card">${reportCard()}</div>
+      </div>
+      <div class="web-col">
+        <div class="card">${holdCard()}</div>
+      </div>
+    </div>`;
+  }else if(webTab==='market'){
+    main.innerHTML=`<div class="card">${marketTable()}</div>`;
+  }else if(webTab==='hold'){
+    main.innerHTML=`<div class="card">${holdCard()}</div>`;
+  }else{
+    main.innerHTML=`<div class="card">${reportCard()}</div>`;
+  }
+}
+function marketTable(){
+  const filtered=filteredStocks();
+  const cats=getCats();
+  const catChips=cats.map(c=>`<span class="cat-chip ${c===marketCat?'on':''}" onclick="setMarketCat('${c}')">${c}</span>`).join('');
+  const favs=curAccount.favs||[];
+  const rows=filtered.map(st=>{
+    const q=quotes[st.code]||{}, isFav=favs.includes(st.code);
+    return `<tr><td><span class="star${isFav?' on':''}" onclick="event.stopPropagation();toggleFav('${st.code}')">${isFav?'★':'☆'}</span> <b style="cursor:pointer" onclick="openStock('${st.code}')">${q.name||st.name}</b><br><span class="stock-code">${st.code.toUpperCase()}</span></td>
+      <td class="${pctClass(q.changePct)}" style="font-weight:700">${q.price?q.price.toFixed(2):'--'}</td>
+      <td class="${pctClass(q.changePct)}">${pctText(q.changePct)}</td>
+      <td class="stock-code">高 ${q.high||'--'} / 低 ${q.low||'--'}</td>
+      <td><button class="mini-btn" onclick="openTrade('${st.code}')">交易</button></td></tr>`;
+  }).join('')||`<tr><td colspan="5" class="muted" style="text-align:center;padding:20px">暂无符合的股票</td></tr>`;
+  const sortBar=`<div class="sort-bar"><span class="sort-chip ${marketSort==='default'?'on':''}" onclick="setMarketSort('default')">默认</span><span class="sort-chip ${marketSort==='up'?'on':''}" onclick="setMarketSort('up')">涨幅↓</span><span class="sort-chip ${marketSort==='down'?'on':''}" onclick="setMarketSort('down')">跌幅↓</span></div>`;
+  const note=`<div class="design-note"><b>设计原因：</b>网页端保留更完整的信息密度（高低、代码），服务"深度研究"场景，与手机端"轻浏览"形成差异。</div>`;
+  return `<div class="cat-bar">${catChips}</div>${sortBar}
+    <div class="section-title" style="display:flex;justify-content:space-between;align-items:center"><span>行情中心 · ${marketCat==='全部'?'全部':marketCat} ${window._real===false?'<span class="tag">示例数据</span>':'<span class="tag">真实行情</span>'}</span><span style="font-size:14px;font-weight:700;color:var(--blue-deep)">${filtered.length} 支</span></div>
+    <input class="search-inline" type="text" placeholder="搜索股票名称或代码…" oninput="setMarketSearch(this.value)" value="${marketSearch}">
+    ${note}
+    <table><thead><tr><th>名称</th><th>现价</th><th>涨跌幅</th><th>高/低</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function holdCard(){
+  const ai=aiHoldings();
+  const list=Object.keys(curAccount.holdings).map(code=>{
+    const h=curAccount.holdings[code]; const q=quotes[code]||{};
+    const mv=h.qty*q.price; const cost=h.qty*h.avgCost; const pl=mv-cost; const plp=cost?pl/cost*100:0;
+    return `<tr><td><b>${q.name||code}</b></td><td>${h.qty} 股</td><td>¥${mv.toFixed(0)}</td><td class="${pctClass(plp)}">${pl>=0?'+':''}${pl.toFixed(0)}</td><td><button class="mini-btn" style="background:linear-gradient(120deg,#e74c3c,#ff6b6b);font-size:11px;padding:4px 10px" onclick="openTrade('${code}','sell')">卖出</button></td></tr>`;
+  }).join('')||`<tr><td colspan="5" class="muted">暂无持仓</td></tr>`;
+  const note=`<div class="design-note"><b>设计原因：</b>AI 解读置顶，明细表格化，符合专业用户"先结论后数据"的阅读习惯。</div>`;
+  return `<div class="section-title">持仓与 AI 解读</div>${note}
+    <div class="ai-box" style="margin-bottom:14px">${ai}</div>
+    <table><thead><tr><th>名称</th><th>数量</th><th>市值</th><th>盈亏</th><th></th></tr></thead><tbody>${list}</tbody></table>`;
+}
+function reportCard(){
+  const rep=dailyReport();
+  const note=`<div class="design-note"><b>设计原因：</b>收盘日报独立成页，强调"复盘习惯养成"这一微创新点。</div>`;
+  return `<div class="section-title">收盘 1 页纸日报</div>${note}<div class="ai-box">${rep}</div>`;
+}
+
+/* ============ AI 大白话持仓解读 ============ */
+function aiHoldings(){
+  const codes=Object.keys(curAccount.holdings);
+  if(codes.length===0) return '你还没有持仓。先去行情页挑一只，点「交易」用虚拟币模拟买入，体验一下吧～';
+  let cost=0,mv=0,best=null,worst=null;
+  codes.forEach(code=>{
+    const h=curAccount.holdings[code]; const q=quotes[code]||{price:h.avgCost};
+    const c=h.qty*h.avgCost, m=h.qty*q.price, pl=m-c;
+    cost+=c; mv+=m;
+    if(!best||pl>best.pl) best={code,name:q.name||code,pl};
+    if(!worst||pl<worst.pl) worst={code,name:q.name||code,pl};
+  });
+  const pl=mv-cost, plp=cost?pl/cost*100:0;
+  const dir=pl>=0?'赚了':'亏了';
+  let s=`你目前持有 <b>${codes.length}</b> 只股票，总共投入约 <b>${cost.toFixed(0)}</b> 元虚拟币。今天整体${dir} <b class="${pctClass(plp)}">${pl>=0?'+':''}${pl.toFixed(0)} 元（${pctText(plp)}）</b>。`;
+  // best/worst 文案按实际情况说话
+  if(best && best.pl > 0){
+    s+=`其中 <b>${best.name}</b> 表现最好，贡献了盈利 <b class="up">${best.pl.toFixed(0)} 元</b>；`;
+  } else if(best && best.pl < 0 && codes.length>1){
+    s+=`<b>${best.name}</b> 亏损最少，亏了 <b class="down">${Math.abs(best.pl).toFixed(0)} 元</b>；`;
+  }
+  if(worst && worst.pl < 0 && worst.code !== best.code){
+    s+=`<b>${worst.name}</b> 拖了后腿，亏了 <b class="down">${Math.abs(worst.pl).toFixed(0)} 元</b>。`;
+  }
+  // 集中度提示
+  const top=mv? (codes.map(c=>{const h=curAccount.holdings[c];const q=quotes[c]||{price:h.avgCost};return h.qty*q.price;}).sort((a,b)=>b-a)[0]/mv*100):0;
+  s+= top>60?`你的仓位比较集中（单只占比约 ${top.toFixed(0)}%），注意分散风险哦。` : `你的仓位比较分散，整体风险可控。`;
+  return s;
+}
+
+/* ============ 收盘日报 ============ */
+function dailyReport(){
+  const today=new Date().toISOString().slice(0,10);
+  const ops=curAccount.history.filter(h=>h.time&&h.time.indexOf(today)===0);
+  const buys=ops.filter(o=>o.type==='buy');
+  const sells=ops.filter(o=>o.type==='sell');
+  let lines=[`<b>【今日复盘 · 1 页纸】</b>`];
+  if(ops.length===0){ lines.push('今天还没有交易记录，市场不缺机会，缺的是好价格。'); }
+  else{
+    lines.push(`今日共 <b>${ops.length}</b> 笔操作：`);
+    if(buys.length) lines.push('· 买入：'+buys.map(o=>`${o.name} ${o.qty}股`).join('、'));
+    if(sells.length) lines.push('· 卖出：'+sells.map(o=>`${o.name} ${o.qty}股`).join('、'));
+  }
+  // 当前持仓盈亏
+  let cost=0,mv=0;
+  Object.keys(curAccount.holdings).forEach(code=>{
+    const h=curAccount.holdings[code]; const q=quotes[code]||{price:h.avgCost};
+    cost+=h.qty*h.avgCost; mv+=h.qty*q.price;
+  });
+  const pl=mv-cost, plp=cost?pl/cost*100:0;
+  if(Object.keys(curAccount.holdings).length){
+    lines.push(`当前持仓 <b>${Object.keys(curAccount.holdings).length}</b> 只，市值约 <b>${mv.toFixed(0)}</b> 元，累计盈亏 <span class="${pctClass(plp)}">${pl>=0?'+':''}${pl.toFixed(0)} 元（${pctText(plp)}）</span>。`);
+  }
+  const tip = pl>0?'今天不错，保持节奏，别被贪婪带偏。' : (pl<0?'小亏是正常的，模拟盘正是为了试错，复盘比结果更重要。' : '持平也是种能力，稳住。');
+  lines.push(`<b>一句话：</b>${tip}`);
+  return lines.join('<br>');
+}
+
+/* ============ 引导式交易 ============ */
+let trade={code:null,type:'buy',amount:null,qty:null,price:null};
+function openTrade(code, dir='buy'){ trade={code,type:dir,amount:null,qty:null,price:null}; step=1; showTrade(); }
+let step=1;
+function showTrade(){
+  document.getElementById('tradeModal').classList.add('show');
+  renderTradeStep();
+}
+function closeTrade(){ document.getElementById('tradeModal').classList.remove('show'); }
+function getQ(code){ return quotes[code]||{}; }
+function renderTradeStep(){
+  const q=getQ(trade.code);
+  document.getElementById('tradeStep').textContent=`第 ${step} / 4 步 · ${['选择方向','输入金额','模拟预览','确认下单'][step-1]}`;
+  const body=document.getElementById('tradeBody');
+  const nextBtn=document.getElementById('tradeNext');
+  const fmtP=(p)=> (typeof p==='number'&&!isNaN(p))? p.toFixed(2) : '--';
+  const fmtCash=(c)=> (typeof c==='number'&&!isNaN(c))? c.toFixed(0) : '0';
+  if(step===1){
+    body.innerHTML=`<div class="seg">
+      <button class="${trade.type==='buy'?'on':''}" onclick="setType('buy')">买入</button>
+      <button class="${trade.type==='sell'?'on':''}" onclick="setType('sell')">卖出</button></div>
+      <div class="muted center">交易标的：<b style="color:var(--blue-deep)">${q.name||trade.code}</b>　现价 ${fmtP(q.price)}</div>`;
+    nextBtn.textContent='下一步';
+  }else if(step===2){
+    const holding=curAccount.holdings&&curAccount.holdings[trade.code];
+    body.innerHTML=`<div class="muted">现价 <b>${fmtP(q.price)}</b> 元　可用虚拟币 <b>¥${fmtCash(curAccount.cash)}</b></div>
+      <input id="amtInput" type="number" placeholder="${trade.type==='buy'?'输入买入金额（元）':'输入卖出股数'}" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:10px;font-size:15px"/>
+      ${trade.type==='sell'&&holding?`<div class="muted" style="margin-top:8px">你持有 ${holding.qty} 股，可全部卖出</div>`:''}
+      ${trade.type==='buy'?`<div class="muted" style="margin-top:8px">将按现价换算可买股数（取整）</div>`:''}`;
+    nextBtn.textContent='下一步';
+  }else if(step===3){
+    let ok=false, msg='';
+    if(trade.type==='buy'){
+      const amt=+document.getElementById('amtInput').value;
+      if(!amt||amt<=0){msg='请输入有效金额';}
+      else if(!q.price){msg='行情未加载，请稍后再试';}
+      else{ trade.qty=Math.floor(amt/q.price); trade.amount=trade.qty*q.price; ok=trade.qty>0; if(!ok)msg='金额不足以买入 1 股'; }
+    }else{
+      const qty=+document.getElementById('amtInput').value;
+      const holding=curAccount.holdings[trade.code];
+      if(!qty||qty<=0) msg='请输入有效股数';
+      else if(!holding||holding.qty<qty) msg='卖出股数超过持仓';
+      else if(!q.price) msg='行情未加载，请稍后再试';
+      else{ trade.qty=qty; trade.amount=qty*q.price; ok=true; }
+    }
+    if(!ok){ body.innerHTML=`<div class="preview" style="color:var(--up)">⚠️ ${msg}</div>`; nextBtn.textContent='返回上一步'; return; }
+    const fee=trade.amount*FEE;
+    const total=trade.type==='buy'?trade.amount+fee:trade.amount-fee;
+    body.innerHTML=`<div class="preview">
+      方向：<b>${trade.type==='buy'?'买入':'卖出'}</b><br>
+      标的：<b>${q.name||trade.code}</b>　价格 <b>${fmtP(q.price)}</b><br>
+      数量：<b>${trade.qty}</b> 股<br>
+      本金：<b>¥${fmtP(trade.amount)}</b><br>
+      手续费：<b>¥${fmtP(fee)}</b><br>
+      ${trade.type==='buy'?`合计支出：<b>¥${fmtP(total)}</b>`:`合计回收：<b>¥${fmtP(total)}</b>`}
+    </div>`;
+    nextBtn.textContent='下一步';
+  }else if(step===4){
+    const fee=trade.amount*FEE;
+    const total=trade.type==='buy'?trade.amount+fee:trade.amount-fee;
+    body.innerHTML=`<div class="preview" style="text-align:center">
+      ✅ 确认${trade.type==='buy'?'买入':'卖出'} <b>${trade.qty}</b> 股 ${q.name||trade.code}<br>
+      ${trade.type==='buy'?`将支出 <b>¥${fmtP(total)}</b>`:`将回收 <b>¥${fmtP(total)}</b>`}<br>
+      <span class="muted">（虚拟币结算，无真实资金风险）</span>
+    </div>`;
+    nextBtn.textContent='确认下单';
+  }
+}
+function setType(t){ trade.type=t; renderTradeStep(); }
+function tradeNext(){
+  if(step<4){ step++; renderTradeStep(); }
+  else{ confirmTrade(); }
+}
+function confirmTrade(){
+  const q=getQ(trade.code);
+  const fee=trade.amount*FEE;
+  const acc=curAccount;
+  if(trade.type==='buy'){
+    const total=trade.amount+fee;
+    if(acc.cash<total){ toast('虚拟币不足'); return; }
+    acc.cash-=total;
+    const h=acc.holdings[trade.code]||{qty:0,avgCost:0};
+    const newQty=h.qty+trade.qty;
+    h.avgCost=(h.qty*h.avgCost+trade.qty*q.price)/newQty;
+    h.qty=newQty; acc.holdings[trade.code]=h;
+  }else{
+    const total=trade.amount-fee;
+    const h=acc.holdings[trade.code];
+    if(!h||h.qty<trade.qty){ toast('持仓不足'); return; }
+    acc.cash+=total; h.qty-=trade.qty;
+    if(h.qty<=0) delete acc.holdings[trade.code];
+  }
+  acc.history.push({type:trade.type,code:trade.code,name:q.name||trade.code,price:q.price,qty:trade.qty,amount:trade.amount,time:new Date().toISOString()});
+  const all=getAccounts(); all[curUser]=acc; saveAccounts(all); curAccount=acc;
+  closeTrade(); toast('下单成功（虚拟币）'); renderAll();
+}
+
+/* ============ 股票详情 / K线 ============ */
+let curStockCode=null, curKlineDays=60;
+const klineIsReal = {};     // code -> true/false，标记数据是否真实
+function genFallbackKline(code){
+  // 离线兜底：基于当前价生成 90 个交易日的"合理走势"K 线
+  const q=getQ(code);
+  const base=(q&&q.price)?+q.price:100;
+  const arr=[]; let prev=base*0.78;
+  const today=new Date(); const pad=n=>String(n).padStart(2,'0'); const r2=n=>Math.round(n*100)/100;
+  for(let i=0;i<90;i++){
+    const d=new Date(today); d.setDate(d.getDate()-(89-i));
+    const drift=((base-prev)/prev)*0.32+(Math.random()-0.5)*0.025;
+    const open=prev*(1+(Math.random()-0.5)*0.012);
+    const close=prev*(1+drift);
+    const high=Math.max(open,close)*(1+Math.random()*0.018);
+    const low=Math.min(open,close)*(1-Math.random()*0.018);
+    const vol=Math.round(8000+Math.random()*52000);
+    arr.push([d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),
+      r2(open).toFixed(2),r2(close).toFixed(2),r2(high).toFixed(2),r2(low).toFixed(2),vol]);
+    prev=close;
+  }
+  arr[89][2]=base.toFixed(2); // 最后一根收盘钉到当前价，保证走势连贯
+  return arr;
+}
+function openStock(code){
+  curStockCode=code; curKlineDays=60;
+  document.querySelectorAll('#sdRange button').forEach(b=>b.classList.toggle('on',+b.dataset.d===60));
+  const q=getQ(code);
+  document.getElementById('sdName').textContent=q.name||code;
+  document.getElementById('sdCode').textContent=code.toUpperCase()+' · 加载中…';
+  document.getElementById('sdCompany').textContent=COMPANIES[code]||'暂无简介';
+  document.getElementById('sdTradeBtn').onclick=()=>{closeStock();openTrade(code);};
+  document.getElementById('stockModal').classList.add('show');
+  document.getElementById('sdAi').innerHTML='加载中…';
+  drawKline();
+  loadKline(code,()=>{
+    drawKline();
+    document.getElementById('sdAi').innerHTML=aiStock();
+    document.getElementById('sdCode').textContent = code.toUpperCase()+' · '+(klineIsReal[code]?'真实历史日K（腾讯）':'示例数据（离线生成，仅作演示）');
+  });
+}
+function closeStock(){ document.getElementById('stockModal').classList.remove('show'); }
+function toggleKlineFullscreen(){
+  const modal=document.getElementById('stockModal');
+  const isFull=modal.classList.toggle('fullscreen');
+  // 等浏览器完成 reflow 后再读容器尺寸，避免取到旧值
+  requestAnimationFrame(()=>{
+    const cv=document.getElementById('klineCanvas');
+    if(isFull){
+      const cw=Math.max(800,cv.parentElement.clientWidth-40);
+      const ch=Math.max(480,cv.parentElement.clientHeight-260);
+      KL_W=cw; KL_H=ch;
+      modal.querySelector('.sd-fullscreen').title='退出全屏 (ESC)';
+    } else {
+      KL_W=680; KL_H=340;
+      modal.querySelector('.sd-fullscreen').title='全屏查看';
+    }
+    drawKline();
+  });
+}
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape'&&document.getElementById('stockModal').classList.contains('fullscreen')){
+    toggleKlineFullscreen();
+  }
+});
+function setKlineDays(d){
+  curKlineDays=d;
+  document.querySelectorAll('#sdRange button').forEach(b=>b.classList.toggle('on',+b.dataset.d===d));
+  drawKline(); document.getElementById('sdAi').innerHTML=aiStock();
+}
+function loadKline(code,cb){
+  if(klineCache[code]){cb();return;}
+  const finish=(data)=>{
+    if(data){
+      const d=data.data&&data.data[code];
+      const arr=d&&(d.qfqday||d.day);
+      if(arr&&arr.length){ klineCache[code]=arr; klineIsReal[code]=true; }
+    }
+    if(!klineCache[code]){
+      // 真实接口都拉不到（预览环境可能无外网）→ 用本地生成的合理走势兜底，保证图表可见
+      klineCache[code]=genFallbackKline(code); klineIsReal[code]=false;
+    }
+    cb();
+  };
+  (async()=>{
+    if(useServer){
+      try{ const r=await fetch('/api/kline?code='+code); if(r.ok){finish(await r.json());return;} }catch(e){}
+    }
+    try{
+      const r=await fetch('https://web.ifzq.gtimg.cn/appstock/app/kline/kline?param='+code+',day,,,90');
+      if(r.ok){finish(await r.json());return;}
+    }catch(e){}
+    finish(null);
+  })();
+}
+let KL_W=680, KL_H=340;
+function drawKline(){
+  const cv=document.getElementById('klineCanvas'); if(!cv) return;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=KL_W*dpr; cv.height=KL_H*dpr; cv.style.width='100%'; cv.style.height='auto';
+  const ctx=cv.getContext('2d'); ctx.save(); ctx.scale(dpr,dpr);
+  const W=KL_W, H=KL_H;
+  ctx.clearRect(0,0,W,H);
+  const arr=klineCache[curStockCode];
+  if(!arr||!arr.length){ ctx.fillStyle='#7a8aa8'; ctx.font='13px sans-serif'; ctx.fillText('暂无可显示数据',20,40); ctx.restore(); return; }
+  const data=arr.slice(-curKlineDays), n=data.length;
+  if(!n){ ctx.fillStyle='#7a8aa8'; ctx.fillText('无数据',20,40); ctx.restore(); return; }
+  let min=Infinity,max=-Infinity;
+  data.forEach(d=>{const h=+d[3],l=+d[4]; if(h>max)max=h; if(l<min)min=l;});
+  const padL=52,padR=14,padT=14,padB=26, cw=W-padL-padR, ch=H-padT-padB, range=(max-min)||1;
+  const x=i=>padL+(i+0.5)/n*cw, y=v=>padT+(1-(v-min)/range)*ch;
+  ctx.strokeStyle='#e6eefc'; ctx.lineWidth=1; ctx.fillStyle='#7a8aa8'; ctx.font='12px sans-serif';
+  for(let g=0;g<=4;g++){const v=min+range*g/4,yy=y(v); ctx.beginPath();ctx.moveTo(padL,yy);ctx.lineTo(W-padR,yy);ctx.stroke(); ctx.fillText(v.toFixed(0),6,yy+5);}
+  const bw=Math.max(3,cw/n*0.62);
+  data.forEach((d,i)=>{
+    const o=+d[1],c=+d[2],h=+d[3],l=+d[4], up=c>=o;
+    ctx.strokeStyle=up?'#e74c3c':'#21ba72'; ctx.fillStyle=up?'#e74c3c':'#21ba72'; ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x(i),y(h));ctx.lineTo(x(i),y(l));ctx.stroke();
+    const yo=y(o),yc=y(c),top=Math.min(yo,yc),hgt=Math.max(2,Math.abs(yc-yo));
+    ctx.fillRect(x(i)-bw/2,top,bw,hgt);
+  });
+  // 时间轴刻度：按比例等分 + 强制把最后一根蜡烛钉到最右（保证"最新"在最右）
+  const lc=Math.min(7,Math.max(4,n)); // 标签总数 4~7
+  const idxSet=new Set();
+  for(let k=0;k<lc;k++) idxSet.add(Math.round(k*(n-1)/(lc-1)));
+  const labelIdx=[...idxSet].sort((a,b)=>a-b);
+  ctx.fillStyle='#a0aec0'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+  labelIdx.forEach(i=>{
+    const xi=padL+(i+0.5)/n*cw;
+    const isLast=i===n-1;
+    ctx.beginPath(); ctx.moveTo(xi,H-padB+1); ctx.lineTo(xi,H-padB+5);
+    ctx.strokeStyle=isLast?'#94a3c2':'#dce5f2'; ctx.lineWidth=isLast?1.4:1; ctx.stroke();
+    ctx.fillStyle=isLast?'#33425f':'#a0aec0';
+    ctx.fillText(data[i][0].slice(5), xi, H-padB+16);
+  });
+  ctx.textAlign='start'; ctx.restore();
+}
+function getKlineLayout(){
+  const cv=document.getElementById('klineCanvas'); if(!cv) return null;
+  const arr=klineCache[curStockCode]; if(!arr||!arr.length) return null;
+  const data=arr.slice(-curKlineDays); if(!data.length) return null;
+  let min=Infinity,max=-Infinity;
+  data.forEach(d=>{const h=+d[3],l=+d[4]; if(h>max)max=h; if(l<min)min=l;});
+  const W=KL_W, H=KL_H;
+  const padL=52,padR=14,padT=14,padB=26;
+  const cw=W-padL-padR, ch=H-padT-padB, range=(max-min)||1;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  const x=i=>padL+(i+0.5)/data.length*cw, y=v=>padT+(1-(v-min)/range)*ch;
+  return {cv,W,H,data,min,max,padL,padR,padT,padB,cw,ch,range,n:data.length,x,y,dpr};
+}
+function drawKlineHover(idx){
+  const L=getKlineLayout(); if(!L||idx<0||idx>=L.n) return;
+  const ctx=L.cv.getContext('2d');
+  const dpr=L.dpr;
+  // 重绘底图（会自动 scale，再叠加 hover 层）
+  drawKline();
+  ctx.save(); ctx.scale(dpr,dpr);
+  const {W,H,data,padL,padR,padT,padB,cw,n,x}=L;
+  const xp=x(idx);
+  const bw=Math.max(3,cw/n*0.62);
+  ctx.fillStyle='rgba(125,142,184,0.16)';
+  ctx.fillRect(xp-bw/2-1, padT, bw+2, H-padT-padB);
+  ctx.save();
+  ctx.strokeStyle='#94a3c2'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(xp,padT); ctx.lineTo(xp,H-padB); ctx.stroke();
+  ctx.setLineDash([]); ctx.restore();
+  const d=data[idx]; const o=+d[1],c=+d[2],h=+d[3],l=+d[4],v=+d[5];
+  const up=c>=o;
+  ctx.font='12px sans-serif';
+  const lines=[
+    {t:d[0], color:'#ffffff', bold:true},
+    {t:'开 '+o.toFixed(2)+'  收 '+c.toFixed(2), color:up?'#ff8a8a':'#5fd49a', bold:false},
+    {t:'高 '+h.toFixed(2)+'  低 '+l.toFixed(2), color:'#cbd5e8', bold:false},
+    {t:'量 '+(v>=10000?(v/10000).toFixed(2)+'万':v), color:'#cbd5e8', bold:false}
+  ];
+  const lineH=18; const padX=10; const padY=8;
+  let maxW=0;
+  lines.forEach(ln=>{ const w=ctx.measureText(ln.t).width; if(w>maxW) maxW=w; });
+  const tw=maxW+padX*2, th=lines.length*lineH+padY*2;
+  let tx=xp+10; if(tx+tw>W-padR) tx=xp-tw-10;
+  const ty=padT+4;
+  ctx.fillStyle='rgba(31,42,68,0.95)';
+  ctx.beginPath();
+  const r=8;
+  ctx.moveTo(tx+r,ty);
+  ctx.arcTo(tx+tw,ty,tx+tw,ty+th,r);
+  ctx.arcTo(tx+tw,ty+th,tx,ty+th,r);
+  ctx.arcTo(tx,ty+th,tx,ty,r);
+  ctx.arcTo(tx,ty,tx+tw,ty,r);
+  ctx.closePath(); ctx.fill();
+  lines.forEach((ln,i)=>{
+    ctx.font=(ln.bold?'bold ':'')+'12px sans-serif';
+    ctx.fillStyle=ln.color;
+    ctx.fillText(ln.t, tx+padX, ty+padY+12+i*lineH);
+  });
+  ctx.fillStyle='rgba(31,42,68,0.95)';
+  const ax=(tx<xp)?tx+tw:tx-6;
+  ctx.beginPath(); ctx.moveTo(ax,ty+th/2-5); ctx.lineTo(ax+(tx<xp?-6:6),ty+th/2); ctx.lineTo(ax,ty+th/2+5); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+(function attachKlineHover(){
+  const cv=document.getElementById('klineCanvas'); if(!cv) return;
+  let lastIdx=-2;
+  cv.addEventListener('pointermove',(e)=>{
+    const L=getKlineLayout(); if(!L) return;
+    const rect=cv.getBoundingClientRect();
+    const sx=(e.clientX-rect.left)*(KL_W/rect.width);
+    const {padL,padR,cw,n}=L;
+    if(sx<padL-4||sx>KL_W-padR+4){ if(lastIdx!==-1){ drawKline(); lastIdx=-1; } return; }
+    const idx=Math.max(0,Math.min(n-1,Math.floor((sx-padL)/(cw/n))));
+    if(idx===lastIdx) return;
+    lastIdx=idx;
+    drawKlineHover(idx);
+  });
+  cv.addEventListener('pointerleave',()=>{ lastIdx=-2; drawKline(); });
+  cv.style.cursor='crosshair';
+})();
+function aiStock(){
+  const arr=klineCache[curStockCode]; const q=getQ(curStockCode);
+  if(!arr||!arr.length) return '暂无历史数据，无法点评。';
+  const data=arr.slice(-curKlineDays);
+  const first=+data[0][2], last=+data[data.length-1][2];
+  const chg=(last-first)/first*100;
+  let hi=-Infinity,lo=Infinity; data.forEach(d=>{hi=Math.max(hi,+d[3]);lo=Math.min(lo,+d[4]);});
+  const wave=(hi-lo)/first*100, dir=chg>=0?'上涨':'下跌';
+  let s=`最近 ${curKlineDays} 个交易日，<b>${q.name||curStockCode}</b>从约 <b>${first.toFixed(2)}</b> 元到 <b>${last.toFixed(2)}</b> 元，区间${dir} <span class="${chg>=0?'up':'down'}">${chg>=0?'+':''}${chg.toFixed(2)}%</span>；区间最高 ${hi.toFixed(2)}、最低 ${lo.toFixed(2)}，波动约 ${wave.toFixed(1)}%。`;
+  s+= chg>=0?'整体偏强，但别追高——记住你买入的理由比价格更重要。':'整体偏弱，新手提示：跌不代表便宜，先想清楚它为什么跌。';
+  return s;
+}
+
+/* ============ 数据导出/导入 ============ */
+function openData(){
+  document.getElementById('dataUser').textContent=curUser||'--';
+  document.getElementById('dataModal').classList.add('show');
+}
+function closeData(){ document.getElementById('dataModal').classList.remove('show'); }
+function exportData(){
+  if(!curAccount){toast('请先登录');return;}
+  const payload={app:'xiaobai-stock-demo',user:curUser,exportedAt:new Date().toISOString(),account:curAccount};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='stock-demo-data-'+(curUser||'user')+'.json'; a.click();
+  URL.revokeObjectURL(a.href);
+  toast('已导出交易数据文件');
+}
+// beforeunload 自动备份已移除——有了 Firebase 云端同步，不再需要每次关闭下载 JSON
+function onImportFile(input){
+  const f=input.files&&input.files[0]; if(!f){return;}
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const p=JSON.parse(r.result);
+      if(p.app!=='xiaobai-stock-demo'||!p.account){toast('文件格式不正确');return;}
+      const acc=getAccounts(); acc[p.user]=p.account; saveAccounts(acc);
+      if(curUser!==p.user){ setCurrent(p.user); curUser=p.user; curAccount=p.account; document.getElementById('userPill').textContent='👤 '+curUser; }
+      else{ curAccount=p.account; }
+      closeData(); renderAll(); toast('交易数据已导入：'+p.user);
+    }catch(e){ toast('解析失败，请检查文件'); }
+  };
+  r.readAsText(f); input.value='';
+}
+
+/* ============ 通用 ============ */
+function renderAll(){ renderPhone(); renderWeb(); }
+function openNotes(){ document.getElementById('notes').classList.add('show'); }
+function closeNotes(){ document.getElementById('notes').classList.remove('show'); }
+let toastTimer;
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1800); }
+
+/* 启动：先尝试从服务器 data.json 拉回数据，再判断是否已登录 */
+(async function init(){
+  // 手机自动切手机视图
+  if(window.innerWidth<=768){
+    setView('phone');
+    document.getElementById('tPhone').style.display='none';
+    document.getElementById('tWeb').style.display='none';
+  }
+  await tryServer();
+  let u=getCurrent();
+  // 有登录态时，尝试从 Firebase 云端拉最新数据覆盖本地
+  if(u&&useFirebase){
+    const cloud=await cloudPull(u);
+    if(cloud){
+      const all=getAccounts();
+      const localData=all[u]||{};
+      const cloudTs=cloud._syncedAt||0;
+      const localTs=localData._localTs||localData._syncedAt||0;
+      if(!all[u]||cloudTs>localTs){
+        delete cloud._syncedAt;
+        all[u]=cloud; saveAccounts(all);
+        console.log('☁️ init: 已从云端恢复最新数据');
+      }
+    }
+  }
+  if(u && getAccounts()[u]){ curUser=u; curAccount=getAccounts()[u];
+    document.getElementById('auth').style.display='none';
+    document.getElementById('userPill').style.display='block';
+    document.getElementById('userPill').textContent='👤 '+u;
+    document.getElementById('logoutBtn').style.display='block';
+    document.getElementById('dataBtn').style.display='block';
+    document.getElementById('cloudStatus').style.display='block';
+    renderCloudStatus();
+    loadQuotes(); renderAll();
+    cloudPush();
+    startCloudWatch(u);
+  }
+})();
+</script>
+</body>
+</html>
