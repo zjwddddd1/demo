@@ -725,7 +725,17 @@ body {
     <h3>📅 历史快照</h3>
     <div class="history-section">
       <input type="date" class="history-datepicker" id="historyDatepicker" onchange="onHistoryPick(this.value)">
-      <div class="history-hint">点开日历选日期查看快照</div>
+      <div class="history-hint" id="historyHint">点开日历选日期查看快照</div>
+    </div>
+  </div>
+
+  <div class="stats" style="margin-top:6px;">
+    <div class="stat-btn" style="cursor:default;pointer-events:none;background:var(--primary-lighter);border-color:var(--border-focus);">
+      <span>
+        <span class="stat-label">归档总量</span>
+        <span class="stat-hint">本地持久化存储</span>
+      </span>
+      <span class="stat-num" id="statArchive" style="color:var(--primary);">—</span>
     </div>
   </div>
 
@@ -845,6 +855,8 @@ let currentSort = 'score';
 let starred = JSON.parse(localStorage.getItem('ai_wb_starred') || '[]');
 let history = JSON.parse(localStorage.getItem('ai_wb_history') || '[]');
 let readIds = JSON.parse(localStorage.getItem('ai_wb_read') || '[]');
+// 数据归档：持久化存储所有历史内容（按日期累积）
+let dataArchive = JSON.parse(localStorage.getItem('ai_wb_archive') || '[]');
 
 const CN_SOURCES = ['IT之家','公众号','腾讯','小红书','通义','金山','蜜度','WPS','月之暗面',
   '阿里','百度','字节','华为','网易','搜狐','新浪','36氪','钛媒体','量子位','机器之心',
@@ -856,6 +868,78 @@ function isDomestic(source) {
 function saveStarred() { localStorage.setItem('ai_wb_starred', JSON.stringify(starred)); }
 function saveHistory() { localStorage.setItem('ai_wb_history', JSON.stringify(history)); }
 function saveRead() { localStorage.setItem('ai_wb_read', JSON.stringify(readIds)); }
+function saveArchive() { localStorage.setItem('ai_wb_archive', JSON.stringify(dataArchive)); }
+
+// ===== 数据归档管理 =====
+// 将嵌入式 DATA 合并到归档中（按 id 去重），首次或每次有新数据时自动累积
+function seedArchive() {
+  let added = 0;
+  const existingIds = new Set(dataArchive.map(d => d.id));
+  for (const item of DATA) {
+    if (!existingIds.has(item.id)) {
+      dataArchive.push(item);
+      added++;
+    }
+  }
+  if (added > 0) {
+    saveArchive();
+    console.log('归档新增 ' + added + ' 条，总计 ' + dataArchive.length + ' 条');
+  }
+}
+
+// 获取当前使用的数据源（默认为归档数据，历史日期快照除外）
+function getActiveData() {
+  if (historyData !== null) return historyData;
+  return dataArchive.length > 0 ? dataArchive : DATA;
+}
+
+// 按日期分组（北京时区），返回 { dateStr: [items...] }
+function groupByDate(items) {
+  const groups = {};
+  for (const item of items) {
+    const d = new Date(new Date(item.publishedAt).getTime() + 8 * 3600000);
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  }
+  return groups;
+}
+
+// 尝试从 history JSON 拉取额外数据扩充归档
+async function fetchAndMergeHistory(dateStr) {
+  try {
+    const resp = await fetch(`${HISTORY_BASE}${dateStr}.json`);
+    if (!resp.ok) return;
+    const remoteData = await resp.json();
+    const existingIds = new Set(dataArchive.map(d => d.id));
+    let added = 0;
+    for (const item of remoteData) {
+      if (!existingIds.has(item.id)) {
+        dataArchive.push(item);
+        added++;
+      }
+    }
+    if (added > 0) {
+      saveArchive();
+      console.log('从远程合并 ' + added + ' 条（' + dateStr + '），总计 ' + dataArchive.length + ' 条');
+    }
+  } catch(e) { /* 静默忽略 */ }
+}
+
+// 自动拉取最近日期的历史数据以扩充归档
+async function autoExpandArchive() {
+  const today = new Date();
+  const dates = [];
+  for (let i = 0; i <= 3; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    dates.push(key);
+  }
+  for (const dateStr of dates) {
+    await fetchAndMergeHistory(dateStr);
+  }
+}
 
 function showToast(msg, type) {
   type = type || 'info';
@@ -986,7 +1070,7 @@ function render() {
   const emptyState = document.getElementById('emptyState');
   const resultCount = document.getElementById('resultCount');
 
-  let items = [...DATA];
+  let items = [...getActiveData()];
 
   // Time filter
   if (currentTime === 'today') {
@@ -1057,7 +1141,7 @@ function render() {
       <div class="card-summary">${d.summary}</div>
       <div class="card-actions">
         <a href="${d.url}" target="_blank" rel="noopener" class="btn-link"
-           onclick="markRead('${d.id}'); addHistory(DATA.find(x=>x.id==='${d.id}'))">
+           onclick="markRead('${d.id}'); addHistory(getActiveData().find(x=>x.id==='${d.id}'))">
           查看原文 →
         </a>
         <button class="btn-star ${isStarred ? 'starred' : ''}" onclick="event.stopPropagation(); toggleStar('${d.id}')" title="收藏">
@@ -1075,9 +1159,22 @@ function updateStats() {
   document.getElementById('statStarred').textContent = starred.length;
   document.getElementById('starredCount').textContent = starred.length;
 
-  const todayCount = DATA.filter(d => isToday(d.publishedAt)).length;
+  const activeData = historyData !== null ? historyData : dataArchive;
+  const todayCount = activeData.filter(d => isToday(d.publishedAt)).length;
   document.getElementById('statToday').textContent = todayCount;
-  document.getElementById('statWeek').textContent = DATA.length;
+  document.getElementById('statWeek').textContent = activeData.length;
+
+  // 归档总量
+  const archiveEl = document.getElementById('statArchive');
+  if (archiveEl) archiveEl.textContent = dataArchive.length;
+
+  // 更新历史提示
+  const hintEl = document.getElementById('historyHint');
+  if (hintEl && dataArchive.length > 0) {
+    const groups = groupByDate(dataArchive);
+    const dates = Object.keys(groups).sort();
+    hintEl.textContent = '已存储 ' + dates.length + ' 天 · 共 ' + dataArchive.length + ' 条';
+  }
 
   document.querySelectorAll('.stat-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.time === currentTime);
@@ -1222,7 +1319,7 @@ function toggleDrawer(mode) {
     if (starred.length === 0) {
       bodyEl.innerHTML = '<div class="drawer-empty">还没有收藏任何内容<br><br>在卡片上点击 ☆ 即可收藏</div>';
     } else {
-      const items = starred.map(id => DATA.find(d => d.id === id)).filter(Boolean);
+      const items = starred.map(id => getActiveData().find(d => d.id === id)).filter(Boolean);
       items.sort((a,b) => new Date(b.publishedAt) - new Date(a.publishedAt));
       bodyEl.innerHTML = items.map(d => `
         <div class="drawer-item">
@@ -1239,7 +1336,7 @@ function toggleDrawer(mode) {
       bodyEl.innerHTML = '<div class="drawer-empty">还没有浏览记录<br><br>点击卡片上的「查看原文」会自动记录</div>';
     } else {
       bodyEl.innerHTML = history.map(h => {
-        const item = DATA.find(d => d.id === h.id);
+        const item = getActiveData().find(d => d.id === h.id);
         return `
         <div class="drawer-item">
           <div class="title">${h.title}</div>
@@ -1287,6 +1384,19 @@ async function onHistoryPick(dateStr) {
     render();
     return;
   }
+  // 先从归档中查找该日期的内容
+  const archiveItems = dataArchive.filter(d => {
+    const itemDate = new Date(new Date(d.publishedAt).getTime() + 8 * 3600000);
+    const itemKey = itemDate.getFullYear() + '-' + String(itemDate.getMonth()+1).padStart(2,'0') + '-' + String(itemDate.getDate()).padStart(2,'0');
+    return itemKey === dateStr;
+  });
+  if (archiveItems.length > 0) {
+    historyData = archiveItems;
+    renderWithHistory(historyData);
+    document.getElementById('mainTitle').textContent = `📅 ${dateStr} 历史快照（${archiveItems.length} 条）`;
+    return;
+  }
+  // 归档中没有则尝试从远程拉取
   try {
     const resp = await fetch(`${HISTORY_BASE}${dateStr}.json`);
     if (!resp.ok) throw new Error();
@@ -1391,7 +1501,7 @@ function renderWithHistory(hData) {
 })();
 
 // ===== INIT =====
-(function init() {
+(async function init() {
   const now = new Date();
   const bj = new Date(now.getTime() + 8*3600000);
   const weekdays = ['周日','周一','周二','周三','周四','周五','周六'];
@@ -1399,6 +1509,13 @@ function renderWithHistory(hData) {
     bj.getFullYear() + '年' + (bj.getMonth()+1) + '月' + bj.getDate() + '日 ' + weekdays[bj.getDay()];
 
   initHistoryDatepicker();
+
+  // 1. 将嵌入式 DATA 合并到归档
+  seedArchive();
+
+  // 2. 尝试从远程 JSON 拉取历史数据扩充归档
+  await autoExpandArchive();
+
   render();
 })();
 </script>
