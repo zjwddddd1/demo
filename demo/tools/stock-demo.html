@@ -179,6 +179,28 @@
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .muted{color:var(--muted);font-size:12px}
   .center{text-align:center}
+  /* ===== 网页端响应式：多屏适配 ===== */
+  @media(max-width:1200px){
+    .web-shell{grid-template-columns:160px 1fr;gap:14px}
+    .web-main{gap:14px}
+    table th,table td{padding:7px 6px;font-size:12px}
+  }
+  @media(max-width:950px){
+    .web-shell{grid-template-columns:1fr}
+    .web-nav{position:static;display:flex;overflow-x:auto;gap:4px;padding:6px 8px;border-radius:14px;margin-bottom:8px}
+    .web-nav div{flex-shrink:0;white-space:nowrap;margin-bottom:0;padding:8px 14px;font-size:13px}
+    .web-main{grid-template-columns:1fr;gap:12px}
+    .card{padding:14px}
+    .kpi .card{min-width:120px}
+  }
+  @media(max-width:600px){
+    .web-shell{gap:8px}
+    .web-nav div{padding:6px 10px;font-size:12px}
+    .web-main{gap:10px}
+    table th,table td{padding:5px 3px;font-size:11px}
+    .mini-btn{padding:4px 8px;font-size:10px}
+    .design-note{font-size:11px;padding:8px 10px}
+  }
   /* ===== 真实手机响应式：去掉假手机外壳 ===== */
   @media(max-width:768px){
     #phoneView.show{display:block;justify-content:stretch}
