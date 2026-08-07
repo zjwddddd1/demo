@@ -572,21 +572,17 @@ function drawObstacle(obs) {
   const botY = obs.gapY + gap;
   const botH = H - GROUND_H - botY;
   if (img) {
-    // Draw bottom portion of image (trunk/base area) without any flip or crop artifacts
     ctx.drawImage(img, obs.x, botY, obsImgW, botH);
   } else {
     ctx.fillStyle = '#666';
     ctx.fillRect(obs.x, botY, OBS_W, botH);
   }
 
-  // Top pipe — draw full image naturally from screen top down to gap
-  // Use the TOP portion of source image (crown/leaves), NOT flipped
+  // Top pipe — same image, same natural orientation as bottom
+  // Both show complete cactus/tree, no flip, no crop
   const topH = obs.gapY;
   if (img) {
-    // Draw from the top of the source image downwards — preserves natural orientation
-    const srcRatio = Math.min(topH / img.height, 1);
-    const srcH = img.height * srcRatio;
-    ctx.drawImage(img, 0, 0, img.width, srcH, obs.x, 0, obsImgW, topH);
+    ctx.drawImage(img, obs.x, 0, obsImgW, topH);
   } else {
     ctx.fillStyle = '#666';
     ctx.fillRect(obs.x, 0, OBS_W, topH);
