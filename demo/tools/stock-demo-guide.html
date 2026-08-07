@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小白股票 · 系统设计 & 操作指南</title>
+<style>
+  :root{
+    --bg:#f7f8fc;--card:#fff;--ink:#0f172a;--ink2:#334155;--muted:#64748b;
+    --line:#e6e8ef;--brand:#4f46e5;--brand2:#7c3aed;--up:#dc2626;--down:#16a34a;
+    --grad:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#06b6d4 100%);
+    --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 0}
+  .nav-inner{max-width:860px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:800;font-size:17px;display:flex;align-items:center;gap:8px}
+  .brand .dot{width:26px;height:26px;border-radius:8px;background:var(--grad)}
+  .hero{background:radial-gradient(800px 400px at 80% -10%,rgba(124,58,237,.14),transparent 60%),radial-gradient(600px 400px at 0% 0%,rgba(6,182,212,.12),transparent 55%),#0b1020;color:#eef2ff;padding:60px 0 52px;margin-bottom:40px}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:800;line-height:1.2;margin-bottom:10px;background:linear-gradient(90deg,#fff,#c7d2fe);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:#c7d2fe;font-size:16px;max-width:640px}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin-bottom:32px;box-shadow:var(--shadow)}
+  .toc h3{font-size:15px;margin-bottom:10px}
+  .toc a{display:block;padding:4px 0;color:var(--brand);font-size:14px;font-weight:500;text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  section{margin-bottom:40px}
+  h2{font-size:24px;font-weight:800;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+  h3{font-size:18px;font-weight:700;margin:24px 0 10px;color:var(--ink2)}
+  p{margin-bottom:12px;color:var(--ink2);font-size:15px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin:16px 0;box-shadow:var(--shadow)}
+  .card-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--brand);margin-bottom:6px}
+  .card h4{font-size:17px;margin-bottom:8px}
+  .tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;margin-right:6px}
+  .tag-up{background:#fef2f2;color:var(--up)}.tag-down{background:#f0fdf4;color:var(--down)}
+  .tag-tech{background:#eef0ff;color:var(--brand)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  th{font-weight:700;font-size:13px;color:var(--muted);background:#f8fafc}
+  tr:hover{background:#f8fafc}
+  .steps{counter-reset:step}
+  .step-item{counter-increment:step;display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+  .step-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+  .step-body h4{font-size:15px;margin-bottom:4px}
+  .step-body p{font-size:14px;color:var(--muted)}
+  pre{background:#0b1020;color:#e2e8f0;border-radius:10px;padding:16px 20px;overflow-x:auto;font-size:13px;line-height:1.7;margin:12px 0}
+  code{font-family:"SF Mono","Fira Code","Consolas",monospace;font-size:13px}
+  .foot{text-align:center;padding:40px 0;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:48px}
+  @media(max-width:600px){.wrap{padding:0 16px}.hero{padding:40px 0 36px}pre{padding:12px 14px;font-size:12px}}
+</style>
+</head>
+<body>
+
+<nav><div class="nav-inner">
+  <div class="brand"><span class="dot"></span>小白股票 · 设计文档</div>
+  <a href="https://zjwddddd1.github.io/demo/demo/tools/stock-demo.html" style="color:var(--brand);font-weight:600;font-size:14px">打开系统 →</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <h1>小白股票 · 模拟交易系统</h1>
+  <p>70 支 A 股真实行情、引导式交易、AI 持仓解读、Firebase 多端实时同步——从零搭建的一站式产品 Demo</p>
+</div></header>
+
+<div class="wrap">
+
+<div class="toc">
+  <h3>📑 目录</h3>
+  <a href="#overview">产品概览</a>
+  <a href="#design">设计理念</a>
+  <a href="#features">核心功能</a>
+  <a href="#data">数据架构 & 云端部署</a>
+  <a href="#firebase">Firebase 配置步骤</a>
+  <a href="#trade">交易流程</a>
+  <a href="#ui">双端适配</a>
+  <a href="#tech">技术栈</a>
+</div>
+
+<section id="overview">
+  <h2>产品概览</h2>
+  <p>小白股票是一个面向「理财新手」的 A 股模拟交易系统。它不像同花顺那样堆满 K 线、指标、研报——而是把交易简化成<b>四步引导式操作</b>：选方向 → 填金额 → 预览 → 确认下单。持仓页配 AI 大白话解读，帮新手看懂"为什么赚 / 为什么亏"。</p>
+  <p>数据通过 <b>腾讯财经实时行情接口</b> 拉取真实价格，支持网页端和手机端双端浏览，通过 <b>Firebase Firestore</b> 实现跨设备云端数据同步。</p>
+
+  <div class="card">
+    <div class="card-label">产品定位</div>
+    <h4>理财新手的第一支模拟盘</h4>
+    <p>降低认知门槛：不需要懂 PE、MACD、K 线，只需要「看好 → 买入 → 持有 → 卖出」。用模拟资金（100 万虚拟币）练习交易节奏，为真实投资打基础。</p>
+  </div>
+</section>
+
+<section id="design">
+  <h2>设计理念</h2>
+  
+  <div class="card">
+    <div class="card-label">差异化</div>
+    <h4>不做信息洪流，做「引导式决策」</h4>
+    <p>传统炒股软件有两个痛点：(1) 信息密度太高，新手看不懂；(2) 交易流程有十几步。小白股票反其道而行——行情页只保留名称、价格、涨跌幅，交易四点即完成。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">创新点</div>
+    <h4>AI 持仓解读：先给结论，再给数据</h4>
+    <p>持仓顶部有一段「AI 大白话」解读，分析整体盈利构成、仓位分布、风险提示。文案由规则引擎 + 自然语言模板生成，模拟 GPT 风格但无需调用 API，零延迟渲染。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">双端策略</div>
+    <h4>手机轻浏览 · 网页深研究</h4>
+    <p>手机端去掉底栏之外的冗余 UI，一屏看完行情 + 交易；网页端保留完整表格（名称 / 现价 / 涨跌幅 / 高低 / 交易），适合深度筛选和研究场景。</p>
+  </div>
+</section>
+
+<section id="features">
+  <h2>核心功能</h2>
+
+  <table>
+    <tr><th>模块</th><th>功能</th><th>用户价值</th></tr>
+    <tr><td>行情中心</td><td>70 支 A 股分类浏览、搜索、自选收藏、涨跌排序</td><td>快速找到感兴趣的股票</td></tr>
+    <tr><td>引导式交易</td><td>4 步完成买卖（选方向 → 填金额 → 预览 → 确认）</td><td>降低操作门槛，适合新手</td></tr>
+    <tr><td>持仓管理</td><td>盈亏明细、AI 解读、持仓内一键卖出</td><td>看懂盈亏，快速调仓</td></tr>
+    <tr><td>自选收藏</td><td>星标自选股，独立 My List 分类</td><td>跟踪关注标的</td></tr>
+    <tr><td>云端同步</td><td>Firebase 实时同步，换设备登录同一账号自动恢复</td><td>数据不丢，多端无缝切换</td></tr>
+    <tr><td>数据导出</td><td>JSON 文件导出交易记录备份</td><td>兜底安全保障</td></tr>
+    <tr><td>真实行情</td><td>腾讯财经实时 API（qt.gtimg.cn）拉取价量</td><td>模拟真实市场波动</td></tr>
+  </table>
+</section>
+
+<section id="data">
+  <h2>数据架构 & 云端部署</h2>
+
+  <h3>数据流全景</h3>
+  <div class="card">
+    <div class="card-label">三层数据源</div>
+    <table>
+      <tr><th>层级</th><th>存储位置</th><th>数据内容</th><th>更新频率</th></tr>
+      <tr><td>📡 实时行情</td><td>腾讯财经 API<br>(qt.gtimg.cn)</td><td>现价、涨跌幅、最高/最低、昨收</td><td>页面打开时拉取一次</td></tr>
+      <tr><td>☁️ 账户数据</td><td>Firebase Firestore<br>(accounts 集合)</td><td>用户名、密码、现金、持仓、交易历史、自选列表</td><td>每次交易 / 登录 / 收藏 实时同步</td></tr>
+      <tr><td>💻 本地缓存</td><td>浏览器 localStorage</td><td>登录态、当前账号数据副本</td><td>与云端双向同步</td></tr>
+    </table>
+  </div>
+
+  <h3>云端同步机制</h3>
+  <p>系统启动 → <b>cloudPull</b>（从 Firebase 拉取最新账户数据）→ 对比本地时间戳 → 取最新版本 → 用户操作后 <b>cloudPush</b>（推回云端）→ 其他设备通过 <b>onSnapshot</b> 实时感知变化。</p>
+
+  <div class="card">
+    <div class="card-label">防回环设计</div>
+    <h4>cloudPush + onSnapshot 的竞态处理</h4>
+    <p>每次 cloudPush 时记录 <code>_lastCloudPushTs</code>（毫秒级时间戳）。onSnapshot 收到远端更新时，先对比是否等于自己刚推送的时间戳——相等则跳过，不等才认为来自其他设备并覆盖本地。这样就避免了「本机推 → 监听到自己的更新 → 再拉回 → 再推」的死循环。</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">数据清洁</div>
+    <h4>Firestore 不接受 undefined 值</h4>
+    <p>JavaScript 对象里可能出现 <code>undefined</code> 值的字段（比如空的持仓记录），直接传给 Firestore 会报错 <code>Unsupported field value: undefined</code>。系统在每次 push 前执行 <code>cleanUndefined()</code>，递归剔除所有 undefined 字段。</p>
+  </div>
+</section>
+
+<section id="firebase">
+  <h2>Firebase 配置步骤</h2>
+  <p>如果你要从零搭建这套系统的 Firebase 后端，需要以下步骤：</p>
+
+  <div class="steps">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>创建 Firebase 项目</h4>
+        <p>前往 <a href="https://console.firebase.google.com" style="color:var(--brand)">Firebase 控制台</a> → 新建项目（或使用已有项目）。获取 Web 应用 SDK 配置（apiKey、projectId 等五字段）。</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>开启 Firestore 数据库</h4>
+        <p>左侧菜单 → Firestore Database → 创建数据库 → 选择测试模式（或生产模式后手动修改规则）。</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>配置安全规则（懒人版）</h4>
+        <p>本项目 Demo 使用开放规则，允许任意读写（无 Auth 依赖）：</p>
+<pre><code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</code></pre>
+        <p style="margin-top:8px;color:var(--muted);font-size:13px">⚠️ 生产环境务必改为 <code>if request.auth != null</code> 并接入 Firebase Auth。</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>将配置填入代码</h4>
+        <p>在 index.html 中找到 <code>firebaseConfig</code> 对象（约第 320 行），替换为你的项目配置。重启页面即可。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">为什么不用 Firebase Auth？</div>
+    <h4>简化解耦，用应用层账号管理身份</h4>
+    <p>起初我们接了 Firebase 匿名登录（<code>signInAnonymously()</code>），但遇到两个问题：(1) API Key 的 HTTP 来源限制导致 localhost 请求被拒；(2) Google Cloud Console 改白名单步骤繁琐。</p>
+    <p>最终方案：<b>去掉 Auth，Firestore 开放读写，App 自己在应用层管理用户名密码。</b>这样部署零摩擦，更适合 Demo 场景。真实生产环境需要换回 <code>request.auth != null</code> 保护。</p>
+  </div>
+</section>
+
+<section id="trade">
+  <h2>交易流程</h2>
+
+  <div class="card">
+    <div class="card-label">引导式交易</div>
+    <h4>四步完成买卖</h4>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>选择方向</h4><p>买入 / 卖出，并显示当前标的名称和现价。</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body"><h4>输入金额</h4><p>买入输入金额（元），系统自动按现价换算可买股数（取整）；卖出输入股数，自动校验持仓。</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body"><h4>预览确认</h4><p>显示方向、标的、数量、本金、手续费、合计——全部明示后再点下一步。</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body"><h4>下单执行</h4><p>最终确认，扣除 / 增加虚拟币，更新持仓，写入交易历史，并自动同步到云端。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">手续费</div>
+    <h4>模拟万二点五费率</h4>
+    <p><code>const FEE = 0.00025</code>（即 0.025%）。买入时本金 + 手续费从虚拟币扣除，卖出时回收金额 - 手续费返还虚拟币。</p>
+  </div>
+</section>
+
+<section id="ui">
+  <h2>双端适配</h2>
+
+  <table>
+    <tr><th>维度</th><th>手机端</th><th>网页端</th></tr>
+    <tr><td>触发条件</td><td>屏幕 ≤ 768px 自动切换</td><td>默认 / 手动切换</td></tr>
+    <tr><td>布局</td><td>竖向列表 + 底部固定 tab</td><td>双栏布局（行情 + 持仓左右）</td></tr>
+    <tr><td>行情展示</td><td>竖排行（名称 / 代码 + 价格 / 涨跌幅 + 交易按钮）</td><td>表格（名称 / 现价 / 涨跌幅 / 高 / 低 / 交易）</td></tr>
+    <tr><td>持仓交互</td><td>每行带红色「卖出」按钮</td><td>表格最后一列「卖出」</td></tr>
+    <tr><td>分类栏</td><td>横向滑动 + 右边缘渐变提示</td><td>正常排列</td></tr>
+    <tr><td>交易弹窗</td><td>92vw 自适应</td><td>固定 480px</td></tr>
+  </table>
+</section>
+
+<section id="tech">
+  <h2>技术栈</h2>
+
+  <table>
+    <tr><th>技术</th><th>用途</th></tr>
+    <tr><td>纯 HTML/CSS/JS（零框架）</td><td>单文件部署，无构建步骤，打开即用</td></tr>
+    <tr><td>腾讯财经 API（qt.gtimg.cn）</td><td>JSONP 实时行情（无需 CORS，跨域直拉）</td></tr>
+    <tr><td>Firebase Firestore（Web SDK v10）</td><td>云端账户数据持久化 + 实时监听</td></tr>
+    <tr><td>localStorage</td><td>本地缓存 + 登录态持久化</td></tr>
+    <tr><td>CSS Media Query（max-width: 768px）</td><td>手机端自适应</td></tr>
+    <tr><td>规则引擎 + 模板文案</td><td>AI 持仓解读（零 API 调用）</td></tr>
+  </table>
+
+  <div class="card">
+    <div class="card-label">为何零框架？</div>
+    <h4>部署极简，无需 npm install</h4>
+    <p>整个系统只有一个 index.html 文件（约 85KB），拷贝到任意 HTTP 服务器即可运行。Firebase SDK 和行情数据都通过 CDN 引入，不需要本地依赖。这对「快速丢链接给人试用」的场景非常友好。</p>
+  </div>
+</section>
+
+<div class="foot">
+  <p><b>小白股票</b> · 理财新手的第一支模拟盘</p>
+  <p style="margin-top:6px">数据均为模拟交易 · 无真实资金风险 · 仅供学习交流</p>
+  <p style="margin-top:4px"><a href="https://zjwddddd1.github.io/demo/demo/tools/stock-demo.html" style="color:var(--brand);font-weight:600">→ 打开系统体验</a></p>
+</div>
+
+</div>
+</body>
+</html>
