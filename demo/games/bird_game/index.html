@@ -37,9 +37,9 @@ canvas.width = W;
 canvas.height = H;
 
 const GROUND_H = 65;
-const GRAVITY = 0.28;
-const JUMP_VEL = -6.2;
-const MAX_FALL = 8;
+const GRAVITY = 0.18;
+const JUMP_VEL = -5.2;
+const MAX_FALL = 5;
 const BASE_OBS_SPEED = 1.5;
 const BASE_OBS_GAP = 195;
 const OBS_W = 78;
@@ -309,12 +309,12 @@ function doJump() {
 function triggerGameOver() {
   state = 'gameover';
   if (score > bestScore) bestScore = score;
-  shakeTimer = 0.3;
-  shakeIntensity = 8;
+  shakeTimer = 0.25;
+  shakeIntensity = 5;
   animTime = 0;
   gameoverTimer = 0;
   sfxHit();
-  spawnParticles(dino.x + dino.w / 2, dino.y + dino.h / 2, 20, '#FF4444');
+  spawnParticles(dino.x + dino.w / 2, dino.y + dino.h / 2, 16, '#FBBF24');
 }
 
 // =============================================
@@ -594,26 +594,6 @@ function drawObstacle(obs) {
     ctx.fillRect(obs.x, 0, OBS_W, topH);
   }
 
-  // Gap edge caps (rounded platforms at the opening)
-  const m = MAPS[obs.mapIndex];
-  const capH = 8;
-  const capExtend = 6;
-
-  // Top cap
-  ctx.fillStyle = m.accent;
-  ctx.globalAlpha = 0.7;
-  roundRect(ctx, obs.x - capExtend, obs.gapY - capH, OBS_W + capExtend * 2, capH, 4);
-  ctx.fill();
-
-  // Bottom cap
-  roundRect(ctx, obs.x - capExtend, obs.gapY + gap, OBS_W + capExtend * 2, capH, 4);
-  ctx.fill();
-  ctx.globalAlpha = 1;
-
-  // Cap highlight
-  ctx.fillStyle = 'rgba(255,255,255,0.3)';
-  ctx.fillRect(obs.x - capExtend + 4, obs.gapY - capH + 1, OBS_W + capExtend * 2 - 8, 2);
-  ctx.fillRect(obs.x - capExtend + 4, obs.gapY + gap + 1, OBS_W + capExtend * 2 - 8, 2);
 }
 
 function drawDino() {
@@ -826,7 +806,7 @@ function drawGameOver() {
   ctx.font = 'bold 48px "Segoe UI", sans-serif';
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.fillText('GAME OVER', W / 2 + 2, H / 2 - 82);
-  ctx.fillStyle = '#FF6B6B';
+  ctx.fillStyle = '#FBBF24';
   ctx.fillText('GAME OVER', W / 2, H / 2 - 85);
 
   // Score panel
