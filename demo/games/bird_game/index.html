@@ -594,6 +594,29 @@ function drawObstacle(obs) {
     ctx.fillRect(obs.x, 0, OBS_W, topH);
   }
 
+  // Decorative rounded caps at gap edges (flower-like endings)
+  const m = MAPS[obs.mapIndex];
+  const capR = 6;
+  ctx.fillStyle = m.accent;
+  ctx.globalAlpha = 0.65;
+  // Top pipe bottom cap
+  ctx.beginPath();
+  ctx.moveTo(obs.x, obs.gapY);
+  ctx.arcTo(obs.x + OBS_W, obs.gapY, obs.x + OBS_W, obs.gapY + capR, capR);
+  ctx.lineTo(obs.x + OBS_W, obs.gapY + capR);
+  ctx.lineTo(obs.x, obs.gapY + capR);
+  ctx.closePath();
+  ctx.fill();
+  // Bottom pipe top cap
+  ctx.beginPath();
+  ctx.moveTo(obs.x, obs.gapY + gap);
+  ctx.arcTo(obs.x + OBS_W, obs.gapY + gap, obs.x + OBS_W, obs.gapY + gap - capR, capR);
+  ctx.lineTo(obs.x + OBS_W, obs.gapY + gap - capR);
+  ctx.lineTo(obs.x, obs.gapY + gap - capR);
+  ctx.closePath();
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
 }
 
 function drawDino() {
