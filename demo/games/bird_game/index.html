@@ -37,9 +37,9 @@ canvas.width = W;
 canvas.height = H;
 
 const GROUND_H = 65;
-const GRAVITY = 0.18;
-const JUMP_VEL = -5.2;
-const MAX_FALL = 5;
+const GRAVITY = 0.14;
+const JUMP_VEL = -4.2;
+const MAX_FALL = 4;
 const BASE_OBS_SPEED = 1.5;
 const BASE_OBS_GAP = 195;
 const OBS_W = 78;
@@ -309,12 +309,12 @@ function doJump() {
 function triggerGameOver() {
   state = 'gameover';
   if (score > bestScore) bestScore = score;
-  shakeTimer = 0.25;
-  shakeIntensity = 5;
+  shakeTimer = 0.2;
+  shakeIntensity = 3;
   animTime = 0;
   gameoverTimer = 0;
   sfxHit();
-  spawnParticles(dino.x + dino.w / 2, dino.y + dino.h / 2, 16, '#FBBF24');
+  spawnParticles(dino.x + dino.w / 2, dino.y + dino.h / 2, 8, '#FCD34D');
 }
 
 // =============================================
@@ -594,26 +594,30 @@ function drawObstacle(obs) {
     ctx.fillRect(obs.x, 0, OBS_W, topH);
   }
 
-  // Decorative rounded caps at gap edges (flower-like endings)
+  // Decorative rounded caps at pipe ends (flower-like)
   const m = MAPS[obs.mapIndex];
-  const capR = 6;
+  const endCapH = 10;
   ctx.fillStyle = m.accent;
-  ctx.globalAlpha = 0.65;
-  // Top pipe bottom cap
+  ctx.globalAlpha = 0.6;
+  // Top pipe: rounded cap at the very top
   ctx.beginPath();
-  ctx.moveTo(obs.x, obs.gapY);
-  ctx.arcTo(obs.x + OBS_W, obs.gapY, obs.x + OBS_W, obs.gapY + capR, capR);
-  ctx.lineTo(obs.x + OBS_W, obs.gapY + capR);
-  ctx.lineTo(obs.x, obs.gapY + capR);
-  ctx.closePath();
+  ctx.arc(obs.x + OBS_W/2, endCapH, OBS_W/2 + 2, Math.PI, 0);
   ctx.fill();
-  // Bottom pipe top cap
+  // Top pipe: inner highlight
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
   ctx.beginPath();
-  ctx.moveTo(obs.x, obs.gapY + gap);
-  ctx.arcTo(obs.x + OBS_W, obs.gapY + gap, obs.x + OBS_W, obs.gapY + gap - capR, capR);
-  ctx.lineTo(obs.x + OBS_W, obs.gapY + gap - capR);
-  ctx.lineTo(obs.x, obs.gapY + gap - capR);
-  ctx.closePath();
+  ctx.arc(obs.x + OBS_W/2, endCapH, OBS_W/3, Math.PI, 0);
+  ctx.fill();
+  // Bottom pipe: rounded cap at ground level
+  const botBase = H - GROUND_H;
+  ctx.fillStyle = m.accent;
+  ctx.beginPath();
+  ctx.arc(obs.x + OBS_W/2, botBase - endCapH, OBS_W/2 + 2, 0, Math.PI);
+  ctx.fill();
+  // Bottom pipe: inner highlight
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.beginPath();
+  ctx.arc(obs.x + OBS_W/2, botBase - endCapH, OBS_W/3, 0, Math.PI);
   ctx.fill();
   ctx.globalAlpha = 1;
 
@@ -829,7 +833,7 @@ function drawGameOver() {
   ctx.font = 'bold 48px "Segoe UI", sans-serif';
   ctx.fillStyle = 'rgba(0,0,0,0.3)';
   ctx.fillText('GAME OVER', W / 2 + 2, H / 2 - 82);
-  ctx.fillStyle = '#FBBF24';
+  ctx.fillStyle = '#FCD34D';
   ctx.fillText('GAME OVER', W / 2, H / 2 - 85);
 
   // Score panel
