@@ -578,11 +578,14 @@ function drawObstacle(obs) {
     ctx.fillRect(obs.x, botY, OBS_W, botH);
   }
 
-  // Top pipe — same image, same natural orientation as bottom
-  // Both show complete cactus/tree, no flip, no crop
+  // Top pipe — same image flipped vertically: flower/crown faces down toward gap
   const topH = obs.gapY;
   if (img) {
-    ctx.drawImage(img, obs.x, 0, obsImgW, topH);
+    ctx.save();
+    ctx.translate(obs.x + obsImgW / 2, 0);
+    ctx.scale(1, -1);
+    ctx.drawImage(img, -obsImgW / 2, 0, obsImgW, topH);
+    ctx.restore();
   } else {
     ctx.fillStyle = '#666';
     ctx.fillRect(obs.x, 0, OBS_W, topH);
