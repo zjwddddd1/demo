@@ -579,12 +579,13 @@ function drawObstacle(obs) {
   }
 
   // Top pipe — same image flipped vertically: flower/crown faces down toward gap
+  // Translate to gap position, then flip; draw from (0,0) so image extends upward to screen top
   const topH = obs.gapY;
   if (img) {
     ctx.save();
-    ctx.translate(obs.x + obsImgW / 2, 0);
+    ctx.translate(obs.x, topH);
     ctx.scale(1, -1);
-    ctx.drawImage(img, -obsImgW / 2, 0, obsImgW, topH);
+    ctx.drawImage(img, 0, 0, obsImgW, topH);
     ctx.restore();
   } else {
     ctx.fillStyle = '#666';
