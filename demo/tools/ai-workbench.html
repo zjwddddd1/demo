@@ -315,7 +315,7 @@ body {
   background: var(--border); transition: all var(--transition);
 }
 .gradient-toggle.active .toggle-dot {
-  background: linear-gradient(135deg, #f0f8ff, #3d82cc);
+  background: linear-gradient(135deg, #f0f8ff, #6fb0e0);
   box-shadow: 0 0 6px rgba(59,130,246,0.4);
 }
 
@@ -350,8 +350,8 @@ body {
 }
 .gradient-option.selected .opt-dot { border-color: var(--primary); }
 .gradient-option .opt-dot.off  { background: #cbd5e1; }
-.gradient-option .opt-dot.hori { background: linear-gradient(90deg, #e0f0ff, #3d82cc); }
-.gradient-option .opt-dot.diag { background: linear-gradient(to bottom left, #486fa3, #e0f0ff); }
+.gradient-option .opt-dot.hori { background: linear-gradient(90deg, #e0f0ff, #6fb0e0); }
+.gradient-option .opt-dot.diag { background: linear-gradient(to bottom left, #6fb0e0, #e0f0ff); }
 .gradient-option .opt-dot.upload { background: var(--border-focus); }
 
 /* 模式类同上 */
@@ -360,7 +360,7 @@ body {
 
 .main.gradient-hori::before {
   opacity: 1;
-  background: linear-gradient(90deg, #f0f8ff, #a8cde8, #3d82cc, #1a4b8c);
+  background: linear-gradient(90deg, #eaf6ff, #c8e6fb, #a0d0f0, #6fb0e0);
   animation: breatheColor 12s ease-in-out infinite;
 }
 @keyframes breatheColor {
@@ -370,7 +370,7 @@ body {
 
 .main.gradient-diag::before {
   opacity: 1;
-  background: linear-gradient(to bottom left, #486fa3, #6898c7, #b8d4ee, #f0f8ff);
+  background: linear-gradient(to bottom left, #6fb0e0, #9bc8ec, #c8e6fb, #eaf6ff);
   animation: diagSpread 15s ease-in-out infinite;
 }
 @keyframes diagSpread {
@@ -381,7 +381,7 @@ body {
 
 .main.gradient-custom::before {
   opacity: 1;
-  background: var(--custom-gradient, linear-gradient(90deg, #f0f8ff, #a8cde8, #3d82cc));
+  background: var(--custom-gradient, linear-gradient(90deg, #eaf6ff, #c8e6fb, #6fb0e0));
   animation: breatheColor 12s ease-in-out infinite;
 }
 
@@ -750,7 +750,7 @@ body {
 </aside>
 
 <!-- Main -->
-<main class="main gradient-off">
+<main class="main gradient-hori">
   <div class="top-bar">
     <div class="top-bar-left">
       <h2 id="mainTitle">📰 最新 AI 动态</h2>
@@ -1232,7 +1232,7 @@ document.getElementById('sortScore').addEventListener('click', function() {
 });
 
 // ===== GRADIENT DROPDOWN =====
-let gradientMode = 0;
+let gradientMode = 1;
 const GRADIENT_MODES = ['gradient-off', 'gradient-hori', 'gradient-diag', 'gradient-custom'];
 const GRADIENT_LABELS = ['渐变', '呼吸', '斜角', '自定义'];
 
@@ -1275,6 +1275,9 @@ function applyGradient() {
   // 高亮选中项
   document.querySelectorAll('.gradient-option').forEach(o => o.classList.remove('selected'));
   document.querySelector('.gradient-option[data-mode="' + gradientMode + '"]')?.classList.add('selected');
+
+  // 记住用户选择，刷新/更新不重置
+  try { localStorage.setItem('ai_wb_gradient', String(gradientMode)); } catch(e) {}
 }
 
 // ===== CUSTOM GRADIENT UPLOAD =====
@@ -1509,6 +1512,15 @@ function renderWithHistory(hData) {
     bj.getFullYear() + '年' + (bj.getMonth()+1) + '月' + bj.getDate() + '日 ' + weekdays[bj.getDay()];
 
   initHistoryDatepicker();
+
+  // 恢复用户上次选择的渐变模式（默认呼吸灯）
+  try {
+    const saved = parseInt(localStorage.getItem('ai_wb_gradient'));
+    if (!isNaN(saved) && saved >= 0 && saved < GRADIENT_MODES.length) {
+      gradientMode = saved;
+    }
+  } catch(e) {}
+  applyGradient();
 
   // 1. 将嵌入式 DATA 合并到归档
   seedArchive();
