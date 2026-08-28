@@ -1,0 +1,502 @@
+[
+  {
+    "id": "cmta9ciqt07c1roj219h5liie",
+    "title": "Qwen3.8-Flash 开源，Qwen4 架构预览",
+    "url": "https://x.com/Alibaba_Qwen/status/2092636376990990503",
+    "source": "X：通义千问 / Qwen (@Alibaba_Qwen)",
+    "publishedAt": "2026-08-26T15:32:46.000Z",
+    "summary": "通义千问发布 Qwen3.8-Flash，一款多模态 MoE 模型，作为 Qwen4 架构的早期预览并开放权重。该模型总参数 125B，每 token 仅激活 6B，训练成本仅为 Qwen3.7-Plus 的 1/9，性能全面超越后者。生产版 API 定价 $0.16/1M 输入 tokens 和 $0.47/1M 输出 tokens，原生上下文 262K，可扩展至 1M。",
+    "category": "ai-models",
+    "score": 84
+  },
+  {
+    "id": "cmta7bh1k04u6roj2e4pt7bob",
+    "title": "GLM-5.3-Flash 开源：320B 总参数、AA 指数 57 分，定价为 Opus 4.8 的 1/40",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzkyMzI3NzQ0Mg%3D%3D&mid=2247494157&idx=1&sn=6837b15a07d2518842eb6c6b53a3eb3c",
+    "source": "公众号：智谱（GLM）",
+    "publishedAt": "2026-08-26T14:11:33.000Z",
+    "summary": "智谱上线并开源 GLM-5.3-Flash（320B-A18B），这是 GLM-5 系列首个原生多模态模型，AA 综合智能指数 57 分，与 Claude Opus 4.8 持平。其定价为 GLM-5.3 的 1/10，限时折扣内为 Opus 4.8 的 1/40，并已接入 ZCode 等平台开放 API 调用。该模型采用稀疏注意力与线性注意力混合架构，推理服务已跑在国产芯片集群上。",
+    "category": "ai-models",
+    "score": 83
+  },
+  {
+    "id": "cmta2veap03nmrolwxllvp4ay",
+    "title": "Qwen3.8-Flash-Next 开源：Qwen4 架构早期预览",
+    "url": "https://qwen.ai/blog?id=qwen3.8-flash-next",
+    "source": "Qwen：Blog Retrieval（API）",
+    "publishedAt": "2026-08-26T12:30:00.000Z",
+    "summary": "通义千问开源 Qwen3.8-Flash-Next，一款多模态 MoE 模型，也是 Qwen4 架构的早期预览。该模型采用 GDN + QSA 混合注意力等四项升级，总参数 125B，每 token 激活 6B，训练成本约为 Qwen3.7-Plus 的 1/9，编码与办公任务能力更强。",
+    "category": "ai-models",
+    "score": 83
+  },
+  {
+    "id": "cmta6v56y03yiroj2ki26viqh",
+    "title": "以色列资助的假美国智库试图利用AI进行宣传",
+    "url": "https://www.theguardian.com/world/2026/aug/26/fake-thinktank-israel-ai-propaganda",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-08-26T14:05:28.706Z",
+    "summary": "一个打着\"汉诺威公共政策研究所\"旗号的亲以色列网站，在九天内发布了124篇、超56万字的报告，旨在优化内容以引导ChatGPT等AI聊天机器人引用其亲以观点。该网站由美国公司Piro Inc依据《外国代理人登记法》为以色列政府分发内容，其背后是以色列政府数千万美元资助、经Havas Media等第三方转手的更广泛宣传行动。",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "cmta6v56y03ytroj25ggn7rlo",
+    "title": "C2PA相机经不起现实的考验：Android端可被root攻击伪造签名",
+    "url": "https://www.da.vidbuchanan.co.uk/blog/android-c2pa.html",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-08-26T14:05:27.506Z",
+    "summary": "安全研究员David Buchanan指出，C2PA相机认证在Android平台上可被攻破。通过root权限提升漏洞（如CVE-2026-43499），攻击者可利用StrongBox硬件签名任意数据，伪造C2PA签名图像和视频，且无需硬件攻击。该问题无法通过常规补丁修复，已提前90天向相关方报告。",
+    "category": "paper",
+    "score": 77
+  },
+  {
+    "id": "cmtar8e770746roam1wznm4mi",
+    "title": "亚马逊将英伟达芯片订单增至三倍，新增200万颗GPU",
+    "url": "https://techcrunch.com/2026/08/26/amazon-just-tripled-its-order-of-nvidia-chips-over-surging-demand",
+    "source": "TechCrunch：AI（RSS）",
+    "publishedAt": "2026-08-26T23:47:18.000Z",
+    "summary": "亚马逊与英伟达宣布扩大合作，将在2027和2028年为AWS数据中心新增200万颗GPU芯片，包括Blackwell Ultra、Rubin和Rubin Ultra。此前五个月亚马逊刚同意部署超100万颗英伟达GPU，英伟达称此后\"需求超出预期\"。双方未披露财务条款，但按GPU单价估算交易价值达数百亿美元。",
+    "category": "industry",
+    "score": 76
+  },
+  {
+    "id": "cmtas790607swroamcmunq53y",
+    "title": "英伟达预计 2028 财年营收同比增 70%，黄仁勋称实际需求远高于此",
+    "url": "https://www.ithome.com/0/994/807.htm",
+    "source": "IT之家（RSS）",
+    "publishedAt": "2026-08-27T00:20:11.000Z",
+    "summary": "英伟达预计 2028 财年销售额同比增长约 70%，CEO 黄仁勋称实际市场需求远高于这一数字，增速主要受供应能力限制。公司同时宣布将在 2027 至 2028 年向 AWS 额外供应 200 万块 GPU。第二季度营收同比增长 106% 至 962.2 亿美元，连续第 13 个季度创下营收纪录。",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "cmtaq20ih062wroamdrhb54b6",
+    "title": "英伟达 2027 财年半年报归母净利润 1180.1 亿美元，同比增长 161.1%",
+    "url": "https://www.ithome.com/0/994/791.htm",
+    "source": "IT之家（RSS）",
+    "publishedAt": "2026-08-26T20:25:54.000Z",
+    "summary": "英伟达发布 2027 财年半年报，上半年营收 1778.37 亿美元，归母净利润 1180.1 亿美元，同比增长 161.1%，GAAP 毛利率 75%。第二财季营收 962.21 亿美元，同比增长 106%，环比增长 18%，归母净利润 596.88 亿美元，同比增长 126%。数据中心业务第二季度收入 890.23 亿美元，同比增长 117%，Vera Rubin 平台已进入全面量产。",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "hn_49474143",
+    "title": "Please stop flooding our projects with AI slop to furnish your CV",
+    "url": "https://neilalexander.dev/2026/06/30/flooding-contributions",
+    "source": "neilalexander.dev",
+    "publishedAt": "2026-08-28T00:00:00.000Z",
+    "summary": "HN 83分 | 27评论 | neilalexander.dev",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_49472820",
+    "title": "Terminal-Bench-Science: Evaluating AI agents on scientific research workflows",
+    "url": "https://www.terminal-bench-science.ai/announcement",
+    "source": "terminal-bench-science.ai",
+    "publishedAt": "2026-08-28T00:23:00.000Z",
+    "summary": "HN 60分 | 14评论 | terminal-bench-science.ai",
+    "category": "paper",
+    "score": 68
+  },
+  {
+    "id": "hn_49468818",
+    "title": "Gemini-3.5-Transcribe",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/",
+    "source": "blog.google",
+    "publishedAt": "2026-08-28T00:43:00.000Z",
+    "summary": "HN 220分 | 65评论 | blog.google",
+    "category": "ai-models",
+    "score": 88
+  },
+  {
+    "id": "hn_49473522",
+    "title": "Judge Rules Trump Administration’s Blacklisting of Anthropic Was Illegal",
+    "url": "https://www.nytimes.com/2026/08/27/technology/anthropic-government-blacklisting-ruling.html",
+    "source": "nytimes.com",
+    "publishedAt": "2026-08-28T01:17:00.000Z",
+    "summary": "HN 200分 | 88评论 | nytimes.com",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "hn_49471714",
+    "title": "AI Engineer Notebooks – free, framework-free RAG/agents/evals on Colab",
+    "url": "https://github.com/calmrocks/ai-engineer-notebooks",
+    "source": "GitHub",
+    "publishedAt": "2026-08-28T01:13:00.000Z",
+    "summary": "HN 78分 | 9评论 | github.com",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_49447057",
+    "title": "The turbulent AI era is here",
+    "url": "https://www.gatesnotes.com/work/make-ai-work-for-everyone/reader/a-turbulent-ai-era-and-critical-choices-to-make?WT.mc_id=20260826_ai-overture-2026-med-med",
+    "source": "gatesnotes.com",
+    "publishedAt": "2026-08-28T02:18:00.000Z",
+    "summary": "HN 256分 | 511评论 | gatesnotes.com",
+    "category": "industry",
+    "score": 92
+  },
+  {
+    "id": "hn_49461817",
+    "title": "Show HN: The load-bearing vocabulary of Claude",
+    "url": "https://louisabraham.github.io/load-bearing/",
+    "source": "louisabraham.github.io",
+    "publishedAt": "2026-08-28T02:31:00.000Z",
+    "summary": "HN 427分 | 198评论 | louisabraham.github.io",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49467922",
+    "title": "Gemini Omni 1.1 Flash",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/",
+    "source": "blog.google",
+    "publishedAt": "2026-08-28T02:16:00.000Z",
+    "summary": "HN 218分 | 156评论 | blog.google",
+    "category": "ai-models",
+    "score": 87
+  },
+  {
+    "id": "hn_49466715",
+    "title": "Launch HN: Salem Robotics (YC S26) – Software for industrial inspection robots",
+    "url": "https://news.ycombinator.com/item?id=49466715",
+    "source": "Hacker News",
+    "publishedAt": "2026-08-28T03:42:00.000Z",
+    "summary": "HN 44分 | 27评论 | Hacker News",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_49464314",
+    "title": "MIT's Ad Hoc Committee on AI Use in Teaching, Learning, and Research Training",
+    "url": "https://aiandeducation.mit.edu/report/",
+    "source": "aiandeducation.mit.edu",
+    "publishedAt": "2026-08-28T03:51:00.000Z",
+    "summary": "HN 126分 | 73评论 | aiandeducation.mit.edu",
+    "category": "paper",
+    "score": 76
+  },
+  {
+    "id": "hn_49458875",
+    "title": "Humanity has the debate about AI consciousness backwards",
+    "url": "https://economist.com/by-invitation/2026/08/20/humanity-has-the-debate-about-ai-consciousness-backwards",
+    "source": "economist.com",
+    "publishedAt": "2026-08-28T04:18:00.000Z",
+    "summary": "HN 96分 | 307评论 | economist.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_49473629",
+    "title": "Alphabet stock sheds $700B as AI bills climb",
+    "url": "https://www.semafor.com/article/08/27/2026/alphabet-stock-sheds-700b-as-ai-bills-climb",
+    "source": "semafor.com",
+    "publishedAt": "2026-08-28T04:49:00.000Z",
+    "summary": "HN 30分 | 4评论 | semafor.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49473184",
+    "title": "The \"I don't know, Claude wrote this\" pandemic",
+    "url": "https://www.manager.dev/newsletter/the-i-don-t-know-claude-wrote-this-pandemic",
+    "source": "manager.dev",
+    "publishedAt": "2026-08-28T05:16:00.000Z",
+    "summary": "HN 17分 | 2评论 | manager.dev",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_49458418",
+    "title": "CEO fired developers to make room for AI. Developers create open source AI CEO",
+    "url": "https://github.com/SenteLabsAI/OpenExecutive",
+    "source": "GitHub",
+    "publishedAt": "2026-08-28T05:35:00.000Z",
+    "summary": "HN 959分 | 654评论 | github.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49450816",
+    "title": "Show HN: A lightweight, stateless database for agent memory",
+    "url": "https://polign.com/blog-edge-agent-memory",
+    "source": "polign.com",
+    "publishedAt": "2026-08-28T06:35:00.000Z",
+    "summary": "HN 30分 | 10评论 | polign.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49449507",
+    "title": "GLM-5.3-Flash",
+    "url": "https://z.ai/blog/glm-5.3-flash",
+    "source": "z.ai",
+    "publishedAt": "2026-08-28T06:34:00.000Z",
+    "summary": "HN 1105分 | 557评论 | z.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49445727",
+    "title": "RAG Is Simpler Than You Think",
+    "url": "https://www.lighthousenewsletter.com/p/rag-is-simpler-than-you-think",
+    "source": "lighthousenewsletter.com",
+    "publishedAt": "2026-08-28T06:50:00.000Z",
+    "summary": "HN 491分 | 204评论 | lighthousenewsletter.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49467481",
+    "title": "CMS with AI, Not AI CMS: Wagtail 8.0's New API",
+    "url": "https://wagtail.org/blog/cms-with-ai-not-ai-cms-wagtail-80s-new-api/",
+    "source": "wagtail.org",
+    "publishedAt": "2026-08-28T07:02:00.000Z",
+    "summary": "HN 27分 | 9评论 | wagtail.org",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49467551",
+    "title": "Show HN: My Claude quota ran out in 10 minutes, so I made a tool to find out why",
+    "url": "https://github.com/kelviq/tare",
+    "source": "GitHub",
+    "publishedAt": "2026-08-28T07:11:00.000Z",
+    "summary": "HN 74分 | 55评论 | github.com",
+    "category": "ai-models",
+    "score": 69
+  },
+  {
+    "id": "hn_49451495",
+    "title": "Launch HN: Risklytics (YC S26) – Insurance brokerage for frontier tech companies",
+    "url": "https://www.risklytics.ai/",
+    "source": "risklytics.ai",
+    "publishedAt": "2026-08-28T08:03:00.000Z",
+    "summary": "HN 53分 | 23评论 | risklytics.ai",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49468286",
+    "title": "Gemma 4 E2B inference in 700 lines of C",
+    "url": "https://github.com/ryanssenn/gemma4.c",
+    "source": "GitHub",
+    "publishedAt": "2026-08-28T08:00:00.000Z",
+    "summary": "HN 15分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49448210",
+    "title": "Qwen3.8-Flash-Next",
+    "url": "https://qwen.ai/blog?id=qwen3.8-flash-next",
+    "source": "qwen.ai",
+    "publishedAt": "2026-08-28T08:02:00.000Z",
+    "summary": "HN 690分 | 231评论 | qwen.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49450188",
+    "title": "VMs won't contain cyber-capable agents",
+    "url": "https://blog.trailofbits.com/2026/08/26/vms-wont-contain-cyber-capable-agents/",
+    "source": "blog.trailofbits.com",
+    "publishedAt": "2026-08-28T09:25:00.000Z",
+    "summary": "HN 179分 | 137评论 | blog.trailofbits.com",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_49471000",
+    "title": "Just Some Generative Art",
+    "url": "https://number-garden.com/?114336224149876@THLP@",
+    "source": "number-garden.com",
+    "publishedAt": "2026-08-28T09:18:00.000Z",
+    "summary": "HN 7分 | 0评论 | number-garden.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49466250",
+    "title": "Needle: The benchmark your search engine can't memorize",
+    "url": "https://keenable.ai/blog/needle-the-benchmark-your-search-engine-can-t-memorize",
+    "source": "keenable.ai",
+    "publishedAt": "2026-08-28T10:35:00.000Z",
+    "summary": "HN 32分 | 11评论 | keenable.ai",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49471306",
+    "title": "Lambda – fast portable agent harness in C",
+    "url": "https://github.com/montyanderson/lambda",
+    "source": "GitHub",
+    "publishedAt": "2026-08-28T10:16:00.000Z",
+    "summary": "HN 3分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_49469753",
+    "title": "Fewer Americans Pay to Use LLMs Than Still Pay to Play World of Warcraft",
+    "url": "https://wjamesau.substack.com/p/fewer-americans-pay-to-use-chatgpt",
+    "source": "wjamesau.substack.com",
+    "publishedAt": "2026-08-28T11:28:00.000Z",
+    "summary": "HN 26分 | 9评论 | wjamesau.substack.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49473773",
+    "title": "Hugging Face is selling a cute $399 open source duck robot, Microduck",
+    "url": "https://techcrunch.com/2026/08/27/hugging-face-is-selling-a-cute-399-open-source-duck-robot-microduck/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-08-28T11:30:00.000Z",
+    "summary": "HN 4分 | 1评论 | techcrunch.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_49466052",
+    "title": "Nvidia projects $673B in sales as AI demand widens",
+    "url": "https://forgeeks.net/nvidia-673-billion-ai-growth-forecast/",
+    "source": "forgeeks.net",
+    "publishedAt": "2026-08-28T12:33:00.000Z",
+    "summary": "HN 104分 | 99评论 | forgeeks.net",
+    "category": "industry",
+    "score": 73
+  },
+  {
+    "id": "hn_49473107",
+    "title": "They confided in ChatGPT. Their secrets ended up in court.",
+    "url": "https://www.washingtonpost.com/technology/2026/08/27/chatgpt-chats-are-being-swept-into-civil-criminal-court-cases/",
+    "source": "washingtonpost.com",
+    "publishedAt": "2026-08-28T12:16:00.000Z",
+    "summary": "HN 9分 | 1评论 | washingtonpost.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49465821",
+    "title": "Show HN: Proval – Self-hosted code review agent for GitLab, Forgejo, and GitHub",
+    "url": "https://github.com/seoes/proval",
+    "source": "GitHub",
+    "publishedAt": "2026-08-28T12:49:00.000Z",
+    "summary": "HN 10分 | 1评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49454764",
+    "title": "Serve Markdown to AI Agents with Accept Headers",
+    "url": "https://acceptmarkdown.com/",
+    "source": "acceptmarkdown.com",
+    "publishedAt": "2026-08-28T13:41:00.000Z",
+    "summary": "HN 174分 | 107评论 | acceptmarkdown.com",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_49467636",
+    "title": "Dwarf Fortress is getting the mother of all magic updates",
+    "url": "https://www.rockpapershotgun.com/dwarf-fortress-is-getting-the-mother-of-all-magic-updates-extending-to-the-fundamental-cosmological-makeup-of-the-universe",
+    "source": "rockpapershotgun.com",
+    "publishedAt": "2026-08-28T13:54:00.000Z",
+    "summary": "HN 40分 | 3评论 | rockpapershotgun.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_49473420",
+    "title": "Toyota to roll out near autonomous cars from 2028",
+    "url": "https://asia.nikkei.com/business/technology/toyota-to-roll-out-near-fully-autonomous-cars-from-2028",
+    "source": "asia.nikkei.com",
+    "publishedAt": "2026-08-28T14:16:00.000Z",
+    "summary": "HN 4分 | 0评论 | asia.nikkei.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49473417",
+    "title": "ChatGPT Now Supports WebMCP",
+    "url": "https://twitter.com/OpenAIDevs/status/2092344959248761263",
+    "source": "twitter.com",
+    "publishedAt": "2026-08-28T14:28:00.000Z",
+    "summary": "HN 4分 | 0评论 | twitter.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49472609",
+    "title": "AI Finds Critical Flaw in Bitcoin Lightning, Devs Issue Emergency Warning",
+    "url": "https://decrypt.co/376714/ai-critical-flaw-bitcoin-lightning-warning",
+    "source": "decrypt.co",
+    "publishedAt": "2026-08-28T14:43:00.000Z",
+    "summary": "HN 8分 | 1评论 | decrypt.co",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49434378",
+    "title": "OpenAI Jalapeño: Better than Nvidia Blackwell",
+    "url": "https://newsletter.semianalysis.com/p/openai-jalapeno-better-than-nvidia",
+    "source": "newsletter.semianalysis.c",
+    "publishedAt": "2026-08-28T00:06:00.000Z",
+    "summary": "HN 583分 | 377评论 | newsletter.semianalysis.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49446422",
+    "title": "Z.ai confirms Ox Alpha is a new GLM-series model and will release its weights",
+    "url": "https://www.bloomberg.com/news/articles/2026-08-26/china-s-z-ai-made-ox-alpha-stealth-model-that-rivals-deepseek",
+    "source": "bloomberg.com",
+    "publishedAt": "2026-08-28T00:13:00.000Z",
+    "summary": "HN 430分 | 146评论 | bloomberg.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49411800",
+    "title": "Training AI to Paint with Code",
+    "url": "https://surya.website/rling-qwen-to-paint-with-code",
+    "source": "surya.website",
+    "publishedAt": "2026-08-28T01:07:00.000Z",
+    "summary": "HN 222分 | 28评论 | surya.website",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "hn_49412396",
+    "title": "I were 17, I'd learn how to build LLMs from scratch",
+    "url": "https://twitter.com/paulg/status/2091544343589060625",
+    "source": "twitter.com",
+    "publishedAt": "2026-08-28T01:35:00.000Z",
+    "summary": "HN 605分 | 681评论 | twitter.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49465461",
+    "title": "The Teaser Period: Why the AI Boom Is Hitting a Reset Wall",
+    "url": "https://www.groundbrkr.com/p/the-teaser-period-why-the-ai-boom",
+    "source": "groundbrkr.com",
+    "publishedAt": "2026-08-28T01:28:00.000Z",
+    "summary": "HN 88分 | 79评论 | groundbrkr.com",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_49454175",
+    "title": "Disenchantment with the Post-AI Internet",
+    "url": "https://lukesmith.xyz/articles/disenchantment-with-the-post-ai-internet/",
+    "source": "lukesmith.xyz",
+    "publishedAt": "2026-08-28T02:49:00.000Z",
+    "summary": "HN 35分 | 5评论 | lukesmith.xyz",
+    "category": "industry",
+    "score": 64
+  }
+]
