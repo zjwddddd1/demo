@@ -120,6 +120,7 @@
   <div class="wrap nav-inner">
     <div class="brand"><span class="dot"></span>个人作品集</div>
     <div class="nav-links">
+      <a href="#aios">AI OS</a>
       <a href="#creative">互动Demo</a>
       <a href="#enterprise">企业案例</a>
       <a href="#prd">产品原型</a>
@@ -145,12 +146,36 @@
 
 <div class="wrap">
   <div class="stats">
-    <div class="stat"><div class="num">42+</div><div class="lbl">可交互作品</div></div>
-    <div class="stat"><div class="num">6</div><div class="lbl">作品大类</div></div>
+    <div class="stat"><div class="num">40+</div><div class="lbl">可交互作品</div></div>
+    <div class="stat"><div class="num">7</div><div class="lbl">作品大类</div></div>
     <div class="stat"><div class="num">7+</div><div class="lbl">产业带场景</div></div>
     <div class="stat"><div class="num">10+</div><div class="lbl">行业案例</div></div>
   </div>
 </div>
+
+<section id="aios">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">AI OS · Agent Runtime</div>
+      <h2 class="sec-title">AI OS 概念解析与运行时实践</h2>
+      <p class="sec-desc">从操作系统视角系统拆解「AI OS」：六大系统能力映射、三层含义谱系，以及最小 Agent 运行时的零框架实现与真实模型推理验证。</p>
+    </div>
+    <div class="grid g-2">
+      <a class="card" href="demo/ai-os.html" target="_blank" rel="noopener">
+        <span class="tag">AI OS 概念</span>
+        <h3>AI OS 与操作系统比对</h3>
+        <p>用操作系统的六大系统能力映射，讲清「AI OS」到底是什么：进程→Agent 生命周期、内存→上下文记忆、文件系统→知识库、设备驱动→工具插件、调度器→编排引擎、安全→沙箱权限。</p>
+        <span class="go">查看解析 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="card" href="demo/agent-runtime.html" target="_blank" rel="noopener">
+        <span class="tag green">Agent 运行时</span>
+        <h3>最小 Agent 运行时 Demo 详解</h3>
+        <p>零框架实现的最小 Agent 运行时：Node 原生服务 + 6 个插件化工具（真读写文件、沙箱命令）+ ReAct 编排循环 + 全链路 Trace，可选接大模型做真实推理验证。</p>
+        <span class="go">查看详解 <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
 
 <section id="creative" class="section-alt">
   <div class="wrap">
@@ -418,7 +443,7 @@
     </div>
     <div class="foot-meta">
       <b>作品分类</b><br>
-      AIGC & 游戏 & 金融仿真 · 企业级方案案例 · 产品原型 & PRD · AI情报工作台<br>
+      AI OS 概念解析 & Agent 运行时 · AIGC & 游戏 & 金融仿真 · 企业级方案案例 · 产品原型 & PRD · AI情报工作台<br>
       产业带AI落地 · 操作指南 · 思考方法
     </div>
   </div>

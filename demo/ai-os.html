@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI OS 与操作系统比对 · 一张表看懂「AI OS」是什么</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --ink:#1f2333; --sub:#5b6275; --line:#e7eaf2;
+    --blue:#2b5cff; --blue-bg:#eef2ff; --teal:#0ea5a4; --teal-bg:#e6f7f6;
+    --amber:#b7791f; --amber-bg:#fdf6e8; --green:#16a34a; --green-bg:#e9f9ef;
+    --purple:#7a5af8; --purple-bg:#f0edfe;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding:32px 20px 60px;}
+  .wrap{max-width:900px; margin:0 auto;}
+  .head{background:linear-gradient(135deg,#1d2b64 0%,#2b5cff 100%); color:#fff; border-radius:16px; padding:26px 30px; margin-bottom:22px;}
+  .head .tag{display:inline-block; font-size:12px; background:rgba(255,255,255,.2); padding:3px 12px; border-radius:20px; margin-bottom:12px;}
+  .head h1{font-size:23px; font-weight:700; margin-bottom:8px;}
+  .head p{font-size:14px; opacity:.92;}
+  h2{font-size:18px; font-weight:700; margin:30px 0 14px; padding-left:12px; border-left:4px solid var(--blue);}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-bottom:14px;}
+  .callout{border-radius:12px; padding:15px 18px; margin:14px 0; font-size:14px;}
+  .callout.blue{background:var(--blue-bg); border-left:4px solid var(--blue);}
+  .callout.teal{background:var(--teal-bg); border-left:4px solid var(--teal);}
+  .callout.amber{background:var(--amber-bg); border-left:4px solid var(--amber);}
+  .callout .t{font-weight:700; display:block; margin-bottom:4px;}
+  table{width:100%; border-collapse:collapse; background:var(--card); border-radius:12px; overflow:hidden; font-size:13px;}
+  th,td{padding:10px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:#f0f3fa; font-weight:700; color:#333; white-space:nowrap;}
+  td:first-child{font-weight:700; color:var(--blue); white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media(max-width:680px){.grid{grid-template-columns:1fr;}}
+  .cell{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px;}
+  .cell h4{font-size:14.5px; margin-bottom:5px;}
+  .cell p{font-size:13px; color:var(--sub);}
+  .cell .lv{font-size:11.5px; font-weight:700; color:#fff; display:inline-block; padding:2px 10px; border-radius:6px; margin-bottom:8px;}
+  .l1{background:#7a5af8;} .l2{background:var(--blue);} .l3{background:var(--teal);}
+  code{background:#f0f3fa; padding:1px 6px; border-radius:4px; font-size:12px; font-family:Consolas,Menlo,monospace;}
+  .hl{color:var(--blue); font-weight:700;}
+  .foot{margin-top:26px; font-size:12.5px; color:var(--sub); text-align:center;}
+  .quote{font-size:14px; color:#333; background:#fbfcff; border:1px dashed #c7d2fe; border-radius:10px; padding:13px 16px; margin:10px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <span class="tag">百度三面备战 · 概念比对</span>
+    <h1>AI OS 与操作系统：一张表看懂「AI OS」到底是什么</h1>
+    <p>核心结论：AI OS 不是一套具体的操作系统产品，而是业界借用「操作系统管理资源」的思路，对<b>「让大模型真正干活所需的系统层能力」</b>的统称。</p>
+  </div>
+
+  <!-- 1 为什么用 OS 类比 -->
+  <h2>① 为什么业界会用「操作系统」这个词</h2>
+  <div class="grid">
+    <div class="cell"><h4>传统操作系统解决的问题</h4><p>统一管理有限资源（CPU、内存、磁盘、外设），向上层应用提供<b>稳定、安全、可调度</b>的运行环境。</p></div>
+    <div class="cell"><h4>AI OS 要解决的问题</h4><p>统一管理 AI 资源（模型、上下文、知识、工具、Agent 任务），向上层应用提供<b>稳定、安全、可编排</b>的智能体运行环境。</p></div>
+  </div>
+  <div class="callout blue">
+    <span class="t">本质同构，所以借用了「操作系统」这个词</span>
+    两者都是「统一管理资源 + 向上提供运行环境」的系统层职责。只是 AI OS 管理的资源从「硬件」变成了「模型与智能体」——这就是「AI OS」称呼的由来。
+  </div>
+
+  <!-- 2 核心映射表 -->
+  <h2>② 核心比对：六大系统能力映射</h2>
+  <table>
+    <tr><th>传统操作系统模块</th><th>职能</th><th>AI OS 对应</th><th>落地形态</th></tr>
+    <tr><td>进程管理</td><td>创建、调度、终止运行单元</td><td>Agent 生命周期管理</td><td>Agent 创建、任务编排、运行与回收</td></tr>
+    <tr><td>内存管理</td><td>管理运行期数据存取</td><td>上下文窗口与记忆管理</td><td>多轮对话历史、长短期记忆</td></tr>
+    <tr><td>文件系统</td><td>持久化存储与检索</td><td>数据与知识库管理</td><td>企业知识库、RAG 检索、向量索引</td></tr>
+    <tr><td>设备驱动</td><td>让系统操作外部硬件</td><td>工具与 API 插件层</td><td>工具调用、MCP / A2A 连接协议</td></tr>
+    <tr><td>CPU 调度器</td><td>分配计算资源给任务</td><td>智能体编排引擎</td><td>ReAct 循环、任务规划、多智能体协同</td></tr>
+    <tr><td>安全与权限</td><td>隔离进程、管控访问</td><td>沙箱与权限管控</td><td>沙箱隔离、命令白名单、数据不出域</td></tr>
+  </table>
+  <p style="font-size:12.5px;color:var(--sub);margin-top:8px;">右列「落地形态」里的能力，大部分在本项目的 Agent 运行时 demo 中已实现（编排循环、知识库检索、工具插件、命令白名单）。</p>
+
+  <!-- 3 横向比对 -->
+  <h2>③ 传统 OS vs AI OS：横向全维度对比</h2>
+  <table>
+    <tr><th>维度</th><th>传统操作系统（Windows / Linux）</th><th>AI OS</th></tr>
+    <tr><td>定位</td><td>管理计算机软硬件资源的系统软件</td><td>管理大模型与智能体资源的系统层能力（行业统称）</td></tr>
+    <tr><td>管理对象</td><td>CPU、内存、磁盘、外设</td><td>模型、上下文、知识、工具、Agent</td></tr>
+    <tr><td>运行单元</td><td>进程 / 线程</td><td>智能体（Agent）</td></tr>
+    <tr><td>交互方式</td><td>图形界面 / 命令行（GUI / CLI）</td><td>自然语言、意图驱动（Agentic UI）</td></tr>
+    <tr><td>生态扩展</td><td>应用安装、设备驱动</td><td>工具插件、MCP / A2A 协议、Agent 市场</td></tr>
+    <tr><td>典型问题</td><td>资源竞争、内存泄漏、死锁</td><td>幻觉、上下文溢出、工具调用失败</td></tr>
+    <tr><td>成熟度</td><td>数十年积累，稳定成熟</td><td>早期阶段，标准尚未统一</td></tr>
+    <tr><td>代表</td><td>Windows、Linux、macOS</td><td>运行时：DeepSeek Harness｜平台：千帆、扣子｜叙事：HarmonyOS 7</td></tr>
+  </table>
+
+  <!-- 4 三层含义 -->
+  <h2>④ 关键澄清：AI OS 不是一套产品，是「三层含义」</h2>
+  <div class="grid">
+    <div class="cell"><span class="lv l1">底层</span><h4>Agent 运行时</h4><p>把模型变成「能干活」的执行环境：编排循环 + 工具 + 记忆 + 沙箱。<b>售前「搓 AI OS」主要指这层。</b></p></div>
+    <div class="cell"><span class="lv l2">中层</span><h4>大模型编排平台</h4><p>类似 OS 生态位的开发底座（模型=CPU、数据=文件、Agent=应用）。代表：千帆、扣子、Dify。</p></div>
+    <div class="cell"><span class="lv l3">顶层</span><h4>范式迁移叙事</h4><p>操作系统从「应用的容器」变成「智能体的编排平台」，从 APP-centric 走向 Agent-centric。代表：HarmonyOS 7、Apple Intelligence。</p></div>
+  </div>
+
+  <!-- 5 售前价值 -->
+  <h2>⑤ 这张表对售前的价值</h2>
+  <div class="card">
+    <div class="quote"><b>讲给传统 IT 背景的客户：</b>客户听到「AI OS」容易懵，用映射表一句话建立理解——「它管理的是 Agent、知识、工具，就像 Windows 管理进程、文件、外设；千帆就是帮您把这套 AI 资源管起来、编排起来」。<br><br>
+    <b>讲给面试官：</b>「我理解 AI OS 是用操作系统的思路管理 AI 资源——Agent 是进程、上下文是内存、知识库是文件系统、工具是外设、编排循环是调度器、沙箱是权限管控；我做的 demo 就是这套思路的最小实现。」</div>
+  </div>
+
+  <!-- 6 总结 -->
+  <h2>⑥ 30 秒总结</h2>
+  <div class="callout teal">
+    <span class="t">面试版</span>
+    「AI OS 不是一套具体操作系统，而是行业对『让大模型真正干活所需的系统层能力』的统称。它的核心是用操作系统的思路管理 AI 资源——Agent 是进程，上下文是内存，知识库是文件系统，工具是外设，编排循环是调度器，沙箱是权限管控。所以业界借用了『操作系统』这个词，而售前圈说的『搓 AI OS』，主要指最底层的 Agent 运行时——这个我用开源组件亲手搭过。」
+  </div>
+
+  <div class="foot">百度三面备战 · AI OS 与操作系统比对 · 配合《百度三面-AI-OS话术卡》与《Agent运行时Demo详解》使用</div>
+</div>
+</body>
+</html>

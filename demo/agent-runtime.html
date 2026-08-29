@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent 运行时 Demo 详解 · 做了什么 / 用什么做的</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --ink:#1f2333; --sub:#5b6275; --line:#e7eaf2;
+    --blue:#2b5cff; --blue-bg:#eef2ff; --teal:#0ea5a4; --teal-bg:#e6f7f6;
+    --amber:#b7791f; --amber-bg:#fdf6e8; --green:#16a34a; --green-bg:#e9f9ef;
+    --purple:#7a5af8; --purple-bg:#f0edfe; --red:#d64545; --red-bg:#fdecec;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; padding:32px 20px 60px;}
+  .wrap{max-width:880px; margin:0 auto;}
+  .head{background:linear-gradient(135deg,#1d2b64 0%,#2b5cff 100%); color:#fff; border-radius:16px; padding:26px 30px; margin-bottom:22px;}
+  .head .tag{display:inline-block; font-size:12px; background:rgba(255,255,255,.2); padding:3px 12px; border-radius:20px; margin-bottom:12px;}
+  .head h1{font-size:23px; font-weight:700; margin-bottom:8px;}
+  .head p{font-size:14px; opacity:.92;}
+  h2{font-size:18px; font-weight:700; margin:30px 0 14px; padding-left:12px; border-left:4px solid var(--blue);}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-bottom:14px;}
+  .callout{border-radius:12px; padding:15px 18px; margin:14px 0; font-size:14px;}
+  .callout.blue{background:var(--blue-bg); border-left:4px solid var(--blue);}
+  .callout.teal{background:var(--teal-bg); border-left:4px solid var(--teal);}
+  .callout.amber{background:var(--amber-bg); border-left:4px solid var(--amber);}
+  .callout.red{background:var(--red-bg); border-left:4px solid var(--red);}
+  .callout .t{font-weight:700; display:block; margin-bottom:4px;}
+  table{width:100%; border-collapse:collapse; background:var(--card); border-radius:12px; overflow:hidden; font-size:13.5px;}
+  th,td{padding:10px 13px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:#f0f3fa; font-weight:700; color:#333; white-space:nowrap;}
+  td:first-child{font-weight:700; color:var(--blue); white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media(max-width:640px){.grid{grid-template-columns:1fr;}}
+  .cell{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px;}
+  .cell h4{font-size:15px; margin-bottom:5px;}
+  .cell p{font-size:13px; color:var(--sub);}
+  .cell .lv{font-size:12px; font-weight:700; color:#fff; display:inline-block; padding:2px 10px; border-radius:6px; margin-bottom:8px;}
+  .l1{background:#7a5af8;} .l2{background:var(--blue);} .l3{background:var(--teal);} .l4{background:#f59e0b;}
+  code{background:#f0f3fa; padding:1px 6px; border-radius:4px; font-size:12.5px; font-family:Consolas,Menlo,monospace;}
+  .file{font-family:Consolas,Menlo,monospace; font-size:12.5px; background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:14px 16px; line-height:1.8;}
+  .file .c{color:var(--sub);}
+  .big{font-size:15px; font-weight:700;}
+  .hl{color:var(--blue); font-weight:700;}
+  .hl-r{color:var(--red); font-weight:700;}
+  .vs{display:flex; gap:10px; margin:12px 0;}
+  .vs .side{flex:1; border:1px solid var(--line); border-radius:12px; padding:14px; font-size:13px;}
+  .vs .side b{display:block; font-size:14px; margin-bottom:6px;}
+  .vs .side.l{background:var(--blue-bg);} .vs .side.r{background:var(--purple-bg);}
+  .foot{margin-top:26px; font-size:12.5px; color:var(--sub); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <span class="tag">百度三面备战 · Agent 运行时 Demo 技术详解</span>
+    <h1>这个 Demo 做了什么？用什么做的？</h1>
+    <p>一句话：一个<b>零框架</b>的最小 Agent 运行时 —— 本地 HTTP 服务 + 插件化工具 + ReAct 编排循环 + 可视化 Trace，可选接入大模型做真实推理。</p>
+  </div>
+
+  <!-- 0 先纠正 -->
+  <h2>① 先纠正一个关键混淆：ReAct 模式 ≠ React 框架</h2>
+  <div class="callout red">
+    <span class="t">你说「用了 React 框架」——不对，这里没有 React</span>
+    你看到的"react"其实是 <b>ReAct 模式</b>（Reasoning + Acting，Agent 的「推理 → 行动」编排循环），是 <b>Agent 领域的一种编排范式</b>，不是 Meta 的 React 前端框架。名字像，完全是两码事。
+  </div>
+  <div class="vs">
+    <div class="side l"><b>ReAct 模式（本 demo 用的）</b>「推理 + 行动」交替循环：模型先想（Thought）→ 决定调哪个工具（Action）→ 看结果（Observation）→ 再想…直到给出最终回答（Final）。是 Agent 的核心工作方式，写在 <code>index.html</code> 的编排循环里。</div>
+    <div class="side r"><b>React 框架（本 demo 没用）</b>Meta 开源的<b>前端 UI 库</b>，用来写网页界面（组件化、虚拟 DOM）。本 demo 的前端是原生 HTML/CSS/JavaScript，没有任何前端框架。</div>
+  </div>
+  <div class="callout teal">
+    <span class="t">面试时主动说清这点是加分项</span>
+    「我用的不是 React 框架，是 ReAct 模式——推理与行动交替的 Agent 编排范式」——这种主动澄清能证明你真懂，不是背名词。
+  </div>
+
+  <!-- 1 做了什么 -->
+  <h2>② 这个 Demo 做了什么（6 项核心能力）</h2>
+  <table>
+    <tr><th>能力</th><th>具体实现</th><th>真实程度</th></tr>
+    <tr><td>本地 HTTP 服务</td><td>Node 原生 <code>http</code> 模块写的服务：静态托管页面 + 提供 10 个 API 接口（健康检查/文件列表/读文件/6 个工具/聊天代理）</td><td>真实</td></tr>
+    <tr><td>插件化工具</td><td>6 个工具：查客户档案、知识库检索、生成汇报、计算器、获取时间、白名单沙箱命令。新增工具只需登记一行</td><td>真实执行</td></tr>
+    <tr><td>真读写文件</td><td><code>query_customer</code> 真读 <code>customers.json</code>；<code>rag_search</code> 真读 <code>knowledge.json</code>；<code>draft_report</code> 真写 <code>.md</code> 到 <code>output/</code></td><td>真实落盘</td></tr>
+    <tr><td>Agent 编排循环</td><td>ReAct 模式：推理 → 动作 → 观察 → 回答，逐步可视化</td><td>真实逻辑</td></tr>
+    <tr><td>双模式运行</td><td>演示模式（内置脚本，稳定讲解流程）／真实模式（真调大模型 API 做推理）</td><td>真实/可选</td></tr>
+    <tr><td>全链路 Trace</td><td>每一步推理/动作/观察实时渲染成卡片，带时间戳，可回溯</td><td>真实</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--sub);margin-top:8px;">你看到的「企业合同分析」是 demo 的<b>三个演示场景之一</b>——「客户续约风险分析」（政企合同续约预警），另外还有「云资源采购测算」「私有化环境自检」。</p>
+
+  <!-- 2 用什么做的 -->
+  <h2>③ 用了什么框架 / 技术栈：答案是「零框架」</h2>
+  <div class="grid">
+    <div class="cell"><h4>前端</h4><p>原生 HTML + CSS + JavaScript（单文件 <code>index.html</code>），<b>无 React/Vue 等任何框架</b>，无 CDN 依赖，离线可用。</p></div>
+    <div class="cell"><h4>后端</h4><p>Node.js 原生 <code>http</code> 模块（<code>server.js</code>），<b>无 Express 等框架、零 npm 依赖</b>，一条命令启动。</p></div>
+    <div class="cell"><h4>数据</h4><p>JSON 文件（<code>data/customers.json</code> 客户档案、<code>data/knowledge.json</code> 知识库），本地读写，数据不出域。</p></div>
+    <div class="cell"><h4>大模型</h4><p><b>可选</b>接入任意 OpenAI 兼容接口，默认配置百度千帆 <code>ernie-4.5-turbo-128k</code>，通过后端 <code>/api/chat</code> 代理调用。</p></div>
+  </div>
+
+  <h2>④ 架构分层（四层）</h2>
+  <div class="grid">
+    <div class="cell"><span class="lv l4">L4</span><h4>交互层</h4><p>前端页面：任务选择、双模式切换、Trace 展示、文件工作区。</p></div>
+    <div class="cell"><span class="lv l3">L3</span><h4>应用/场景层</h4><p>三个演示场景：续约风险分析、采购测算、环境自检。</p></div>
+    <div class="cell"><span class="lv l2">L2</span><h4>运行时/编排层（本 demo 核心）</h4><p>ReAct 编排循环 + 6 个插件化工具 + Trace 记录 + 后端工具 API。</p></div>
+    <div class="cell"><span class="lv l1">L1</span><h4>模型与算力层</h4><p>可选大模型（默认千帆 ERNIE）+ 本地 JSON 数据 + 沙箱命令执行。</p></div>
+  </div>
+
+  <!-- 3 目录结构 -->
+  <h2>⑤ 目录结构（每个文件干什么）</h2>
+  <div class="file">
+agent-runtime-demo/<br>
+├── <b>server.js</b> &nbsp;<span class="c">// 后端：静态托管 + 工具 API + /api/chat 代理千帆（零依赖 Node）</span><br>
+├── <b>index.html</b> &nbsp;<span class="c">// 前端：编排循环 + 双模式 + Trace + 文件工作区（原生 JS）</span><br>
+├── <b>data/</b><br>
+│&nbsp;&nbsp;&nbsp;├── customers.json &nbsp;<span class="c">// 客户档案（query_customer 读取）</span><br>
+│&nbsp;&nbsp;&nbsp;└── knowledge.json &nbsp;<span class="c">// 知识库（rag_search 读取）</span><br>
+└── <b>output/</b> &nbsp;<span class="c">// 运行时产物：draft_report 真实生成的汇报文件</span>
+  </div>
+
+  <!-- 4 双模式对比 -->
+  <h2>⑥ 两种模式：演示 vs 真实</h2>
+  <table>
+    <tr><th>对比项</th><th>演示模式</th><th>真实模式</th></tr>
+    <tr><td>是否调大模型</td><td>否（内置脚本）</td><td>是（千帆 ERNIE 真推理）</td></tr>
+    <tr><td>推理来源</td><td>预写脚本文本</td><td>模型现场生成</td></tr>
+    <tr><td>速度</td><td>秒出</td><td>每步 1-3 秒</td></tr>
+    <tr><td>稳定性</td><td>100% 一致</td><td>每次略有差异</td></tr>
+    <tr><td>用途</td><td>稳定讲机制、讲流程</td><td>证明「这是真 AI」</td></tr>
+  </table>
+
+  <!-- 5 面试话术 -->
+  <h2>⑦ 面试 30 秒讲法</h2>
+  <div class="card">
+    <p style="font-size:14px;">「我自己搭了一个<b>最小 Agent 运行时</b>：零框架——前端原生 JS，后端 Node 原生 http 模块，没有用 React 也没有用任何框架；核心是一个 <b>ReAct 编排循环</b>，把 6 个插件化工具（查客户、检索知识库、生成汇报、执行命令）串成『推理 → 行动 → 观察』的闭环，每一步都有 Trace 可追踪；数据全程本地 JSON、不出域，对应政企私有化诉求；模型层可插拔，我接的是千帆的 ERNIE 做了真实推理验证。」</p>
+  </div>
+
+  <div class="foot">百度三面备战 · Agent 运行时 Demo 详解 · 配合《百度三面-AI-OS话术卡》使用</div>
+</div>
+</body>
+</html>
