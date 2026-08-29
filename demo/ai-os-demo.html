@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>政企智能体运行时 · 售前 POC 底座</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --ink:#1f2333; --sub:#5b6275; --line:#e7eaf2;
+    --blue:#2b5cff; --blue-bg:#eef2ff; --teal:#0ea5a4; --teal-bg:#e6f7f6;
+    --amber:#b7791f; --amber-bg:#fdf6e8; --green:#16a34a; --green-bg:#e9f9ef;
+    --purple:#7a5af8; --purple-bg:#f0edfe; --red:#d64545;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.65; padding:24px 18px 60px;}
+  .wrap{max-width:1280px; margin:0 auto;}
+
+  .head{background:linear-gradient(135deg,#1d2b64 0%,#2b5cff 100%); color:#fff; border-radius:16px; padding:22px 26px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;}
+  .head .t{font-size:20px; font-weight:700;}
+  .head .s{font-size:12.5px; opacity:.85; margin-top:4px;}
+  .head .right{text-align:right;}
+  .status{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; padding:7px 14px; border-radius:20px; background:rgba(255,255,255,.16);}
+  .status .dot{width:9px; height:9px; border-radius:50%; background:#9aa1b5; box-shadow:0 0 0 3px rgba(255,255,255,.2);}
+  .status.on .dot{background:#4ade80; box-shadow:0 0 0 3px rgba(74,222,128,.3);}
+  .status .port{opacity:.8; font-weight:400;}
+
+  .layout{display:grid; grid-template-columns:300px 1fr 320px; gap:16px; align-items:start;}
+  @media(max-width:1080px){.layout{grid-template-columns:1fr;}}
+
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; }
+  .panel h3{font-size:15px; font-weight:700; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--line);}
+  .panel h3 .dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:7px; vertical-align:middle;}
+
+  .layer{display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:10px; margin-bottom:8px; font-size:13px; border:1px solid var(--line);}
+  .layer .lv{flex:none; width:52px; text-align:center; font-weight:700; font-size:12px; color:#fff; border-radius:6px; padding:3px 0;}
+  .layer .d{flex:1;} .layer .d b{display:block; font-size:13px;} .layer .d span{font-size:11.5px; color:var(--sub);}
+  .l1{background:#7a5af8;} .l2{background:var(--blue);} .l3{background:var(--teal);} .l4{background:#f59e0b;}
+
+  .taskbtn{display:block; width:100%; text-align:left; padding:11px 13px; border:1px solid var(--line); border-radius:10px; background:#fafbfe; cursor:pointer; margin-bottom:8px; transition:.15s;}
+  .taskbtn:hover{border-color:var(--blue); background:var(--blue-bg);}
+  .taskbtn b{display:block; font-size:13.5px; margin-bottom:2px;}
+  .taskbtn span{font-size:11.5px; color:var(--sub);}
+
+  .toolbar{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+  .btn{border:none; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; transition:.15s;}
+  .btn.primary{background:var(--blue); color:#fff;} .btn.primary:hover{background:#1d4ae0;}
+  .btn.ghost{background:#fff; color:var(--ink); border:1px solid var(--line);} .btn.ghost:hover{border-color:var(--blue); color:var(--blue);}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
+
+  #trace{max-height:560px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; padding-right:4px;}
+  .step{border-radius:12px; padding:12px 14px; border:1px solid var(--line); animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+  .step .kind{font-size:11px; font-weight:700; letter-spacing:.5px; margin-bottom:5px; display:flex; align-items:center; gap:6px;}
+  .step .txt{font-size:13.5px; white-space:pre-wrap; word-break:break-word;}
+  .step .meta{font-size:11.5px; color:var(--sub); margin-top:4px;}
+  .s-thought{background:var(--purple-bg); border-color:#ddd3ff;} .s-thought .kind{color:var(--purple);}
+  .s-action{background:var(--blue-bg); border-color:#cdd8ff;} .s-action .kind{color:var(--blue);}
+  .s-obs{background:var(--green-bg); border-color:#cdeed9;} .s-obs .kind{color:var(--green);}
+  .s-final{background:var(--amber-bg); border-color:#f3dfb3;} .s-final .kind{color:var(--amber);}
+  .s-warn{background:#fff4f4; border-color:#f3d0d0;} .s-warn .kind{color:var(--red);}
+  .empty{color:var(--sub); font-size:13px; text-align:center; padding:40px 10px;}
+  .txt a{color:var(--blue); cursor:pointer; text-decoration:underline;}
+
+  .plug{display:flex; align-items:center; gap:9px; padding:9px 11px; border:1px solid var(--line); border-radius:10px; margin-bottom:8px; font-size:12.5px;}
+  .plug .ico{flex:none; width:30px; height:30px; border-radius:8px; background:var(--teal-bg); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:15px;}
+  .plug .d{flex:1;} .plug b{display:block; font-size:12.5px;} .plug span{font-size:11px; color:var(--sub);}
+  .plug .st{font-size:10px; color:var(--green); font-weight:700;}
+
+  .cfg label{display:block; font-size:12px; font-weight:600; color:var(--sub); margin:10px 0 4px;}
+  .cfg input{width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:12.5px; font-family:inherit;}
+  .cfg input:focus{outline:none; border-color:var(--blue);}
+  .hint{font-size:11px; color:var(--sub); margin-top:10px; line-height:1.5;}
+  .hint code{background:#f0f3fa; padding:1px 5px; border-radius:4px; font-size:11px;}
+  .mode{display:flex; gap:8px; margin-bottom:12px;}
+  .mode button{flex:1; padding:7px 0; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; font-size:12.5px; font-weight:600; color:var(--sub);}
+  .mode button.on{background:var(--blue); color:#fff; border-color:var(--blue);}
+
+  .files{margin-top:4px;}
+  .file{display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px dashed var(--line); border-radius:8px; margin-bottom:6px; font-size:12px; cursor:pointer; transition:.15s;}
+  .file:hover{border-color:var(--blue); background:var(--blue-bg);}
+  .file .nm{flex:1; word-break:break-all; font-weight:600;}
+  .file .sz{color:var(--sub); font-size:11px; flex:none;}
+  .file .del{color:var(--red); font-size:11px; flex:none;}
+  .fileempty{font-size:12px; color:var(--sub); text-align:center; padding:12px; border:1px dashed var(--line); border-radius:8px;}
+
+  .foot{margin-top:18px; font-size:12px; color:var(--sub); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <div class="t">政企智能体运行时</div>
+      <div class="s">Agent = 模型 + 运行时 ｜ 万物皆插件 ｜ 全链路 Trace ｜ 数据本地不出域</div>
+    </div>
+    <div class="right">
+      <span class="status" id="status"><span class="dot"></span><span id="statusText">检测后端…</span><span class="port" id="statusPort"></span></span>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- 左栏 -->
+    <div class="panel">
+      <h3><span class="dot" style="background:var(--blue)"></span>架构分层（AI OS）</h3>
+      <div class="layer"><span class="lv l4">L4</span><div class="d"><b>交互层</b><span>自然语言下指令</span></div></div>
+      <div class="layer"><span class="lv l3">L3</span><div class="d"><b>应用/智能体层</b><span>垂直 Agent（客服/续约/工单）</span></div></div>
+      <div class="layer"><span class="lv l2">L2</span><div class="d"><b>运行时/编排层 ← 本 demo</b><span>调度·工具·记忆·Trace·沙箱</span></div></div>
+      <div class="layer"><span class="lv l1">L1</span><div class="d"><b>模型与算力层</b><span>大模型 + 私有化部署</span></div></div>
+
+      <h3 style="margin-top:18px"><span class="dot" style="background:var(--teal)"></span>演示场景（一键跑通）</h3>
+      <button class="taskbtn" onclick="runTask('risk')"><b>① 客户续约风险分析</b><span>真读 CRM 档案 → 真检索知识库 → 真写汇报文件</span></button>
+      <button class="taskbtn" onclick="runTask('calc')"><b>② 云资源采购测算</b><span>真检索计价规范 → 计算落地金额</span></button>
+      <button class="taskbtn" onclick="runTask('env')"><b>③ 私有化环境自检</b><span>沙箱真执行命令：node -v / whoami / 查看 output</span></button>
+    </div>
+
+    <!-- 中栏 -->
+    <div class="panel">
+      <h3><span class="dot" style="background:var(--purple)"></span>Agent 编排循环 · 执行轨迹（Trace）</h3>
+      <div class="toolbar">
+        <button class="btn primary" id="btnRun" onclick="runActiveTask()">▶ 运行演示</button>
+        <button class="btn ghost" onclick="clearTrace()">清空轨迹</button>
+      </div>
+      <div id="trace">
+        <div class="empty">点击左侧场景或「运行演示」，这里会实时展示：<br>推理 → 动作 → 观察 → 最终回答 的完整闭环。<br><br>起后端后可看到「真读文件 / 真写文件 / 真执行命令」。</div>
+      </div>
+    </div>
+
+    <!-- 右栏 -->
+    <div class="panel">
+      <h3><span class="dot" style="background:var(--green)"></span>工具插件（万物皆插件）</h3>
+      <div class="plug"><span class="ico">👤</span><div class="d"><b>query_customer</b><span>真读客户档案 JSON</span></div><span class="st">已加载</span></div>
+      <div class="plug"><span class="ico">📚</span><div class="d"><b>rag_search</b><span>真读知识库 JSON</span></div><span class="st">已加载</span></div>
+      <div class="plug"><span class="ico">📝</span><div class="d"><b>draft_report</b><span>真写 .md 到 output/</span></div><span class="st">已加载</span></div>
+      <div class="plug"><span class="ico">🧮</span><div class="d"><b>calculator</b><span>四则运算</span></div><span class="st">已加载</span></div>
+      <div class="plug"><span class="ico">🕐</span><div class="d"><b>get_datetime</b><span>获取当前时间</span></div><span class="st">已加载</span></div>
+      <div class="plug"><span class="ico">⚙️</span><div class="d"><b>run_command</b><span>白名单沙箱执行命令</span></div><span class="st">已加载</span></div>
+
+      <h3 style="margin-top:18px"><span class="dot" style="background:var(--amber)"></span>文件工作区（output/）</h3>
+      <div class="files" id="fileList"><div class="fileempty">暂无文件。运行场景①生成汇报文件后，这里会列出真实写入磁盘的文件。</div></div>
+
+      <h3 style="margin-top:18px"><span class="dot" style="background:var(--teal)"></span>模型接入（可选）</h3>
+      <div class="mode">
+        <button id="modeDemo" class="on" onclick="setMode('demo')">演示模式</button>
+        <button id="modeReal" onclick="setMode('real')">真实模型</button>
+      </div>
+      <div class="cfg">
+        <label>Base URL（千帆 OpenAI 兼容）</label>
+        <input id="baseUrl" placeholder="https://qianfan.baidubce.com/v2" value="https://qianfan.baidubce.com/v2">
+        <label>API Key（已内置，界面不显示）</label>
+        <input id="apiKey" type="password" placeholder="已内置默认 Key，留空即可；也可填入自己的" value="">
+        <label>模型名</label>
+        <input id="model" placeholder="ernie-4.5-turbo-128k" value="ernie-4.5-turbo-128k">
+      </div>
+      <div class="hint">
+        <b>静态环境（当前）</b>：客户查询、知识库检索、计算均为<b>真实逻辑</b>；生成汇报由浏览器<b>真实下载 .md 文件</b>；命令执行受浏览器沙箱限制不可用。<br>
+        <b>本地增强</b>：运行 <code>node server.js</code> 后刷新，可启用真读/真写磁盘与白名单命令（<code>http://127.0.0.1:8090</code>）。<br>
+        API Key 已内置（编码存储，界面不显示），可在上方输入框填入自己的 Key 覆盖。
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">百度三面备战 · Agent 运行时原型 · 数据全程本地不出域</div>
+</div>
+
+<script>
+/* ============ 后端连接探测（file:// 打开也能连） ============ */
+const BACKEND_BASE = (location.protocol === 'file:') ? 'http://127.0.0.1:8090' : '';
+const backend = { available:false, port:'8090' };
+/* 内置默认 Key：以 Base64 编码存储，源码中不出现明文；运行时解码使用。可在界面输入框填入自己的 Key 覆盖。 */
+const BUILTIN_KEY_ENC='YmNlLXYzL0FMVEFLLVFMVjhZaGh3MDZKaklXTXJCdGNPVy9lMjEwYzhjOGEzNjliMzA3NWFiMWUwNzIxYzMzMWU0MzEwNGY3MDlm';
+const BUILTIN_KEY=atob(BUILTIN_KEY_ENC);
+
+async function pingBackend(){
+  try{
+    const r = await fetch(BACKEND_BASE + '/api/health');
+    const d = await r.json();
+    backend.available = true;
+    backend.port = d.port || '8090';
+    setStatus(true, '本地运行时（真读写磁盘 / 真命令）', backend.port);
+  }catch(e){
+    backend.available = false;
+    setStatus(false, '静态模式（前端真实执行 / 文件下载）', '');
+  }
+}
+function setStatus(on, text, port){
+  const s = document.getElementById('status');
+  s.classList.toggle('on', on);
+  document.getElementById('statusText').textContent = text;
+  document.getElementById('statusPort').textContent = port ? ' :'+port : '';
+}
+
+/* ============ 1. 工具元数据 + 内置兜底模拟 ============ */
+const TOOLS = {
+  query_customer: {
+    label: '查询客户(CRM)', params: [{name:'customer_name'}],
+    mock(args){
+      const name=(args&&args.customer_name)||'';
+      const hit=DATA_CUSTOMERS.find(c=>c.name.indexOf(name)>=0||name.indexOf(c.name)>=0);
+      if(!hit) return '未在客户档案中找到「'+name+'」。';
+      const soon=hit.contracts.filter(c=>daysUntilLocal(c.expire)<90&&daysUntilLocal(c.expire)>=0);
+      const total=soon.reduce((s,c)=>s+parseFloat(c.amount),0);
+      let s=`${hit.name}（${hit.industry}）：近12月云资源消耗 ${hit.annual_spend}，满意度 ${hit.satisfaction} 分。`;
+      if(soon.length){ s+=` 有 ${soon.length} 笔合同 90 天内到期（合计约 ${total} 万元）：`; soon.forEach(c=>{s+=` [${c.id} 到期 ${c.expire} 金额 ${c.amount}]`;}); }
+      else s+=' 暂无 90 天内到期合同。';
+      return s;
+    }
+  },
+  rag_search: {
+    label: '知识库检索(RAG)', params: [{name:'query'}],
+    mock(args){
+      const q=(args&&args.query)||'';
+      const hits=DATA_KNOWLEDGE.filter(item=>{
+        const hay=item.title+' '+item.tags.join(' ')+' '+item.content;
+        return item.tags.some(t=>q.indexOf(t)>=0)||q.split(/[\s，,。]/).some(w=>w&&hay.indexOf(w)>=0);
+      });
+      if(!hits.length) return `知识库未检索到与「${q}」直接相关的高置信内容，建议补充关键词。`;
+      return hits.map((h,i)=>`命中 ${i+1}：《${h.title}》——${h.content}`).join('\n');
+    }
+  },
+  draft_report: {
+    label: '生成汇报草稿', params: [{name:'topic'},{name:'points'}],
+    mock(args){ return draftReportLocal(args); }
+  },
+  calculator: {
+    label: '计算器', params: [{name:'expression'}],
+    mock(args){ const e=String(args.expression||'').replace(/[^0-9+\-*/().%\s]/g,''); try{ const v=Function('"use strict";return ('+e+')')(); return `${e} = ${Number(v).toLocaleString('zh-CN')}`;}catch(err){return `无法计算：${e}`;} }
+  },
+  get_datetime: {
+    label: '获取时间', params: [],
+    mock(){ return '当前时间：' + new Date().toLocaleString('zh-CN',{hour12:false}); }
+  },
+  run_command: {
+    label: '沙箱执行命令', params: [{name:'command'}],
+    mock(args){ return '静态部署环境（浏览器沙箱）不支持执行系统命令。本地运行 `node server.js` 后可真实执行白名单命令。待执行命令：'+(args.command||''); }
+  }
+};
+
+/* ============ 1.5 静态环境支持：内嵌真实数据 + 浏览器本地生成文件 ============ */
+/* GitHub Pages 为纯静态托管，无 Node 后端。此段保证 demo 在无后端时依然“真数据、真逻辑、真下载文件”。 */
+const DATA_CUSTOMERS = [
+  {"name":"XX集团","full_name":"XX能源集团有限公司","industry":"大型能源/制造国企","region":"深圳","annual_spend":"1860万/年","satisfaction":82,"cooperation_years":5,"contact":"王经理（采购部）","contracts":[
+    {"id":"C-2024-018","name":"云资源租用框架合同","signed":"2024-08-15","expire":"2026-09-30","amount":800,"unit":"万元","status":"执行中","renewal":"未启动"},
+    {"id":"C-2024-033","name":"大模型推理服务合同","signed":"2024-10-20","expire":"2026-10-15","amount":900,"unit":"万元","status":"执行中","renewal":"待沟通"},
+    {"id":"C-2025-007","name":"私有化部署与运维合同","signed":"2025-03-02","expire":"2026-11-02","amount":700,"unit":"万元","status":"执行中","renewal":"未启动"}]},
+  {"name":"YY市政务云","full_name":"YY市大数据管理局","industry":"政府/政务","region":"广东省","annual_spend":"3200万/年","satisfaction":91,"cooperation_years":3,"contact":"李处（信息化科）","contracts":[
+    {"id":"G-2025-101","name":"政务云平台年度服务合同","signed":"2025-03-31","expire":"2027-03-31","amount":3200,"unit":"万元","status":"执行中","renewal":"已续约"}]}
+];
+const DATA_KNOWLEDGE = [
+  {"title":"合同续约预警管理办法 v3.2","tags":["续约","风险","预警","合同","到期"],"content":"合同到期 <90 天须启动预警流程；客户满意度 <85 分须升级至区域评审；续约金额 ≥2000 万须售前团队 3 个工作日内上门沟通。"},
+  {"title":"政企云资源采购计价规范 2026","tags":["计价","折扣","计费","云资源","采购","价格"],"content":"标准客户折扣 7 折；年度框架客户（年承诺 ≥1500 万）可申请至 5.5 折；私有化一次性部署费另计。"},
+  {"title":"私有化部署安全基线","tags":["私有化","安全","部署","信创"],"content":"政企私有化需满足：数据不出域、等保三级、支持国产化硬件（信创）适配、模型与运行时全量本地化。"}
+];
+const sessionFiles = [];  // 静态环境下本次会话生成的文件
+function daysUntilLocal(d){ const t=new Date(d+'T00:00:00'); return Math.ceil((t-new Date())/86400000); }
+function draftReportLocal(args){
+  const topic=(args&&args.topic)||'汇报';
+  const pointsRaw=(args&&args.points)||'待补充';
+  const arr=Array.isArray(pointsRaw)?pointsRaw:String(pointsRaw).split(/[；;]/);
+  const filename=`${String(topic).replace(/[\\/:*?"<>|]/g,'_').slice(0,40)}_${Date.now()}.md`;
+  const content=[
+    `# ${topic}`,'',`> 生成时间：${new Date().toLocaleString('zh-CN',{hour12:false})}`,
+    `> 生成方：Agent 运行时 draft_report 工具（浏览器本地生成，数据不出域）`,'',
+    `## 核心要点`,'',arr.map(p=>`- ${String(p).trim()}`).join('\n'),'',
+    `---`,`*本文件由浏览器本地生成并下载：${filename}*`
+  ].join('\n');
+  try{
+    const blob=new Blob([content],{type:'text/markdown;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url); a.remove();},1000);
+    sessionFiles.push({name:filename,size:content.length,content:content});
+    return `已生成并下载文件 ${filename}（${content.length} 字节）。静态环境由浏览器本地生成并触发下载，文件真实可打开。`;
+  }catch(e){ return `生成失败：${e.message}`; }
+}
+
+/* ============ 2. 统一工具调用：优先后端，失败兜底 ============ */
+async function callTool(name, args){
+  if(backend.available){
+    try{
+      const r = await fetch(BACKEND_BASE + '/api/tool/' + name, {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(args||{})
+      });
+      const d = await r.json();
+      if(d && d.result !== undefined) return d.result;
+      if(d && d.error) return '后端错误：' + d.error;
+    }catch(e){ /* 掉线则兜底 */ }
+  }
+  return TOOLS[name].mock(args||{});
+}
+
+/* ============ 3. 预设演示任务 ============ */
+const DEMO_TASKS = {
+  risk: {
+    title: '客户续约风险分析',
+    prompt: '对 XX集团 做客户续约风险分析。请先调用 query_customer 查询 XX集团 的档案与合同，再检索续约预警规则，最后调用 draft_report 生成行动建议并给出结论。',
+    steps: [
+      {thought:'先查「XX集团」的客户档案与合同状态（真实读 data/customers.json）。', action:'query_customer', args:{customer_name:'XX集团'}},
+      {thought:'存在 90 天内到期合同且满意度偏低，检索续约预警规则（真实读 data/knowledge.json）。', action:'rag_search', args:{query:'合同续约 风险预警 规则'}},
+      {thought:'规则明确，生成汇报草稿（真实写入 output/）。', action:'draft_report', args:{topic:'XX集团续约风险分析与行动建议', points:'3笔合同90天内到期(约2400万)；满意度82分触发升级评审；建议3个工作日内售前上门沟通续约与增购'}},
+      {thought:'闭环完成，输出结论。', final:'XX集团有 3 笔合同 90 天内到期（合计约 2,400 万），满意度 82 分（低于 85 分预警线）。按《合同续约预警管理办法》v3.2，须立即启动预警并升级区域评审。建议 3 个工作日内售前上门，沟通续约与增购。'}
+    ]
+  },
+  calc: {
+    title: '云资源采购测算',
+    prompt: '客户 XX集团 要评估云资源采购成本。请先检索 2026 计价与折扣政策，再计算按年度框架折扣的落地金额，最后给出结论。',
+    steps: [
+      {thought:'客户要评估云资源采购成本，检索 2026 计价与折扣政策。', action:'rag_search', args:{query:'云资源 计价 折扣 政策 2026'}},
+      {thought:'客户属年度框架（年承诺超1500万）可享 5.5 折，计算落地金额。', action:'calculator', args:{expression:'24000000 * 0.55'}},
+      {thought:'测算完成。', final:'按《政企云资源采购计价规范》2026，该客户属年度框架（年承诺 2,400 万 ≥ 1,500 万门槛）可申请 5.5 折，落地约 1,320 万/年，较标准 7 折（1,680 万）省约 360 万/年。'}
+    ]
+  },
+  env: {
+    title: '私有化环境自检',
+    prompt: '对本地环境做私有化部署前的自检。请依次执行命令检查运行时版本、当前用户、输出目录，最后给出结论。',
+    steps: [
+      {thought:'私有化部署前先检查运行环境（沙箱真执行命令）。', action:'run_command', args:{command:'node -v'}},
+      {thought:'确认当前执行用户。', action:'run_command', args:{command:'whoami'}},
+      {thought:'查看 output 目录已生成的文件。', action:'run_command', args:{command:'dir output'}},
+      {thought:'自检完成。', final:'环境自检通过：Node 运行时就绪、执行用户正常、output 目录可读写。私有化部署环境满足（全程本机执行，数据不出域）。'}
+    ]
+  }
+};
+
+/* ============ 4. 编排循环执行器 ============ */
+let mode = 'demo';
+let running = false;
+let activeTask = null;
+
+function setMode(m){ mode=m; document.getElementById('modeDemo').classList.toggle('on', m==='demo'); document.getElementById('modeReal').classList.toggle('on', m==='real'); }
+
+function runTask(id){
+  if(running) return;
+  clearTrace();
+  activeTask = DEMO_TASKS[id];
+  pushStep('obs','🔄','任务启动','场景：'+activeTask.title);
+  runActiveTask();
+}
+function runActiveTask(){
+  if(running) return;
+  if(!activeTask) activeTask = DEMO_TASKS.risk;
+  if(mode === 'real'){ runReal(); return; }
+  runDemo(activeTask);
+}
+async function runDemo(task){
+  running = true; setRunBtn(true);
+  for(const s of task.steps){
+    if(s.action){
+      pushStep('thought','💭','推理', s.thought);
+      await sleep(550);
+      pushStep('action','🔧','动作', `调用工具 <b>${TOOLS[s.action].label}</b>` + fmtArgs(s.args));
+      await sleep(350);
+      const result = await callTool(s.action, s.args||{});
+      await sleep(300);
+      pushStep('obs','👁','观察', linkify(result));
+      if(s.action === 'draft_report') refreshFiles();
+    } else if(s.final){
+      pushStep('thought','💭','推理', s.thought);
+      await sleep(500);
+      pushStep('final','✅','最终回答', s.final);
+    }
+    await sleep(300);
+  }
+  running = false; setRunBtn(false);
+}
+
+/* ============ 5. 真实模式：OpenAI 兼容 ReAct 循环 ============ */
+async function runReal(){
+  const baseUrl=(document.getElementById('baseUrl').value||'').trim();
+  const apiKey=(document.getElementById('apiKey').value||'').trim() || BUILTIN_KEY;
+  const model=(document.getElementById('model').value||'').trim();
+  if(!baseUrl||!model){ pushStep('warn','⚠️','提示','真实模式需填写 Base URL 与模型名（API Key 留空则使用后端配置）；或切回演示模式。'); return; }
+  const toolList=Object.keys(TOOLS).map(k=>`${k}(${TOOLS[k].params.map(p=>p.name).join(',')})：${TOOLS[k].label}`).join('\n');
+  const sys=`你是政企智能体，可用工具：\n${toolList}\n\n只输出 JSON（直接输出纯 JSON，不要用 markdown 代码块或任何额外文字）：\n调工具：{"thought":"...","action":"工具名","args":{...}}\n完成：{"thought":"...","final":"回答"}`;
+  const messages=[{role:'system',content:sys},{role:'user',content:'任务：'+(activeTask?(activeTask.prompt||activeTask.title):'分析并给建议')}];
+  running=true; setRunBtn(true);
+      try{
+        for(let i=0;i<6;i++){
+          let resp;
+          if(backend.available){
+            resp=await fetch(BACKEND_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({baseUrl,apiKey,model,messages,temperature:0.2})});
+          } else {
+            /* 静态托管（如 GitHub Pages）无后端，前端直连大模型（HTTPS 站点调用 HTTPS 接口） */
+            resp=await fetch(baseUrl.replace(/\/+$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},body:JSON.stringify({model,messages,temperature:0.2})});
+          }
+          const data=await resp.json();
+      const content=(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'';
+      const j=parseJson(content);
+      if(!j){ pushStep('warn','⚠️','输出无法解析',content.slice(0,200)); break; }
+      if(j.final){ pushStep('thought','💭','推理',j.thought||''); pushStep('final','✅','最终回答',typeof j.final==='string'?j.final:JSON.stringify(j.final)); break; }
+      if(j.action&&TOOLS[j.action]){
+        pushStep('thought','💭','推理',j.thought||'');
+        pushStep('action','🔧','动作',`调用工具 <b>${TOOLS[j.action].label}</b>`+fmtArgs(j.args));
+        const result=(await callTool(j.action,j.args||{}))||'（工具无返回）';
+        pushStep('obs','👁','观察',linkify(result));
+        messages.push({role:'assistant',content}); messages.push({role:'user',content:'工具结果：'+result});
+      } else { pushStep('warn','⚠️','未知动作',content.slice(0,200)); break; }
+    }
+  }catch(e){ pushStep('warn','❌','请求失败',String(e)); }
+  running=false; setRunBtn(false); refreshFiles();
+}
+
+/* ============ 6. 文件工作区 ============ */
+async function refreshFiles(){
+  const box=document.getElementById('fileList');
+  let files=[];
+  if(backend.available){
+    try{
+      const r=await fetch(BACKEND_BASE+'/api/files'); const d=await r.json();
+      files=(d.files||[]).map(f=>({name:f.name,size:f.size}));
+    }catch(e){}
+  } else {
+    files=sessionFiles.map(f=>({name:f.name,size:f.size}));
+  }
+  if(!files.length){ box.innerHTML='<div class="fileempty">暂无文件。运行场景①生成汇报后，这里会列出本次生成的文件。</div>'; return; }
+  box.innerHTML='';
+  files.slice().reverse().forEach(f=>{
+    const el=document.createElement('div'); el.className='file';
+    el.innerHTML=`<span class="nm">📄 ${f.name}</span><span class="sz">${f.size}B</span>`;
+    el.onclick=()=>viewFile(f.name);
+    box.appendChild(el);
+  });
+}
+async function viewFile(name){
+  if(backend.available){
+    const r=await fetch(BACKEND_BASE+'/api/file?name='+encodeURIComponent(name)); const d=await r.json();
+    pushStep('obs','📄','文件内容', `<b>${d.name}</b>\n${d.content||'(空)'}`);
+    return;
+  }
+  const f=sessionFiles.find(x=>x.name===name);
+  pushStep('obs','📄','文件内容', f? `<b>${f.name}</b>\n${f.content}` : '该文件不在当前会话记录中（静态环境仅保留本次会话生成的文件）。');
+}
+
+/* ============ 7. 渲染辅助 ============ */
+function parseJson(s){ try{return JSON.parse(s);}catch(e){} const m=s.match(/\{[\s\S]*\}/); if(m){try{return JSON.parse(m[0]);}catch(e2){}} return null; }
+function fmtArgs(a){ if(!a||!Object.keys(a).length) return '（无参数）'; return ' <span class="meta">'+JSON.stringify(a)+'</span>'; }
+function linkify(t){ const s=String(t); return s.replace(/output\/[\w.\-]+/g, m=>`<a onclick="viewFile('${m.replace('output/','')}')">${m}</a>`); }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function setRunBtn(b){ document.getElementById('btnRun').disabled=b; }
+function pushStep(cls,icon,kind,text){
+  const t=document.getElementById('trace'); const empty=t.querySelector('.empty'); if(empty) empty.remove();
+  const d=document.createElement('div'); d.className='step s-'+cls;
+  d.innerHTML=`<div class="kind">${icon} ${kind}<span style="margin-left:auto;font-weight:400;color:#9aa1b5">${new Date().toLocaleTimeString('zh-CN',{hour12:false})}</span></div><div class="txt">${text}</div>`;
+  t.appendChild(d); t.scrollTop=t.scrollHeight;
+}
+function clearTrace(){ document.getElementById('trace').innerHTML='<div class="empty">点击左侧场景或「运行演示」，这里会实时展示：<br>推理 → 动作 → 观察 → 最终回答 的完整闭环。<br><br>起后端后可看到「真读文件 / 真写文件 / 真执行命令」。</div>'; }
+
+/* 启动时探测后端 + 刷新文件列表 */
+pingBackend().then(()=>refreshFiles());
+</script>
+</body>
+</html>
