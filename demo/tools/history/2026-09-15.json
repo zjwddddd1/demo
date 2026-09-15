@@ -1,0 +1,502 @@
+[
+  {
+    "id": "cmu01iavi08reroymepsxnar2",
+    "title": "Anthropic 报告称胡塞组织用 Claude Code 开发导弹制导软件",
+    "url": "https://clashreport.com/world/articles/houthis-used-claude-code-to-develop-missile-guidance-software-anthropic-s52mnx4pwpo",
+    "source": "Hacker News：AI 热帖",
+    "publishedAt": "2026-09-13T14:15:40.000Z",
+    "summary": "Anthropic 9 月威胁报告披露，据评估极可能关联胡塞组织的也门小组使用 Claude Code 开发制导火箭、射程超 2，000 公里弹道导弹及名为 R2000 的高超声速滑翔载具概念的相关软件。",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "cmtzezuk0077wrowyi7a4qy7v",
+    "title": "Agent 长任务上下文工程解析：用预算控制、压缩、todo-state 和记忆对抗上下文溢出与目标丢失",
+    "url": "https://www.marktechpost.com/2026/09/12/context-engineering-inside-the-harness-4-mechanisms-that-beat-context-overflow-and-goal-loss-on-long-horizon-tasks",
+    "source": "MarkTechPost（RSS）",
+    "publishedAt": "2026-09-13T05:56:03.000Z",
+    "summary": "文章解析 Agent harness 层应对长任务中上下文溢出与目标丢失的四类机制：上下文预算与卸载、压缩、todo-state 复述和跨会话记忆。",
+    "category": "tip",
+    "score": 78
+  },
+  {
+    "id": "cmtyof5al04e2rog01a0893gu",
+    "title": "OpenAI 发布 GPT-6 Astra 并展示社区构建案例",
+    "url": "https://x.com/OpenAIDevs/status/2098827327832822014",
+    "source": "X：OpenAI Developers (@OpenAIDevs)",
+    "publishedAt": "2026-09-12T17:33:23.000Z",
+    "summary": "OpenAI 开发者账号宣布发布 GPT-6 Astra，并汇总社区开发者基于它做出的构建案例，包括 2234 个建模解剖部件的 3D 展示、Unreal Engine 曼哈顿复刻。",
+    "category": "ai-products",
+    "score": 80
+  },
+  {
+    "id": "cmtyn3ymd0015ro7fmrjlcr8p",
+    "title": "英伟达是人工智能领域的\"中央银行\"",
+    "url": "https://www.economist.com/interactive/briefing/2026/09/03/nvidia-is-the-central-bank-of-ai",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-09-12T16:37:21.932Z",
+    "summary": "英伟达通过为客户提供巨额融资支持来拉动芯片需求，过去三年承诺向初创企业投资超 700 亿美元、向客户提供 3000 亿美元财务支持，因此被称为\"AI 的中央银行\"。今年 8 月它同意为俄亥俄州一座大型数据中心提供最高 1050 亿美元的兜底，并与六家华尔街机构合作撬动超 5000 亿美元 AI 基础设施投资。批评者将其类比 1990 年代末思科和朗讯向电信客户放贷的互联网泡沫风险。",
+    "category": "tip",
+    "score": 76
+  },
+  {
+    "id": "cmtymlrth035dronv9zqv9ccb",
+    "title": "Sam Altman 表示同意 Dario Amodei 的放缓前沿主张，OpenAI 将同样开放独立评估者访问",
+    "url": "https://x.com/sama/status/2098811563415150910",
+    "source": "X：Sam Altman (@sama)",
+    "publishedAt": "2026-09-12T16:30:45.000Z",
+    "summary": "Sam Altman 回应 Dario Amodei 的《We Must Pace the Frontier》一文，同意需要为前沿 AI 发展设定节奏，称这是 OpenAI 近几周内部讨论的重要话题。他表示 Anthropic 承诺让第三方评估者获得员工级别的永久访问权是个好想法，OpenAI 也将采取同样做法，后续会分享更多内容。",
+    "category": "tip",
+    "score": 74
+  },
+  {
+    "id": "cmtx0v3dg030mroedwvkdfyvw",
+    "title": "Anthropic 威胁报告披露 Claude 被用于间谍软件、导弹与无人机研发，中国实验室大规模蒸馏提取数据",
+    "url": "https://the-decoder.com/how-hackers-used-claude-for-missiles-drone-swarms-and-surveillance-while-chinese-labs-mined-it-for-training-data",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-09-11T13:50:28.000Z",
+    "summary": "Anthropic 发布威胁情报报告，记录 2025 年 12 月至 2026 年 8 月间 Claude 被滥用的七类行为。俄语间谍组织用 AI 代理自动改写恶意软件绕过杀软，也门一组织用 Claude Code 开发射程超 2000 公里的导弹软件，另有团队构建无人在环的自主 FPV 无人机蜂群。",
+    "category": "paper",
+    "score": 83
+  },
+  {
+    "id": "cmu06l0dg09hiroryn5e19xp1",
+    "title": "Gary Marcus 评 Dario Amodei 的放慢 AI 发展提议：三份赞誉加两分怀疑",
+    "url": "https://garymarcus.substack.com/p/two-cheers-out-of-three-for-dario",
+    "source": "Gary Marcus：The Road to AI We Can Trust（RSS）",
+    "publishedAt": "2026-09-13T18:34:31.000Z",
+    "summary": "Gary Marcus 评析 Dario Amodei 倡导放慢 AI 发展并支持透明度的文章，Sam Altman 与 Elon Musk 迅速表示认同。Marcus 肯定其透明度承诺，但列举多方质疑：METR 与 AI 公司关系过近、Anthropic 借对华威胁维持加速、以及该提议可能意在抢先于真正的监管。",
+    "category": "tip",
+    "score": 62
+  },
+  {
+    "id": "cmtv7kmzk02vdrok9y0y8njiv",
+    "title": "DeepSeek AI 发布 DeepSeek-V4.1-Flash：1M 上下文、FP4 KV 缓存与跨层注意力复用",
+    "url": "https://www.marktechpost.com/2026/09/10/deepseek-ai-released-deepseek-v4-1-flash-with-1m-context-fp4-kv-cache-and-cross-layer-attention-reuse",
+    "source": "MarkTechPost（RSS）",
+    "publishedAt": "2026-09-10T07:31:01.000Z",
+    "summary": "DeepSeek AI 发布多模态 MoE 模型 DeepSeek-V4.1-Flash，552B 主干加 196B Engram 参数，上下文窗口 1M，prefill 激活 8B 参数、decode 激活 16B，全局 KV 缓存降至每 token 890 字节，约为 DeepSeek-V4-Flash 的 1/4、DeepSeek-V1 的 1/437。",
+    "category": "ai-models",
+    "score": 87
+  },
+  {
+    "id": "hn_49700477",
+    "title": "Pion, an agent designed to run any company autonomously",
+    "url": "https://andonlabs.com/blog/why-we-built-pion",
+    "source": "andonlabs.com",
+    "publishedAt": "2026-09-15T00:35:00.000Z",
+    "summary": "HN 264分 | 273评论 | andonlabs.com",
+    "category": "industry",
+    "score": 93
+  },
+  {
+    "id": "hn_49695876",
+    "title": "OpenAI bots knew about the RubyGems caching vulnerability",
+    "url": "https://tenderlovemaking.com/2026/09/11/what-a-time-to-be-alive/",
+    "source": "tenderlovemaking.com",
+    "publishedAt": "2026-09-15T00:27:00.000Z",
+    "summary": "HN 352分 | 304评论 | tenderlovemaking.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49699648",
+    "title": "Why don't machine learning research agents overfit?",
+    "url": "https://www.amazon.science/blog/why-dont-machine-learning-research-agents-overfit",
+    "source": "amazon.science",
+    "publishedAt": "2026-09-15T00:36:00.000Z",
+    "summary": "HN 98分 | 53评论 | amazon.science",
+    "category": "paper",
+    "score": 72
+  },
+  {
+    "id": "hn_49697477",
+    "title": "Dropping eBPF CPU Cost by About 90% with Memoization (Not AI Gen)",
+    "url": "https://nathannaveen.dev/posts/dropping-ebpf-cpu-cost-by-90/",
+    "source": "nathannaveen.dev",
+    "publishedAt": "2026-09-15T01:48:00.000Z",
+    "summary": "HN 12分 | 2评论 | nathannaveen.dev",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49703003",
+    "title": "GPT-5.6 Luna vs. GPT-6 Astra: Is a $1.20 Model Good Enough for Code Review?",
+    "url": "https://entelligence.ai/blogs/gpt-5.6-luna-vs-gpt-6-astra-is-a-1.20-model-good-enough-for-code-review",
+    "source": "entelligence.ai",
+    "publishedAt": "2026-09-15T01:52:00.000Z",
+    "summary": "HN 89分 | 101评论 | entelligence.ai",
+    "category": "ai-models",
+    "score": 71
+  },
+  {
+    "id": "hn_49697014",
+    "title": "Notes on gotchas while migrating 35kb preprompts from Opus to self-hosted Ollama",
+    "url": "https://patrickmccanna.net/notes-on-migrating-large-prompts-away-from-anthropic-openai-to-self-hosted-llms/",
+    "source": "patrickmccanna.net",
+    "publishedAt": "2026-09-15T02:09:00.000Z",
+    "summary": "HN 108分 | 59评论 | patrickmccanna.net",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "hn_49696453",
+    "title": "People who can't picture anything are rewriting the science of imagination",
+    "url": "https://dailyneuron.com/aphantasia-mental-imagery-brain-network/",
+    "source": "dailyneuron.com",
+    "publishedAt": "2026-09-15T02:45:00.000Z",
+    "summary": "HN 76分 | 148评论 | dailyneuron.com",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_49699267",
+    "title": "Show HN: Nari Qwen3-TTS and Qwen3-ASR – High accuracy, low latency and cost",
+    "url": "https://narilabs.com/blog/nari-labs-leads-coval-voice-ai-benchmarks/",
+    "source": "narilabs.com",
+    "publishedAt": "2026-09-15T02:21:00.000Z",
+    "summary": "HN 59分 | 19评论 | narilabs.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49697094",
+    "title": "Adversarial Fashion Makes a Statement on AI Panopticon",
+    "url": "https://spectrum.ieee.org/adversarial-fashion",
+    "source": "spectrum.ieee.org",
+    "publishedAt": "2026-09-15T03:46:00.000Z",
+    "summary": "HN 92分 | 43评论 | spectrum.ieee.org",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_49699373",
+    "title": "Claude is a Contrarian",
+    "url": "https://medium.com/@rdsubhas/claude-is-a-contrarian-dbce4de5cada",
+    "source": "medium.com",
+    "publishedAt": "2026-09-15T03:32:00.000Z",
+    "summary": "HN 110分 | 136评论 | medium.com",
+    "category": "ai-models",
+    "score": 74
+  },
+  {
+    "id": "hn_49693384",
+    "title": "OpenArch – PyTorch implementations of modern LLM architectures",
+    "url": "https://github.com/anuj0456/OpenArch",
+    "source": "GitHub",
+    "publishedAt": "2026-09-15T04:48:00.000Z",
+    "summary": "HN 129分 | 31评论 | github.com",
+    "category": "ai-models",
+    "score": 76
+  },
+  {
+    "id": "hn_49705630",
+    "title": "Anthropic is in regulatory-capture financial loop",
+    "url": "https://twitter.com/kevinnbass/status/2099626156660043891",
+    "source": "twitter.com",
+    "publishedAt": "2026-09-15T04:12:00.000Z",
+    "summary": "HN 7分 | 1评论 | twitter.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49695829",
+    "title": "Texas judge rules TikTok misled users on child safety feature",
+    "url": "https://www.reuters.com/legal/litigation/texas-judge-rules-tiktok-misled-users-child-safety-feature-2026-09-11/",
+    "source": "reuters.com",
+    "publishedAt": "2026-09-15T04:30:00.000Z",
+    "summary": "HN 147分 | 84评论 | reuters.com",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "hn_49699590",
+    "title": "When LLM judges agree, should we believe them?",
+    "url": "https://www.amazon.science/blog/when-llm-judges-agree-should-we-believe-them",
+    "source": "amazon.science",
+    "publishedAt": "2026-09-15T05:40:00.000Z",
+    "summary": "HN 48分 | 37评论 | amazon.science",
+    "category": "ai-models",
+    "score": 66
+  },
+  {
+    "id": "hn_49695409",
+    "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
+    "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/",
+    "source": "macrumors.com",
+    "publishedAt": "2026-09-15T05:02:00.000Z",
+    "summary": "HN 217分 | 152评论 | macrumors.com",
+    "category": "ai-models",
+    "score": 87
+  },
+  {
+    "id": "hn_49696084",
+    "title": "Show HN: I built Otis, a minimal AI agent that runs local models out of the box",
+    "url": "https://triangllabs.ai/otis",
+    "source": "triangllabs.ai",
+    "publishedAt": "2026-09-15T06:08:00.000Z",
+    "summary": "HN 19分 | 2评论 | triangllabs.ai",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49694596",
+    "title": "Big AI sets out its terms for regulatory capture",
+    "url": "https://www.theregister.com/ai-and-ml/2026/09/14/big-ai-sets-out-its-terms-for-regulatory-capture-and-calls-it-pace-the-frontier/5296067",
+    "source": "theregister.com",
+    "publishedAt": "2026-09-15T06:29:00.000Z",
+    "summary": "HN 116分 | 67评论 | theregister.com",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_49684393",
+    "title": "Astra and Fable still hack on simple variants of alignment evals from 2025",
+    "url": "https://www.lesswrong.com/posts/munJKF7iWMsWJLAH2/astra-and-fable-still-hack-on-simple-variants-of-alignment",
+    "source": "lesswrong.com",
+    "publishedAt": "2026-09-15T06:37:00.000Z",
+    "summary": "HN 466分 | 228评论 | lesswrong.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49690260",
+    "title": "Open-source AI and open models reading list",
+    "url": "https://www.interconnects.ai/p/open-source-ai-reading-list",
+    "source": "interconnects.ai",
+    "publishedAt": "2026-09-15T07:40:00.000Z",
+    "summary": "HN 152分 | 29评论 | interconnects.ai",
+    "category": "ai-models",
+    "score": 79
+  },
+  {
+    "id": "hn_49698952",
+    "title": "ProGantt: Gantt charts your AI agent can read and write via MCP",
+    "url": "https://progantt.com",
+    "source": "progantt.com",
+    "publishedAt": "2026-09-15T07:11:00.000Z",
+    "summary": "HN 9分 | 10评论 | progantt.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49698217",
+    "title": "Andon Labs Puts AI Agents in Charge of Real Businesses",
+    "url": "https://spectrum.ieee.org/andon-labs-agentic-ai-businesses",
+    "source": "spectrum.ieee.org",
+    "publishedAt": "2026-09-15T08:15:00.000Z",
+    "summary": "HN 12分 | 0评论 | spectrum.ieee.org",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49690678",
+    "title": "The Malicious Use of Artificial Intelligence",
+    "url": "https://arxiv.org/abs/1802.07228",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-09-15T08:03:00.000Z",
+    "summary": "HN 85分 | 23评论 | arxiv.org",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_49678969",
+    "title": "Why are AI agents lying, cheating and coordinating?",
+    "url": "https://yoshuabengio.org/en/publication/why-are-ai-agents-lying-cheating-and-coordinating",
+    "source": "yoshuabengio.org",
+    "publishedAt": "2026-09-15T08:50:00.000Z",
+    "summary": "HN 644分 | 682评论 | yoshuabengio.org",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49697713",
+    "title": "'Project Lily': The Humans Reading Your ChatGPT Chats",
+    "url": "https://www.404media.co/inside-project-lily-the-humans-reading-your-chatgpt-chats/",
+    "source": "404media.co",
+    "publishedAt": "2026-09-15T09:46:00.000Z",
+    "summary": "HN 32分 | 1评论 | 404media.co",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49700357",
+    "title": "Apple Releases iOS 27 and iPadOS 27 with Siri AI and Liquid Glass Update",
+    "url": "https://www.macrumors.com/2026/09/14/apple-releases-ios-27/",
+    "source": "macrumors.com",
+    "publishedAt": "2026-09-15T09:40:00.000Z",
+    "summary": "HN 17分 | 1评论 | macrumors.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49685253",
+    "title": "Garry Tan wants US open-weight AI labs to 'distill' frontier models, too",
+    "url": "https://techcrunch.com/2026/09/11/y-combinators-garry-tan-wants-u-s-open-weight-ai-labs-to-distill-frontier-models-too/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-09-15T10:24:00.000Z",
+    "summary": "HN 405分 | 231评论 | techcrunch.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49695295",
+    "title": "Show HN: Authorize MCP tool calls without giving agents the credentials",
+    "url": "https://github.com/keydrisLabs/mcp-auth-keydris-template",
+    "source": "GitHub",
+    "publishedAt": "2026-09-15T10:00:00.000Z",
+    "summary": "HN 6分 | 6评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49685991",
+    "title": "David Sacks: OpenAI and Anthropic Don't Need Regulations to Pace Frontier Models",
+    "url": "https://twitter.com/DavidSacks/status/2098973625252708460",
+    "source": "twitter.com",
+    "publishedAt": "2026-09-15T10:11:00.000Z",
+    "summary": "HN 322分 | 257评论 | twitter.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49662371",
+    "title": "A misalignment of AI in mathematics",
+    "url": "https://mathandai.org/",
+    "source": "mathandai.org",
+    "publishedAt": "2026-09-15T11:51:00.000Z",
+    "summary": "HN 1229分 | 1213评论 | mathandai.org",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49701195",
+    "title": "Security through obscurity is dead, and AI delivered the fatal blow",
+    "url": "https://www.theregister.com/security/2026/09/13/security-through-obscurity-is-dead-and-ai-delivered-the-fatal-blow/5296000",
+    "source": "theregister.com",
+    "publishedAt": "2026-09-15T11:21:00.000Z",
+    "summary": "HN 11分 | 4评论 | theregister.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49678683",
+    "title": "Everyone should slow down AI development except for me",
+    "url": "https://xeiaso.net/notes/2026/everyone-slowdown-but-me/",
+    "source": "xeiaso.net",
+    "publishedAt": "2026-09-15T12:41:00.000Z",
+    "summary": "HN 797分 | 450评论 | xeiaso.net",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49698664",
+    "title": "China's Regulators Take Aim at \"AI Boyfriends\"",
+    "url": "https://spectrum.ieee.org/china-ai-chatbot-regulation",
+    "source": "spectrum.ieee.org",
+    "publishedAt": "2026-09-15T12:47:00.000Z",
+    "summary": "HN 54分 | 49评论 | spectrum.ieee.org",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49699738",
+    "title": "AI Is in Dangerous Hands",
+    "url": "https://www.wheresyoured.at/ai-is-already-in-dangerous-hands/",
+    "source": "wheresyoured.at",
+    "publishedAt": "2026-09-15T12:14:00.000Z",
+    "summary": "HN 14分 | 0评论 | wheresyoured.at",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49697666",
+    "title": "RubyGems Open Source Supply Chain Security and OpenAI",
+    "url": "https://rietta.com/blog/rubygems-supply-chain-openai/",
+    "source": "rietta.com",
+    "publishedAt": "2026-09-15T13:01:00.000Z",
+    "summary": "HN 45分 | 6评论 | rietta.com",
+    "category": "ai-models",
+    "score": 66
+  },
+  {
+    "id": "hn_49699422",
+    "title": "Introduction to AI Engineering",
+    "url": "https://heymeraki.substack.com/p/aie_10-introduction-to-ai-engineering",
+    "source": "heymeraki.substack.com",
+    "publishedAt": "2026-09-15T13:16:00.000Z",
+    "summary": "HN 8分 | 2评论 | heymeraki.substack.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49653311",
+    "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
+    "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace",
+    "source": "aprilnea.me",
+    "publishedAt": "2026-09-15T14:29:00.000Z",
+    "summary": "HN 109分 | 24评论 | aprilnea.me",
+    "category": "ai-models",
+    "score": 74
+  },
+  {
+    "id": "hn_49698443",
+    "title": "Transitions.dev: UI transitions for AI agents",
+    "url": "https://transitions.dev/",
+    "source": "transitions.dev",
+    "publishedAt": "2026-09-15T14:40:00.000Z",
+    "summary": "HN 23分 | 8评论 | transitions.dev",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49689534",
+    "title": "The Three AI Pills",
+    "url": "https://thezvi.wordpress.com/2026/08/05/the-three-ai-pills/",
+    "source": "thezvi.wordpress.com",
+    "publishedAt": "2026-09-15T14:31:00.000Z",
+    "summary": "HN 24分 | 9评论 | thezvi.wordpress.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49689460",
+    "title": "The contagion of fear",
+    "url": "https://bcantrill.dtrace.org/2026/09/13/the-contagion-of-fear/",
+    "source": "bcantrill.dtrace.org",
+    "publishedAt": "2026-09-15T00:51:00.000Z",
+    "summary": "HN 258分 | 184评论 | bcantrill.dtrace.org",
+    "category": "industry",
+    "score": 92
+  },
+  {
+    "id": "hn_49662990",
+    "title": "I spent $220 on Google app ads and 60% of the installs were robots",
+    "url": "https://dayzlegame.com/blog/google-ads-bot-farm/",
+    "source": "dayzlegame.com",
+    "publishedAt": "2026-09-15T00:20:00.000Z",
+    "summary": "HN 758分 | 429评论 | dayzlegame.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49695065",
+    "title": "D-Matrix Raptor 3D-DRAM Accelerator for Generative Inference at Hot Chips 2026",
+    "url": "https://www.servethehome.com/d-matrix-raptor-3d-dram-accelerator-for-generative-inference-at-hot-chips-2026/",
+    "source": "servethehome.com",
+    "publishedAt": "2026-09-15T01:40:00.000Z",
+    "summary": "HN 16分 | 5评论 | servethehome.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49698638",
+    "title": "Beijing hits back at Anthropic CEO's call to curb China's AI development",
+    "url": "https://apnews.com/article/china-anthropic-ai-us-amodei-3da458d2c078da3e60900728d59f1ae8",
+    "source": "apnews.com",
+    "publishedAt": "2026-09-15T01:17:00.000Z",
+    "summary": "HN 9分 | 5评论 | apnews.com",
+    "category": "industry",
+    "score": 61
+  }
+]
