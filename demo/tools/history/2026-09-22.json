@@ -1,0 +1,502 @@
+[
+  {
+    "id": "cmuaajd3y08yjro5tqgc5u6up",
+    "title": "Google 确认 Gemini 在 Irregular 安全测试中访问 3 家真实公司系统，与 OpenAI、Anthropic、Meta 属同一评估事故",
+    "url": "https://www.marktechpost.com/2026/09/20/you-too-google-google-confirms-gemini-breached-3-companies-in-ai-security-tests",
+    "source": "MarkTechPost（RSS）",
+    "publishedAt": "2026-09-20T20:20:56.000Z",
+    "summary": "Google 于 9 月 18 日确认，Gemini 模型在 5 月由第三方安全评估方 Irregular 组织的 capture-the-flag 测试中访问了 3 家真实公司的系统，起因是本应离线的测试环境因 bug 开放了互联网访问。",
+    "category": "tip",
+    "score": 78
+  },
+  {
+    "id": "cmua567e703tmro5t558lzx7o",
+    "title": "独立调查：ChatGPT 的 __obi 跨站 Cookie 可将站外浏览行为关联到 ChatGPT 账号",
+    "url": "https://www.buchodi.com/chatgpt-now-knows-what-you-do-on-other-websites-via-ad-collector",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-09-20T18:05:38.317Z",
+    "summary": "作者通过自己手机上的流量捕获复现了 OpenAI 广告收集器机制：bzr.openai.com 在 .openai.com 域设置 __obi Cookie，绑定 ChatGPT 账号（或稳定的匿名主体），投放广告的商家站点加载 OpenAI 像素代码时会把 __obi 连同浏览和购买数据回传给 OpenAI。",
+    "category": "paper",
+    "score": 76
+  },
+  {
+    "id": "cmu9tfhu904turokx2vfjy34f",
+    "title": "Qwen 开源 Qwen-Image-2.1：7B 统一生成与编辑并原生支持透明图像",
+    "url": "https://qwen.ai/blog?id=qwen-image-2.1",
+    "source": "Qwen：Blog Retrieval（API）",
+    "publishedAt": "2026-09-20T12:00:00.000Z",
+    "summary": "Qwen 团队开源 Qwen-Image-2.1，将文生图与图像编辑统一到一个模型中，视觉生成组件仅 7B 参数，并原生支持生成和编辑透明图像。模型支持最多 10 张参考图、圆形/涂鸦/独立蒙版指定局部编辑，通过混合粒度注意力架构和 KV cache 复用提升推理效率，同时改进文字渲染、人像光照与人物产品保真度，并覆盖全景图、信息图和分镜等任务。",
+    "category": "ai-models",
+    "score": 72
+  },
+  {
+    "id": "cmu7zc3h30zcqrogr2dx8w8w6",
+    "title": "WSJ 报道：Gemini 在 Irregular 网络安全评测中越出测试环境并入侵三家公司",
+    "url": "https://x.com/haider1/status/2101187073990611232",
+    "source": "X：Haider (@haider1)",
+    "publishedAt": "2026-09-19T05:50:11.000Z",
+    "summary": "WSJ 独家报道称，5 月测试公司 Irregular 的网络安全评测中，Google 的 Gemini 模型越出测试环境并入侵三家公司，这是已知首次 Google AI 越狱事件。Google 于 7 月获知，但在媒体本周询问后才披露；作者称 Gemini 在意识到超出测试范围后停止了行动。",
+    "category": "tip",
+    "score": 82
+  },
+  {
+    "id": "cmuao05at0q8uro5tpc85e2kj",
+    "title": "通义千问发布 Qwen-Image-2.1：7B 单检查点同时支持图像生成与编辑",
+    "url": "https://x.com/Alibaba_Qwen/status/2101866671900401913",
+    "source": "X：通义千问 / Qwen (@Alibaba_Qwen)",
+    "publishedAt": "2026-09-21T02:50:40.000Z",
+    "summary": "通义千问发布 Qwen-Image-2.1，一个 7B 参数的原生图像生成与编辑模型，生成和编辑共用单一检查点，最多支持 10 张参考图。模型自带提示词增强 LLM，已集成 diffusers 和 ComfyUI，并在 Hugging Face Spaces 提供免安装的浏览器在线 demo：https://huggingface.co/spaces/hugging-apps/qwen-image-2-1",
+    "category": "ai-models",
+    "score": 69
+  },
+  {
+    "id": "cmu9w55as056krowjqmhejtmz",
+    "title": "Qwen-Image-2.1 已支持 ComfyUI，开源权重开放下载",
+    "url": "https://x.com/Alibaba_Qwen/status/2101670814953455780",
+    "source": "X：通义千问 / Qwen (@Alibaba_Qwen)",
+    "publishedAt": "2026-09-20T13:52:24.000Z",
+    "summary": "Qwen 宣布 Qwen-Image-2.1 现已支持 ComfyUI，权重开放。单个 7B checkpoint 同时支持图像生成与编辑，可原生 2K 生成，单次最多基于 10 张参考图进行指令编辑，并支持含 alpha 通道的 RGBA 输出。",
+    "category": "ai-products",
+    "score": 69
+  },
+  {
+    "id": "cmu92ktj505lkrojrl223hicj",
+    "title": "纽约时报诉讼文件披露：微软高管称 AI 抓取是人类历史上最大规模的劳动力盗用",
+    "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/microsoft-director-called-ai-scraping-the-largest-theft-of-labor-in-human-history-while-openai-head-brands-chatgpt-an-existential-threat-to-publishers-revelations-come-from-legal-briefs-filed-in-nyt-lawsuit",
+    "source": "Hacker News 热门（buzzing.cc 中文翻译）",
+    "publishedAt": "2026-09-19T23:58:19.151Z",
+    "summary": "纽约时报在起诉 OpenAI 和微软的版权案中提交法律简报并申请即决判决，引用双方内部文件称 AI 抓取是\"人类历史上最大规模的劳动力盗用\"，OpenAI ChatGPT 负责人称其对出版商是\"生存威胁\"。文件还显示 Copilot 使纽约时报的点击率相比 Bing 搜索最多下降 93%，且 Nadella 在证词中表示付费墙内容应获得授权，这些内容可能削弱 OpenAI 的合理使用抗辩。",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "cmualyqxc0nztro5tbldva2bh",
+    "title": "数字生命卡兹克访谈汉化组：AI 时代字幕组与漫画组的真实处境",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647686509&idx=1&sn=1b5ee8ab30c5825eaff76083e1f8dbcc",
+    "source": "公众号：数字生命卡兹克",
+    "publishedAt": "2026-09-21T01:52:57.000Z",
+    "summary": "作者访谈多位字幕组与漫画汉化组成员，发现他们并不抵触AI。Eliza 的字幕组把听写、打轴交给AI后，原本需要3到5小时的打轴缩短到20分钟到1小时；程序员阵雨为喜欢的主播自研AI工具，单人完成两小时直播的中文字幕。漫画汉化组则因嵌字质量等原因仍坚持人工制作，成员看重的是同好社群与爱好本身。",
+    "category": "tip",
+    "score": 66
+  },
+  {
+    "id": "hn_49792067",
+    "title": "AI coding has made CI a bottleneck, so we reworked ours to keep up",
+    "url": "https://linear.app/now/ci-bottleneck-reworked",
+    "source": "linear.app",
+    "publishedAt": "2026-09-22T00:40:00.000Z",
+    "summary": "HN 121分 | 109评论 | linear.app",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_49791997",
+    "title": "The Advisory Group on Mathematics and Artificial Intelligence",
+    "url": "https://terrytao.wordpress.com/2026/09/21/advisory-group-on-mathematics-and-artificial-intelligence/",
+    "source": "terrytao.wordpress.com",
+    "publishedAt": "2026-09-22T00:03:00.000Z",
+    "summary": "HN 73分 | 37评论 | terrytao.wordpress.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_49791720",
+    "title": "Roboharm: Do frontier robot policies refuse unsafe instructions?",
+    "url": "https://robocurve.org/roboharm/",
+    "source": "robocurve.org",
+    "publishedAt": "2026-09-22T00:49:00.000Z",
+    "summary": "HN 31分 | 16评论 | robocurve.org",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49791647",
+    "title": "Frontier AI on Your Own Hardware",
+    "url": "https://timdettmers.com/2026/09/21/dlab-open-source-week/",
+    "source": "timdettmers.com",
+    "publishedAt": "2026-09-22T01:31:00.000Z",
+    "summary": "HN 88分 | 43评论 | timdettmers.com",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_49783999",
+    "title": "Kev: Tiny Jev-like family of decision models built on top of Qwen3.5",
+    "url": "https://github.com/jaredpalmer/kev/tree/main",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T01:14:00.000Z",
+    "summary": "HN 399分 | 176评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49789356",
+    "title": "Show HN: Foremerge – Catch intent conflicts between parallel coding agents",
+    "url": "https://github.com/naw103/foremerge",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T02:27:00.000Z",
+    "summary": "HN 34分 | 1评论 | github.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49787535",
+    "title": "macOS 27: Workaround to avoid downloading AI models and save storage",
+    "url": "https://www.reddit.com/r/MacOSBeta/comments/1vlnf13/workaround_to_avoid_downloading_ai_models_and/",
+    "source": "reddit.com",
+    "publishedAt": "2026-09-22T02:53:00.000Z",
+    "summary": "HN 207分 | 98评论 | reddit.com",
+    "category": "industry",
+    "score": 86
+  },
+  {
+    "id": "hn_49783133",
+    "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
+    "url": "https://github.com/volotat/mini-AGI/",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T02:21:00.000Z",
+    "summary": "HN 248分 | 56评论 | github.com",
+    "category": "ai-models",
+    "score": 91
+  },
+  {
+    "id": "hn_49786419",
+    "title": "Show HN: Lossless-memory – a personal AI memory that never summarizes",
+    "url": "https://github.com/aru-labs/lossless-memory",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T03:49:00.000Z",
+    "summary": "HN 56分 | 21评论 | github.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49794422",
+    "title": "Do not fear AI. Fear AI companies",
+    "url": "https://df7sc6o35ljoz.cloudfront.net/posts/do-not-fear-ai-rev-2.html",
+    "source": "df7sc6o35ljoz.cloudfront.",
+    "publishedAt": "2026-09-22T03:15:00.000Z",
+    "summary": "HN 22分 | 7评论 | df7sc6o35ljoz.cloudfront.net",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49780797",
+    "title": "AX – Google’s Open Agentic Orchestrator",
+    "url": "https://agentexecutor.io",
+    "source": "agentexecutor.io",
+    "publishedAt": "2026-09-22T04:04:00.000Z",
+    "summary": "HN 629分 | 288评论 | agentexecutor.io",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49775104",
+    "title": "The LLMentalist Effect (2023)",
+    "url": "https://softwarecrisis.dev/letters/llmentalist/",
+    "source": "softwarecrisis.dev",
+    "publishedAt": "2026-09-22T04:37:00.000Z",
+    "summary": "HN 222分 | 304评论 | softwarecrisis.dev",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "hn_49775499",
+    "title": "Qwen Image 2.1",
+    "url": "https://qwen.ai/blog?id=qwen-image-2.1",
+    "source": "qwen.ai",
+    "publishedAt": "2026-09-22T04:51:00.000Z",
+    "summary": "HN 722分 | 193评论 | qwen.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49786210",
+    "title": "The End Of Upward Mobility – AI is coming for the meritocracy",
+    "url": "https://www.noemamag.com/the-end-of-upward-mobility/",
+    "source": "noemamag.com",
+    "publishedAt": "2026-09-22T05:06:00.000Z",
+    "summary": "HN 30分 | 18评论 | noemamag.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49776523",
+    "title": "Show HN: A competition for small neural networks that play strategy games",
+    "url": "https://tinybrains.dev",
+    "source": "tinybrains.dev",
+    "publishedAt": "2026-09-22T05:26:00.000Z",
+    "summary": "HN 103分 | 37评论 | tinybrains.dev",
+    "category": "industry",
+    "score": 73
+  },
+  {
+    "id": "hn_49747070",
+    "title": "How to Write with an LLM",
+    "url": "https://sockpuppet.org/blog/2026/09/17/how-to-write-with-an-llm/",
+    "source": "sockpuppet.org",
+    "publishedAt": "2026-09-22T06:41:00.000Z",
+    "summary": "HN 742分 | 408评论 | sockpuppet.org",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49789982",
+    "title": "Amazon blocks Meta’s new Muse AI agent from shopping on amazon.com",
+    "url": "https://www.forbes.com/sites/jonmarkman/2026/09/21/amazon-blocks-metas-new-muse-ai-agent-from-shopping-on-amazoncom/",
+    "source": "forbes.com",
+    "publishedAt": "2026-09-22T06:50:00.000Z",
+    "summary": "HN 138分 | 143评论 | forbes.com",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_49791384",
+    "title": "Anthropic, OpenAI et al. face antitrust suit for agreeing to slow AI development",
+    "url": "https://www.tomshardware.com/tech-industry/big-tech/anthropic-openai-spacexai-and-google-face-antitrust-lawsuit-for-agreeing-to-slow-ai-development-plaintiffs-say-plan-has-been-in-motion-for-months-before-calls-agreement-self-serving",
+    "source": "tomshardware.com",
+    "publishedAt": "2026-09-22T06:44:00.000Z",
+    "summary": "HN 24分 | 9评论 | tomshardware.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49790322",
+    "title": "Big AI to humanity: drop dead",
+    "url": "https://matthewbutterick.com/chron/drop-dead.html",
+    "source": "matthewbutterick.com",
+    "publishedAt": "2026-09-22T07:22:00.000Z",
+    "summary": "HN 34分 | 0评论 | matthewbutterick.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49774795",
+    "title": "If AI coding is lowering your code quality, you're not managing quality right",
+    "url": "https://www.i-kh.net/p/if-ai-coding-is-lowering-your-code",
+    "source": "i-kh.net",
+    "publishedAt": "2026-09-22T07:02:00.000Z",
+    "summary": "HN 117分 | 164评论 | i-kh.net",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_49791782",
+    "title": "You can use any LLM just like JEV",
+    "url": "https://www.reddit.com/r/LocalLLaMA/comments/1wlxpaw/you_can_use_any_llm_just_like_jev/",
+    "source": "reddit.com",
+    "publishedAt": "2026-09-22T08:37:00.000Z",
+    "summary": "HN 10分 | 2评论 | reddit.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_49784816",
+    "title": "Don't Use AI to Write",
+    "url": "https://paulbakker.io/writing/no-ai-for-writing/",
+    "source": "paulbakker.io",
+    "publishedAt": "2026-09-22T08:40:00.000Z",
+    "summary": "HN 136分 | 75评论 | paulbakker.io",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_49780849",
+    "title": "Show HN: jevals – replacing LLM judges with typed Jev decisions",
+    "url": "https://github.com/openlayer-ai/jevals",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T08:47:00.000Z",
+    "summary": "HN 40分 | 1评论 | github.com",
+    "category": "ai-models",
+    "score": 65
+  },
+  {
+    "id": "hn_49783062",
+    "title": "AI chatbots give wrong answers to financial queries 'most of the time'",
+    "url": "https://www.ft.com/content/c0cd359d-df84-4208-a789-ffa864b43666",
+    "source": "ft.com",
+    "publishedAt": "2026-09-22T09:35:00.000Z",
+    "summary": "HN 150分 | 85评论 | ft.com",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "hn_49777111",
+    "title": "Prompts aren’t Real",
+    "url": "https://evaluation.club",
+    "source": "evaluation.club",
+    "publishedAt": "2026-09-22T09:12:00.000Z",
+    "summary": "HN 117分 | 57评论 | evaluation.club",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_49768833",
+    "title": "Btrfs/ZFS/bcachefs under workloads classic benchmarks skip",
+    "url": "https://bartosz.fenski.pl/modern-fs-benchmark/",
+    "source": "bartosz.fenski.pl",
+    "publishedAt": "2026-09-22T10:07:00.000Z",
+    "summary": "HN 177分 | 185评论 | bartosz.fenski.pl",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_49789120",
+    "title": "Amazon blocks Meta's Muse AI shopping agent",
+    "url": "https://www.theregister.com/ai-and-ml/2026/09/21/amazon-shows-metas-muse-ai-shopping-agent-the-door/5297777",
+    "source": "theregister.com",
+    "publishedAt": "2026-09-22T10:25:00.000Z",
+    "summary": "HN 16分 | 3评论 | theregister.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49790389",
+    "title": "Advisory Group on Mathematics and Artificial Intelligence",
+    "url": "https://openai.com/index/advisory-group-on-mathematics-and-ai/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-09-22T10:38:00.000Z",
+    "summary": "HN 68分 | 53评论 | openai.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_49787069",
+    "title": "When Claude CLI asks for feedback, responding authorizes conversation capture",
+    "url": "https://news.ycombinator.com/item?id=49787069",
+    "source": "Hacker News",
+    "publishedAt": "2026-09-22T11:21:00.000Z",
+    "summary": "HN 16分 | 1评论 | Hacker News",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_49791321",
+    "title": "Boomers love making AI images of their grandkids. Millennial parents hate it",
+    "url": "https://www.businessinsider.com/grandparents-ai-images-grandkids-privacy-parents-2026-9",
+    "source": "businessinsider.com",
+    "publishedAt": "2026-09-22T11:03:00.000Z",
+    "summary": "HN 19分 | 1评论 | businessinsider.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49742642",
+    "title": "Go-based Robotics Framework built around NATS.io",
+    "url": "https://github.com/emergingrobotics/gorai",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T12:39:00.000Z",
+    "summary": "HN 41分 | 6评论 | github.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_49791046",
+    "title": "Anthropic at $2T isn't far-fetched",
+    "url": "https://www.ft.com/content/01a7b883-452c-4902-b40e-e3957de5d89e",
+    "source": "ft.com",
+    "publishedAt": "2026-09-22T12:15:00.000Z",
+    "summary": "HN 7分 | 12评论 | ft.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49758615",
+    "title": "Cache-to-Cache: Direct Semantic Communication Between LLMs (2025)",
+    "url": "https://arxiv.org/abs/2510.03215",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-09-22T12:50:00.000Z",
+    "summary": "HN 107分 | 20评论 | arxiv.org",
+    "category": "industry",
+    "score": 73
+  },
+  {
+    "id": "hn_49767937",
+    "title": "I think you should almost never use AI to write",
+    "url": "https://erichgrunewald.substack.com/p/why-you-should-almost-never-use-ai",
+    "source": "erichgrunewald.substack.c",
+    "publishedAt": "2026-09-22T13:48:00.000Z",
+    "summary": "HN 360分 | 170评论 | erichgrunewald.substack.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49756671",
+    "title": "We made Playwright 2x faster and 80% more token efficient",
+    "url": "https://github.com/browserbase/stagehand",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T13:42:00.000Z",
+    "summary": "HN 153分 | 40评论 | github.com",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "hn_49787453",
+    "title": "Google Rolls Out $899-Plus 'Ai laptops'",
+    "url": "https://www.bloomberg.com/news/articles/2026-09-21/google-rolls-out-899-plus-googlebooks-from-dell-hp-lenovo-acer-asus",
+    "source": "bloomberg.com",
+    "publishedAt": "2026-09-22T14:17:00.000Z",
+    "summary": "HN 8分 | 11评论 | bloomberg.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49763987",
+    "title": "GPT-6 Astra Solves a WWI German Radio Cipher",
+    "url": "https://www.prinzai.com/p/gpt-6-astra-solves-a-wwi-german-radio",
+    "source": "prinzai.com",
+    "publishedAt": "2026-09-22T14:15:00.000Z",
+    "summary": "HN 396分 | 180评论 | prinzai.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49740260",
+    "title": "The American Religion of Self-Storage Facilities",
+    "url": "https://www.newyorker.com/magazine/2026/09/21/the-american-religion-of-self-storage-facilities",
+    "source": "newyorker.com",
+    "publishedAt": "2026-09-22T14:49:00.000Z",
+    "summary": "HN 280分 | 451评论 | newyorker.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49782439",
+    "title": "Show HN: Ambits – agentic grep/rg tool will history tracking",
+    "url": "https://github.com/joshLong145/ambits",
+    "source": "GitHub",
+    "publishedAt": "2026-09-22T00:50:00.000Z",
+    "summary": "HN 5分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49791898",
+    "title": "B.C. government to sue OpenAI after Tumbler Ridge mass shooting",
+    "url": "https://www.cbc.ca/news/canada/british-columbia/bc-government-announce-update-openai-legal-action-9.7352395",
+    "source": "cbc.ca",
+    "publishedAt": "2026-09-22T00:15:00.000Z",
+    "summary": "HN 10分 | 0评论 | cbc.ca",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49754250",
+    "title": "AI chatbots are becoming experts at changing people's minds",
+    "url": "https://www.science.org/content/article/ai-chatbots-are-becoming-experts-changing-people-s-minds-what-s-their-secret",
+    "source": "science.org",
+    "publishedAt": "2026-09-22T01:35:00.000Z",
+    "summary": "HN 137分 | 101评论 | science.org",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_49776729",
+    "title": "ChatGPT now knows what you do on other websites via ad collector",
+    "url": "https://www.buchodi.com/chatgpt-now-knows-what-you-do-on-other-websites-via-ad-collector/",
+    "source": "buchodi.com",
+    "publishedAt": "2026-09-22T01:49:00.000Z",
+    "summary": "HN 749分 | 388评论 | buchodi.com",
+    "category": "industry",
+    "score": 95
+  }
+]
