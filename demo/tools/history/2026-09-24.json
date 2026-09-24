@@ -1,0 +1,502 @@
+[
+  {
+    "id": "cmud57mjw02snrora28mvi2h0",
+    "title": "五角大楼调查：过度依赖 Maven AI 是美军误击伊朗米纳布学校的原因之一",
+    "url": "https://www.bloomberg.com/graphics/2026-iran-school-attack",
+    "source": "Hacker News：AI 热帖",
+    "publishedAt": "2026-09-22T19:03:38.000Z",
+    "summary": "五角大楼内部调查发现，2026 年 2 月 28 日两枚 Tomahawk 导弹击中伊朗米纳布 Shajarah Tayyebeh 小学，造成超过 150 人死亡、其中至少 123 名儿童，原因是情报过时、卫星图像七年未更新，以及 Centcom 部分人员过度依赖 Palantir 的 Maven Smart System。",
+    "category": "tip",
+    "score": 86
+  },
+  {
+    "id": "cmud32gov0427rov6rcxw9xlf",
+    "title": "五角大楼内部审查：过度依赖 Palantir Maven AI 系统导致误击伊朗学校、123 名儿童死亡",
+    "url": "https://gizmodo.com/pentagon-investigators-say-overreliance-on-palantir-ai-tech-contributed-to-u-s-strike-that-killed-123-iranian-children-2000814477",
+    "source": "Hacker News：AI 热帖",
+    "publishedAt": "2026-09-22T19:03:38.000Z",
+    "summary": "据 Bloomberg 援引未公开的五角大楼内部审查官员报道，美军今年 2 月开战首日误击伊朗 Minab 的 Shajarah Tayyebeh 小学，造成超 150 人死亡、其中至少 123 名儿童，过度依赖 Palantir 开发的 Maven Smart System 是原因之一。",
+    "category": "industry",
+    "score": 86
+  },
+  {
+    "id": "cmucwy58v0rskroedmv35n8ji",
+    "title": "Anthropic 发布 Claude Opus 5.5，成本较 Opus 5 降低 40%",
+    "url": "https://www.anthropic.com/claude-opus-5-5",
+    "source": "Anthropic：Newsroom（网页）",
+    "publishedAt": "2026-09-22T16:53:30.664Z",
+    "summary": "Anthropic 发布 Claude Opus 5.5，为 Claude 5.5 系列首个模型，在多数工作上达到 Fable 5.1 水平，典型负载成本较 Opus 5 低 40%。",
+    "category": "ai-models",
+    "score": 86
+  },
+  {
+    "id": "cmucyny580521roni2aiyh9xj",
+    "title": "Claude Opus 5.5 登顶 Artificial Analysis 智能指数，得分 58",
+    "url": "https://artificialanalysis.ai/articles/claude-opus-5-5",
+    "source": "Artificial Analysis 完整文章（网页）",
+    "publishedAt": "2026-09-22T17:41:36.934Z",
+    "summary": "Artificial Analysis 评测显示 Claude Opus 5.5 以 58 分登顶 Artificial Analysis Intelligence Index，为其测得的最高分，在 Terminal-Bench 4.0 上与 GPT-6 Astra 持平（59.6%）。",
+    "category": "tip",
+    "score": 85
+  },
+  {
+    "id": "cmud02r5503swro7nhqpu7dgu",
+    "title": "Artificial Analysis 评测 GPT-6 Sol 与 Luna：成本减半，智能指数持平",
+    "url": "https://x.com/ArtificialAnlys/status/2102462962758033624",
+    "source": "X：Artificial Analysis (@ArtificialAnlys)",
+    "publishedAt": "2026-09-22T18:20:06.000Z",
+    "summary": "Artificial Analysis 评测 GPT-6 Sol 和 Luna，两模型价格约为 GPT-5.6 对应版本一半，Sol 定价 $2/$10、Luna $0.10/$0.50 每百万输入/输出 token，Intelligence Index 与 GPT-5.6 持平。",
+    "category": "tip",
+    "score": 84
+  },
+  {
+    "id": "cmud1y2ku039iro5ysl7pq6d3",
+    "title": "OpenAI 发布 GPT-6 Sol 和 GPT-6 Luna，API 价格较 GPT-5.6 降 50%",
+    "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna",
+    "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+    "publishedAt": "2026-09-22T18:00:00.000Z",
+    "summary": "OpenAI 发布 GPT-6 Sol 和 GPT-6 Luna，将 GPT-6 Astra 的训练方法用于更快更便宜的模型，API 价格较 GPT-5.6 促销价下调 50%（Sol 输入 $4→$2、输出 $20→$10；Luna 输入 $0.20→$0.10、输出 $1.20→$0.50，每百万 token）。",
+    "category": "ai-models",
+    "score": 82
+  },
+  {
+    "id": "cmudch57g05bqroggl65fi9vo",
+    "title": "Claude Opus 5.5 与 GPT-6 Sol/Luna 发布，Simon Willison 详解新一轮价格战",
+    "url": "https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna",
+    "source": "Simon Willison 博客",
+    "publishedAt": "2026-09-22T23:46:41.000Z",
+    "summary": "Anthropic 发布 Claude Opus 5.5，OpenAI 随后发布 GPT-6 Sol 和 GPT-6 Luna。GPT-6 两款价格为其 GPT-5.6 对应型号的一半，GPT-6 Luna 低至 $0.10/M 输入、$0.50/M 输出；Opus 5.5 降价 20% 至 $4/$20，缓存读取降 60%。",
+    "category": "tip",
+    "score": 81
+  },
+  {
+    "id": "hn_49823582",
+    "title": "Linux support is coming to Snapdragon X2 Series",
+    "url": "https://www.qualcomm.com/news/onq/2026/09/snapdragon-summit-agentic-ai-pcs-linux",
+    "source": "qualcomm.com",
+    "publishedAt": "2026-09-24T00:43:00.000Z",
+    "summary": "HN 73分 | 34评论 | qualcomm.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_49820134",
+    "title": "Claude discovers a novel enzyme system with CRISPR-like repeats",
+    "url": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-09-24T00:03:00.000Z",
+    "summary": "HN 442分 | 496评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49822555",
+    "title": "VSCode's SSH Agent Is Bananas (2025)",
+    "url": "https://fly.io/blog/vscode-ssh-wtf/",
+    "source": "fly.io",
+    "publishedAt": "2026-09-24T00:34:00.000Z",
+    "summary": "HN 98分 | 68评论 | fly.io",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_49823348",
+    "title": "Mercury 2.5 LLM hits 770 tokens per second",
+    "url": "https://artificialanalysis.ai/models/mercury-2-5",
+    "source": "artificialanalysis.ai",
+    "publishedAt": "2026-09-24T01:33:00.000Z",
+    "summary": "HN 22分 | 9评论 | artificialanalysis.ai",
+    "category": "ai-models",
+    "score": 63
+  },
+  {
+    "id": "hn_49817615",
+    "title": "Gemini 3.8 text-to-speech",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/",
+    "source": "blog.google",
+    "publishedAt": "2026-09-24T01:10:00.000Z",
+    "summary": "HN 243分 | 118评论 | blog.google",
+    "category": "ai-models",
+    "score": 90
+  },
+  {
+    "id": "hn_49813482",
+    "title": "Tokens too cheap to meter",
+    "url": "https://jyn.dev/tokens-too-cheap-to-meter/",
+    "source": "jyn.dev",
+    "publishedAt": "2026-09-24T02:43:00.000Z",
+    "summary": "HN 223分 | 176评论 | jyn.dev",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "hn_49814947",
+    "title": "Claude Code reads AGENTS.md only when telemetry is on [fixed]",
+    "url": "https://blog.szypowi.cz/p/claude-code-reads-agents.md-only-when-telemetry-is-on/",
+    "source": "blog.szypowi.cz",
+    "publishedAt": "2026-09-24T02:04:00.000Z",
+    "summary": "HN 439分 | 250评论 | blog.szypowi.cz",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49821196",
+    "title": "Once Claude can measure something, it can make it faster",
+    "url": "https://claude.dev/blog/how-we-made-claude-ai-faster/",
+    "source": "claude.dev",
+    "publishedAt": "2026-09-24T02:49:00.000Z",
+    "summary": "HN 148分 | 90评论 | claude.dev",
+    "category": "ai-models",
+    "score": 79
+  },
+  {
+    "id": "hn_49815982",
+    "title": "Stripe's Knowledge AI Platform",
+    "url": "https://stripe.dev/blog/meet-stripes-knowledge-ai-platform",
+    "source": "stripe.dev",
+    "publishedAt": "2026-09-24T03:54:00.000Z",
+    "summary": "HN 170分 | 106评论 | stripe.dev",
+    "category": "industry",
+    "score": 81
+  },
+  {
+    "id": "hn_49805509",
+    "title": "GPT-6 Sol and Luna",
+    "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-09-24T03:51:00.000Z",
+    "summary": "HN 1729分 | 821评论 | openai.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49803892",
+    "title": "Claude Opus 5.5",
+    "url": "https://www.anthropic.com/claude-opus-5-5",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-09-24T04:11:00.000Z",
+    "summary": "HN 1767分 | 1075评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49824061",
+    "title": "Stanford violated AI policy after race-swapping students in ad",
+    "url": "https://www.sfchronicle.com/bayarea/article/stanford-ai-policy-student-photo-race-swapping-22444142.php",
+    "source": "sfchronicle.com",
+    "publishedAt": "2026-09-24T04:14:00.000Z",
+    "summary": "HN 5分 | 1评论 | sfchronicle.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49822654",
+    "title": "OpenAI agents hacked Australian Medicare system",
+    "url": "https://www.reuters.com/world/asia-pacific/australia-pm-albanese-says-openai-breached-medicare-sydney-morning-herald-2026-09-23/",
+    "source": "reuters.com",
+    "publishedAt": "2026-09-24T04:07:00.000Z",
+    "summary": "HN 20分 | 1评论 | reuters.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49817404",
+    "title": "GPT-6 Astra has gained the ability to drive a car",
+    "url": "https://drivingbench.com/",
+    "source": "drivingbench.com",
+    "publishedAt": "2026-09-24T05:44:00.000Z",
+    "summary": "HN 271分 | 221评论 | drivingbench.com",
+    "category": "ai-models",
+    "score": 94
+  },
+  {
+    "id": "hn_49823062",
+    "title": "OpenAI 'agent' hacked Australia's health service",
+    "url": "https://www.ft.com/content/56133ef4-377b-4e35-a939-f199ceb64507",
+    "source": "ft.com",
+    "publishedAt": "2026-09-24T05:34:00.000Z",
+    "summary": "HN 17分 | 6评论 | ft.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49822556",
+    "title": "OpenAI breaches Medicare, Albanese reveals",
+    "url": "https://www.smh.com.au/politics/federal/openai-breaches-medicare-albanese-reveals-20260924-p6100u.html",
+    "source": "smh.com.au",
+    "publishedAt": "2026-09-24T06:25:00.000Z",
+    "summary": "HN 131分 | 91评论 | smh.com.au",
+    "category": "industry",
+    "score": 76
+  },
+  {
+    "id": "hn_49806430",
+    "title": "Pentagon says overreliance on AI contributed to missile strike on Iran school",
+    "url": "https://www.bloomberg.com/graphics/2026-iran-school-attack/",
+    "source": "bloomberg.com",
+    "publishedAt": "2026-09-24T06:37:00.000Z",
+    "summary": "HN 888分 | 497评论 | bloomberg.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49822457",
+    "title": "OpenAI hacked Australian Medicare portal",
+    "url": "https://www.abc.net.au/news/2026-09-24/ai-agent-accessed-australian-government-site-pm-says/107189078",
+    "source": "abc.net.au",
+    "publishedAt": "2026-09-24T06:50:00.000Z",
+    "summary": "HN 17分 | 8评论 | abc.net.au",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49822903",
+    "title": "Surprise, Meta's latest AI gimmick is just underpaid humans",
+    "url": "https://www.avclub.com/meta-muse-ai-human-labor",
+    "source": "avclub.com",
+    "publishedAt": "2026-09-24T07:00:00.000Z",
+    "summary": "HN 9分 | 0评论 | avclub.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49805748",
+    "title": "Unreal Agent",
+    "url": "https://unreallabs.ai/blog/unreal-agent/",
+    "source": "unreallabs.ai",
+    "publishedAt": "2026-09-24T07:20:00.000Z",
+    "summary": "HN 234分 | 121评论 | unreallabs.ai",
+    "category": "industry",
+    "score": 89
+  },
+  {
+    "id": "hn_49801324",
+    "title": "OpenAI GPT–6 Astra breaks Enigma message that has resisted solution since 2005",
+    "url": "https://www.cryptocellar.org/bgac/the-mvueh-break.html",
+    "source": "cryptocellar.org",
+    "publishedAt": "2026-09-24T08:21:00.000Z",
+    "summary": "HN 720分 | 437评论 | cryptocellar.org",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49802161",
+    "title": "OpenAI is well positioned to fast-follow Jev",
+    "url": "https://arcturus-labs.com/blog/2026/09/21/will-openai-eat-jevs-lunch/",
+    "source": "arcturus-labs.com",
+    "publishedAt": "2026-09-24T08:21:00.000Z",
+    "summary": "HN 316分 | 221评论 | arcturus-labs.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49822442",
+    "title": "After AI models escaped testing environments,Irregular seeks $1.5B valuation",
+    "url": "https://www.calcalistech.com/ctechnews/article/13p5khsib",
+    "source": "calcalistech.com",
+    "publishedAt": "2026-09-24T08:32:00.000Z",
+    "summary": "HN 7分 | 2评论 | calcalistech.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49800574",
+    "title": "Show HN: JevBench, a reproducible benchmark for typed decision models",
+    "url": "https://benchmarkheaven.com/jev-models",
+    "source": "benchmarkheaven.com",
+    "publishedAt": "2026-09-24T09:39:00.000Z",
+    "summary": "HN 138分 | 36评论 | benchmarkheaven.com",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_49803085",
+    "title": "Writing Rust code that's fast by asking agents to make the code faster",
+    "url": "https://minimaxir.com/2026/09/agentic-iteration/",
+    "source": "minimaxir.com",
+    "publishedAt": "2026-09-24T09:06:00.000Z",
+    "summary": "HN 109分 | 59评论 | minimaxir.com",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "hn_49804931",
+    "title": "Launch HN: Coverage Cat (YC S22) – Umbrella insurance via your personal agent",
+    "url": "https://www.coveragecat.com/",
+    "source": "coveragecat.com",
+    "publishedAt": "2026-09-24T10:31:00.000Z",
+    "summary": "HN 52分 | 30评论 | coveragecat.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49804316",
+    "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+    "url": "https://artificialanalysis.ai/models/claude-opus-5-5",
+    "source": "artificialanalysis.ai",
+    "publishedAt": "2026-09-24T10:38:00.000Z",
+    "summary": "HN 329分 | 103评论 | artificialanalysis.ai",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49800566",
+    "title": "Show HN: Training a model to identify AI web content from structure alone",
+    "url": "https://arxiv.org/abs/2609.15369",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-09-24T10:10:00.000Z",
+    "summary": "HN 65分 | 22评论 | arxiv.org",
+    "category": "ai-models",
+    "score": 68
+  },
+  {
+    "id": "hn_49822860",
+    "title": "An 'AI freeze' could make big AI companies bigger and hurt smaller firms",
+    "url": "https://www.npr.org/2026/09/23/nx-s1-5973306/ai-slowdown-debate-openai-anthropic",
+    "source": "npr.org",
+    "publishedAt": "2026-09-24T11:20:00.000Z",
+    "summary": "HN 7分 | 2评论 | npr.org",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49816553",
+    "title": "Community condemn Bedminster AI mural as 'insult' to artists",
+    "url": "https://www.bbc.co.uk/news/articles/cmlyq09jp49eo",
+    "source": "bbc.co.uk",
+    "publishedAt": "2026-09-24T11:12:00.000Z",
+    "summary": "HN 35分 | 26评论 | bbc.co.uk",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49794844",
+    "title": "Delta: Highly available, strongly consistent storage using chain replication (2022)",
+    "url": "https://engineering.fb.com/2022/05/04/data-infrastructure/delta/",
+    "source": "engineering.fb.com",
+    "publishedAt": "2026-09-24T12:28:00.000Z",
+    "summary": "HN 30分 | 3评论 | engineering.fb.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49795260",
+    "title": "Did OpenAI solve the wrong Navier-Stokes problem?",
+    "url": "https://www.scientificamerican.com/article/did-openai-solve-the-wrong-navier-stokes-problem/",
+    "source": "scientificamerican.com",
+    "publishedAt": "2026-09-24T12:21:00.000Z",
+    "summary": "HN 116分 | 67评论 | scientificamerican.com",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_49747070",
+    "title": "How to Write with an LLM",
+    "url": "https://sockpuppet.org/blog/2026/09/17/how-to-write-with-an-llm/",
+    "source": "sockpuppet.org",
+    "publishedAt": "2026-09-24T12:08:00.000Z",
+    "summary": "HN 759分 | 417评论 | sockpuppet.org",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49803683",
+    "title": "Show HN: AI·rete·RAG – a Rete rule engine decides, RAG explains why",
+    "url": "https://ai-rete-rag.com/",
+    "source": "ai-rete-rag.com",
+    "publishedAt": "2026-09-24T13:40:00.000Z",
+    "summary": "HN 43分 | 7评论 | ai-rete-rag.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_49801218",
+    "title": "The Economics of Open-Weight Inference",
+    "url": "https://data.ornn.com/publications/the-economics-of-open-weight-inference",
+    "source": "data.ornn.com",
+    "publishedAt": "2026-09-24T13:39:00.000Z",
+    "summary": "HN 54分 | 26评论 | data.ornn.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49818659",
+    "title": "AI Is a Boring Technology",
+    "url": "https://www.chrbutler.com/ai-is-a-boring-technology",
+    "source": "chrbutler.com",
+    "publishedAt": "2026-09-24T14:51:00.000Z",
+    "summary": "HN 12分 | 0评论 | chrbutler.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_49775104",
+    "title": "The LLMentalist Effect (2023)",
+    "url": "https://softwarecrisis.dev/letters/llmentalist/",
+    "source": "softwarecrisis.dev",
+    "publishedAt": "2026-09-24T14:41:00.000Z",
+    "summary": "HN 234分 | 308评论 | softwarecrisis.dev",
+    "category": "industry",
+    "score": 89
+  },
+  {
+    "id": "hn_49783133",
+    "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
+    "url": "https://github.com/volotat/mini-AGI/",
+    "source": "GitHub",
+    "publishedAt": "2026-09-24T14:52:00.000Z",
+    "summary": "HN 276分 | 76评论 | github.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49792067",
+    "title": "AI coding has made CI a bottleneck, so we reworked ours to keep up",
+    "url": "https://linear.app/now/ci-bottleneck-reworked",
+    "source": "linear.app",
+    "publishedAt": "2026-09-24T00:46:00.000Z",
+    "summary": "HN 313分 | 402评论 | linear.app",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49775499",
+    "title": "Qwen Image 2.1",
+    "url": "https://qwen.ai/blog?id=qwen-image-2.1",
+    "source": "qwen.ai",
+    "publishedAt": "2026-09-24T00:11:00.000Z",
+    "summary": "HN 736分 | 198评论 | qwen.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49802789",
+    "title": "Show HN: InstinctFlash – High-Performance Serving Runtime for Robotics Models",
+    "url": "https://github.com/General-Instinct/InstinctFlash",
+    "source": "GitHub",
+    "publishedAt": "2026-09-24T01:42:00.000Z",
+    "summary": "HN 24分 | 4评论 | github.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49822973",
+    "title": "OpenAI agent hacked Medicare, Albanese expressed 'extreme concern' to Sam Altman",
+    "url": "https://www.theguardian.com/australia-news/2026/sep/24/anthony-albanese-says-openai-agent-hacked-medicare-extreme-concern-sam-altman",
+    "source": "theguardian.com",
+    "publishedAt": "2026-09-24T01:39:00.000Z",
+    "summary": "HN 4分 | 0评论 | theguardian.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49819591",
+    "title": "Hubble Network Opens Satellite Coverage to All Bluetooth Devices",
+    "url": "https://www.businesswire.com/news/home/20260923752755/en/Hubble-Network-Opens-Satellite-Coverage-to-All-Bluetooth-Devices-Raises-%24200-Million-Series-C-at-%241.6-Billion-Valuation",
+    "source": "businesswire.com",
+    "publishedAt": "2026-09-24T01:24:00.000Z",
+    "summary": "HN 9分 | 4评论 | businesswire.com",
+    "category": "industry",
+    "score": 61
+  }
+]
