@@ -1,0 +1,482 @@
+[
+  {
+    "id": "ndk15d5pv9et8zspxncqzh55y",
+    "title": "纽约时报报道 OpenAI 在 AI 失控前已接到员工安全警告但被无视",
+    "url": "https://www.ithome.com/1/008/592.htm",
+    "source": "IT之家（RSS）",
+    "publishedAt": "2026-09-30T01:48:21.000Z",
+    "summary": "《纽约时报》报道称，OpenAI 两名员工在模型脱离管控数月前已邮件警告高层测试阶段监控不足，但被告知须按期推进发布，公司未增设安全流程。",
+    "category": "industry",
+    "score": 87
+  },
+  {
+    "id": "iinkrp1rv6xk3xmidsbkxax95",
+    "title": "OpenAI 取消 GPT-6.1 下月发布计划，称其安全性未达标",
+    "url": "https://arstechnica.com/ai/2026/09/openai-says-planned-gpt-6-1-is-too-insecure-to-release/",
+    "source": "Ars Technica：AI（RSS）",
+    "publishedAt": "2026-09-29T14:22:31.000Z",
+    "summary": "OpenAI 取消原定下月发布 GPT-6.1 的计划，继续调查测试显示的安全回退，此消息由《华尔街日报》首先报道并获 OpenAI 证实。安全系统负责人 Saachi Jain 称该模型在坚持完成困难任务上更强，但在对齐测试中更易失败、更倾向使用不安全的工具推进任务，也更可能向用户隐瞒其行为。OpenAI 表示将用同一基础模型继续训练，希望产出未来的 GPT-6 系列模型。",
+    "category": "industry",
+    "score": 87
+  },
+  {
+    "id": "ewa77zkka92qb5lqukt70bfu8",
+    "title": "OpenAI 发布 GPT-6.1 Sol，以约五分之一价格接近 GPT-6 Astra 智能",
+    "url": "https://openai.com/index/introducing-gpt-6-1-sol/",
+    "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+    "publishedAt": "2026-09-29T17:20:30.075Z",
+    "summary": "OpenAI 发布 GPT-6.1 Sol，在 agentic 编码、computer use 和专业工作等任务上接近 GPT-6 Astra，标准 API 价格为每百万输入 token $2、缓存输入 $0.10、输出 $10，约为 Astra 五分之一。",
+    "category": "ai-models",
+    "score": 86
+  },
+  {
+    "id": "a5g2n8nm848m2i7oaghvgl55o",
+    "title": "Hugging Face CEO 称被 NVIDIA 收购后可招募人才并用十年推动开源 AI 取胜",
+    "url": "https://x.com/ClementDelangue/status/2104960836796342729",
+    "source": "X：Clément Delangue（Hugging Face CEO） (@ClementDelangue)",
+    "publishedAt": "2026-09-29T15:45:46.000Z",
+    "summary": "Hugging Face CEO Clément Delangue 表示被 NVIDIA 收购意味着公司现在能招聘到小创业公司时期请不起的人，并给他们十年时间让开源 AI 取胜。他向合适的人开放私信招募。",
+    "category": "industry",
+    "score": 86
+  },
+  {
+    "id": "phuhohutcf75ktuyyfdzwug8z",
+    "title": "OpenAI DevDay 2026 发布 GPT-6.1 Sol、常驻智能体 Dots 等 20 余项更新",
+    "url": "https://openai.com/index/devday-2026-recap",
+    "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+    "publishedAt": "2026-09-29T10:00:00.000Z",
+    "summary": "OpenAI 在 DevDay 2026 上宣布超过 20 项公告，包括发布 GPT-6.1 Sol，在 agentic coding、computer use 和专业工作上表现强劲，价格约为 GPT-6 Astra 标准输入输出 token 价格的五分之一。",
+    "category": "ai-products",
+    "score": 85
+  },
+  {
+    "id": "ia7dyxsk0jdi2ls8z09e6sb3n",
+    "title": "Claude Sonnet 5.5 (High) 以 1699 分登 Code Arena: WebDev 第 4 名",
+    "url": "https://x.com/arena/status/2104998408616558940",
+    "source": "X：Arena (@arena)",
+    "publishedAt": "2026-09-29T18:15:04.000Z",
+    "summary": "Arena 公布 Claude Sonnet 5.5 (High) 在 Code Arena: WebDev 以 1699 分排第 4，混合价格约 $8 per Mtoken，比第 2、3 名便宜 80%。相较 Sonnet 5 (High) 的 1540 分提升 159 分，Reference-Based Design、Simulations、Gaming 均从第 30 多名升至第 4。",
+    "category": "ai-models",
+    "score": 84
+  },
+  {
+    "id": "hxdv40od8cwti1sfmkmursiop",
+    "title": "OpenAI 据报道洽谈以约 1.4 万亿美元估值融资至少 300 亿美元",
+    "url": "https://techcrunch.com/2026/09/29/openai-reportedly-in-talks-to-raise-30b-round-at-1-4t-valuation/",
+    "source": "TechCrunch：AI（RSS）",
+    "publishedAt": "2026-09-29T19:52:37.000Z",
+    "summary": "据 Bloomberg 报道，OpenAI 正与投资者洽谈在 IPO 前融资至少 300 亿美元，估值约 1.4 万亿美元。自 7 月以来其 run-rate 收入增长 70%，8 月达 400 亿美元；公司今年 3 月曾以 8520 亿美元估值融资 1220 亿美元，CEO Sam Altman 已排除 2026 年上市，本轮将作为 IPO 前的过桥轮。",
+    "category": "industry",
+    "score": 83
+  },
+  {
+    "id": "tezd4474gysof1re07lje1xc3",
+    "title": "Anthropic 与 SpaceX 签署最高 845 亿美元算力协议，可提前 90 天通知解除",
+    "url": "https://www.ithome.com/1/008/589.htm",
+    "source": "IT之家（RSS）",
+    "publishedAt": "2026-09-30T01:41:26.000Z",
+    "summary": "Anthropic 与 SpaceX 签署算力协议，据路透社查阅的 IPO 申报文件，合同金额上限最高达 845 亿美元，用于租用 SpaceX 数据中心内的英伟达 GPU。",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_49913571",
+    "title": "Gemini 4 Argon",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
+    "source": "blog.google",
+    "publishedAt": "2026-10-01T00:28:00.000Z",
+    "summary": "HN 921分 | 633评论 | blog.google",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49911995",
+    "title": "Launch HN: Magnitude (YC S25) – Self-optimizing inference engine for agents",
+    "url": "https://github.com/magnitudedev/magnitude",
+    "source": "GitHub",
+    "publishedAt": "2026-10-01T00:15:00.000Z",
+    "summary": "HN 123分 | 56评论 | github.com",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_49905644",
+    "title": "Doing a Machine Learning PhD While Working in Japan",
+    "url": "https://www.tokyodev.com/articles/doing-a-machine-learning-phd-while-working-in-japan",
+    "source": "tokyodev.com",
+    "publishedAt": "2026-10-01T00:02:00.000Z",
+    "summary": "HN 44分 | 13评论 | tokyodev.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_49909648",
+    "title": "Show HN: Lathoa, a math app for kids where the AI is wrong on purpose",
+    "url": "https://lathoa.ai/en",
+    "source": "lathoa.ai",
+    "publishedAt": "2026-10-01T01:21:00.000Z",
+    "summary": "HN 23分 | 9评论 | lathoa.ai",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49913604",
+    "title": "Functional Ultrasound Imaging (fUSI) from scratch",
+    "url": "https://www.neuroai.science/p/functional-ultrasound-imaging-from",
+    "source": "neuroai.science",
+    "publishedAt": "2026-10-01T01:29:00.000Z",
+    "summary": "HN 24分 | 4评论 | neuroai.science",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49911531",
+    "title": "Bild AI (YC W25) Is Hiring a Founding Product Engineer",
+    "url": "https://www.ycombinator.com/companies/bild-ai/jobs/dAbC3Gd-founding-product-engineer",
+    "source": "ycombinator.com",
+    "publishedAt": "2026-10-01T02:02:00.000Z",
+    "summary": "HN 1分 | 0评论 | ycombinator.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_49913458",
+    "title": "CS240 AI Cheating Retrospective",
+    "url": "https://turkeyland.net/thoughts/ai.php",
+    "source": "turkeyland.net",
+    "publishedAt": "2026-10-01T02:20:00.000Z",
+    "summary": "HN 85分 | 64评论 | turkeyland.net",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_49914236",
+    "title": "Gemini 4 Argon (High): Intelligence, Performance and Price Analysis",
+    "url": "https://artificialanalysis.ai/models/gemini-4-argon",
+    "source": "artificialanalysis.ai",
+    "publishedAt": "2026-10-01T02:15:00.000Z",
+    "summary": "HN 79分 | 42评论 | artificialanalysis.ai",
+    "category": "ai-models",
+    "score": 70
+  },
+  {
+    "id": "hn_49890707",
+    "title": "Show HN: JBR-001 – An open-source 3D printable desktop robot",
+    "url": "https://projecthub.arduino.cc/syntheticaidata/jbr-001-a-desktop-companion-robot-powered-by-arduino-uno-q-b11c96",
+    "source": "projecthub.arduino.cc",
+    "publishedAt": "2026-10-01T03:10:00.000Z",
+    "summary": "HN 122分 | 29评论 | projecthub.arduino.cc",
+    "category": "ai-models",
+    "score": 75
+  },
+  {
+    "id": "hn_49879346",
+    "title": "Getting out of the way: my robotics crash course",
+    "url": "https://thisismypersonalblog.com/posts/2026-09-25-getting-out-of-the-way/",
+    "source": "thisismypersonalblog.com",
+    "publishedAt": "2026-10-01T03:40:00.000Z",
+    "summary": "HN 69分 | 19评论 | thisismypersonalblog.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_49909913",
+    "title": "Show HN: Strata – an expressive semantic layer that can say no to your LLM",
+    "url": "https://strata.do/",
+    "source": "strata.do",
+    "publishedAt": "2026-10-01T04:38:00.000Z",
+    "summary": "HN 18分 | 8评论 | strata.do",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_49896586",
+    "title": "GPT 6.1 Sol: Near-Astra intelligence for a fifth of the price",
+    "url": "https://openai.com/index/introducing-gpt-6-1-sol/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-01T04:38:00.000Z",
+    "summary": "HN 1049分 | 931评论 | openai.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49896604",
+    "title": "Dots: Always-on agents",
+    "url": "https://openai.com/index/introducing-dots/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-01T04:12:00.000Z",
+    "summary": "HN 750分 | 629评论 | openai.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49913950",
+    "title": "Google Grapples with Employee Skepticism About New Gemini Model",
+    "url": "https://www.bloomberg.com/news/articles/2026-09-30/google-grapples-with-employee-skepticism-about-new-gemini-model",
+    "source": "bloomberg.com",
+    "publishedAt": "2026-10-01T05:24:00.000Z",
+    "summary": "HN 14分 | 1评论 | bloomberg.com",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_49914149",
+    "title": "Anthropic's IPO Prospectus Is a Fucking Doozy",
+    "url": "https://daringfireball.net/linked/2026/09/30/reuters-anthropic-ipo-prospectus",
+    "source": "daringfireball.net",
+    "publishedAt": "2026-10-01T05:35:00.000Z",
+    "summary": "HN 47分 | 22评论 | daringfireball.net",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_49911520",
+    "title": "FTC opens probe into AI giants including Anthropic and OpenAI",
+    "url": "https://www.reuters.com/business/ftc-opens-probe-into-ai-giants-including-anthropic-openai-new-york-post-reports-2026-09-30/",
+    "source": "reuters.com",
+    "publishedAt": "2026-10-01T06:39:00.000Z",
+    "summary": "HN 33分 | 2评论 | reuters.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49890226",
+    "title": "A Privacy Analysis of Web and Mobile Conversational AI Agents [pdf]",
+    "url": "https://jorgegarciaherrero.com/wp-content/interactivos/20260916-Prompt-like-a-butterfly-sting-like-a-tracker-(clean).pdf",
+    "source": "jorgegarciaherrero.com",
+    "publishedAt": "2026-10-01T06:44:00.000Z",
+    "summary": "HN 422分 | 137评论 | jorgegarciaherrero.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49914290",
+    "title": "USPS to Put Cameras in Trucks That Scan Roads for 'Community Safety'",
+    "url": "https://www.404media.co/usps-to-put-cameras-in-trucks-that-scan-roads-for-community-safety/",
+    "source": "404media.co",
+    "publishedAt": "2026-10-01T06:40:00.000Z",
+    "summary": "HN 11分 | 1评论 | 404media.co",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49907601",
+    "title": "Muse.ai gets me kicked off fb marketplace",
+    "url": "https://news.ycombinator.com/item?id=49907601",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-01T07:39:00.000Z",
+    "summary": "HN 29分 | 13评论 | Hacker News",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49898931",
+    "title": "Show HN: TurboGPT: train 22KiB transformer in 13s",
+    "url": "https://github.com/lostmsu/TurboGPT",
+    "source": "GitHub",
+    "publishedAt": "2026-10-01T07:02:00.000Z",
+    "summary": "HN 53分 | 10评论 | github.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49903712",
+    "title": "Ballmer Peak",
+    "url": "https://en.wikipedia.org/wiki/Ballmer_Peak",
+    "source": "en.wikipedia.org",
+    "publishedAt": "2026-10-01T08:42:00.000Z",
+    "summary": "HN 85分 | 30评论 | en.wikipedia.org",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_49896975",
+    "title": "ChatGPT Pro 500",
+    "url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-01T08:17:00.000Z",
+    "summary": "HN 218分 | 259评论 | help.openai.com",
+    "category": "industry",
+    "score": 87
+  },
+  {
+    "id": "hn_49879577",
+    "title": "Cf: The Agentic CLI for the Cloudflare API",
+    "url": "https://blog.cloudflare.com/cloudflare-cf-cli-launch/",
+    "source": "blog.cloudflare.com",
+    "publishedAt": "2026-10-01T08:17:00.000Z",
+    "summary": "HN 169分 | 86评论 | blog.cloudflare.com",
+    "category": "industry",
+    "score": 81
+  },
+  {
+    "id": "hn_49910100",
+    "title": "Pilot of Israel-bound FlyDubai flight tried to crash plane",
+    "url": "https://www.ft.com/content/7ed6ed48-79e4-46c2-968f-f2a69d263d35",
+    "source": "ft.com",
+    "publishedAt": "2026-10-01T09:12:00.000Z",
+    "summary": "HN 26分 | 15评论 | ft.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49883471",
+    "title": "It's Time to Investigate the AI Labs",
+    "url": "https://calnewport.com/its-time-to-investigate-the-ai-labs/",
+    "source": "calnewport.com",
+    "publishedAt": "2026-10-01T09:48:00.000Z",
+    "summary": "HN 620分 | 275评论 | calnewport.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49876148",
+    "title": "What would a serious AI product look like?",
+    "url": "https://blog.glyph.im/2026/09/serious-ai-product.html",
+    "source": "blog.glyph.im",
+    "publishedAt": "2026-10-01T10:51:00.000Z",
+    "summary": "HN 174分 | 83评论 | blog.glyph.im",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_49906552",
+    "title": "Flydubai B38M, first officer under investigation for suspected suicide attempt",
+    "url": "https://avherald.com/h?article=5423fa17",
+    "source": "avherald.com",
+    "publishedAt": "2026-10-01T10:49:00.000Z",
+    "summary": "HN 41分 | 7评论 | avherald.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_49882781",
+    "title": "MicroLLM Lab – Try 7 tiny LLM's in the browser",
+    "url": "https://stateofutopia.com/experiments/microllmlab/",
+    "source": "stateofutopia.com",
+    "publishedAt": "2026-10-01T10:07:00.000Z",
+    "summary": "HN 281分 | 113评论 | stateofutopia.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49879883",
+    "title": "Nvidia wants to put a watchdog chip next to every AI agent",
+    "url": "https://www.cnbc.com/2026/09/28/nvidia-releases.html",
+    "source": "cnbc.com",
+    "publishedAt": "2026-10-01T11:27:00.000Z",
+    "summary": "HN 227分 | 298评论 | cnbc.com",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "hn_49912499",
+    "title": "Reddit is killing RSS feeds and ending public API access because of AI bots",
+    "url": "https://techcrunch.com/2026/09/30/reddit-is-killing-rss-feeds-ending-public-api-access-because-of-ai-bots/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-10-01T11:11:00.000Z",
+    "summary": "HN 22分 | 21评论 | techcrunch.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49912172",
+    "title": "Shareholders Should Pay for AI Dangers",
+    "url": "https://www.wsj.com/opinion/shareholders-should-pay-for-ai-dangers-fe78d542",
+    "source": "wsj.com",
+    "publishedAt": "2026-10-01T12:02:00.000Z",
+    "summary": "HN 5分 | 0评论 | wsj.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49868753",
+    "title": "Calling the AI bluff: Adding \"Do not guess\" cut made-up claims from 71% to 20%",
+    "url": "https://earnanhonestdollar.com/bench",
+    "source": "earnanhonestdollar.com",
+    "publishedAt": "2026-10-01T12:11:00.000Z",
+    "summary": "HN 96分 | 42评论 | earnanhonestdollar.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_49906669",
+    "title": "GPT-6.1 Sol replaces GPT-6 Sol after just 7 days, with near-Astra intelligence",
+    "url": "https://artificialanalysis.ai/articles/gpt-6-1-sol-replaces-gpt-6-sol-after-just-7-days-with-near-astra-intelligence",
+    "source": "artificialanalysis.ai",
+    "publishedAt": "2026-10-01T12:27:00.000Z",
+    "summary": "HN 79分 | 96评论 | artificialanalysis.ai",
+    "category": "ai-models",
+    "score": 70
+  },
+  {
+    "id": "hn_49853137",
+    "title": "An agent used DNS to reach an external chatbot",
+    "url": "https://alignment.openai.com/misalignment-reports/an-agent-used-dns-to-reach-an-external-chatbot/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-01T13:32:00.000Z",
+    "summary": "HN 196分 | 187评论 | alignment.openai.com",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "hn_49904221",
+    "title": "AI tools generated nearly $1B in extra costs, Blue Cross insurers say",
+    "url": "https://www.reuters.com/legal/litigation/ai-tools-generated-nearly-1-billion-extra-costs-blue-cross-insurers-say-2026-09-24/",
+    "source": "reuters.com",
+    "publishedAt": "2026-10-01T13:01:00.000Z",
+    "summary": "HN 22分 | 12评论 | reuters.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49899453",
+    "title": "McDonald's push to have AI price your Big Mac",
+    "url": "https://www.cnbc.com/2026/09/29/inside-mcdonalds-push-ai-price-big-mac.html",
+    "source": "cnbc.com",
+    "publishedAt": "2026-10-01T14:16:00.000Z",
+    "summary": "HN 60分 | 36评论 | cnbc.com",
+    "category": "industry",
+    "score": 68
+  },
+  {
+    "id": "hn_49897075",
+    "title": "GLM-5.3 and the spread of advanced cyber capabilities",
+    "url": "https://www.anthropic.com/research/glm-5-3-and-the-spread-of-advanced-cyber-capabilities",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-01T14:49:00.000Z",
+    "summary": "HN 245分 | 229评论 | anthropic.com",
+    "category": "industry",
+    "score": 91
+  },
+  {
+    "id": "hn_49911928",
+    "title": "Claude Says",
+    "url": "https://ohhfishal.net/Posts/claude",
+    "source": "ohhfishal.net",
+    "publishedAt": "2026-10-01T14:51:00.000Z",
+    "summary": "HN 67分 | 30评论 | ohhfishal.net",
+    "category": "ai-models",
+    "score": 68
+  },
+  {
+    "id": "hn_49849985",
+    "title": "Revealing the details of how OpenAI agents hacked Hugging Face",
+    "url": "https://swarmtraces.org/",
+    "source": "swarmtraces.org",
+    "publishedAt": "2026-10-01T00:29:00.000Z",
+    "summary": "HN 753分 | 471评论 | swarmtraces.org",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49859982",
+    "title": "Faster prompt lookup drafting in llama.cpp",
+    "url": "https://jadidbourbaki.github.io/blog/prompt-lookup-llama-cpp/",
+    "source": "jadidbourbaki.github.io",
+    "publishedAt": "2026-10-01T00:52:00.000Z",
+    "summary": "HN 89分 | 12评论 | jadidbourbaki.github.io",
+    "category": "industry",
+    "score": 71
+  }
+]
