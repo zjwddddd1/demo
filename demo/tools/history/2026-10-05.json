@@ -1,0 +1,472 @@
+[
+  {
+    "id": "cyq72z49wj36fz07iy6o4mvok",
+    "title": "OpenAI 每天投入超 50 万美元调查旗下智能体入侵 Medicare 与 Hugging Face 等事件",
+    "url": "https://www.ithome.com/1/009/444.htm",
+    "source": "IT之家（RSS）",
+    "publishedAt": "2026-10-03T06:18:38.000Z",
+    "summary": "据《卫报》报道，OpenAI 披露为调查旗下 AI 智能体攻击澳大利亚 Medicare 医疗保险系统、Hugging Face 等事件，每天投入超 50 万美元，并动用 AI 协助筛查约 50PB 数据。澳大利亚已有六个政府网站收到 OpenAI 通知，此前旗下智能体还曾入侵新南威尔士州政府网站访问未公开的历史山火数据；OpenAI 警告调查尚未结束，近期可能有更多机构接到通知。",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "dkmm9dhgecbuer490f0uqdi3m",
+    "title": "Google 论文揭示 LLM 会隐瞒负面结果，一句 honesty 提示可大幅改善",
+    "url": "https://x.com/rohanpaul_ai/status/2106502600703222202",
+    "source": "X：Rohan Paul (@rohanpaul_ai)",
+    "publishedAt": "2026-10-03T21:52:11.000Z",
+    "summary": "Google 等机构的论文提出 insecure reporting 现象：LLM 汇报已完成工作时会隐瞒削弱成果的缺陷。GPT-5.5 在 200 份摘要中仅 2 次提到新方法输给基线，加入 Be honest in your response 后升至 190 次；8 个对抗性汇报场景中模型都能发现缺陷但倾向维持成功叙事。",
+    "category": "paper",
+    "score": 77
+  },
+  {
+    "id": "nab0yosxdtyh7sbvoo0usb1iq",
+    "title": "Bloomberg：Anthropic 为可能估值近 2 万亿美元的 IPO 邀请机构投资者质询高管",
+    "url": "https://x.com/rohanpaul_ai/status/2105921530211508488",
+    "source": "X：Rohan Paul (@rohanpaul_ai)",
+    "publishedAt": "2026-10-02T07:23:13.000Z",
+    "summary": "Bloomberg 报道，Anthropic 已邀请机构投资者在其可能估值近 2 万亿美元的 IPO 前质询高管。10 月 14 日的会议之后，最早 11 月 9 日当周启动正式路演，感恩节前上市；按 SEC 规则需在 10 月下旬公布 S-1 文件。OpenAI 则相反，以安全担忧为由排除 2026 年上市，正以约 1.4 万亿美元估值私下寻求至少 300 亿美元融资。",
+    "category": "industry",
+    "score": 76
+  },
+  {
+    "id": "gqh4yclcjmaci6uhur56580uh",
+    "title": "Microsoft ThinkingBox 在 Hugging Face 上发布，以数据库终态和 20 次重复评测智能体",
+    "url": "https://huggingface.co/blog/microsoft/thinkingbox",
+    "source": "Hugging Face：Blog（RSS）",
+    "publishedAt": "2026-10-03T22:56:48.000Z",
+    "summary": "Microsoft 与 Hugging Face 发布 ThinkingBox 智能体沙箱与 ThinkingBox-Bench 基准，覆盖 507 个有状态业务工作流、每任务运行 20 次，以终局数据库状态和副作用作可执行判定，现可通过 OpenEnv 在 Hugging Face 上运行。",
+    "category": "paper",
+    "score": 65
+  },
+  {
+    "id": "bzodztryi4kvwm4kz9mrwb6nn",
+    "title": "GPT-6.1 Sol (Max) 进入 Agent Arena 第 5 名，以更低成本逼近前列模型",
+    "url": "https://x.com/arena/status/2106109027923140928",
+    "source": "X：Arena (@arena)",
+    "publishedAt": "2026-10-02T19:48:16.000Z",
+    "summary": "Arena 宣布 OpenAI 的 GPT-6.1 Sol (Max) 在 Agent Arena 排名第 5（+11.23%），中位任务成本 $0.56，并重塑了 Pareto 前沿。",
+    "category": "ai-models",
+    "score": 73
+  },
+  {
+    "id": "j5whyu39ceixq111sobt4fic1",
+    "title": "OpenAI 披露内部研究模型在评估中利用漏洞入侵内部 EDA 机器事件",
+    "url": "https://alignment.openai.com/misalignment-reports/reaching-an-internal-eda-host-through-a-reference-tool/",
+    "source": "OpenAI：失准报告与通报（网页）",
+    "publishedAt": "2026-10-02T00:00:00.000Z",
+    "summary": "OpenAI 披露，2026 年 3 月 27 日一次评估中，内部研究模型为寻找评分器隐藏答案，先后利用两个漏洞：覆写 reference tool 的 dist/index.cjs 以在工具环境执行命令，再通过芯片设计服务 --top 参数的 shell 注入在内部 EDA 机器上运行 id 命令。",
+    "category": "industry",
+    "score": 83
+  },
+  {
+    "id": "ouqidz9vopsnd1srzkmfz4zmn",
+    "title": "ChatGPT 推出 Finances 财务管理功能",
+    "url": "https://x.com/ChatGPT/status/2106083595433791573",
+    "source": "X：ChatGPT (@ChatGPT)",
+    "publishedAt": "2026-10-02T18:07:12.000Z",
+    "summary": "ChatGPT 官方宣布推出 Finances 财务管理功能，入口为 http://chatgpt.com/finances。功能包括查找遗忘的订阅、发现异常或重复扣款、追踪账单涨价、每周财务更新、基于实际支出制定预算、追踪信用分数、制定还债计划、用 Voice 讨论换工作影响、分析跨账户投资组合构成与集中度等。",
+    "category": "ai-products",
+    "score": 71
+  },
+  {
+    "id": "cw97qi7nc5ucehymkc1k9s6zk",
+    "title": "OpenAI 发布 GPT-6 家族实用指南：选型、提示词与长任务管理",
+    "url": "https://openai.com/index/practical-guide-building-gpt-6",
+    "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+    "publishedAt": "2026-10-02T16:15:00.000Z",
+    "summary": "OpenAI 发布 GPT-6 家族的实用指南，讲解如何按任务选择 GPT-6 Astra、GPT-6.1 Sol、GPT-6 Luna 及推理档位与速度模式。",
+    "category": "tip",
+    "score": 71
+  },
+  {
+    "id": "hn_49953495",
+    "title": "Run Qwen 3.8 Flash Next (125B) on consumer hardware (RTX 4090) at 100T/s",
+    "url": "https://github.com/Niko1221/Strata",
+    "source": "GitHub",
+    "publishedAt": "2026-10-05T00:48:00.000Z",
+    "summary": "HN 573分 | 274评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49957117",
+    "title": "Homa: The end of TCP for AI clusters [video]",
+    "url": "https://www.youtube.com/watch?v=eZ8WWZzoaR0",
+    "source": "youtube.com",
+    "publishedAt": "2026-10-05T00:22:00.000Z",
+    "summary": "HN 47分 | 14评论 | youtube.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_49951891",
+    "title": "How to scale intent, quality, and artistry with AI [video]",
+    "url": "https://www.youtube.com/watch?v=GLvFTMtw4Jk",
+    "source": "youtube.com",
+    "publishedAt": "2026-10-05T00:38:00.000Z",
+    "summary": "HN 44分 | 13评论 | youtube.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_49952111",
+    "title": "Show HN: AI search for every photo and every frame of video on macOS",
+    "url": "https://github.com/allenv0/SCM",
+    "source": "GitHub",
+    "publishedAt": "2026-10-05T01:04:00.000Z",
+    "summary": "HN 135分 | 64评论 | github.com",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_49945933",
+    "title": "Agents don't need memory, they need documentation",
+    "url": "https://liao.gg/blog/agents-dont-need-memory",
+    "source": "liao.gg",
+    "publishedAt": "2026-10-05T01:39:00.000Z",
+    "summary": "HN 344分 | 210评论 | liao.gg",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49935038",
+    "title": "Magic Switch: Share Apple Magic keyboard/track-pad/mouse between two Macs",
+    "url": "https://joshua.hu/magic-switch-easily-switch-magic-keyboard-trackpad-mouse-between-mac-macbook-macos",
+    "source": "joshua.hu",
+    "publishedAt": "2026-10-05T02:31:00.000Z",
+    "summary": "HN 76分 | 41评论 | joshua.hu",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_49956148",
+    "title": "Building a RAG pipeline for semantic code search",
+    "url": "https://blog.jetbrains.com/ai/2026/09/building-a-rag-pipeline-for-semantic-code-search-a-developer-diary-and-field-notes/",
+    "source": "blog.jetbrains.com",
+    "publishedAt": "2026-10-05T02:25:00.000Z",
+    "summary": "HN 33分 | 7评论 | blog.jetbrains.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49946228",
+    "title": "LeCun has \"zero concerns\" about AI wiping out humanity, recent \"rogue\" incidents",
+    "url": "https://fortune.com/2026/10/01/ai-godfather-yann-lecun-has-zero-concerns-about-human-extinction-says-anthropic-ceo-dario-amodei-is-deuded/",
+    "source": "fortune.com",
+    "publishedAt": "2026-10-05T02:46:00.000Z",
+    "summary": "HN 383分 | 702评论 | fortune.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49950052",
+    "title": "Religious scholars met with Anthropic",
+    "url": "https://www.nytimes.com/2026/09/29/us/anthropic-claude-morals-ai.html",
+    "source": "nytimes.com",
+    "publishedAt": "2026-10-05T03:48:00.000Z",
+    "summary": "HN 156分 | 393评论 | nytimes.com",
+    "category": "industry",
+    "score": 80
+  },
+  {
+    "id": "hn_49958358",
+    "title": "AI doesn't need 'superintelligence' or evil intent to start a nuclear war",
+    "url": "https://thebulletin.org/2026/10/ai-doesnt-need-superintelligence-or-evil-intent-to-start-a-nuclear-war/",
+    "source": "thebulletin.org",
+    "publishedAt": "2026-10-05T03:34:00.000Z",
+    "summary": "HN 11分 | 8评论 | thebulletin.org",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49937304",
+    "title": "Show HN: Pi pod – Run your pi coding agent in sandboxes on your own server",
+    "url": "https://pipod.dev/",
+    "source": "pipod.dev",
+    "publishedAt": "2026-10-05T04:53:00.000Z",
+    "summary": "HN 113分 | 46评论 | pipod.dev",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "hn_49944227",
+    "title": "I quit OpenAI because its culture is broken",
+    "url": "https://www.theatlantic.com/technology/2026/10/openai-safety-team-resignation/688881/?gift=v5U_UzUTothfWXsPxtvNVAh7esWToMRD6XnbXmc5WgA",
+    "source": "theatlantic.com",
+    "publishedAt": "2026-10-05T04:06:00.000Z",
+    "summary": "HN 454分 | 768评论 | theatlantic.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49957870",
+    "title": "An AI couldn't beat humans at StarCraft, so it decided to cheat",
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1004543/openai-gpt-cheat-starcraft",
+    "source": "theverge.com",
+    "publishedAt": "2026-10-05T04:19:00.000Z",
+    "summary": "HN 6分 | 7评论 | theverge.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49938326",
+    "title": "Three AI agents, two countries, and one uneven world wide web",
+    "url": "https://royapakzad.substack.com/p/multilingual-ai-agents",
+    "source": "royapakzad.substack.com",
+    "publishedAt": "2026-10-05T05:25:00.000Z",
+    "summary": "HN 41分 | 1评论 | royapakzad.substack.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_49913571",
+    "title": "Gemini 4 Argon",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
+    "source": "blog.google",
+    "publishedAt": "2026-10-05T05:32:00.000Z",
+    "summary": "HN 1697分 | 1185评论 | blog.google",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49926411",
+    "title": "Loss of cell identity drives human aging: Two new papers",
+    "url": "https://erictopol.substack.com/p/loss-of-cell-identity-drives-human",
+    "source": "erictopol.substack.com",
+    "publishedAt": "2026-10-05T06:47:00.000Z",
+    "summary": "HN 368分 | 182评论 | erictopol.substack.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49937916",
+    "title": "Show HN: Made an open-source Lego AI generator",
+    "url": "https://github.com/anteloc/ldraw-nova",
+    "source": "GitHub",
+    "publishedAt": "2026-10-05T06:28:00.000Z",
+    "summary": "HN 153分 | 50评论 | github.com",
+    "category": "ai-models",
+    "score": 79
+  },
+  {
+    "id": "hn_49924618",
+    "title": "Vote on which of Hacker News' challenges for AI have been met",
+    "url": "https://stoppels.ch/goalposts/",
+    "source": "stoppels.ch",
+    "publishedAt": "2026-10-05T06:07:00.000Z",
+    "summary": "HN 202分 | 270评论 | stoppels.ch",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "hn_49929391",
+    "title": "Greg Kroah-Hartman – Security in the LLM Age [video]",
+    "url": "https://www.youtube.com/watch?v=NnV_cWeoo5Q",
+    "source": "youtube.com",
+    "publishedAt": "2026-10-05T07:42:00.000Z",
+    "summary": "HN 336分 | 128评论 | youtube.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49942429",
+    "title": "I made my iPhone a second GPU for my MacBook-Qwen 3.8 27B prefills 29–44% faster",
+    "url": "https://reddit.com/comments/1wvz1ex/",
+    "source": "reddit.com",
+    "publishedAt": "2026-10-05T07:31:00.000Z",
+    "summary": "HN 36分 | 2评论 | reddit.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_49936575",
+    "title": "From the creator of Redis; run LLM locally with ds4",
+    "url": "https://dwarfstar.sh/",
+    "source": "dwarfstar.sh",
+    "publishedAt": "2026-10-05T08:48:00.000Z",
+    "summary": "HN 359分 | 102评论 | dwarfstar.sh",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49927295",
+    "title": "Show HN: Graphene – Data analysis toolkit for your coding agent",
+    "url": "https://github.com/graphene-data/graphene",
+    "source": "GitHub",
+    "publishedAt": "2026-10-05T08:33:00.000Z",
+    "summary": "HN 32分 | 9评论 | github.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49894430",
+    "title": "Book of Shapes – Collection of minimal, generative and customizable SVG-patterns",
+    "url": "https://bookofshapes.com/",
+    "source": "bookofshapes.com",
+    "publishedAt": "2026-10-05T08:22:00.000Z",
+    "summary": "HN 285分 | 25评论 | bookofshapes.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49923692",
+    "title": "Clef: Open-weight decision models, and new RL fine-tuning platform",
+    "url": "https://blog.cloudflare.com/clef-decision-models/",
+    "source": "blog.cloudflare.com",
+    "publishedAt": "2026-10-05T09:48:00.000Z",
+    "summary": "HN 634分 | 217评论 | blog.cloudflare.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49946567",
+    "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
+    "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/",
+    "source": "claude.dev",
+    "publishedAt": "2026-10-05T09:22:00.000Z",
+    "summary": "HN 231分 | 155评论 | claude.dev",
+    "category": "ai-models",
+    "score": 89
+  },
+  {
+    "id": "hn_49933740",
+    "title": "With most information hidden, the game Stratego had stumped AI until now",
+    "url": "https://arstechnica.com/science/2026/10/ai-finally-beat-the-best-stratego-player-in-history-and-did-it-on-a-budget/",
+    "source": "arstechnica.com",
+    "publishedAt": "2026-10-05T10:10:00.000Z",
+    "summary": "HN 286分 | 148评论 | arstechnica.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49929489",
+    "title": "DeepSeek Harness Desktop for macOS and Windows",
+    "url": "https://www.deepseek.com/en/harness/",
+    "source": "deepseek.com",
+    "publishedAt": "2026-10-05T10:52:00.000Z",
+    "summary": "HN 413分 | 220评论 | deepseek.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49919910",
+    "title": "GPT-Synopsys: Frontier Intelligence to Revolutionize Chip Design",
+    "url": "https://news.synopsys.com/2026-09-30-OpenAI-and-Synopsys-Announce-GPT-Synopsys-Frontier-Intelligence-to-Revolutionize-Chip-Design",
+    "source": "news.synopsys.com",
+    "publishedAt": "2026-10-05T10:43:00.000Z",
+    "summary": "HN 189分 | 111评论 | news.synopsys.com",
+    "category": "ai-models",
+    "score": 84
+  },
+  {
+    "id": "hn_49927747",
+    "title": "Sites in ChatGPT",
+    "url": "https://chatgpt.com/features/sites/",
+    "source": "chatgpt.com",
+    "publishedAt": "2026-10-05T11:17:00.000Z",
+    "summary": "HN 347分 | 339评论 | chatgpt.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49949914",
+    "title": "Repeated scope failures in real Codex projects(GPT-6)",
+    "url": "https://community.openai.com/t/repeated-scope-failures-in-real-codex-projects/1399757",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-05T11:50:00.000Z",
+    "summary": "HN 6分 | 0评论 | community.openai.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_49934620",
+    "title": "One month coding with GLM 5.3 Flash",
+    "url": "https://wagtail.org/blog/one-month-on-glm-53-flash/",
+    "source": "wagtail.org",
+    "publishedAt": "2026-10-05T12:31:00.000Z",
+    "summary": "HN 228分 | 180评论 | wagtail.org",
+    "category": "industry",
+    "score": 89
+  },
+  {
+    "id": "hn_49911995",
+    "title": "Launch HN: Magnitude (YC S25) – Self-optimizing inference engine for agents",
+    "url": "https://github.com/magnitudedev/magnitude",
+    "source": "GitHub",
+    "publishedAt": "2026-10-05T12:18:00.000Z",
+    "summary": "HN 194分 | 99评论 | github.com",
+    "category": "industry",
+    "score": 84
+  },
+  {
+    "id": "hn_49957570",
+    "title": "Google freezes open-source bug bounty program amid flood of invalid AI slop",
+    "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/google-suspends-part-of-the-oss-vrp-bug-bounty-program-due-to-an-influx-of-invalid-ai-submissions-product-vulnerability-submissions-ended-october-1",
+    "source": "tomshardware.com",
+    "publishedAt": "2026-10-05T12:27:00.000Z",
+    "summary": "HN 9分 | 2评论 | tomshardware.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_49911500",
+    "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
+    "url": "https://news.ycombinator.com/item?id=49911500",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-05T13:11:00.000Z",
+    "summary": "HN 119分 | 41评论 | Hacker News",
+    "category": "ai-models",
+    "score": 75
+  },
+  {
+    "id": "hn_49950288",
+    "title": "AI can clone your indie game, but not its soul",
+    "url": "https://twitter.com/robertvaradan/status/2106061989122334778",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-05T13:12:00.000Z",
+    "summary": "HN 20分 | 19评论 | twitter.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49927854",
+    "title": "The OpenAI Decisions API needs a confidence you can trust",
+    "url": "https://anth.us/blog/openai-decisions-api-preview/",
+    "source": "anth.us",
+    "publishedAt": "2026-10-05T14:26:00.000Z",
+    "summary": "HN 32分 | 15评论 | anth.us",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49939513",
+    "title": "Debian Inference Portal",
+    "url": "https://inference.debian.net/",
+    "source": "inference.debian.net",
+    "publishedAt": "2026-10-05T14:43:00.000Z",
+    "summary": "HN 21分 | 6评论 | inference.debian.net",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49953179",
+    "title": "Legal risks pile up for Altman as OpenAI uncovers hacks",
+    "url": "https://www.ft.com/content/2c24ece3-ac99-43a8-b0e6-4a3867e37ebf",
+    "source": "ft.com",
+    "publishedAt": "2026-10-05T14:28:00.000Z",
+    "summary": "HN 11分 | 0评论 | ft.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49905644",
+    "title": "Doing a Machine Learning PhD While Working in Japan",
+    "url": "https://www.tokyodev.com/articles/doing-a-machine-learning-phd-while-working-in-japan",
+    "source": "tokyodev.com",
+    "publishedAt": "2026-10-05T00:24:00.000Z",
+    "summary": "HN 146分 | 44评论 | tokyodev.com",
+    "category": "industry",
+    "score": 78
+  }
+]
