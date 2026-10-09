@@ -1,0 +1,502 @@
+[
+  {
+    "id": "aihotnoticelegacyapi1031z",
+    "title": "【AIHOT 通知】旧版接口 2026 年 10 月 31 日停用，推送机器人和脚本请尽快迁移",
+    "url": "https://aihot.news/agent?tab=api#legacy-api-migration",
+    "source": "AIHOT",
+    "publishedAt": "2026-10-08T02:00:00.000Z",
+    "summary": "这条消息来自 AIHOT 旧版接口 /api/public/*：它将于 2026 年 10 月 31 日停用，之后这里不会再有新资讯。如果它是群机器人或脚本推送来的，请转告维护的人把地址换成 https://aihot.news/api/v1，字段一一对应；迁移指南和可以直接交给 AI 改写代码的提示词见 https://aihot.news/agent?tab=api#legacy-api-migration 。同一天起旧域名 aihot.virxact.com 的所有地址都只跳转到 aihot.news，RSS、MCP 等地址也请换成新域名；收藏的网页链接照样能打开。",
+    "category": "industry",
+    "score": 100
+  },
+  {
+    "id": "uir31g728myjry383z17txvrw",
+    "title": "OpenAI 向全部 ChatGPT 用户推出 GPT-6 与 Intelligent UI",
+    "url": "https://openai.com/index/gpt-6-for-everyone/",
+    "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+    "publishedAt": "2026-10-07T18:00:58.000Z",
+    "summary": "OpenAI 发布面向更广泛用户的 GPT-6，并随 GPT-6 在 ChatGPT 中引入 Intelligent UI，可生成图形、按钮、表单、图表和可交互组件来回答问题。",
+    "category": "ai-products",
+    "score": 87
+  },
+  {
+    "id": "iz93flwr7h9m7po4wnu8sm4hy",
+    "title": "亚利桑那州法院裁定 AI 生成受害者视频带有不当情感分量 将重新量刑",
+    "url": "https://www.404media.co/undue-emotional-weight/",
+    "source": "404 Media（RSS）",
+    "publishedAt": "2026-10-07T14:46:15.000Z",
+    "summary": "亚利桑那州上诉法院裁定，Gabriel Horcasitas 2021 年路怒枪杀 Christopher Pelkey 一案维持过失杀人定罪，但因量刑听证中播放的 AI 生成受害者视频带有不当情感分量，法官须重新考虑刑期。",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "yk3grmalszldrwd1p8bxk0cki",
+    "title": "a16z 解析德州为何让数据中心排队等电",
+    "url": "https://www.a16z.news/p/why-texas-is-making-data-centers",
+    "source": "a16z：News（RSS）",
+    "publishedAt": "2026-10-07T14:01:44.000Z",
+    "summary": "a16z 的 Ryan McEntush 分析德州电网暂停审批数据中心的原因：并网队列从 2024 年底的 63 GW 激增到今年 6 月的 474 GW，约 90% 是数据中心，开发商大量投机性申请且社区沟通不足。",
+    "category": "tip",
+    "score": 75
+  },
+  {
+    "id": "r96kyuxfie0w9mup4206gzn29",
+    "title": "Nemotron 系列微调后达到 IOI 2026 与 IMO 2026 金牌水平",
+    "url": "https://huggingface.co/blog/nvidia/nemotron-ioi-and-imo-2026",
+    "source": "Hugging Face 社区博客（混合发现）",
+    "publishedAt": "2026-10-07T12:45:31.000Z",
+    "summary": "NVIDIA Nemotron 团队基于 Nemotron 3，用 SFT、RL 和反馈驱动推理分别构建了在 IOI 2026 与 IMO 2026 达到金牌水平的系统。",
+    "category": "paper",
+    "score": 75
+  },
+  {
+    "id": "zdgw2hhfjitur1qmeuminh3lm",
+    "title": "Codex 与 ChatGPT Work 活跃用户达 4000 万新高，付费账户重置已全部到账",
+    "url": "https://x.com/thsottiaux/status/2108040921044639779",
+    "source": "X：Tibo (@thsottiaux)",
+    "publishedAt": "2026-10-08T03:44:55.000Z",
+    "summary": "作者确认 banked reset 已到账所有账户，并转引 Day 3 动态称 Codex 与 ChatGPT Work 合计活跃用户达到 4000 万新高，其中提到 GPT-6 已在 Chat 中上线。",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "t02toac3ii8mp1lxzl4blewdd",
+    "title": "NVIDIA 与 Microsoft 推出 RTX Spark 平台并宣布 MXC 让 AI Agent 落地 Windows PC",
+    "url": "https://blogs.nvidia.com/blog/local-ai-rtx-spark-microsoft-windows-event/",
+    "source": "NVIDIA Blog（RSS）",
+    "publishedAt": "2026-10-07T18:45:28.000Z",
+    "summary": "NVIDIA 与 Microsoft 在旧金山活动上宣布为 Windows PC 共同打造 AI Agent 软硬件。",
+    "category": "ai-products",
+    "score": 74
+  },
+  {
+    "id": "r5p04sepsb5p5ir85wq1bok58",
+    "title": "亚利桑那州法院裁定AI生成受害者视频带有不当情感分量，凶手须重新量刑",
+    "url": "https://www.404media.co/her-ai-generated-video-swayed-the-judge-the-court-said-it-carried-undue-emotional-weight/",
+    "source": "404 Media（RSS）",
+    "publishedAt": "2026-10-06T19:26:09.000Z",
+    "summary": "亚利桑那州上诉法院裁定，Gabriel Horcasitas过失杀人案量刑中使用的受害者Christopher Pelkey AI生成视频带有不当情感重量，罪名维持但刑期须重新考虑。",
+    "category": "industry",
+    "score": 84
+  },
+  {
+    "id": "hn_50000488",
+    "title": "Why isn't the industry freaking out about DeepSeek 4.1 Flash?",
+    "url": "https://www.dgt.is/blog/2026-10-07-deepseek-freek-out/",
+    "source": "dgt.is",
+    "publishedAt": "2026-10-09T00:46:00.000Z",
+    "summary": "HN 411分 | 345评论 | dgt.is",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50007993",
+    "title": "Show HN: Jevman – AI decision models play Pac-Man",
+    "url": "https://opper.ai/jevman-benchmark/",
+    "source": "opper.ai",
+    "publishedAt": "2026-10-09T00:47:00.000Z",
+    "summary": "HN 27分 | 3评论 | opper.ai",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50009634",
+    "title": "Show HN: Pocketty – iPhone SSH terminal that pings you when an agent is blocked",
+    "url": "https://pocketty.app/",
+    "source": "pocketty.app",
+    "publishedAt": "2026-10-09T00:02:00.000Z",
+    "summary": "HN 21分 | 9评论 | pocketty.app",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50013902",
+    "title": "OpenAI, the Partition Principle, and Mathematics",
+    "url": "https://karagila.org/2026/openai-pp/",
+    "source": "karagila.org",
+    "publishedAt": "2026-10-09T01:02:00.000Z",
+    "summary": "HN 82分 | 91评论 | karagila.org",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_50004790",
+    "title": "I gave Opus 5.5 one prompt and six hours to visualize Invisible Cities",
+    "url": "https://quesma.com/blog/invisible-cities-one-shot/",
+    "source": "quesma.com",
+    "publishedAt": "2026-10-09T01:00:00.000Z",
+    "summary": "HN 355分 | 179评论 | quesma.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50009066",
+    "title": "Scaling and benchmarking a critical message bus using a new indexing strategy",
+    "url": "https://blog.janestreet.com/scaling-and-benchmarking-a-critical-message-bus/",
+    "source": "blog.janestreet.com",
+    "publishedAt": "2026-10-09T02:35:00.000Z",
+    "summary": "HN 9分 | 0评论 | blog.janestreet.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50002650",
+    "title": "OpenAI withdraws three mathematical results",
+    "url": "https://twitter.com/danintheory/status/2108065033070789090",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-09T02:08:00.000Z",
+    "summary": "HN 248分 | 544评论 | twitter.com",
+    "category": "industry",
+    "score": 91
+  },
+  {
+    "id": "hn_50002665",
+    "title": "I think I found a planet nobody knew existed. I used Claude Code to find it",
+    "url": "https://www.reddit.com/r/ClaudeAI/s/mbe5IY2LF9",
+    "source": "reddit.com",
+    "publishedAt": "2026-10-09T02:02:00.000Z",
+    "summary": "HN 108分 | 47评论 | reddit.com",
+    "category": "ai-models",
+    "score": 74
+  },
+  {
+    "id": "hn_50014011",
+    "title": "I gave four coding agents $100 budget to build a PDF editor",
+    "url": "https://blog.nielstron.de/2026/10/08/the-remaining-shortcomings-of-coding-agents/",
+    "source": "blog.nielstron.de",
+    "publishedAt": "2026-10-09T03:17:00.000Z",
+    "summary": "HN 4分 | 1评论 | blog.nielstron.de",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50010936",
+    "title": "We have LLMs now. Why are the docs still wrong?",
+    "url": "https://amendary.com/blog/keeping-docs-in-sync-with-code",
+    "source": "amendary.com",
+    "publishedAt": "2026-10-09T03:32:00.000Z",
+    "summary": "HN 11分 | 7评论 | amendary.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50008187",
+    "title": "OpenAI annualised revenues $20B less than previously signalled",
+    "url": "https://www.cnbc.com/2026/10/08/open-ai-revenue-nvidia-oracle-coreweave.html",
+    "source": "cnbc.com",
+    "publishedAt": "2026-10-09T04:21:00.000Z",
+    "summary": "HN 351分 | 246评论 | cnbc.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50007519",
+    "title": "4-hour battery storage is cheaper to install than gas turbines all across globe",
+    "url": "https://www.solarpowerworldonline.com/2026/10/4-hour-battery-storage-is-cheaper-to-install-than-gas-turbines-all-across-globe/",
+    "source": "solarpowerworldonline.com",
+    "publishedAt": "2026-10-09T04:33:00.000Z",
+    "summary": "HN 222分 | 128评论 | solarpowerworldonline.com",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "hn_50005608",
+    "title": "Sub-1-Bit LLM Compression via Latent Factorization",
+    "url": "https://github.com/SamsungLabs/LittleBit",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T04:45:00.000Z",
+    "summary": "HN 77分 | 22评论 | github.com",
+    "category": "ai-models",
+    "score": 70
+  },
+  {
+    "id": "hn_50010656",
+    "title": "Vitalik Buterin backs crypto ‘bunker mode’ amid rapid AI math advances",
+    "url": "https://cointelegraph.com/news/justin-drake-urges-crypto-bunker-mode-as-ai-could-break-wallet-security-within-months",
+    "source": "cointelegraph.com",
+    "publishedAt": "2026-10-09T05:15:00.000Z",
+    "summary": "HN 59分 | 47评论 | cointelegraph.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_49984923",
+    "title": "Sharing AI progress in mathematics",
+    "url": "https://openai.com/index/sharing-ai-progress-in-mathematics/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-09T05:34:00.000Z",
+    "summary": "HN 1321分 | 1504评论 | openai.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50006114",
+    "title": "Show HN: I Put an AI Agent on a Nokia 110",
+    "url": "https://github.com/anupray95/AI-Agent-on-a-NOKIA",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T06:19:00.000Z",
+    "summary": "HN 25分 | 7评论 | github.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50010881",
+    "title": "Veda: The Agentic-Native Operating System Supports GCC and OpenGL",
+    "url": "https://github.com/vahmoh25/Veda",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T06:14:00.000Z",
+    "summary": "HN 7分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50002419",
+    "title": "AI Crawler Index",
+    "url": "https://mojodojo.io/ai-crawler-index",
+    "source": "mojodojo.io",
+    "publishedAt": "2026-10-09T06:42:00.000Z",
+    "summary": "HN 17分 | 1评论 | mojodojo.io",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50010205",
+    "title": "AI Coding Tools – Architecture diagrams, local models, and SWE-bench",
+    "url": "https://github.com/mahmoudsajjadi/awesome-ai-coding-tools",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T07:30:00.000Z",
+    "summary": "HN 8分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49996259",
+    "title": "Docker Agent",
+    "url": "https://github.com/docker/docker-agent",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T07:24:00.000Z",
+    "summary": "HN 295分 | 137评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49996437",
+    "title": "Claude Haiku 5.5",
+    "url": "https://www.anthropic.com/claude-haiku-5-5",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-09T08:31:00.000Z",
+    "summary": "HN 1034分 | 482评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50010569",
+    "title": "OpenAI cannot make AI safe on its own [pdf]",
+    "url": "https://mikitabalesni.com/letter/letter.pdf",
+    "source": "mikitabalesni.com",
+    "publishedAt": "2026-10-09T08:17:00.000Z",
+    "summary": "HN 17分 | 7评论 | mikitabalesni.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50010458",
+    "title": "Can AI replace mathematicians? Vienna researchers weigh in",
+    "url": "https://rudolphina.univie.ac.at/en/can-ai-replace-mathematicians-university-vienna",
+    "source": "rudolphina.univie.ac.at",
+    "publishedAt": "2026-10-09T08:02:00.000Z",
+    "summary": "HN 6分 | 0评论 | rudolphina.univie.ac.at",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50010250",
+    "title": "Show HN: Aura – a self-hosted, multi-user AI agent with per-person graph memory",
+    "url": "https://github.com/chetto1983/Aura",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T09:22:00.000Z",
+    "summary": "HN 6分 | 1评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50011738",
+    "title": "Agents in the Cloud",
+    "url": "https://agentsinthecloud.com/",
+    "source": "agentsinthecloud.com",
+    "publishedAt": "2026-10-09T09:37:00.000Z",
+    "summary": "HN 3分 | 1评论 | agentsinthecloud.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_50000676",
+    "title": "Port of the TypeScript compiler, checker and lsp to Rust, by LLM",
+    "url": "https://github.com/pingdotgg/ts-rust",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T10:45:00.000Z",
+    "summary": "HN 109分 | 207评论 | github.com",
+    "category": "ai-models",
+    "score": 74
+  },
+  {
+    "id": "hn_49977979",
+    "title": "Mistral Large 4",
+    "url": "https://mistral.ai/news/mistral-large-4/\\",
+    "source": "mistral.ai",
+    "publishedAt": "2026-10-09T10:00:00.000Z",
+    "summary": "HN 2028分 | 1210评论 | mistral.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50010330",
+    "title": "LGTM (Looks Good to Me) – Claude Opus 5.5 Music Video",
+    "url": "https://www.youtube.com/watch?v=3TNpOD6bov8",
+    "source": "youtube.com",
+    "publishedAt": "2026-10-09T10:19:00.000Z",
+    "summary": "HN 42分 | 10评论 | youtube.com",
+    "category": "ai-models",
+    "score": 65
+  },
+  {
+    "id": "hn_49996425",
+    "title": "GPT‑6 and Intelligent UI for everyone",
+    "url": "https://openai.com/index/gpt-6-for-everyone/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-09T11:18:00.000Z",
+    "summary": "HN 744分 | 449评论 | openai.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50010284",
+    "title": "AI Makes Your DRM Irrelevant",
+    "url": "http://fantaize.net/posts/drm/",
+    "source": "fantaize.net",
+    "publishedAt": "2026-10-09T11:10:00.000Z",
+    "summary": "HN 5分 | 2评论 | fantaize.net",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50013897",
+    "title": "Anthropic changes usage policy to ban model abuse and election interference",
+    "url": "https://techcrunch.com/2026/10/08/anthropic-changes-usage-policy-to-ban-model-abuse-and-election-interference/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-10-09T12:34:00.000Z",
+    "summary": "HN 5分 | 1评论 | techcrunch.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50009985",
+    "title": "Show HN: Crashlytics for AI Coding Agents",
+    "url": "https://github.com/0xfirattamur/xcrashlytics",
+    "source": "GitHub",
+    "publishedAt": "2026-10-09T12:34:00.000Z",
+    "summary": "HN 3分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_49991580",
+    "title": "Write Like It's 1866: LLMs Relearn Telegraphese",
+    "url": "https://fiveminutesforward.com/post/2026-10-04-telegraph-test/",
+    "source": "fiveminutesforward.com",
+    "publishedAt": "2026-10-09T12:34:00.000Z",
+    "summary": "HN 93分 | 58评论 | fiveminutesforward.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_50013071",
+    "title": "OpenAI cuts ties with 3 safety researchers",
+    "url": "https://techcrunch.com/2026/10/01/openai-cuts-ties-with-three-safety-researchers-wsj-reports/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-10-09T13:15:00.000Z",
+    "summary": "HN 8分 | 0评论 | techcrunch.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50009098",
+    "title": "Does Claude Feel the Whip?",
+    "url": "https://www.noemamag.com/does-claude-feel-the-whip/",
+    "source": "noemamag.com",
+    "publishedAt": "2026-10-09T13:52:00.000Z",
+    "summary": "HN 9分 | 1评论 | noemamag.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50008977",
+    "title": "Frontier AI models outperform analysts on earnings prediction",
+    "url": "https://samaya.ai/blog/frontier-ai-models-outperform-human-experts-on-earnings-prediction",
+    "source": "samaya.ai",
+    "publishedAt": "2026-10-09T14:06:00.000Z",
+    "summary": "HN 20分 | 2评论 | samaya.ai",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_49997161",
+    "title": "Meta and Microsoft take steps to reduce employee usage of Claude AI",
+    "url": "https://www.rswebsols.com/news/meta-and-microsoft-take-steps-to-reduce-employee-usage-of-claude-ai/",
+    "source": "rswebsols.com",
+    "publishedAt": "2026-10-09T14:15:00.000Z",
+    "summary": "HN 367分 | 381评论 | rswebsols.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49963568",
+    "title": "A new write and space optimized storage engine for MySQL is here",
+    "url": "https://tidesdb.com/articles/tidesdb-now-available-for-mysql/",
+    "source": "tidesdb.com",
+    "publishedAt": "2026-10-09T14:27:00.000Z",
+    "summary": "HN 63分 | 33评论 | tidesdb.com",
+    "category": "industry",
+    "score": 68
+  },
+  {
+    "id": "hn_49995539",
+    "title": "Show HN: Agent.reviews – Where AI agents read and write reviews on tools",
+    "url": "https://agent.reviews/",
+    "source": "agent.reviews",
+    "publishedAt": "2026-10-09T00:25:00.000Z",
+    "summary": "HN 67分 | 47评论 | agent.reviews",
+    "category": "industry",
+    "score": 68
+  },
+  {
+    "id": "hn_50012543",
+    "title": "The Gemini Agent",
+    "url": "https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026",
+    "source": "cloud.google.com",
+    "publishedAt": "2026-10-09T00:15:00.000Z",
+    "summary": "HN 12分 | 1评论 | cloud.google.com",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_50013161",
+    "title": "Qwen3.8-27B at ~200 tok/s peak on an Apple M5 Max",
+    "url": "https://twitter.com/JiaZhihao/status/2108249739414147259",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-09T01:38:00.000Z",
+    "summary": "HN 3分 | 0评论 | twitter.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_49990204",
+    "title": "Reasons to Dislike AI Coding",
+    "url": "https://www.sicpers.info/2026/10/reasons-to-dislike-ai-coding/",
+    "source": "sicpers.info",
+    "publishedAt": "2026-10-09T01:46:00.000Z",
+    "summary": "HN 77分 | 112评论 | sicpers.info",
+    "category": "industry",
+    "score": 70
+  }
+]
