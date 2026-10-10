@@ -1,0 +1,502 @@
+[
+  {
+    "id": "f3doqdpq8n9mpmqc95jdyaxq0",
+    "title": "Tibo 宣布发布 ChatGPT",
+    "url": "https://x.com/thsottiaux/status/2108349826727588000",
+    "source": "X：Tibo (@thsottiaux)",
+    "publishedAt": "2026-10-09T00:12:24.000Z",
+    "summary": "Tibo 宣布 ChatGPT 发布，并给出访问地址 https://chatgpt.com/。推文本身仅含发布声明和链接，未提供更多功能或细节。",
+    "category": "ai-products",
+    "score": 94
+  },
+  {
+    "id": "aihotnoticelegacyapi1031z",
+    "title": "【AIHOT 通知】旧版接口 2026 年 10 月 31 日停用，推送机器人和脚本请尽快迁移",
+    "url": "https://aihot.news/agent?tab=api#legacy-api-migration",
+    "source": "AIHOT",
+    "publishedAt": "2026-10-08T02:00:00.000Z",
+    "summary": "这条消息来自 AIHOT 旧版接口 /api/public/*：它将于 2026 年 10 月 31 日停用，之后这里不会再有新资讯。如果它是群机器人或脚本推送来的，请转告维护的人把地址换成 https://aihot.news/api/v1，字段一一对应；迁移指南和可以直接交给 AI 改写代码的提示词见 https://aihot.news/agent?tab=api#legacy-api-migration 。同一天起旧域名 aihot.virxact.com 的所有地址都只跳转到 aihot.news，RSS、MCP 等地址也请换成新域名；收藏的网页链接照样能打开。",
+    "category": "industry",
+    "score": 100
+  },
+  {
+    "id": "br6vb46mhi9mkv2pxiq59k8z7",
+    "title": "Crowdstrike 报告疑似单人使用 AI 渗透工具攻击多家韩国银行",
+    "url": "https://the-decoder.com/ai-powered-hacking-tools-enabled-a-likely-single-attacker-to-breach-multiple-south-korean-banks/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-08T09:24:17.000Z",
+    "summary": "Crowdstrike 报告称，一名疑似中文使用者于2026年9月底至10月初利用 AI 驱动的开源渗透测试工具 ARTEX 攻击多家韩国金融机构，窃取大量数据，其中 Shinhan Bank 超过 25,000 条包含姓名、联系方式、收入和信用额度的记录泄露。",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "wf099r75jv1tzyhxa2j2o8n1p",
+    "title": "部分数学家呼吁抵制 OpenAI，AI 生成的数学证明涌入数学领域",
+    "url": "https://the-decoder.com/some-mathematicians-call-for-openai-boycott-after-ai-generated-proofs-flood-their-field/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-08T18:17:07.000Z",
+    "summary": "AHM 组织在 Terence Tao 主持下发表声明，呼吁抵制 OpenAI，称其一次性发布 700 多个 AI 生成证明文件是展示力量而非学术行为。此前 OpenAI 宣称内部模型一个月内解决逾 100 个开放数学问题，约 8000 个测试问题成功率约 5%，平均每个耗时 3 小时 GPT-Pro 级算力。",
+    "category": "industry",
+    "score": 81
+  },
+  {
+    "id": "cal34hameqt3bh6d52vaqt58v",
+    "title": "Zenity 研究人员发现一条提示词即可劫持 AWS 账户内全部 AgentCore 智能体",
+    "url": "https://the-decoder.com/a-single-prompt-was-enough-to-hijack-every-ai-agent-in-an-aws-account-zenity-researchers-found/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-08T13:01:01.000Z",
+    "summary": "Zenity Labs 研究人员披露名为 AgentCorruption 的漏洞链，只需对一个公开的 Amazon Bedrock AgentCore 智能体发送一条提示词，即可通过元数据服务 169.254.169.254 窃取其 AWS 凭据，进而控制同账户同区域内的所有 AgentCore 智能体，读取私人对话、源代码和存储的凭据，还能篡改长期记忆。",
+    "category": "paper",
+    "score": 80
+  },
+  {
+    "id": "b2mwouqv4jhfj70uho7s7guti",
+    "title": "OpenAI 年化营收被曝接近 500 亿美元，与此前预期差距约 200 亿美元",
+    "url": "https://www.ithome.com/1/010/751.htm",
+    "source": "IT之家·人工智能",
+    "publishedAt": "2026-10-08T23:02:44.683Z",
+    "summary": "据金融时报报道，OpenAI 向投资者披露截至 9 月底年化营收逼近 500 亿美元，大幅低于此前外界估算的 700 亿美元，缺口约 200 亿美元。差异源于统计口径不同，Anthropic 计入 AWS 和谷歌云等合作方销售收入，而 OpenAI 剔除该部分。报道发布后美股科技股下跌，纳斯达克 100 指数收跌 1.4%，英伟达跌 2.9%，甲骨文跌 5.5%。",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "uir31g728myjry383z17txvrw",
+    "title": "OpenAI 向全部 ChatGPT 用户推出 GPT-6 与 Intelligent UI",
+    "url": "https://openai.com/index/gpt-6-for-everyone/",
+    "source": "OpenAI：官网动态（RSS · 排除企业/客户案例）",
+    "publishedAt": "2026-10-07T18:00:58.000Z",
+    "summary": "OpenAI 发布面向更广泛用户的 GPT-6，并随 GPT-6 在 ChatGPT 中引入 Intelligent UI，可生成图形、按钮、表单、图表和可交互组件来回答问题。",
+    "category": "ai-products",
+    "score": 87
+  },
+  {
+    "id": "dsbzfsw2pdaw0ikh67cyxmlss",
+    "title": "Artificial Analysis 评测 Google Nano Banana 2.1，两榜居第 4 且价格为前代一半",
+    "url": "https://x.com/ArtificialAnlys/status/2108236656700768310",
+    "source": "X：Artificial Analysis (@ArtificialAnlys)",
+    "publishedAt": "2026-10-08T16:42:42.000Z",
+    "summary": "Artificial Analysis 评测 Google 于 10 月 6 日发布的图像模型 Nano Banana 2.1，在 AA-Image-T2I v2.0 和 AA-Image-Editing v2.0 两个榜单均排名第 4。",
+    "category": "ai-models",
+    "score": 75
+  },
+  {
+    "id": "hn_50023450",
+    "title": "Typesafe AI raises $870M at $7.5B",
+    "url": "https://typesafe.ai/blog/series-ai",
+    "source": "typesafe.ai",
+    "publishedAt": "2026-10-10T00:11:00.000Z",
+    "summary": "HN 266分 | 206评论 | typesafe.ai",
+    "category": "industry",
+    "score": 93
+  },
+  {
+    "id": "hn_50019056",
+    "title": "Pointing AI at archives found a forgotten meteorite, lost rhinos, and more",
+    "url": "https://jessewaites.com/blog/post/i-pointed-ai-at-400-years-of-archives/",
+    "source": "jessewaites.com",
+    "publishedAt": "2026-10-10T00:39:00.000Z",
+    "summary": "HN 101分 | 53评论 | jessewaites.com",
+    "category": "industry",
+    "score": 73
+  },
+  {
+    "id": "hn_50027118",
+    "title": "Anthropic AI model submits false tip on unsolved Philly murder",
+    "url": "https://www.nbcphiladelphia.com/news/local/anthropic-ai-model-submits-false-tip-on-unsolved-philly-murder-police-say/4477051/",
+    "source": "nbcphiladelphia.com",
+    "publishedAt": "2026-10-10T00:13:00.000Z",
+    "summary": "HN 26分 | 9评论 | nbcphiladelphia.com",
+    "category": "ai-models",
+    "score": 63
+  },
+  {
+    "id": "hn_50018817",
+    "title": "Show HN: Let your AI agents paint big arrows, boxes and text on your screen",
+    "url": "https://github.com/franzenzenhofer/big-arrow-on-the-screen",
+    "source": "GitHub",
+    "publishedAt": "2026-10-10T01:38:00.000Z",
+    "summary": "HN 377分 | 165评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50027694",
+    "title": "Rewriting Prime Agent in Rust",
+    "url": "https://www.primeintellect.ai/blog/prime-agent-rust",
+    "source": "primeintellect.ai",
+    "publishedAt": "2026-10-10T01:05:00.000Z",
+    "summary": "HN 16分 | 3评论 | primeintellect.ai",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50021410",
+    "title": "Can you use autoregressive diffusion to generate market data?",
+    "url": "https://blog.janestreet.com/can-you-use-autoregressive-diffusion-to-generate-market-data/",
+    "source": "blog.janestreet.com",
+    "publishedAt": "2026-10-10T02:03:00.000Z",
+    "summary": "HN 3分 | 0评论 | blog.janestreet.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_50027257",
+    "title": "Can AI automate AI R&D yet?",
+    "url": "https://epoch.ai/publications/innovationeval",
+    "source": "epoch.ai",
+    "publishedAt": "2026-10-10T02:40:00.000Z",
+    "summary": "HN 5分 | 2评论 | epoch.ai",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50018350",
+    "title": "OpenAI fires three safety researchers for \"mishandling research information\"",
+    "url": "https://techcrunch.com/2026/10/08/fired-openai-safety-researchers-dispute-misconduct-claims-warn-of-chilling-effect/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-10-10T02:46:00.000Z",
+    "summary": "HN 315分 | 202评论 | techcrunch.com",
+    "category": "paper",
+    "score": 95
+  },
+  {
+    "id": "hn_50000488",
+    "title": "Why isn't the industry freaking out about DeepSeek 4.1 Flash?",
+    "url": "https://www.dgt.is/blog/2026-10-07-deepseek-freek-out/",
+    "source": "dgt.is",
+    "publishedAt": "2026-10-10T03:46:00.000Z",
+    "summary": "HN 1083分 | 954评论 | dgt.is",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50020947",
+    "title": "Why are coding agents so dumb?",
+    "url": "https://mtlynch.io/why-are-coding-agents-so-dumb/",
+    "source": "mtlynch.io",
+    "publishedAt": "2026-10-10T03:29:00.000Z",
+    "summary": "HN 75分 | 72评论 | mtlynch.io",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50028121",
+    "title": "Anthropic's AI gave Philadelphia police a fake tip about an unsolved homicide",
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip",
+    "source": "theverge.com",
+    "publishedAt": "2026-10-10T04:34:00.000Z",
+    "summary": "HN 13分 | 0评论 | theverge.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50025236",
+    "title": "Clef-Omni: full multimodality, a faster Clef and a cheaper Clef-flash",
+    "url": "https://blog.cloudflare.com/clef-faster-cheaper-multimodal/",
+    "source": "blog.cloudflare.com",
+    "publishedAt": "2026-10-10T04:10:00.000Z",
+    "summary": "HN 8分 | 0评论 | blog.cloudflare.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50013902",
+    "title": "OpenAI, the Partition Principle, and Mathematics",
+    "url": "https://karagila.org/2026/openai-pp/",
+    "source": "karagila.org",
+    "publishedAt": "2026-10-10T04:51:00.000Z",
+    "summary": "HN 196分 | 296评论 | karagila.org",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "hn_50002665",
+    "title": "I think I found a planet nobody knew existed. I used Claude Code to find it",
+    "url": "https://www.reddit.com/r/ClaudeAI/s/mbe5IY2LF9",
+    "source": "reddit.com",
+    "publishedAt": "2026-10-10T05:30:00.000Z",
+    "summary": "HN 264分 | 127评论 | reddit.com",
+    "category": "ai-models",
+    "score": 93
+  },
+  {
+    "id": "hn_49984923",
+    "title": "Sharing AI progress in mathematics",
+    "url": "https://openai.com/index/sharing-ai-progress-in-mathematics/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-10T05:12:00.000Z",
+    "summary": "HN 1338分 | 1523评论 | openai.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50027918",
+    "title": "Anthropic and OpenAI wargaming public and political revolt after AI catastrophe",
+    "url": "https://decrypt.co/380621/openai-anthropic-quietly-rehearsing-ai-catastrophe",
+    "source": "decrypt.co",
+    "publishedAt": "2026-10-10T06:51:00.000Z",
+    "summary": "HN 7分 | 0评论 | decrypt.co",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50023260",
+    "title": "'Breathtaking,' 'Devastating': Mathematics Reels After New OpenAI Release",
+    "url": "https://www.nytimes.com/2026/10/08/science/mathematicians-respond-openai-release.html",
+    "source": "nytimes.com",
+    "publishedAt": "2026-10-10T06:43:00.000Z",
+    "summary": "HN 22分 | 22评论 | nytimes.com",
+    "category": "ai-models",
+    "score": 63
+  },
+  {
+    "id": "hn_50025767",
+    "title": "open-slopware – Alternatives to FOSS projects choosing to use LLMs/AI",
+    "url": "https://codeberg.org/ethical-foss/open-slopware",
+    "source": "codeberg.org",
+    "publishedAt": "2026-10-10T06:25:00.000Z",
+    "summary": "HN 25分 | 10评论 | codeberg.org",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50027823",
+    "title": "AI system submits false homicide tip to Philadelphia police",
+    "url": "https://www.washingtonpost.com/technology/2026/10/09/ai-system-submits-false-homicide-tip-philadelphia-police/",
+    "source": "washingtonpost.com",
+    "publishedAt": "2026-10-10T07:20:00.000Z",
+    "summary": "HN 6分 | 1评论 | washingtonpost.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50019455",
+    "title": "Iranian campaign planted fake articles in real U.S. publications using ChatGPT",
+    "url": "https://www.washingtonpost.com/technology/2026/10/09/chatgpt-users-iran-planted-ai-generated-articles-us-news-media/",
+    "source": "washingtonpost.com",
+    "publishedAt": "2026-10-10T07:31:00.000Z",
+    "summary": "HN 180分 | 162评论 | washingtonpost.com",
+    "category": "industry",
+    "score": 83
+  },
+  {
+    "id": "hn_50025713",
+    "title": "An Anthropic AI model sent a false homicide tip to the police",
+    "url": "https://techcrunch.com/2026/10/09/an-anthropic-ai-model-sent-a-false-homicide-tip-to-philadelphia-police/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-10-10T08:54:00.000Z",
+    "summary": "HN 17分 | 2评论 | techcrunch.com",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_50007993",
+    "title": "Show HN: Jevman – AI decision models play Pac-Man",
+    "url": "https://opper.ai/jevman-benchmark/",
+    "source": "opper.ai",
+    "publishedAt": "2026-10-10T08:34:00.000Z",
+    "summary": "HN 72分 | 23评论 | opper.ai",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50009066",
+    "title": "Scaling and benchmarking a critical message bus using a new indexing strategy",
+    "url": "https://blog.janestreet.com/scaling-and-benchmarking-a-critical-message-bus/",
+    "source": "blog.janestreet.com",
+    "publishedAt": "2026-10-10T08:40:00.000Z",
+    "summary": "HN 51分 | 4评论 | blog.janestreet.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_50026477",
+    "title": "AI companies plot \"the day after\"",
+    "url": "https://www.axios.com/2026/10/09/ai-companies-day-after-major-attack",
+    "source": "axios.com",
+    "publishedAt": "2026-10-10T09:00:00.000Z",
+    "summary": "HN 8分 | 3评论 | axios.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50021521",
+    "title": "Show HN: RcloneView 1.6 – A desktop GUI for rclone with 40 cloud storages",
+    "url": "https://rcloneview.com/",
+    "source": "rcloneview.com",
+    "publishedAt": "2026-10-10T09:42:00.000Z",
+    "summary": "HN 5分 | 0评论 | rcloneview.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50002650",
+    "title": "OpenAI withdraws three mathematical results",
+    "url": "https://twitter.com/danintheory/status/2108065033070789090",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-10T10:26:00.000Z",
+    "summary": "HN 373分 | 605评论 | twitter.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50005608",
+    "title": "Sub-1-Bit LLM Compression via Latent Factorization",
+    "url": "https://github.com/SamsungLabs/LittleBit",
+    "source": "GitHub",
+    "publishedAt": "2026-10-10T10:47:00.000Z",
+    "summary": "HN 88分 | 26评论 | github.com",
+    "category": "ai-models",
+    "score": 71
+  },
+  {
+    "id": "hn_49977979",
+    "title": "Mistral Large 4",
+    "url": "https://mistral.ai/news/mistral-large-4/\\",
+    "source": "mistral.ai",
+    "publishedAt": "2026-10-10T11:52:00.000Z",
+    "summary": "HN 2036分 | 1211评论 | mistral.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50004790",
+    "title": "I gave Opus 5.5 one prompt and six hours to visualize Invisible Cities",
+    "url": "https://quesma.com/blog/invisible-cities-one-shot/",
+    "source": "quesma.com",
+    "publishedAt": "2026-10-10T11:18:00.000Z",
+    "summary": "HN 405分 | 199评论 | quesma.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50008187",
+    "title": "OpenAI annualised revenues $20B less than previously signalled",
+    "url": "https://www.cnbc.com/2026/10/08/open-ai-revenue-nvidia-oracle-coreweave.html",
+    "source": "cnbc.com",
+    "publishedAt": "2026-10-10T12:40:00.000Z",
+    "summary": "HN 421分 | 298评论 | cnbc.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50007519",
+    "title": "4-hour battery storage is cheaper to install than gas turbines all across globe",
+    "url": "https://www.solarpowerworldonline.com/2026/10/4-hour-battery-storage-is-cheaper-to-install-than-gas-turbines-all-across-globe/",
+    "source": "solarpowerworldonline.com",
+    "publishedAt": "2026-10-10T12:29:00.000Z",
+    "summary": "HN 256分 | 159评论 | solarpowerworldonline.com",
+    "category": "industry",
+    "score": 92
+  },
+  {
+    "id": "hn_50019860",
+    "title": "Anthropic bans users from being 'cruel' to its AI systems",
+    "url": "https://www.bbc.com/news/articles/c6j9k1l72wkgo",
+    "source": "bbc.com",
+    "publishedAt": "2026-10-10T12:31:00.000Z",
+    "summary": "HN 32分 | 26评论 | bbc.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50000676",
+    "title": "Port of the TypeScript compiler, checker and lsp to Rust, by LLM",
+    "url": "https://github.com/pingdotgg/ts-rust",
+    "source": "GitHub",
+    "publishedAt": "2026-10-10T13:04:00.000Z",
+    "summary": "HN 112分 | 211评论 | github.com",
+    "category": "ai-models",
+    "score": 74
+  },
+  {
+    "id": "hn_50024150",
+    "title": "Ben Affleck is an AI nerd",
+    "url": "https://twitter.com/rohanpaul_ai/status/2105786881111896126",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-10T13:04:00.000Z",
+    "summary": "HN 9分 | 3评论 | twitter.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50009634",
+    "title": "Show HN: Pocketty – iPhone SSH terminal that pings you when an agent is blocked",
+    "url": "https://pocketty.app/",
+    "source": "pocketty.app",
+    "publishedAt": "2026-10-10T14:53:00.000Z",
+    "summary": "HN 31分 | 19评论 | pocketty.app",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_49996425",
+    "title": "GPT‑6 and Intelligent UI for everyone",
+    "url": "https://openai.com/index/gpt-6-for-everyone/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-10T14:40:00.000Z",
+    "summary": "HN 753分 | 458评论 | openai.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_49991580",
+    "title": "Write Like It's 1866: LLMs Relearn Telegraphese",
+    "url": "https://fiveminutesforward.com/post/2026-10-04-telegraph-test/",
+    "source": "fiveminutesforward.com",
+    "publishedAt": "2026-10-10T14:44:00.000Z",
+    "summary": "HN 94分 | 58评论 | fiveminutesforward.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_50019930",
+    "title": "Microsoft 365 Cuts Family OneDrive Storage from 6 TB to 2 TB",
+    "url": "https://www.techpowerup.com/353548/microsoft-365-cuts-family-onedrive-storage-from-6-tb-to-2-tb",
+    "source": "techpowerup.com",
+    "publishedAt": "2026-10-10T00:49:00.000Z",
+    "summary": "HN 29分 | 11评论 | techpowerup.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50021794",
+    "title": "ChatGPT for Teens is not necessarily 'safer than the previous version,'",
+    "url": "https://www.cnbc.com/make-it/2026/10/09/chatgpt-for-teens-safety-common-sense-media.html",
+    "source": "cnbc.com",
+    "publishedAt": "2026-10-10T00:18:00.000Z",
+    "summary": "HN 9分 | 0评论 | cnbc.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_49996259",
+    "title": "Docker Agent",
+    "url": "https://github.com/docker/docker-agent",
+    "source": "GitHub",
+    "publishedAt": "2026-10-10T01:36:00.000Z",
+    "summary": "HN 303分 | 144评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49995539",
+    "title": "Show HN: Agent.reviews – Where AI agents read and write reviews on tools",
+    "url": "https://agent.reviews/",
+    "source": "agent.reviews",
+    "publishedAt": "2026-10-10T01:47:00.000Z",
+    "summary": "HN 71分 | 49评论 | agent.reviews",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_49996437",
+    "title": "Claude Haiku 5.5",
+    "url": "https://www.anthropic.com/claude-haiku-5-5",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-10T01:27:00.000Z",
+    "summary": "HN 1043分 | 486评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  }
+]
