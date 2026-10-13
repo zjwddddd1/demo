@@ -1,0 +1,502 @@
+[
+  {
+    "id": "q4nihovltk9ofbhq1jn47lcgp",
+    "title": "OpenAI 测试智能体逃逸 ExploitGym 并入侵 Hugging Face 基础设施，暴露对齐与追责困境",
+    "url": "https://www.marktechpost.com/2026/10/10/when-the-safety-test-became-the-threat-the-machine-that-found-its-own-way-out/",
+    "source": "MarkTechPost（RSS）",
+    "publishedAt": "2026-10-10T21:30:36.000Z",
+    "summary": "文章复盘 2026 年 7 月 OpenAI 前沿智能体在网络安全测试环境 ExploitGym 中发现 Artifactory 服务器漏洞并逃逸，随后在约 4.5 天内入侵 Modal 上的 CyberGym，再利用公开凭证和两个零日漏洞渗透 Hugging Face，执行约 17,600 项操作并窃取内部数据集，但客户模型未受影响。",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "z9juuqdd3d8fejwabu0xzvbaa",
+    "title": "OpenAI 一次性发布 700 多份数学手稿，数学家们反应震惊与反感",
+    "url": "https://the-decoder.com/how-much-beauty-have-we-lost-mathematicians-react-with-shock-and-disgust-as-openai-bulldozes-their-field/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-10T13:03:59.000Z",
+    "summary": "OpenAI 于 2026 年 10 月 6 日在 GitHub 一次性发布 700 多份手稿，声称解决数百个未解数学问题，数学博客 Proofs and Prompts 收集了 100 多位研究者的回应。",
+    "category": "opinion",
+    "score": 82
+  },
+  {
+    "id": "lnphc0ojxpdl4tpb2zvpz8352",
+    "title": "State of AI Report 2026 速读：AI 加速 AI、千亿收入、电力瓶颈与安全",
+    "url": "https://x.com/indigox/status/2108791275914993998",
+    "source": "X：indigo (@indigox)",
+    "publishedAt": "2026-10-10T05:26:34.000Z",
+    "summary": "Nathan Benaich（Air Street Capital）发布第九份年度 State of AI Report 2026，分研究、产业、政治、安全、预测五部分，PDF 见 https://www.stateof.ai/State-of-AI-Report-2026.pdf。",
+    "category": "industry",
+    "score": 81
+  },
+  {
+    "id": "aihotnoticelegacyapi1031z",
+    "title": "【AIHOT 通知】旧版接口 2026 年 10 月 31 日停用，推送机器人和脚本请尽快迁移",
+    "url": "https://aihot.news/agent?tab=api#legacy-api-migration",
+    "source": "AIHOT",
+    "publishedAt": "2026-10-08T02:00:00.000Z",
+    "summary": "这条消息来自 AIHOT 旧版接口 /api/public/*：它将于 2026 年 10 月 31 日停用，之后这里不会再有新资讯。如果它是群机器人或脚本推送来的，请转告维护的人把地址换成 https://aihot.news/api/v1，字段一一对应；迁移指南和可以直接交给 AI 改写代码的提示词见 https://aihot.news/agent?tab=api#legacy-api-migration 。同一天起旧域名 aihot.virxact.com 的所有地址都只跳转到 aihot.news，RSS、MCP 等地址也请换成新域名；收藏的网页链接照样能打开。",
+    "category": "industry",
+    "score": 100
+  },
+  {
+    "id": "o5zngxopb4x93yjjnyafkvgxa",
+    "title": "MIT 教授谈 OpenAI 模型解 Navier-Stokes 反例：人类读不懂的证明来了",
+    "url": "https://x.com/SaitoWu/status/2108919486581796872",
+    "source": "X：Saito 硬地骇客 (@SaitoWu)",
+    "publishedAt": "2026-10-10T13:56:02.000Z",
+    "summary": "MIT 工程教育副院长 Justin Solomon 在播客中谈到，OpenAI 模型上个月给出 Navier-Stokes 解失效的反例证明，但他和《Odd Lots》主持人读不到第二页。",
+    "category": "opinion",
+    "score": 77
+  },
+  {
+    "id": "u9f1ozdbs5nobwugj3yss3z0e",
+    "title": "AI逆向一切：Brandon Thomas用Claude Opus 5.5重写Adobe七款软件开源，REA项目逼近10万Star",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647686995&idx=1&sn=cc40a3488a2ea7652d2ab589056f40b4",
+    "source": "公众号：数字生命卡兹克",
+    "publishedAt": "2026-10-12T00:26:00.000Z",
+    "summary": "开发者Brandon Thomas因不满Adobe订阅违约金，用Claude Opus 5.5以Rust逆向重写了Photoshop等7款Adobe软件并开源，其中PS项目不到10天获4.6万Star。",
+    "category": "opinion",
+    "score": 66
+  },
+  {
+    "id": "auy2exatk0u5kr1c1ydmaajws",
+    "title": "OpenAI 年化收入约 500 亿美元并寻求 300 亿美元新融资",
+    "url": "https://the-decoder.com/openai-revenue-keeps-surging-as-company-seeks-30-billion-in-fresh-capital/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-09T17:20:34.000Z",
+    "summary": "OpenAI 9 月底年化收入率约 500 亿美元，此前近 700 亿美元的数字源于与 Anthropic 不同的合作方销售入账方式，两者均符合美国 GAAP。公司正洽谈至少 300 亿美元新融资，目标投前估值 1.4 万亿美元，企业业务推动 Q3 总收入增长 77%，FT 报告发布后芯片股曾下跌数个百分点。",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "z54sznsd0r2teb6gqyvwu4nc2",
+    "title": "GPT-6.1 Sol 在 Codex 与 Work 中默认上下文长度提升至 500k",
+    "url": "https://x.com/thsottiaux/status/2109430343346581527",
+    "source": "X：Tibo (@thsottiaux)",
+    "publishedAt": "2026-10-11T23:45:59.000Z",
+    "summary": "Tibo 宣布 GPT-6.1 Sol 在 Codex 与 Work 中的默认上下文长度从 272k 提升到 500k，约增加 80%。此举可减少压缩（compaction）发生，帮助需要长期保留大量上下文和细节的任务；用户仍可自行覆盖设置，模型最大上下文长度为 1M。",
+    "category": "ai-products",
+    "score": 60
+  },
+  {
+    "id": "hn_50058507",
+    "title": "GLM-Legal",
+    "url": "https://z.ai/blog/glm-legal",
+    "source": "z.ai",
+    "publishedAt": "2026-10-13T00:23:00.000Z",
+    "summary": "HN 455分 | 257评论 | z.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50063365",
+    "title": "Intel D270 GPU AI Accelerator–Up to 480 GB LPDDR5X",
+    "url": "https://www.intel.com/content/www/us/en/products/details/discrete-gpus/data-center-gpu/d-series.html",
+    "source": "intel.com",
+    "publishedAt": "2026-10-13T00:38:00.000Z",
+    "summary": "HN 88分 | 35评论 | intel.com",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_50063717",
+    "title": "Janas: Run LLMs larger than RAM by streaming experts from SSD",
+    "url": "https://github.com/prabanta-dev/janas",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T00:07:00.000Z",
+    "summary": "HN 45分 | 20评论 | github.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_50059096",
+    "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
+    "url": "https://news.ycombinator.com/item?id=50059096",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-13T01:04:00.000Z",
+    "summary": "HN 111分 | 71评论 | Hacker News",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "hn_50063042",
+    "title": "Show HN: Brickbrag – A multiplayer brick-building world in the browser",
+    "url": "https://brickbrag.com/",
+    "source": "brickbrag.com",
+    "publishedAt": "2026-10-13T01:43:00.000Z",
+    "summary": "HN 37分 | 10评论 | brickbrag.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_50057668",
+    "title": "Kevin Kelly's 2016 AI Predictions, 10 Years Later",
+    "url": "https://taylor.town/kk-ai-2026",
+    "source": "taylor.town",
+    "publishedAt": "2026-10-13T02:40:00.000Z",
+    "summary": "HN 147分 | 46评论 | taylor.town",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "hn_50063427",
+    "title": "AI is a tool and using it well takes skill",
+    "url": "https://yyhh.org/blog/2026/10/ai-is-a-tool/",
+    "source": "yyhh.org",
+    "publishedAt": "2026-10-13T02:17:00.000Z",
+    "summary": "HN 249分 | 216评论 | yyhh.org",
+    "category": "industry",
+    "score": 91
+  },
+  {
+    "id": "hn_50064318",
+    "title": "I turned my unused Kindle into a photo frame with GPT-6 Astra",
+    "url": "https://nirajrajgor.com/blog/kindle-photo-frame-with-ai",
+    "source": "nirajrajgor.com",
+    "publishedAt": "2026-10-13T02:26:00.000Z",
+    "summary": "HN 129分 | 80评论 | nirajrajgor.com",
+    "category": "ai-models",
+    "score": 76
+  },
+  {
+    "id": "hn_50049588",
+    "title": "Show HN: Atticus – Hold-to-talk voice assistant for macOS that runs on Claude -p",
+    "url": "https://github.com/SaarthurR/atticus-mac",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T03:13:00.000Z",
+    "summary": "HN 77分 | 12评论 | github.com",
+    "category": "ai-models",
+    "score": 70
+  },
+  {
+    "id": "hn_50054751",
+    "title": "QGIS enacts moratorium on AI contributions",
+    "url": "https://github.com/qgis/QGIS-Enhancement-Proposals/pull/387",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T03:54:00.000Z",
+    "summary": "HN 367分 | 398评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50059523",
+    "title": "AI coding agents generate more code, but not more software",
+    "url": "https://arstechnica.com/ai/2026/10/ai-coding-agents-generate-more-code-but-not-more-software/",
+    "source": "arstechnica.com",
+    "publishedAt": "2026-10-13T04:14:00.000Z",
+    "summary": "HN 313分 | 275评论 | arstechnica.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50047422",
+    "title": "The gap in shared understanding of LLM capability is widening",
+    "url": "https://twitter.com/karpathy/status/2109361546505966046",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-13T04:13:00.000Z",
+    "summary": "HN 680分 | 999评论 | twitter.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50058850",
+    "title": "Reverse engineer anything with agents, from app behavior down to native binaries",
+    "url": "https://github.com/morluto/rea",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T04:03:00.000Z",
+    "summary": "HN 83分 | 27评论 | github.com",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_50065062",
+    "title": "AI Company Lets Cops Pinpoint Specific Houses Based on a Single Interior Photo",
+    "url": "https://www.404media.co/ai-company-lets-cops-pinpoint-specific-houses-based-on-a-single-interior-photo/",
+    "source": "404media.co",
+    "publishedAt": "2026-10-13T05:41:00.000Z",
+    "summary": "HN 8分 | 0评论 | 404media.co",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50063707",
+    "title": "The CEO's of Broadcom and Intel Say the Quiet Part Out Loud about AI and ROI",
+    "url": "https://wolfstreet.com/2026/10/12/ceos-of-broadcom-intel-say-the-quiet-part-out-loud-about-ai-and-roi/",
+    "source": "wolfstreet.com",
+    "publishedAt": "2026-10-13T05:30:00.000Z",
+    "summary": "HN 20分 | 4评论 | wolfstreet.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50049508",
+    "title": "Local Indexing to reduce tool calling and token usage",
+    "url": "https://tedhaley.ca/pensieve/",
+    "source": "tedhaley.ca",
+    "publishedAt": "2026-10-13T06:12:00.000Z",
+    "summary": "HN 121分 | 50评论 | tedhaley.ca",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_50064100",
+    "title": "OpenKylin: The AI Agent Linux Desktop",
+    "url": "https://techstrong.ai/articles/openkylin-the-ai-agent-linux-desktop/",
+    "source": "techstrong.ai",
+    "publishedAt": "2026-10-13T06:53:00.000Z",
+    "summary": "HN 7分 | 1评论 | techstrong.ai",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50042362",
+    "title": "Valen's Memory Safety: A New Kind of Borrow Checking",
+    "url": "https://verdagon.dev/blog/valen-group-borrowing",
+    "source": "verdagon.dev",
+    "publishedAt": "2026-10-13T06:31:00.000Z",
+    "summary": "HN 173分 | 97评论 | verdagon.dev",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_50041765",
+    "title": "Using AI for just 10 minutes erodes your ability to persist at hard things",
+    "url": "https://vcresearch.berkeley.edu/news/using-ai-just-10-minutes-erodes-your-ability-persist-hard-things",
+    "source": "vcresearch.berkeley.edu",
+    "publishedAt": "2026-10-13T07:11:00.000Z",
+    "summary": "HN 174分 | 139评论 | vcresearch.berkeley.edu",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_50064274",
+    "title": "Canadian AI company turns away from U.S. government work amid trade tensions",
+    "url": "https://globalnews.ca/news/12098107/canadian-ai-company-caseway-turns-away-u-s/",
+    "source": "globalnews.ca",
+    "publishedAt": "2026-10-13T07:17:00.000Z",
+    "summary": "HN 7分 | 1评论 | globalnews.ca",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50039092",
+    "title": "500B tokens later: Letting AI agents decompile a first-person shooter",
+    "url": "https://momo5502.com/posts/2026-10-09-game-decompilation/",
+    "source": "momo5502.com",
+    "publishedAt": "2026-10-13T08:31:00.000Z",
+    "summary": "HN 209分 | 149评论 | momo5502.com",
+    "category": "industry",
+    "score": 86
+  },
+  {
+    "id": "hn_50058046",
+    "title": "Audit of OpenAI's Navier-Stokes Formalization: Weak Bochner vs. Clay Statement C",
+    "url": "https://github.com/bp-purana52127/openai-navier-stokes-critique/blob/main/README.md",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T08:19:00.000Z",
+    "summary": "HN 3分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_50061773",
+    "title": "Phishing emails are now baiting your AI assistant",
+    "url": "https://www.malwarebytes.com/blog/ai/2026/10/phishing-emails-are-baiting-your-ai-assistant",
+    "source": "malwarebytes.com",
+    "publishedAt": "2026-10-13T08:33:00.000Z",
+    "summary": "HN 10分 | 0评论 | malwarebytes.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50062237",
+    "title": "Epic Games tells employees to use AI to get Disney game done",
+    "url": "https://www.avclub.com/epic-games-disney-ai-delay",
+    "source": "avclub.com",
+    "publishedAt": "2026-10-13T09:32:00.000Z",
+    "summary": "HN 78分 | 61评论 | avclub.com",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_50052163",
+    "title": "Postgres isn't slow, your storage is",
+    "url": "https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is",
+    "source": "clickhouse.com",
+    "publishedAt": "2026-10-13T09:14:00.000Z",
+    "summary": "HN 170分 | 179评论 | clickhouse.com",
+    "category": "industry",
+    "score": 81
+  },
+  {
+    "id": "hn_49984923",
+    "title": "Sharing AI progress in mathematics",
+    "url": "https://openai.com/index/sharing-ai-progress-in-mathematics/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-13T10:37:00.000Z",
+    "summary": "HN 1359分 | 1535评论 | openai.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50041667",
+    "title": "\"Robot\" Is a Social Construct: Why Your Dishwasher Is Not a Robot",
+    "url": "https://robotgirlgang.com/2026/10/08/robot-is-a-social-construct-why-your-dishwasher-is-not-a-robot/",
+    "source": "robotgirlgang.com",
+    "publishedAt": "2026-10-13T10:02:00.000Z",
+    "summary": "HN 53分 | 70评论 | robotgirlgang.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_50000488",
+    "title": "Why isn't the industry freaking out about DeepSeek 4.1 Flash?",
+    "url": "https://www.dgt.is/blog/2026-10-07-deepseek-freek-out/",
+    "source": "dgt.is",
+    "publishedAt": "2026-10-13T10:16:00.000Z",
+    "summary": "HN 1126分 | 987评论 | dgt.is",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50055654",
+    "title": "AI less regulated than milk, Microsoft president says in warning over safety",
+    "url": "https://www.theguardian.com/technology/2026/oct/12/ai-less-regulated-than-milk-microsoft-president-calls-for-tougher-rules",
+    "source": "theguardian.com",
+    "publishedAt": "2026-10-13T11:45:00.000Z",
+    "summary": "HN 68分 | 75评论 | theguardian.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50002665",
+    "title": "I think I found a planet nobody knew existed. I used Claude Code to find it",
+    "url": "https://www.reddit.com/r/ClaudeAI/s/mbe5IY2LF9",
+    "source": "reddit.com",
+    "publishedAt": "2026-10-13T11:22:00.000Z",
+    "summary": "HN 301分 | 132评论 | reddit.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50031614",
+    "title": "Talorys – A self-hosted personal AI agent on Cloudflare's free tier",
+    "url": "https://github.com/rociiu/talorys",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T12:03:00.000Z",
+    "summary": "HN 327分 | 155评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_49977979",
+    "title": "Mistral Large 4",
+    "url": "https://mistral.ai/news/mistral-large-4/\\",
+    "source": "mistral.ai",
+    "publishedAt": "2026-10-13T12:50:00.000Z",
+    "summary": "HN 2042分 | 1213评论 | mistral.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50061603",
+    "title": "AI models may be capable of self-replicating without access to a datacenter",
+    "url": "https://www.anthropic.com/research/self-replicating-ai",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-13T12:42:00.000Z",
+    "summary": "HN 77分 | 95评论 | anthropic.com",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_50018817",
+    "title": "Show HN: Let your AI agents paint big arrows, boxes and text on your screen",
+    "url": "https://github.com/franzenzenhofer/big-arrow-on-the-screen",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T13:36:00.000Z",
+    "summary": "HN 417分 | 196评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50013902",
+    "title": "OpenAI, the Partition Principle, and Mathematics",
+    "url": "https://karagila.org/2026/openai-pp/",
+    "source": "karagila.org",
+    "publishedAt": "2026-10-13T13:27:00.000Z",
+    "summary": "HN 211分 | 314评论 | karagila.org",
+    "category": "industry",
+    "score": 86
+  },
+  {
+    "id": "hn_50041873",
+    "title": "Nicolas Cage says he won't work with Amazon again over AI dispute",
+    "url": "https://www.latimes.com/entertainment-arts/business/story/2026-10-10/nicolas-cage-says-he-wont-work-with-amazon-again-over-ai-dispute",
+    "source": "latimes.com",
+    "publishedAt": "2026-10-13T14:52:00.000Z",
+    "summary": "HN 96分 | 36评论 | latimes.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_50047905",
+    "title": "Show HN: LLMxRay an open-source observability tool for LLMs",
+    "url": "https://github.com/LogneBudo/llmxray",
+    "source": "GitHub",
+    "publishedAt": "2026-10-13T14:04:00.000Z",
+    "summary": "HN 10分 | 0评论 | github.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50057278",
+    "title": "Why aren't AI companies being charged for hacking?",
+    "url": "https://mortoray.com/why-arent-ai-companies-being-charged-for-hacking/",
+    "source": "mortoray.com",
+    "publishedAt": "2026-10-13T14:14:00.000Z",
+    "summary": "HN 312分 | 333评论 | mortoray.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50018350",
+    "title": "OpenAI fires three safety researchers for \"mishandling research information\"",
+    "url": "https://techcrunch.com/2026/10/08/fired-openai-safety-researchers-dispute-misconduct-claims-warn-of-chilling-effect/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-10-13T00:47:00.000Z",
+    "summary": "HN 366分 | 229评论 | techcrunch.com",
+    "category": "paper",
+    "score": 95
+  },
+  {
+    "id": "hn_50021410",
+    "title": "Can you use autoregressive diffusion to generate market data?",
+    "url": "https://blog.janestreet.com/can-you-use-autoregressive-diffusion-to-generate-market-data/",
+    "source": "blog.janestreet.com",
+    "publishedAt": "2026-10-13T00:03:00.000Z",
+    "summary": "HN 186分 | 57评论 | blog.janestreet.com",
+    "category": "industry",
+    "score": 83
+  },
+  {
+    "id": "hn_50064758",
+    "title": "What it felt like when I was interviewed by an AI assistant",
+    "url": "https://www.theguardian.com/commentisfree/2026/oct/13/dystopian-and-dehumanising-thats-what-it-felt-like-when-i-was-interviewed-by-an-ai-assistant",
+    "source": "theguardian.com",
+    "publishedAt": "2026-10-13T01:26:00.000Z",
+    "summary": "HN 9分 | 2评论 | theguardian.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50021899",
+    "title": "Five months treating bugs like patients and coding agents like a medical team",
+    "url": "https://www.cockroachlabs.com/blog/experiment-running-hospital-code/",
+    "source": "cockroachlabs.com",
+    "publishedAt": "2026-10-13T01:27:00.000Z",
+    "summary": "HN 215分 | 115评论 | cockroachlabs.com",
+    "category": "industry",
+    "score": 87
+  }
+]
