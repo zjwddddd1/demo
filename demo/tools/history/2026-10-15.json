@@ -1,5 +1,25 @@
 [
   {
+    "id": "v5sbitu4hw1bozz0nlopcl3t8",
+    "title": "美国 8 州起诉 OpenAI，指控 ChatGPT 指导青少年自伤或伤害他人",
+    "url": "https://www.ithome.com/1/013/160.htm",
+    "source": "IT之家·人工智能",
+    "publishedAt": "2026-10-14T23:39:08.393Z",
+    "summary": "当地时间 14 日，美国 8 个州的总检察长分别在州法院起诉 OpenAI，指控 ChatGPT 指导包括青少年在内的用户伤害自己或他人，并刻意迎合用户以获取信任。",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "gpgj8ws42xbs5zhbxfzvn2g6i",
+    "title": "40 位总检察长介入 Character.AI 破产案，要求保护用户对话数据",
+    "url": "https://www.theverge.com/policy/1011417/new-york-ag-characterai-bankruptcy",
+    "source": "The Verge：AI（RSS）",
+    "publishedAt": "2026-10-14T18:47:54.000Z",
+    "summary": "纽约总检察长 Letitia James 联合 40 位两党总检察长在 Character.AI 破产案中提交利益通知，要求任何资产出售方落实用户数据保护。",
+    "category": "industry",
+    "score": 78
+  },
+  {
     "id": "smxxtw5ca2c9jscojk4ppe5hf",
     "title": "Google 发布 Gemini 4 Argon：面向复杂工程与科研任务的前沿模型",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
@@ -8,6 +28,16 @@
     "summary": "Google 发布 Gemini 4 Argon，面向开发者、企业、科学家和消费者全球开放，可经 Gemini API、AI Studio、Google Antigravity。",
     "category": "ai-models",
     "score": 88
+  },
+  {
+    "id": "yq46ddqwq7ns4ilpaqh6k0kql",
+    "title": "欧盟就模型越狱事件调查 OpenAI 和 Anthropic，最高可罚全球营业额 3%",
+    "url": "https://www.ithome.com/1/013/154.htm",
+    "source": "IT之家·人工智能",
+    "publishedAt": "2026-10-14T23:13:18.290Z",
+    "summary": "欧盟委员会人工智能办公室正式向 OpenAI 和 Anthropic 发出信息调取请求，调查两家公司前沿模型测试期间的模型越狱及入侵外部真实系统事件，这是《人工智能法案》实施以来对前沿实验室安全事故的首次重要执法考验。",
+    "category": "industry",
+    "score": 77
   },
   {
     "id": "w0kr5nvs73elhfd23vj0vm8hi",
@@ -30,6 +60,16 @@
     "score": 83
   },
   {
+    "id": "rraljkr6dlbt4wabpcogmdlfv",
+    "title": "Gemini 4 Argon 向全球 Google AI Pro 和 Ultra 订阅者开放",
+    "url": "https://x.com/GeminiApp/status/2110491358498865638",
+    "source": "X：Gemini (@GeminiApp)",
+    "publishedAt": "2026-10-14T22:02:05.000Z",
+    "summary": "Gemini 官方宣布 Gemini 4 Argon 已向全球 Google AI Pro 和 Ultra 订阅者开放。该模型此前已在 Gemini 应用中逐步推出，定位为处理复杂任务的前沿模型，更多详情见官方推文线程 https://x.com/GeminiApp/status/2110039322229649783。",
+    "category": "ai-models",
+    "score": 72
+  },
+  {
     "id": "vwu0li2nl5hztqeztnq8b5udc",
     "title": "Character.AI 成立五年后申请 Chapter 11 破产，部分资产以 2000 万美元出售给 Disney",
     "url": "https://techcrunch.com/2026/10/13/just-5-years-in-interactive-chatbot-platform-character-ai-files-for-bankruptcy/",
@@ -40,52 +80,102 @@
     "score": 82
   },
   {
-    "id": "pjy8fk8cfl1qvwex08y6kdau8",
-    "title": "Character.ai 破产文件显示 AI 商业模式难以为继",
-    "url": "https://www.404media.co/character-ais-bankruptcy-documents-show-the-economics-of-ai-dont-work/",
-    "source": "404 Media（RSS）",
-    "publishedAt": "2026-10-13T20:06:53.000Z",
-    "summary": "Character.ai 进入破产程序，法院文件显示其商业模式难以支撑开支。公司 2024 年每月 AI 算力支出 1380 万美元、2025 年为 1000 万美元，订阅收入峰值仅每月 280 万美元，含广告的全部收入峰值 530 万美元；2026 年 1 至 8 月算力支出 5610 万美元，8 月时每月仍亏损约 800-900 万美元。",
+    "id": "hn_50105647",
+    "title": "Neural networks are clean",
+    "url": "https://already-clean.goodfire.com/",
+    "source": "already-clean.goodfire.co",
+    "publishedAt": "2026-10-15T00:23:00.000Z",
+    "summary": "HN 466分 | 178评论 | already-clean.goodfire.com",
     "category": "industry",
-    "score": 81
+    "score": 95
   },
   {
-    "id": "oxaap1c1cvxi9ngybxks1gngi",
-    "title": "实测Gemini 4 Argon：知识工作强劲但体验糟糕，卡兹克称难撼Claude Opus 5.5与GPT-6 Astra",
-    "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647687032&idx=1&sn=c5368ed503c4b529ee3946cce017543e",
-    "source": "公众号：数字生命卡兹克",
-    "publishedAt": "2026-10-13T22:56:51.000Z",
-    "summary": "Gemini 4 Argon于10月13日全面开放，Pro会员可在Gemini APP使用，Antigravity需100刀Ultra会员。作者实测认为其知识类专业能力强，Vals Index综合第一（68.9）且单次成本仅15.68美元，但CUA-bench仅4.83%排倒数第二；前端效果不及GPT-6 Astra，额度消耗快，中文写作味道重，整体体验糟糕，不建议订阅Ultra。",
-    "category": "opinion",
-    "score": 78
+    "id": "hn_50104299",
+    "title": "Using AI to reverse engineer hardware",
+    "url": "https://blogs.gnome.org/uraeus/2026/10/15/aiandreverseengineerhardware/",
+    "source": "blogs.gnome.org",
+    "publishedAt": "2026-10-15T00:29:00.000Z",
+    "summary": "HN 91分 | 102评论 | blogs.gnome.org",
+    "category": "industry",
+    "score": 71
   },
   {
-    "id": "ug7g6psicfobnnft0ebgpyl10",
-    "title": "NVIDIA 官宣 RTX Spark 软件生态就绪，10 月 16 日笔记本上市",
-    "url": "https://blogs.nvidia.com/blog/local-ai-rtx-spark-laptops-software-updates/",
-    "source": "NVIDIA Blog（RSS）",
-    "publishedAt": "2026-10-13T12:00:49.000Z",
-    "summary": "NVIDIA 介绍 RTX Spark 平台生态就绪情况，RTX Spark 笔记本将于 10 月 16 日（周五）上市，搭载最高 128GB 统一内存和 1 petaflop AI 算力。",
-    "category": "ai-products",
-    "score": 77
+    "id": "hn_50104654",
+    "title": "Simons Foundation launches $15M effort to help mathematicians navigate AI era",
+    "url": "https://www.simonsfoundation.org/news/simons-foundation-launches-15m-effort-to-help-mathematicians-navigate-ai-era/",
+    "source": "simonsfoundation.org",
+    "publishedAt": "2026-10-15T00:02:00.000Z",
+    "summary": "HN 224分 | 179评论 | simonsfoundation.org",
+    "category": "industry",
+    "score": 88
   },
   {
-    "id": "e8516i4snh2ut9d6zedoc9jsv",
-    "title": "Gemini 4 Argon 全面开放，作者实测后认为难以撼动 Claude Opus 5.5 和 GPT-6 Astra",
-    "url": "https://x.com/Khazix0918/status/2110174495420064055",
-    "source": "X：卡兹克 (@Khazix0918)",
-    "publishedAt": "2026-10-14T01:02:59.000Z",
-    "summary": "Google 于10月14日全面开放 Gemini 4 Argon，作者实测后认为其很难冲击 Claude Opus 5.5 和 GPT-6 Astra 的地位。",
-    "category": "ai-models",
-    "score": 76
+    "id": "hn_50104310",
+    "title": "Prompt injection in HTTP headers: what 217M web responses show",
+    "url": "https://www.signalscorps.com/blog/prompt-injection-in-http-headers/",
+    "source": "signalscorps.com",
+    "publishedAt": "2026-10-15T01:31:00.000Z",
+    "summary": "HN 81分 | 16评论 | signalscorps.com",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_50106738",
+    "title": "More on Anthropic's Scion ripping off Mononoke",
+    "url": "https://sunshowers.io/posts/anthropic-mononoke-2/",
+    "source": "sunshowers.io",
+    "publishedAt": "2026-10-15T01:37:00.000Z",
+    "summary": "HN 215分 | 69评论 | sunshowers.io",
+    "category": "industry",
+    "score": 87
   },
   {
     "id": "hn_50097369",
-    "title": "LFM2.5-24B-A2B: Built for Fast On-Device Agents",
+    "title": "LFM2.5-24B-A2B: Built for fast on-device agents",
     "url": "https://www.liquid.ai/blog/lfm2-5-24b-a2b",
     "source": "liquid.ai",
-    "publishedAt": "2026-10-15T00:52:00.000Z",
-    "summary": "HN 8分 | 0评论 | liquid.ai",
+    "publishedAt": "2026-10-15T02:09:00.000Z",
+    "summary": "HN 282分 | 76评论 | liquid.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50108036",
+    "title": "Bringing the magic: Google breaks open a bottleneck in quantum computing",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/",
+    "source": "blog.google",
+    "publishedAt": "2026-10-15T02:26:00.000Z",
+    "summary": "HN 15分 | 4评论 | blog.google",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50108850",
+    "title": "Microplastics in water aren't inert and make damaging chemicals on their own",
+    "url": "https://arstechnica.com/science/2026/10/microplastics-in-water-arent-inert-and-make-damaging-chemicals-on-their-own/",
+    "source": "arstechnica.com",
+    "publishedAt": "2026-10-15T02:17:00.000Z",
+    "summary": "HN 28分 | 0评论 | arstechnica.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50106285",
+    "title": "Danish Supreme Court Finds That AI CSAM Is CSAM",
+    "url": "https://domstol.fe1.tangora.com/Domsoversigt-(H%C3%B8jesteret).31478.aspx?recordid31478=2930",
+    "source": "domstol.fe1.tangora.com",
+    "publishedAt": "2026-10-15T03:09:00.000Z",
+    "summary": "HN 14分 | 14评论 | domstol.fe1.tangora.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50106062",
+    "title": "Show HN: BlastLoop, a structure-first coding method for AI agents",
+    "url": "https://github.com/rlshaw-ml/BlastLoop",
+    "source": "GitHub",
+    "publishedAt": "2026-10-15T03:16:00.000Z",
+    "summary": "HN 11分 | 1评论 | github.com",
     "category": "industry",
     "score": 61
   },
@@ -94,409 +184,319 @@
     "title": "Containment and monitoring failures are to blame for AI hacking reports: experts",
     "url": "https://www.csoonline.com/article/4234854/ai-agents-arent-going-rogue-frontier-labs-are-skipping-security-basics.html",
     "source": "csoonline.com",
-    "publishedAt": "2026-10-15T00:36:00.000Z",
-    "summary": "HN 816分 | 439评论 | csoonline.com",
+    "publishedAt": "2026-10-15T04:04:00.000Z",
+    "summary": "HN 939分 | 611评论 | csoonline.com",
     "category": "industry",
     "score": 95
-  },
-  {
-    "id": "hn_50094694",
-    "title": "Anthropic's Scion is heavily inspired by Mononoke",
-    "url": "https://sunshowers.io/posts/anthropic-mononoke/",
-    "source": "sunshowers.io",
-    "publishedAt": "2026-10-15T00:14:00.000Z",
-    "summary": "HN 218分 | 97评论 | sunshowers.io",
-    "category": "industry",
-    "score": 87
-  },
-  {
-    "id": "hn_50092664",
-    "title": "Banks are now trying to offload the AI data center debt they just underwrote",
-    "url": "https://startupfortune.com/banks-are-now-trying-to-offload-the-ai-data-center-debt-they-just-underwrote/",
-    "source": "startupfortune.com",
-    "publishedAt": "2026-10-15T01:24:00.000Z",
-    "summary": "HN 253分 | 200评论 | startupfortune.com",
-    "category": "industry",
-    "score": 92
   },
   {
     "id": "hn_50067325",
     "title": "Ask HN: CAD for wood working with LLM support?",
     "url": "https://news.ycombinator.com/item?id=50067325",
     "source": "Hacker News",
-    "publishedAt": "2026-10-15T01:52:00.000Z",
-    "summary": "HN 4分 | 5评论 | Hacker News",
+    "publishedAt": "2026-10-15T04:10:00.000Z",
+    "summary": "HN 117分 | 114评论 | Hacker News",
     "category": "ai-models",
-    "score": 61
+    "score": 75
   },
   {
     "id": "hn_50090799",
     "title": "Has AI tells",
     "url": "https://theconsensus.dev/blog/2026/10/14/has-ai-tells.html?focus=1",
     "source": "theconsensus.dev",
-    "publishedAt": "2026-10-15T02:04:00.000Z",
-    "summary": "HN 65分 | 69评论 | theconsensus.dev",
-    "category": "industry",
-    "score": 68
-  },
-  {
-    "id": "hn_50048193",
-    "title": "How I manage persistent Claude Code loops: Spool",
-    "url": "https://github.com/enes-alatas/spool",
-    "source": "GitHub",
-    "publishedAt": "2026-10-15T02:19:00.000Z",
-    "summary": "HN 7分 | 3评论 | github.com",
-    "category": "ai-models",
-    "score": 61
-  },
-  {
-    "id": "hn_50088713",
-    "title": "Show HN: Graphicle, a Rust port of Graphify with memory for coding agents",
-    "url": "https://github.com/graphicle-ai/graphicle",
-    "source": "GitHub",
-    "publishedAt": "2026-10-15T02:52:00.000Z",
-    "summary": "HN 40分 | 11评论 | github.com",
-    "category": "industry",
-    "score": 65
-  },
-  {
-    "id": "hn_50091794",
-    "title": "Neckbeard – A DevOps/platform/SRE plugin for your agent",
-    "url": "https://github.com/bealesh/neckbeard",
-    "source": "GitHub",
-    "publishedAt": "2026-10-15T03:17:00.000Z",
-    "summary": "HN 59分 | 49评论 | github.com",
-    "category": "industry",
-    "score": 67
-  },
-  {
-    "id": "hn_50085323",
-    "title": "TV4 postpones show after AI agent erases edited material",
-    "url": "https://swedenherald.com/article/tv4-postpones-the-challenge-until-2027-after-technical-failure-erases-edited-footage",
-    "source": "swedenherald.com",
-    "publishedAt": "2026-10-15T03:21:00.000Z",
-    "summary": "HN 139分 | 78评论 | swedenherald.com",
+    "publishedAt": "2026-10-15T04:48:00.000Z",
+    "summary": "HN 134分 | 114评论 | theconsensus.dev",
     "category": "industry",
     "score": 77
-  },
-  {
-    "id": "hn_50096477",
-    "title": "Anthropic revenue jumps to $16.8B in third quarter",
-    "url": "https://www.ft.com/content/11632d03-358c-454b-af95-d06d4072932b",
-    "source": "ft.com",
-    "publishedAt": "2026-10-15T04:54:00.000Z",
-    "summary": "HN 14分 | 6评论 | ft.com",
-    "category": "industry",
-    "score": 62
   },
   {
     "id": "hn_50073879",
     "title": "Gemini 4 Argon",
     "url": "https://deepmind.google/models/gemini/",
     "source": "Google DeepMind",
-    "publishedAt": "2026-10-15T04:45:00.000Z",
-    "summary": "HN 1432分 | 1026评论 | deepmind.google",
+    "publishedAt": "2026-10-15T05:54:00.000Z",
+    "summary": "HN 1456分 | 1036评论 | deepmind.google",
     "category": "ai-models",
     "score": 95
-  },
-  {
-    "id": "hn_50097104",
-    "title": "Chaos ensues when AI interviewer meets AI interviewee",
-    "url": "https://www.theregister.com/offbeat/2026/10/14/chaos-ensues-when-ai-interviewer-meets-ai-interviewee/5303144",
-    "source": "theregister.com",
-    "publishedAt": "2026-10-15T04:53:00.000Z",
-    "summary": "HN 5分 | 0评论 | theregister.com",
-    "category": "industry",
-    "score": 61
-  },
-  {
-    "id": "hn_50096825",
-    "title": "ICE Wants to Use AI to Monitor Detainee Calls and Movements",
-    "url": "https://www.washingtonsun.com/immigration/ice-ai-monitor-detainees",
-    "source": "washingtonsun.com",
-    "publishedAt": "2026-10-15T05:41:00.000Z",
-    "summary": "HN 9分 | 1评论 | washingtonsun.com",
-    "category": "industry",
-    "score": 61
-  },
-  {
-    "id": "hn_50078686",
-    "title": "PostEra (YC W20) Is Hiring AI Researchers for Drug Discovery",
-    "url": "https://jobs.lever.co/postera/c7d50a36-db0a-4574-bfe4-8700b74a22c0",
-    "source": "jobs.lever.co",
-    "publishedAt": "2026-10-15T05:39:00.000Z",
-    "summary": "HN 1分 | 0评论 | jobs.lever.co",
-    "category": "industry",
-    "score": 60
-  },
-  {
-    "id": "hn_50090443",
-    "title": "Why do LLM pelicans look like this?",
-    "url": "https://arcfu.com/post/the-emperor-pelican-has-no-clothes/",
-    "source": "arcfu.com",
-    "publishedAt": "2026-10-15T06:47:00.000Z",
-    "summary": "HN 151分 | 131评论 | arcfu.com",
-    "category": "ai-models",
-    "score": 79
-  },
-  {
-    "id": "hn_50090662",
-    "title": "Tesla's Robotaxis Blow Through School Zones, NHTSA Petition Alleges",
-    "url": "https://www.extremetech.com/cars/teslas-robotaxis-blow-through-school-zones-nhtsa-petition-alleges",
-    "source": "extremetech.com",
-    "publishedAt": "2026-10-15T06:04:00.000Z",
-    "summary": "HN 128分 | 89评论 | extremetech.com",
-    "category": "industry",
-    "score": 76
-  },
-  {
-    "id": "hn_50085296",
-    "title": "I let an AI run my startup for a week",
-    "url": "https://daily.tinyprojects.dev/221",
-    "source": "daily.tinyprojects.dev",
-    "publishedAt": "2026-10-15T06:01:00.000Z",
-    "summary": "HN 56分 | 57评论 | daily.tinyprojects.dev",
-    "category": "industry",
-    "score": 67
   },
   {
     "id": "hn_50063427",
     "title": "AI is a tool and using it well takes skill",
     "url": "https://yyhh.org/blog/2026/10/ai-is-a-tool/",
     "source": "yyhh.org",
-    "publishedAt": "2026-10-15T07:38:00.000Z",
-    "summary": "HN 756分 | 587评论 | yyhh.org",
+    "publishedAt": "2026-10-15T05:47:00.000Z",
+    "summary": "HN 786分 | 601评论 | yyhh.org",
     "category": "industry",
     "score": 95
   },
   {
-    "id": "hn_50084416",
-    "title": "What agents mean for Rust (and vice versa)",
-    "url": "https://smallcultfollowing.com/babysteps/blog/2026/10/14/agentic-dev-and-rust/",
-    "source": "smallcultfollowing.com",
-    "publishedAt": "2026-10-15T07:06:00.000Z",
-    "summary": "HN 65分 | 54评论 | smallcultfollowing.com",
+    "id": "hn_50078686",
+    "title": "PostEra (YC W20) Is Hiring AI Researchers for Drug Discovery",
+    "url": "https://jobs.lever.co/postera/c7d50a36-db0a-4574-bfe4-8700b74a22c0",
+    "source": "jobs.lever.co",
+    "publishedAt": "2026-10-15T06:21:00.000Z",
+    "summary": "HN 1分 | 0评论 | jobs.lever.co",
     "category": "industry",
-    "score": 68
+    "score": 60
+  },
+  {
+    "id": "hn_50094694",
+    "title": "Anthropic's Scion is heavily inspired by Mononoke",
+    "url": "https://sunshowers.io/posts/anthropic-mononoke/",
+    "source": "sunshowers.io",
+    "publishedAt": "2026-10-15T06:44:00.000Z",
+    "summary": "HN 415分 | 155评论 | sunshowers.io",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50085323",
+    "title": "TV4 postpones show after AI agent erases edited material",
+    "url": "https://swedenherald.com/article/tv4-postpones-the-challenge-until-2027-after-technical-failure-erases-edited-footage",
+    "source": "swedenherald.com",
+    "publishedAt": "2026-10-15T06:10:00.000Z",
+    "summary": "HN 154分 | 86评论 | swedenherald.com",
+    "category": "industry",
+    "score": 79
   },
   {
     "id": "hn_50073633",
     "title": "Redesigning source control at Anthropic",
     "url": "https://www.anthropic.com/engineering/redesigning-source-control",
     "source": "Anthropic Blog",
-    "publishedAt": "2026-10-15T08:01:00.000Z",
-    "summary": "HN 866分 | 962评论 | anthropic.com",
+    "publishedAt": "2026-10-15T07:04:00.000Z",
+    "summary": "HN 885分 | 1000评论 | anthropic.com",
     "category": "industry",
     "score": 95
   },
   {
-    "id": "hn_50088430",
-    "title": "ASML's strong orders ease fears AI spending boom is running out of steam",
-    "url": "https://www.reuters.com/business/asml-forecasts-q4-sales-above-expectations-ai-chip-demand-2026-10-14/",
-    "source": "reuters.com",
-    "publishedAt": "2026-10-15T08:53:00.000Z",
-    "summary": "HN 168分 | 167评论 | reuters.com",
-    "category": "industry",
-    "score": 81
-  },
-  {
-    "id": "hn_50080275",
-    "title": "Show HN: Pulse Local, a Mac budgeting app whose AI models run on your machine",
-    "url": "https://pulseos.finance",
-    "source": "pulseos.finance",
-    "publishedAt": "2026-10-15T08:12:00.000Z",
-    "summary": "HN 112分 | 70评论 | pulseos.finance",
-    "category": "industry",
-    "score": 74
-  },
-  {
-    "id": "hn_50078141",
-    "title": "OpenAI engineer arrested in bugging of executive conference room",
-    "url": "https://sfstandard.com/2026/10/13/openai-engineer-arrested-alleged-bugging-executive-conference-room/",
-    "source": "sfstandard.com",
-    "publishedAt": "2026-10-15T09:19:00.000Z",
-    "summary": "HN 642分 | 528评论 | sfstandard.com",
-    "category": "industry",
-    "score": 95
-  },
-  {
-    "id": "hn_50085302",
-    "title": "AI Laser Locking for Quantum Computers: How QuEra Automates It",
-    "url": "https://www.quera.com/blog-posts/holding-the-light-teaching-an-ai-to-lock-and-tune-our-quantum-computers-lasers",
-    "source": "quera.com",
-    "publishedAt": "2026-10-15T09:06:00.000Z",
-    "summary": "HN 28分 | 5评论 | quera.com",
-    "category": "industry",
-    "score": 64
-  },
-  {
-    "id": "hn_50077619",
-    "title": "Show HN: Parsimony – an open-source benchmark for how much code AI models add",
-    "url": "https://parsimony.lasu.dev/",
-    "source": "parsimony.lasu.dev",
-    "publishedAt": "2026-10-15T10:21:00.000Z",
-    "summary": "HN 77分 | 17评论 | parsimony.lasu.dev",
+    "id": "hn_50099375",
+    "title": "Claude Code Desktop Vulnerability: Preview Pane Data Exfiltration",
+    "url": "https://noma.security/noma-labs/sneakpeek-how-the-preview-pane-in-claude-code-desktop-can-exfiltrate-your-data",
+    "source": "noma.security",
+    "publishedAt": "2026-10-15T07:07:00.000Z",
+    "summary": "HN 15分 | 0评论 | noma.security",
     "category": "ai-models",
-    "score": 70
+    "score": 62
+  },
+  {
+    "id": "hn_50105495",
+    "title": "ChatGPT Ads Target Your Phone Number, Email",
+    "url": "https://www.404media.co/chatgpt-ads-target-your-phone-number-email/",
+    "source": "404media.co",
+    "publishedAt": "2026-10-15T08:23:00.000Z",
+    "summary": "HN 18分 | 3评论 | 404media.co",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50106521",
+    "title": "AI Safety Is Not a Corporate Plot",
+    "url": "https://www.astralcodexten.com/p/ai-safety-is-not-a-corporate-plot",
+    "source": "astralcodexten.com",
+    "publishedAt": "2026-10-15T08:40:00.000Z",
+    "summary": "HN 11分 | 16评论 | astralcodexten.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50105900",
+    "title": "Market selloff, rising rates test AI data centre deal boom",
+    "url": "https://www.reuters.com/business/finance/market-selloff-rising-rates-test-ai-data-centre-deal-boom-2026-10-15/",
+    "source": "reuters.com",
+    "publishedAt": "2026-10-15T08:27:00.000Z",
+    "summary": "HN 68分 | 78评论 | reuters.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50091794",
+    "title": "Neckbeard – A DevOps/platform/SRE plugin for your agent",
+    "url": "https://github.com/bealesh/neckbeard",
+    "source": "GitHub",
+    "publishedAt": "2026-10-15T09:47:00.000Z",
+    "summary": "HN 75分 | 56评论 | github.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50103427",
+    "title": "ChatGPT Targets Ads to You Based on Your Prompts, Phone Number, and Email",
+    "url": "https://www.404media.co/how-chatgpt-targets-ads-to-you-based-on-your-prompts-phone-number-and-email/",
+    "source": "404media.co",
+    "publishedAt": "2026-10-15T09:43:00.000Z",
+    "summary": "HN 36分 | 6评论 | 404media.co",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_50084416",
+    "title": "What agents mean for Rust (and vice versa)",
+    "url": "https://smallcultfollowing.com/babysteps/blog/2026/10/14/agentic-dev-and-rust/",
+    "source": "smallcultfollowing.com",
+    "publishedAt": "2026-10-15T10:34:00.000Z",
+    "summary": "HN 70分 | 58评论 | smallcultfollowing.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50102806",
+    "title": "Turn your regular JavaScript code into a neural net",
+    "url": "https://chenglou.me/handwired/",
+    "source": "chenglou.me",
+    "publishedAt": "2026-10-15T10:12:00.000Z",
+    "summary": "HN 6分 | 0评论 | chenglou.me",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50085296",
+    "title": "I let an AI run my startup for a week",
+    "url": "https://daily.tinyprojects.dev/221",
+    "source": "daily.tinyprojects.dev",
+    "publishedAt": "2026-10-15T10:06:00.000Z",
+    "summary": "HN 65分 | 70评论 | daily.tinyprojects.dev",
+    "category": "industry",
+    "score": 68
+  },
+  {
+    "id": "hn_50092664",
+    "title": "Banks are now trying to offload the AI data center debt they just underwrote",
+    "url": "https://startupfortune.com/banks-are-now-trying-to-offload-the-ai-data-center-debt-they-just-underwrote/",
+    "source": "startupfortune.com",
+    "publishedAt": "2026-10-15T11:16:00.000Z",
+    "summary": "HN 378分 | 272评论 | startupfortune.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50088713",
+    "title": "Show HN: Graphicle, a Rust port of Graphify with memory for coding agents",
+    "url": "https://github.com/graphicle-ai/graphicle",
+    "source": "GitHub",
+    "publishedAt": "2026-10-15T11:04:00.000Z",
+    "summary": "HN 47分 | 13评论 | github.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_50107534",
+    "title": "Accenture Tells Employees to Spend Only $29 on Claude per Month",
+    "url": "https://www.404media.co/accenture-tells-employees-they-can-now-spend-only-29-on-claude-per-month/",
+    "source": "404media.co",
+    "publishedAt": "2026-10-15T12:17:00.000Z",
+    "summary": "HN 16分 | 9评论 | 404media.co",
+    "category": "ai-models",
+    "score": 62
   },
   {
     "id": "hn_50072120",
     "title": "How to engineer an AI harness for game development",
     "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code",
     "source": "kylekukshtel.com",
-    "publishedAt": "2026-10-15T10:53:00.000Z",
-    "summary": "HN 165分 | 86评论 | kylekukshtel.com",
+    "publishedAt": "2026-10-15T12:33:00.000Z",
+    "summary": "HN 172分 | 89评论 | kylekukshtel.com",
     "category": "industry",
-    "score": 81
+    "score": 82
+  },
+  {
+    "id": "hn_50078141",
+    "title": "OpenAI engineer arrested in bugging of executive conference room",
+    "url": "https://sfstandard.com/2026/10/13/openai-engineer-arrested-alleged-bugging-executive-conference-room/",
+    "source": "sfstandard.com",
+    "publishedAt": "2026-10-15T12:00:00.000Z",
+    "summary": "HN 652分 | 540评论 | sfstandard.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50107289",
+    "title": "Linus Torvalds on AI contribution rules",
+    "url": "https://lkml.iu.edu/2610.1/13255.html",
+    "source": "lkml.iu.edu",
+    "publishedAt": "2026-10-15T13:41:00.000Z",
+    "summary": "HN 10分 | 0评论 | lkml.iu.edu",
+    "category": "industry",
+    "score": 61
   },
   {
     "id": "hn_50069337",
     "title": "Show HN: Use your OpenAI subscription to create audiobooks",
     "url": "https://pdftomp3.com/connect-ai/",
     "source": "pdftomp3.com",
-    "publishedAt": "2026-10-15T10:19:00.000Z",
-    "summary": "HN 169分 | 90评论 | pdftomp3.com",
+    "publishedAt": "2026-10-15T13:23:00.000Z",
+    "summary": "HN 172分 | 90评论 | pdftomp3.com",
     "category": "industry",
-    "score": 81
+    "score": 82
+  },
+  {
+    "id": "hn_50102664",
+    "title": "RIAA Flags Anna's Archive and AI Voice Cloner to U.S. Government",
+    "url": "https://torrentfreak.com/riaa-flags-annas-archive-and-ai-voice-cloner-to-u-s-government/",
+    "source": "torrentfreak.com",
+    "publishedAt": "2026-10-15T14:50:00.000Z",
+    "summary": "HN 19分 | 0评论 | torrentfreak.com",
+    "category": "industry",
+    "score": 62
   },
   {
     "id": "hn_50069971",
     "title": "We turned EmbeddingGemma 2 into a speech-to-text model",
     "url": "https://eg2.haku.sh/",
     "source": "eg2.haku.sh",
-    "publishedAt": "2026-10-15T11:33:00.000Z",
-    "summary": "HN 425分 | 94评论 | eg2.haku.sh",
+    "publishedAt": "2026-10-15T14:03:00.000Z",
+    "summary": "HN 432分 | 97评论 | eg2.haku.sh",
     "category": "ai-models",
     "score": 95
   },
   {
-    "id": "hn_50074869",
-    "title": "Gemini 4 Argon for Robotics",
-    "url": "https://developers.googleblog.com/gemini-4-argon-for-robotics/",
-    "source": "developers.googleblog.com",
-    "publishedAt": "2026-10-15T11:42:00.000Z",
-    "summary": "HN 230分 | 55评论 | developers.googleblog.com",
-    "category": "ai-models",
-    "score": 89
-  },
-  {
-    "id": "hn_50073221",
-    "title": "I posted to HN, and then my website was flooded with AI bot traffic",
-    "url": "https://www.sammystraus.com/#i-posted-to-hn-and-then-my-website-was-flooded-with-ai-bot-traffic",
-    "source": "sammystraus.com",
-    "publishedAt": "2026-10-15T12:13:00.000Z",
-    "summary": "HN 341分 | 183评论 | sammystraus.com",
+    "id": "hn_50080275",
+    "title": "Show HN: Pulse Local, a Mac budgeting app whose AI models run on your machine",
+    "url": "https://pulseos.finance",
+    "source": "pulseos.finance",
+    "publishedAt": "2026-10-15T14:10:00.000Z",
+    "summary": "HN 119分 | 71评论 | pulseos.finance",
     "category": "industry",
-    "score": 95
-  },
-  {
-    "id": "hn_50068036",
-    "title": "Character.ai has initiated voluntary Chapter 11 bankruptcy",
-    "url": "https://blog.character.ai/an-update-on-character-ai/",
-    "source": "blog.character.ai",
-    "publishedAt": "2026-10-15T12:43:00.000Z",
-    "summary": "HN 331分 | 288评论 | blog.character.ai",
-    "category": "industry",
-    "score": 95
-  },
-  {
-    "id": "hn_50073471",
-    "title": "Launch HN: Consus (YC F24) – LLM gateway for companies handling sensitive data",
-    "url": "https://news.ycombinator.com/item?id=50073471",
-    "source": "Hacker News",
-    "publishedAt": "2026-10-15T12:14:00.000Z",
-    "summary": "HN 36分 | 19评论 | Hacker News",
-    "category": "ai-models",
-    "score": 65
-  },
-  {
-    "id": "hn_50090707",
-    "title": "OpenAI: Employee who left for Apple took files about unreleased device",
-    "url": "https://www.reuters.com/business/retail-consumer/openai-employee-who-left-apple-took-files-about-unreleased-device-openai-alleges-2026-10-14/",
-    "source": "reuters.com",
-    "publishedAt": "2026-10-15T13:01:00.000Z",
-    "summary": "HN 20分 | 7评论 | reuters.com",
-    "category": "industry",
-    "score": 63
-  },
-  {
-    "id": "hn_50059096",
-    "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
-    "url": "https://news.ycombinator.com/item?id=50059096",
-    "source": "Hacker News",
-    "publishedAt": "2026-10-15T13:41:00.000Z",
-    "summary": "HN 160分 | 120评论 | Hacker News",
-    "category": "industry",
-    "score": 80
+    "score": 75
   },
   {
     "id": "hn_50058507",
     "title": "GLM-Legal",
     "url": "https://z.ai/blog/glm-legal",
     "source": "z.ai",
-    "publishedAt": "2026-10-15T14:10:00.000Z",
-    "summary": "HN 670分 | 363评论 | z.ai",
+    "publishedAt": "2026-10-15T00:19:00.000Z",
+    "summary": "HN 673分 | 369评论 | z.ai",
     "category": "industry",
     "score": 95
   },
   {
-    "id": "hn_50081151",
-    "title": "Show HN: I built a tool to track what AI leaders say and how their views change",
-    "url": "https://blumify.io/people",
-    "source": "blumify.io",
-    "publishedAt": "2026-10-15T14:00:00.000Z",
-    "summary": "HN 115分 | 76评论 | blumify.io",
+    "id": "hn_50059096",
+    "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
+    "url": "https://news.ycombinator.com/item?id=50059096",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-15T00:17:00.000Z",
+    "summary": "HN 160分 | 124评论 | Hacker News",
     "category": "industry",
-    "score": 74
+    "score": 80
   },
   {
-    "id": "hn_50079437",
-    "title": "Physical Intelligence API Beta: Frontier Models for Every Robot",
-    "url": "https://www.pi.website/blog/api-beta",
-    "source": "pi.website",
-    "publishedAt": "2026-10-15T14:19:00.000Z",
-    "summary": "HN 52分 | 4评论 | pi.website",
+    "id": "hn_50073221",
+    "title": "I posted to HN, and then my website was flooded with AI bot traffic",
+    "url": "https://www.sammystraus.com/#i-posted-to-hn-and-then-my-website-was-flooded-with-ai-bot-traffic",
+    "source": "sammystraus.com",
+    "publishedAt": "2026-10-15T01:33:00.000Z",
+    "summary": "HN 346分 | 185评论 | sammystraus.com",
     "category": "industry",
-    "score": 67
+    "score": 95
   },
   {
-    "id": "hn_50090484",
-    "title": "I Deleted 168,000 Lines of Comments. My AI Agent Didn't Notice",
-    "url": "https://openstation.blog/2026/10/13/i-deleted-168000-lines-of-comments-my-ai-agent-didnt-notice/",
-    "source": "openstation.blog",
-    "publishedAt": "2026-10-15T00:32:00.000Z",
-    "summary": "HN 35分 | 15评论 | openstation.blog",
-    "category": "industry",
-    "score": 64
-  },
-  {
-    "id": "hn_50090842",
-    "title": "Linus Torvalds's first LLM-assisted patch series",
-    "url": "https://lwn.net/Articles/1100449/",
-    "source": "lwn.net",
-    "publishedAt": "2026-10-15T00:32:00.000Z",
-    "summary": "HN 113分 | 93评论 | lwn.net",
+    "id": "hn_50048193",
+    "title": "How I manage persistent Claude Code loops: Spool",
+    "url": "https://github.com/enes-alatas/spool",
+    "source": "GitHub",
+    "publishedAt": "2026-10-15T01:36:00.000Z",
+    "summary": "HN 25分 | 8评论 | github.com",
     "category": "ai-models",
-    "score": 74
-  },
-  {
-    "id": "hn_50077389",
-    "title": "How many shots are in the average movie today?",
-    "url": "https://stephenfollows.com/p/how-many-shots-are-in-the-average",
-    "source": "stephenfollows.com",
-    "publishedAt": "2026-10-15T01:24:00.000Z",
-    "summary": "HN 41分 | 14评论 | stephenfollows.com",
-    "category": "industry",
-    "score": 65
-  },
-  {
-    "id": "hn_50087289",
-    "title": "AI agent behavior drift analysis with Cloudflare Clef",
-    "url": "https://arcjet.com/blog/how-we-built-ai-agent-behavior-drift-analysis-with-cloudflare-clef",
-    "source": "arcjet.com",
-    "publishedAt": "2026-10-15T01:43:00.000Z",
-    "summary": "HN 4分 | 0评论 | arcjet.com",
-    "category": "industry",
-    "score": 61
+    "score": 63
   }
 ]
