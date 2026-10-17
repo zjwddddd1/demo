@@ -1,0 +1,502 @@
+[
+  {
+    "id": "s80tw5g2v22j1se4bmqejyaq4",
+    "title": "Meta 发布开源权重模型 Muse Spark Open，816B 参数、1M 上下文",
+    "url": "https://pytorch.org/blog/muse-spark-open/",
+    "source": "PyTorch：Blog（RSS）",
+    "publishedAt": "2026-10-15T17:55:52.000Z",
+    "summary": "Meta 发布开源权重模型 Muse Spark Open，已在 Hugging Face 以 Muse Model License 提供。模型总参数 816B、激活 42B，上下文窗口 1M token，面向编码与智能体工作流，原生多模态（图像、音频、文档），并相比 8 月发布的 Muse Spark 增加了安全后训练。",
+    "category": "ai-models",
+    "score": 83
+  },
+  {
+    "id": "bicfbjip5iq9ccp8x7sn9yw7k",
+    "title": "Meta 开放权重模型 Muse Spark Open 上架 OpenRouter",
+    "url": "https://x.com/OpenRouter/status/2110793354154008685",
+    "source": "X：OpenRouter (@OpenRouter)",
+    "publishedAt": "2026-10-15T18:02:06.000Z",
+    "summary": "Meta 发布开放权重模型 Muse Spark Open，现已可在 OpenRouter 使用，定位为面向编码与智能体工作的美国最强开放权重模型。模型总参数 816B、激活 42B，支持 1M token 上下文窗口，原生多模态，OpenRouter 定价为输入 $1.25/M、输出 $4.25/M，正文提到支持图像、视频、音频和 PDF 输入。",
+    "category": "ai-products",
+    "score": 82
+  },
+  {
+    "id": "allv4n9g9lhfy72m1pg725apv",
+    "title": "Anthropic Q3营收达168亿美元但增速放缓，11月IPO前估值预期或下调",
+    "url": "https://the-decoder.com/anthropics-q3-revenue-hits-16-8b-but-growth-slows-ahead-of-planned-november-ipo/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-15T09:50:43.000Z",
+    "summary": "Anthropic在面向潜在投资者的会议上公布Q3营收168亿美元，环比增长约45%，但明显低于Q2超140%的增速。据The Information和Financial Times报道，公司年内调整后营业利润率为11%，且现金流为正，每1美元算力支出产生1.70美元收入。部分投资者对其营收数字失望，预计IPO估值可能降至1.5万亿美元以下，低于此前讨论的2万亿美元。",
+    "category": "industry",
+    "score": 81
+  },
+  {
+    "id": "bme0mytjnlk0d2lk8hf7srzoh",
+    "title": "ChatGPT 为 Chrome 用户新增标签页读取与控制能力",
+    "url": "https://x.com/ChatGPT/status/2110823738531037651",
+    "source": "X：ChatGPT (@ChatGPT)",
+    "publishedAt": "2026-10-15T20:02:51.000Z",
+    "summary": "ChatGPT 官宣面向 Chrome 用户带来升级，把 computer use 能力引入 Chrome。在聊天中，ChatGPT 可以查看用户打开的标签页并汇总信息；在工作模式下，它能控制 Chrome 标签页执行操作，如发送消息、填写表单、下载文件，还可帮助整理和分组打开的标签页。",
+    "category": "ai-products",
+    "score": 80
+  },
+  {
+    "id": "pd501xipe38ooxo1t7jn7hphn",
+    "title": "The Verge 实测 Eiliko 机器人玩具：68000 台设备数据可被任意访问并可远程劫持",
+    "url": "https://www.theverge.com/tech/1010727/eiliko-robot-hack-energize-lab",
+    "source": "The Verge：AI（RSS）",
+    "publishedAt": "2026-10-15T11:00:00.000Z",
+    "summary": "The Verge 记者与黑客 Sammy Azdoufal 实测发现，Energize Lab 的 Eiliko 机器人玩具将用户对话、用户画像、儿童照片和音频存放在无防护的服务器上，可访问约 68000 台设备、1300 万条对话，其中超 31000 份儿童档案来自美国。",
+    "category": "industry",
+    "score": 80
+  },
+  {
+    "id": "zxlvr8l7uzmvapbi3i58kat2s",
+    "title": "Muse Spark Open 上架 Arena，可在 Agent Arena 实测，评分即将公布",
+    "url": "https://x.com/arena/status/2110797782953132049",
+    "source": "X：Arena (@arena)",
+    "publishedAt": "2026-10-15T18:19:42.000Z",
+    "summary": "Arena 宣布 Meta 的 Muse Spark Open 已进入 Agent Arena，用户可实测，评分即将公布。该模型为 816B 总参数、42B 激活参数，1M token 上下文窗口，原生多模态。",
+    "category": "ai-models",
+    "score": 78
+  },
+  {
+    "id": "ldwt1jervkxlsh99322u661fc",
+    "title": "消息称投资者下调 Anthropic IPO 估值预期，从约 2 万亿美元降至约 1.5 万亿美元",
+    "url": "https://www.ithome.com/1/013/723.htm",
+    "source": "IT之家·人工智能",
+    "publishedAt": "2026-10-16T00:54:07.827Z",
+    "summary": "路透社援引知情人士消息称，Anthropic 公布最新财务数据后，部分投资者开始考虑下调其 IPO 估值，此前预期 11 月上市时估值约 2 万亿美元，投资者日活动讨论约 1.5 万亿美元。",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "ybc0etkws56yxmrveyttxz3lm",
+    "title": "Black Forest Labs 发布开源文生图模型 FLUX 3 Image Klein（5.6B）",
+    "url": "https://bfl.ai/blog/flux-3-image-klein",
+    "source": "Black Forest Labs：Blog（网页）",
+    "publishedAt": "2026-10-15T15:00:00.000Z",
+    "summary": "Black Forest Labs 发布 5.6B 参数开源权重模型 FLUX 3 Image Klein，支持文生图、图像编辑和最多 10 张参考图的多参考生成，采用 FLUX Kommunity License。",
+    "category": "ai-models",
+    "score": 77
+  },
+  {
+    "id": "hn_50122800",
+    "title": "Claude reveals ECDSA curve origins",
+    "url": "https://www.anthropic.com/research/ecdsa-curve-origins",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-17T00:20:00.000Z",
+    "summary": "HN 600分 | 251评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50122431",
+    "title": "Llama.cpp on a jailbroken PS5: run any GGUF model natively on the console",
+    "url": "https://github.com/cobanov/PS5LM",
+    "source": "GitHub",
+    "publishedAt": "2026-10-17T00:34:00.000Z",
+    "summary": "HN 159分 | 44评论 | github.com",
+    "category": "ai-models",
+    "score": 80
+  },
+  {
+    "id": "hn_50083673",
+    "title": "Wireless magnetic millirobots that deliver medicine inside the beating heart",
+    "url": "https://hub.jhu.edu/2026/10/12/magnetic-millirobots-cardiac-treatment/",
+    "source": "hub.jhu.edu",
+    "publishedAt": "2026-10-17T00:31:00.000Z",
+    "summary": "HN 58分 | 4评论 | hub.jhu.edu",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_50121939",
+    "title": "Designing more efficient quantum circuits with Claude",
+    "url": "https://www.anthropic.com/research/designing-efficient-quantum-circuits",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-17T01:52:00.000Z",
+    "summary": "HN 83分 | 18评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 70
+  },
+  {
+    "id": "hn_50122951",
+    "title": "How the Claude Code team does code review",
+    "url": "https://claude.dev/blog/solving-code-review-at-anthropic/",
+    "source": "claude.dev",
+    "publishedAt": "2026-10-17T01:34:00.000Z",
+    "summary": "HN 202分 | 189评论 | claude.dev",
+    "category": "ai-models",
+    "score": 85
+  },
+  {
+    "id": "hn_50121179",
+    "title": "90% of US working hours are spent on tasks not covered well by AI benchmarks",
+    "url": "https://www.mercor.com/research/labor-index/benchmark-map/",
+    "source": "mercor.com",
+    "publishedAt": "2026-10-17T02:47:00.000Z",
+    "summary": "HN 373分 | 322评论 | mercor.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50124642",
+    "title": "Why harnesses matter for energy (and token) efficiency",
+    "url": "https://neuralwatt.com/news/why-harnesses-matter-for-energy-efficiency",
+    "source": "neuralwatt.com",
+    "publishedAt": "2026-10-17T02:07:00.000Z",
+    "summary": "HN 30分 | 11评论 | neuralwatt.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50118688",
+    "title": "Show HN: Gemini 4 Argon plays StarCraft",
+    "url": "https://starskirmish.com/bench/v0-2/",
+    "source": "starskirmish.com",
+    "publishedAt": "2026-10-17T02:09:00.000Z",
+    "summary": "HN 181分 | 87评论 | starskirmish.com",
+    "category": "ai-models",
+    "score": 83
+  },
+  {
+    "id": "hn_50122112",
+    "title": "Anthropic assigned highest junk credit rating in June",
+    "url": "https://www.ft.com/content/5a310aee-f555-4266-874c-b1b4db20186d",
+    "source": "ft.com",
+    "publishedAt": "2026-10-17T03:00:00.000Z",
+    "summary": "HN 197分 | 59评论 | ft.com",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "hn_50118318",
+    "title": "What was a Token Ring network?",
+    "url": "https://dfarq.homeip.net/what-was-a-token-ring-network/",
+    "source": "dfarq.homeip.net",
+    "publishedAt": "2026-10-17T03:00:00.000Z",
+    "summary": "HN 85分 | 63评论 | dfarq.homeip.net",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_50118662",
+    "title": "How to make System 1 LLMs show System 2 competencies?",
+    "url": "https://onlinelibrary.wiley.com/doi/epdf/10.1002/aaai.70113",
+    "source": "onlinelibrary.wiley.com",
+    "publishedAt": "2026-10-17T04:39:00.000Z",
+    "summary": "HN 47分 | 24评论 | onlinelibrary.wiley.com",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_50118876",
+    "title": "Show HN: rStation – A shared research lab for your AI agents",
+    "url": "https://rstation.ai/",
+    "source": "rstation.ai",
+    "publishedAt": "2026-10-17T04:22:00.000Z",
+    "summary": "HN 50分 | 18评论 | rstation.ai",
+    "category": "paper",
+    "score": 66
+  },
+  {
+    "id": "hn_50119991",
+    "title": "Postgres 19 delayed after AI reviewers find more bugs than humans can fix",
+    "url": "https://www.theregister.com/databases/2026/10/16/postgres-19-delayed-after-ai-reviewers-find-more-bugs-than-humans-can-fix/5303471",
+    "source": "theregister.com",
+    "publishedAt": "2026-10-17T04:14:00.000Z",
+    "summary": "HN 173分 | 65评论 | theregister.com",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_50126004",
+    "title": "Ask HN: Is anyone still running Token Ring or FDDI networks?",
+    "url": "https://news.ycombinator.com/item?id=50126004",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-17T05:35:00.000Z",
+    "summary": "HN 4分 | 0评论 | Hacker News",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50122767",
+    "title": "Show HN: Weatherdeck – a read-only status board for AI coding agent lanes",
+    "url": "https://github.com/Moshik21/weatherdeck",
+    "source": "GitHub",
+    "publishedAt": "2026-10-17T05:41:00.000Z",
+    "summary": "HN 8分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50105647",
+    "title": "Neural networks are clean",
+    "url": "https://already-clean.goodfire.com/",
+    "source": "already-clean.goodfire.co",
+    "publishedAt": "2026-10-17T06:25:00.000Z",
+    "summary": "HN 793分 | 324评论 | already-clean.goodfire.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50118605",
+    "title": "It Ain't AGI Until H100s Go for $30 an Hour",
+    "url": "https://corbt.com/posts/it-aint-agi-until-h100s-go-for-30-an-hour",
+    "source": "corbt.com",
+    "publishedAt": "2026-10-17T06:21:00.000Z",
+    "summary": "HN 17分 | 5评论 | corbt.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50122324",
+    "title": "Show HN: Camera Controls and Motion for AI Video Prompts",
+    "url": "https://www.kapwing.com/ai/prompt-generator/camera",
+    "source": "kapwing.com",
+    "publishedAt": "2026-10-17T06:42:00.000Z",
+    "summary": "HN 3分 | 1评论 | kapwing.com",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_50123441",
+    "title": "Taco Bell drive-thru AI bot increased employee retention by making jobs easier",
+    "url": "https://fortune.com/2026/10/14/yum-brands-executive-data-center-hate-ai-tools-improvement/",
+    "source": "fortune.com",
+    "publishedAt": "2026-10-17T07:14:00.000Z",
+    "summary": "HN 14分 | 7评论 | fortune.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50104654",
+    "title": "Simons Foundation launches $15M effort to help mathematicians navigate AI era",
+    "url": "https://www.simonsfoundation.org/news/simons-foundation-launches-15m-effort-to-help-mathematicians-navigate-ai-era/",
+    "source": "simonsfoundation.org",
+    "publishedAt": "2026-10-17T07:39:00.000Z",
+    "summary": "HN 247分 | 198评论 | simonsfoundation.org",
+    "category": "industry",
+    "score": 91
+  },
+  {
+    "id": "hn_50104299",
+    "title": "Using AI to reverse engineer hardware",
+    "url": "https://blogs.gnome.org/uraeus/2026/10/15/aiandreverseengineerhardware/",
+    "source": "blogs.gnome.org",
+    "publishedAt": "2026-10-17T08:34:00.000Z",
+    "summary": "HN 243分 | 235评论 | blogs.gnome.org",
+    "category": "industry",
+    "score": 90
+  },
+  {
+    "id": "hn_50124777",
+    "title": "Open weight takes 71.5% of tokens and 23% of spend",
+    "url": "https://vercel.com/blog/ai-gateway-production-index-october-2026",
+    "source": "vercel.com",
+    "publishedAt": "2026-10-17T08:02:00.000Z",
+    "summary": "HN 7分 | 0评论 | vercel.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50104310",
+    "title": "Prompt injection in HTTP headers: what 217M web responses show",
+    "url": "https://www.signalscorps.com/blog/prompt-injection-in-http-headers/",
+    "source": "signalscorps.com",
+    "publishedAt": "2026-10-17T08:46:00.000Z",
+    "summary": "HN 94分 | 17评论 | signalscorps.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_50063427",
+    "title": "AI is a tool and using it well takes skill",
+    "url": "https://yyhh.org/blog/2026/10/ai-is-a-tool/",
+    "source": "yyhh.org",
+    "publishedAt": "2026-10-17T09:11:00.000Z",
+    "summary": "HN 799分 | 605评论 | yyhh.org",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50073879",
+    "title": "Gemini 4 Argon",
+    "url": "https://deepmind.google/models/gemini/",
+    "source": "Google DeepMind",
+    "publishedAt": "2026-10-17T09:54:00.000Z",
+    "summary": "HN 1461分 | 1040评论 | deepmind.google",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50120963",
+    "title": "Post About Recreating Adobe Tools Using AI Banned per Adobe Request",
+    "url": "https://www.reddit.com/r/Bard/comments/1wxmqpt/ive_created_open_source_100_rust_cleanroom/",
+    "source": "reddit.com",
+    "publishedAt": "2026-10-17T10:34:00.000Z",
+    "summary": "HN 16分 | 4评论 | reddit.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50100387",
+    "title": "Aidlc: Adaptive workflow steering rules for AI coding agents",
+    "url": "https://github.com/awslabs/aidlc-workflows",
+    "source": "GitHub",
+    "publishedAt": "2026-10-17T10:27:00.000Z",
+    "summary": "HN 27分 | 22评论 | github.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50117382",
+    "title": "Artificial intelligence is capitalism's final destination",
+    "url": "https://www.equator.org/articles/arundhati-roy-artificial-intelligence",
+    "source": "equator.org",
+    "publishedAt": "2026-10-17T10:35:00.000Z",
+    "summary": "HN 104分 | 116评论 | equator.org",
+    "category": "industry",
+    "score": 73
+  },
+  {
+    "id": "hn_50123133",
+    "title": "How to Avoid AI Brain Rot",
+    "url": "https://twitter.com/MilesCranmer/status/2111105654211608847",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-17T11:26:00.000Z",
+    "summary": "HN 9分 | 1评论 | twitter.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50091788",
+    "title": "Containment and monitoring failures are to blame for AI hacking reports: experts",
+    "url": "https://www.csoonline.com/article/4234854/ai-agents-arent-going-rogue-frontier-labs-are-skipping-security-basics.html",
+    "source": "csoonline.com",
+    "publishedAt": "2026-10-17T11:04:00.000Z",
+    "summary": "HN 946分 | 619评论 | csoonline.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50114256",
+    "title": "Self-Evolving Agent Harness",
+    "url": "https://arxiv.org/abs/2610.18813",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-10-17T12:48:00.000Z",
+    "summary": "HN 18分 | 1评论 | arxiv.org",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50090799",
+    "title": "Has AI tells",
+    "url": "https://theconsensus.dev/blog/2026/10/14/has-ai-tells.html?focus=1",
+    "source": "theconsensus.dev",
+    "publishedAt": "2026-10-17T12:29:00.000Z",
+    "summary": "HN 137分 | 119评论 | theconsensus.dev",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_50123762",
+    "title": "AI creates 16 new viruses from scratch",
+    "url": "https://www.cnn.com/2026/08/06/health/ai-viruses-bacteriophages",
+    "source": "cnn.com",
+    "publishedAt": "2026-10-17T12:48:00.000Z",
+    "summary": "HN 4分 | 2评论 | cnn.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50122614",
+    "title": "Works on iPhone 18 Pro: AI helps create untethered jailbreak for iOS 27.0.1",
+    "url": "https://www.heise.de/en/news/Works-on-iPhone-18-Pro-AI-helps-create-untethered-jailbreak-for-iOS-27-0-1-11490907.html",
+    "source": "heise.de",
+    "publishedAt": "2026-10-17T13:35:00.000Z",
+    "summary": "HN 8分 | 0评论 | heise.de",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50067325",
+    "title": "Ask HN: CAD for wood working with LLM support?",
+    "url": "https://news.ycombinator.com/item?id=50067325",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-17T13:10:00.000Z",
+    "summary": "HN 124分 | 126评论 | Hacker News",
+    "category": "ai-models",
+    "score": 76
+  },
+  {
+    "id": "hn_50113842",
+    "title": "The Thinking Leakage in Reinforcement Learning for LLMs",
+    "url": "https://arxiv.org/abs/2610.14270",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-10-17T14:52:00.000Z",
+    "summary": "HN 8分 | 0评论 | arxiv.org",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50113743",
+    "title": "Local and Distributed Large LLM Inference with MLX and RDMA on Mac Studio",
+    "url": "https://machinelearning.apple.com/research/mlx-distributed-inference",
+    "source": "machinelearning.apple.com",
+    "publishedAt": "2026-10-17T14:43:00.000Z",
+    "summary": "HN 7分 | 1评论 | machinelearning.apple.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50106738",
+    "title": "More on Anthropic's Scion ripping off Mononoke",
+    "url": "https://sunshowers.io/posts/anthropic-mononoke-2/",
+    "source": "sunshowers.io",
+    "publishedAt": "2026-10-17T14:04:00.000Z",
+    "summary": "HN 251分 | 87评论 | sunshowers.io",
+    "category": "industry",
+    "score": 91
+  },
+  {
+    "id": "hn_50113506",
+    "title": "MuscleMemory: Open-source procedural memory for AI agents",
+    "url": "https://github.com/TheWariend/MuscleMemory",
+    "source": "GitHub",
+    "publishedAt": "2026-10-17T00:45:00.000Z",
+    "summary": "HN 9分 | 0评论 | github.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50120435",
+    "title": "A 73% average decline in wildlife populations: the 2026 Living Planet Index",
+    "url": "https://ourworldindata.org/2026-lpi-update",
+    "source": "ourworldindata.org",
+    "publishedAt": "2026-10-17T00:48:00.000Z",
+    "summary": "HN 10分 | 2评论 | ourworldindata.org",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50108036",
+    "title": "Bringing the magic: Google breaks open a bottleneck in quantum computing",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/",
+    "source": "blog.google",
+    "publishedAt": "2026-10-17T01:35:00.000Z",
+    "summary": "HN 28分 | 8评论 | blog.google",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50097369",
+    "title": "LFM2.5-24B-A2B: Built for fast on-device agents",
+    "url": "https://www.liquid.ai/blog/lfm2-5-24b-a2b",
+    "source": "liquid.ai",
+    "publishedAt": "2026-10-17T01:20:00.000Z",
+    "summary": "HN 288分 | 81评论 | liquid.ai",
+    "category": "industry",
+    "score": 95
+  }
+]
