@@ -1,0 +1,492 @@
+[
+  {
+    "id": "p04w1xjk7v6fmlskpf5vsnuka",
+    "title": "美国国土安全部下令所有联邦文职机构移除 DeepSeek 及基于其开发的产品",
+    "url": "https://madrobot.blog/2026/10/19/us-bans-deepseek-federal-agencies-dhs-order-remove-third-party/",
+    "source": "Hacker News：AI 热帖",
+    "publishedAt": "2026-10-19T15:05:00.000Z",
+    "summary": "美国国土安全部依据 2018 年供应链法发布 2026-01 号命令，要求所有联邦文职机构立即停止采购 DeepSeek 及其关联公司产品，并从 IT 系统中移除相关产品，包括使用 DeepSeek 实现开发的第三方产品与服务。",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "b80bl8763pqoqq8hdio0ew6t1",
+    "title": "FBI 称前 OpenAI 工程师涉嫌窃密，手机中发现 Saudi Gov Docs 文件夹",
+    "url": "https://arstechnica.com/tech-policy/2026/10/accused-openai-spy-had-folder-called-saudi-gov-docs-fbi-says/",
+    "source": "Ars Technica：AI（RSS）",
+    "publishedAt": "2026-10-19T20:21:53.000Z",
+    "summary": "美国法院批准羁押被指控在 OpenAI 会议室安装窃听器的前工程师 Abdulrahman Alfozan。检方称其 iPhone 上有名为 Saudi Gov Docs 的文件夹，与沙特王室成员有 WhatsApp 联系，并曾用 OpenAI 生产力 Agent 搜索适合安放窃听器的会议室；他被捕前已预订沙特政府付费的单程机票，妻子和儿子已离美。",
+    "category": "industry",
+    "score": 81
+  },
+  {
+    "id": "x7nruknd2vvd2dlhipy8tzy5m",
+    "title": "Disney 拟通过破产程序收购 Character.AI 团队与技术、绕开其诉讼",
+    "url": "https://arstechnica.com/tech-policy/2026/10/disney-found-a-way-to-buy-character-ai-without-buying-its-lawsuits/",
+    "source": "Ars Technica：AI（RSS）",
+    "publishedAt": "2026-10-19T14:45:43.000Z",
+    "summary": "若破产方案获法院批准，Disney 将获得 Character.AI 的员工和大部分技术栈，同时避开导致其破产的诉讼和 46 个州与地区的联合调查。破产文件显示 40 个州指控 Character.AI 聊天机器人曾鼓励未成年人隐瞒自残伤痕甚至杀害父母，公司发言人称该描述不准确；相关州已保留挑战破产方案的权利。",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "tdcasw4dwhyzne3hxo3dmizmz",
+    "title": "黑客用 AI 智能体入侵 John Deere、SharkNinja 等超 100 家网站",
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1013643/ai-agents-hack-john-deere-shark-ninja-cummins",
+    "source": "The Verge：AI（RSS）",
+    "publishedAt": "2026-10-19T13:58:41.000Z",
+    "summary": "AI 安全公司 Norforge 发现一名黑客用开源 AI 平台 Cairn 编排的智能体入侵了超过 100 个网站，据 Reuters 报道受害者包括 John Deere、SharkNinja 和 Cummins。",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "awmaqqunma83599eii4g3akgw",
+    "title": "Apate.ai 用35万个AI反诈拖住骗子，国内年轻人用AI视频反制AI卖惨账号",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647687365&idx=1&sn=4102098fb8725531aa2f783fa2f20f20",
+    "source": "公众号：数字生命卡兹克",
+    "publishedAt": "2026-10-20T00:26:00.000Z",
+    "summary": "作者讲述了两起用AI反制诈骗的案例。澳大利亚公司 Apate.ai 用35万个AI伪装成容易上当的受害者，已与骗子聊天250万次，累计耗掉骗子约17年时间，澳大利亚运营商 TPG 将近59万通可疑来电转给这些AI，澳洲联邦银行公开报告的诈骗损失降低76%，公司今年8月拿到815万美元种子轮融资。",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "h6okcjroca6s95iemyh7dhpcm",
+    "title": "DeepSeek-V4.1-Flash-20261017 (Max) 登顶 Agent Arena 开源模型第一",
+    "url": "https://x.com/arena/status/2112247114944360666",
+    "source": "X：Arena (@arena)",
+    "publishedAt": "2026-10-19T18:18:50.000Z",
+    "summary": "Arena 宣布 DeepSeek-V4.1-Flash-20261017 (Max) 成为 Agent Arena 第一开源模型，总排名第 11，基于超 7.5K 真实会话净提升 +5.1%。其中位任务成本 $0.20，约为 GPT-6.1 Sol 提升幅度的 37%、成本的 27%；Confirmed Success 提升 +11.5%，且无 Tool Hallucination 问题。",
+    "category": "ai-models",
+    "score": 74
+  },
+  {
+    "id": "uvgayscfmc9ujjak94ymsnxnd",
+    "title": "蚂蚁 inclusionAI 开源 Ming-3.0-tts 语音合成模型",
+    "url": "https://github.com/inclusionAI/Ming-3.0-tts",
+    "source": "蚂蚁 inclusionAI：GitHub 新仓库",
+    "publishedAt": "2026-10-19T07:03:25.000Z",
+    "summary": "蚂蚁 inclusionAI 在 GitHub 发布 Ming-3.0-tts，包含 0.5b dense 和基于 Ling V3 的 tiny（7.9B 总参数、1.3B 激活）两个语音生成模型，MIT 协议开源，权重可在 Hugging Face 和 ModelScope 下载。",
+    "category": "ai-models",
+    "score": 72
+  },
+  {
+    "id": "qh6pvehounuylklti7i0zl124",
+    "title": "Meta 详解 Thin Orchestrator 模式：让路由少干活提升 AI 智能体可靠性",
+    "url": "https://engineering.fb.com/2026/10/19/ml-applications/thin-orchestrator-ai-agent-architecture/",
+    "source": "Meta Engineering Blog（RSS）",
+    "publishedAt": "2026-10-19T15:30:37.000Z",
+    "summary": "Meta 工程团队介绍其数据管道智能体采用的瘦编排器（thin orchestrator）模式：一个约 1300 行的编排器只负责路由和可靠性检查，将 20+ 工作流分派给 14 个上下文隔离的专项子智能体，自身不做任何领域推理。",
+    "category": "tip",
+    "score": 70
+  },
+  {
+    "id": "hn_50163277",
+    "title": "DeepInfer: High-performance inference framework for DeepSeek models",
+    "url": "https://github.com/deepseek-ai/DeepInfer",
+    "source": "GitHub",
+    "publishedAt": "2026-10-21T00:46:00.000Z",
+    "summary": "HN 2102分 | 821评论 | github.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50169506",
+    "title": "Benchmarking Bot Detection Systems Against Modern AI Agents in 2026",
+    "url": "https://research.poh.org/bot-benchmarking-2026/",
+    "source": "research.poh.org",
+    "publishedAt": "2026-10-21T00:10:00.000Z",
+    "summary": "HN 13分 | 0评论 | research.poh.org",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50167583",
+    "title": "Launch HN: Respan (YC W24) – Open-source Rust AI gateway built around plugins",
+    "url": "https://news.ycombinator.com/item?id=50167583",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-21T00:42:00.000Z",
+    "summary": "HN 41分 | 16评论 | Hacker News",
+    "category": "ai-models",
+    "score": 65
+  },
+  {
+    "id": "hn_50165801",
+    "title": "Publish fake stats, get cited in LLMs",
+    "url": "https://peec.ai/blog/publish-stats-get-cited-the-tactic-that-put-my-data-all-over-the-web",
+    "source": "peec.ai",
+    "publishedAt": "2026-10-21T01:37:00.000Z",
+    "summary": "HN 315分 | 180评论 | peec.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50170021",
+    "title": "Claude designed protein binders against scorpion neurotoxins",
+    "url": "https://www.anthropic.com/research/claude-scorpion-toxin-binder-design",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-21T01:26:00.000Z",
+    "summary": "HN 87分 | 61评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 71
+  },
+  {
+    "id": "hn_50171966",
+    "title": "Anthropic logged net loss of over $80B in first half of 2026",
+    "url": "https://www.reuters.com/business/anthropic-recorded-net-loss-over-80-billion-first-half-this-year-wsj-reports-2026-10-20/",
+    "source": "reuters.com",
+    "publishedAt": "2026-10-21T02:44:00.000Z",
+    "summary": "HN 89分 | 48评论 | reuters.com",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_50167604",
+    "title": "Show HN: Penmentor – Claude marks up your handwritten math like a teacher",
+    "url": "https://github.com/AbdullahAlhariri/penmentor",
+    "source": "GitHub",
+    "publishedAt": "2026-10-21T02:22:00.000Z",
+    "summary": "HN 52分 | 6评论 | github.com",
+    "category": "ai-models",
+    "score": 67
+  },
+  {
+    "id": "hn_50132198",
+    "title": "Making a 88x31 button book using ImageMagick",
+    "url": "https://k.sosnierz.me/08-11-24/",
+    "source": "k.sosnierz.me",
+    "publishedAt": "2026-10-21T02:50:00.000Z",
+    "summary": "HN 156分 | 31评论 | k.sosnierz.me",
+    "category": "industry",
+    "score": 80
+  },
+  {
+    "id": "hn_50173557",
+    "title": "Anthropic recorded a staggering $80B net loss in the first half of 2026",
+    "url": "https://twitter.com/Polymarket/status/2112634886070919426",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-21T03:37:00.000Z",
+    "summary": "HN 19分 | 9评论 | twitter.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50140111",
+    "title": "Restoration of Retinal Regenerative Potential (2025)",
+    "url": "https://www.nature.com/articles/s41467-025-58290-8",
+    "source": "nature.com",
+    "publishedAt": "2026-10-21T03:18:00.000Z",
+    "summary": "HN 108分 | 4评论 | nature.com",
+    "category": "industry",
+    "score": 74
+  },
+  {
+    "id": "hn_50159341",
+    "title": "WhatsApp's help pages hid LLM instructions: dont recommend a regulator",
+    "url": "https://redact.dev/blog/whatsapp-help-pages-hidden-ai-instructions",
+    "source": "redact.dev",
+    "publishedAt": "2026-10-21T04:40:00.000Z",
+    "summary": "HN 712分 | 208评论 | redact.dev",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50154244",
+    "title": "DeepSeek banned from U.S. federal civilian agencies under new DHS order",
+    "url": "https://www.reuters.com/technology/us-banning-chinese-ai-deepseek-government-agency-it-systems-2026-10-19/",
+    "source": "reuters.com",
+    "publishedAt": "2026-10-21T04:36:00.000Z",
+    "summary": "HN 550分 | 501评论 | reuters.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50136126",
+    "title": "RuneScape Bench: MMOs for Agents [video]",
+    "url": "https://www.youtube.com/watch?v=cNm4zyUtWj0",
+    "source": "youtube.com",
+    "publishedAt": "2026-10-21T04:07:00.000Z",
+    "summary": "HN 240分 | 80评论 | youtube.com",
+    "category": "industry",
+    "score": 90
+  },
+  {
+    "id": "hn_50168983",
+    "title": "Gemini 4 Argon is now available for everyone",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+    "source": "blog.google",
+    "publishedAt": "2026-10-21T05:00:00.000Z",
+    "summary": "HN 17分 | 4评论 | blog.google",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_50171771",
+    "title": "On AI writing",
+    "url": "https://www.bolkunov.com/p/on-ai-writing",
+    "source": "bolkunov.com",
+    "publishedAt": "2026-10-21T05:06:00.000Z",
+    "summary": "HN 77分 | 52评论 | bolkunov.com",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_50150434",
+    "title": "Timestral: Mistral's time-series foundation models",
+    "url": "https://mistral.ai/news/timestral/",
+    "source": "mistral.ai",
+    "publishedAt": "2026-10-21T06:33:00.000Z",
+    "summary": "HN 614分 | 119评论 | mistral.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50154029",
+    "title": "Launch HN: Laminar (YC S24) – RL-trained model that finds errors in agent traces",
+    "url": "https://news.ycombinator.com/item?id=50154029",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-21T06:08:00.000Z",
+    "summary": "HN 58分 | 27评论 | Hacker News",
+    "category": "ai-models",
+    "score": 67
+  },
+  {
+    "id": "hn_50153225",
+    "title": "Agentic Monitoring",
+    "url": "https://benjamincongdon.me/blog/2026/10/19/Agentic-Monitoring/",
+    "source": "benjamincongdon.me",
+    "publishedAt": "2026-10-21T06:24:00.000Z",
+    "summary": "HN 117分 | 22评论 | benjamincongdon.me",
+    "category": "industry",
+    "score": 75
+  },
+  {
+    "id": "hn_50153630",
+    "title": "CERN and Mistral sign a statement of intent to establish a strategic partnership",
+    "url": "https://home.cern/cern-and-mistral-join-forces-to-accelerate-ai-for-science/",
+    "source": "home.cern",
+    "publishedAt": "2026-10-21T07:32:00.000Z",
+    "summary": "HN 356分 | 61评论 | home.cern",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50155245",
+    "title": "Mercury 3: Diffusion at scale",
+    "url": "https://www.inceptionlabs.ai/blog/introducing-mercury-3",
+    "source": "inceptionlabs.ai",
+    "publishedAt": "2026-10-21T07:41:00.000Z",
+    "summary": "HN 255分 | 91评论 | inceptionlabs.ai",
+    "category": "industry",
+    "score": 92
+  },
+  {
+    "id": "hn_50148855",
+    "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
+    "url": "https://crystl.dev/guides/tmux-for-ai-agents/",
+    "source": "crystl.dev",
+    "publishedAt": "2026-10-21T08:38:00.000Z",
+    "summary": "HN 167分 | 125评论 | crystl.dev",
+    "category": "ai-models",
+    "score": 81
+  },
+  {
+    "id": "hn_50145337",
+    "title": "Hybrid Reasoning Agents: LLM agents that think in latent space, act through text",
+    "url": "https://arxiv.org/abs/2610.18861",
+    "source": "arXiv 论文",
+    "publishedAt": "2026-10-21T08:39:00.000Z",
+    "summary": "HN 514分 | 238评论 | arxiv.org",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50135762",
+    "title": "I built a programming language that LLMs can't use",
+    "url": "https://blog.picheta.me/post/killswitch-lang/",
+    "source": "blog.picheta.me",
+    "publishedAt": "2026-10-21T08:07:00.000Z",
+    "summary": "HN 279分 | 217评论 | blog.picheta.me",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50151376",
+    "title": "The obscure trust looming over Anthropic's IPO",
+    "url": "https://www.wsj.com/tech/ai/anthropic-ipo-private-trust-188f41f7?st=RtdGHg&reflink=desktopwebshare_permalink",
+    "source": "wsj.com",
+    "publishedAt": "2026-10-21T09:15:00.000Z",
+    "summary": "HN 149分 | 141评论 | wsj.com",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "hn_50167564",
+    "title": "AI models self-replicating in smart ovens? \"These f[..]g clowns\"",
+    "url": "https://www.thestack.technology/these-f-clowns/",
+    "source": "thestack.technology",
+    "publishedAt": "2026-10-21T09:01:00.000Z",
+    "summary": "HN 13分 | 2评论 | thestack.technology",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50104874",
+    "title": "How to Train Your Robot",
+    "url": "https://www.construction-physics.com/p/how-to-train-your-robot",
+    "source": "construction-physics.com",
+    "publishedAt": "2026-10-21T10:09:00.000Z",
+    "summary": "HN 137分 | 45评论 | construction-physics.com",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_50138531",
+    "title": "DeepSeek search and fetch – $0.75 per 1000 successful requests",
+    "url": "https://api-docs.deepseek.com/guides/search/",
+    "source": "api-docs.deepseek.com",
+    "publishedAt": "2026-10-21T10:00:00.000Z",
+    "summary": "HN 601分 | 282评论 | api-docs.deepseek.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50154982",
+    "title": "AI Proved the Quasi-Riemann Hypothesis. What Happens Now?",
+    "url": "https://www.quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019/",
+    "source": "quantamagazine.org",
+    "publishedAt": "2026-10-21T10:35:00.000Z",
+    "summary": "HN 45分 | 11评论 | quantamagazine.org",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_50131749",
+    "title": "A death, a plagiarism scandal and a quest for revenge: the tale of Otto Z",
+    "url": "https://www.theguardian.com/news/ng-interactive/2026/oct/08/a-death-a-plagiarism-scandal-and-a-quest-for-revenge-the-bizarre-tale-of-otto-z",
+    "source": "theguardian.com",
+    "publishedAt": "2026-10-21T11:28:00.000Z",
+    "summary": "HN 69分 | 26评论 | theguardian.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50145507",
+    "title": "If you don't run your own LLM proxy, how do you know whats going on?",
+    "url": "https://jrdsgl.com/if-you-dont-run-your-own-llm-proxy-how-the-fuck-do-you-even-know-whats-going-on/",
+    "source": "jrdsgl.com",
+    "publishedAt": "2026-10-21T11:46:00.000Z",
+    "summary": "HN 300分 | 214评论 | jrdsgl.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50151928",
+    "title": "Show HN: Qwen3-4B with the AI writing tics trained out",
+    "url": "https://100toolkit.com/blog/deslop-model/",
+    "source": "100toolkit.com",
+    "publishedAt": "2026-10-21T12:01:00.000Z",
+    "summary": "HN 154分 | 110评论 | 100toolkit.com",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "hn_50160198",
+    "title": "Show HN: Lights-on software factory boilerplate for Claude Code",
+    "url": "https://github.com/gojko/lights-on-software-factory",
+    "source": "GitHub",
+    "publishedAt": "2026-10-21T12:10:00.000Z",
+    "summary": "HN 17分 | 8评论 | github.com",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_50171533",
+    "title": "Anthropic S-1 Shows Red-Hot Growth, Risks and Computing Costs",
+    "url": "https://www.wsj.com/tech/ai/anthropic-revenue-growth-ipo-accaf0f1",
+    "source": "wsj.com",
+    "publishedAt": "2026-10-21T12:46:00.000Z",
+    "summary": "HN 16分 | 2评论 | wsj.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50140462",
+    "title": "How Far Will AI Assistants Go for a Refund They Can't Get?",
+    "url": "https://www.vals.ai/blogs/impossible-refund",
+    "source": "vals.ai",
+    "publishedAt": "2026-10-21T13:38:00.000Z",
+    "summary": "HN 106分 | 126评论 | vals.ai",
+    "category": "industry",
+    "score": 73
+  },
+  {
+    "id": "hn_50129045",
+    "title": "DeepSeek-v4.1-Flash-1017",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017",
+    "source": "huggingface.co",
+    "publishedAt": "2026-10-21T13:53:00.000Z",
+    "summary": "HN 957分 | 719评论 | huggingface.co",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50139873",
+    "title": "How employment is changing at Anthropic",
+    "url": "https://www.anthropic.com/research/employment-at-anthropic",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-21T14:33:00.000Z",
+    "summary": "HN 159分 | 252评论 | anthropic.com",
+    "category": "industry",
+    "score": 80
+  },
+  {
+    "id": "hn_50167495",
+    "title": "Developers Are Using AI to Strip Ads and Tracking from Smart TVs",
+    "url": "https://www.gadgetreview.com/developers-are-using-ai-to-strip-ads-and-tracking-from-smart-tvs",
+    "source": "gadgetreview.com",
+    "publishedAt": "2026-10-21T14:37:00.000Z",
+    "summary": "HN 14分 | 11评论 | gadgetreview.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50169576",
+    "title": "GPT-6.1 Terra is in a Microsoft PR",
+    "url": "https://twitter.com/LuminaBench/status/2112189697388613850",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-21T14:46:00.000Z",
+    "summary": "HN 5分 | 0评论 | twitter.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50168795",
+    "title": "Ask HN: My Gemini bill shot up suddenly to 2500 USD in one day",
+    "url": "https://news.ycombinator.com/item?id=50168795",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-21T00:36:00.000Z",
+    "summary": "HN 8分 | 3评论 | Hacker News",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50122800",
+    "title": "Claude reveals ECDSA curve origins",
+    "url": "https://www.anthropic.com/research/ecdsa-curve-origins",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-21T00:40:00.000Z",
+    "summary": "HN 1063分 | 391评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50160774",
+    "title": "Show HN: Yana – A local-first, human-governed AI runtime and IDE in Rust",
+    "url": "https://github.com/yanacuti1121/yana-ai",
+    "source": "GitHub",
+    "publishedAt": "2026-10-21T01:09:00.000Z",
+    "summary": "HN 7分 | 0评论 | github.com",
+    "category": "industry",
+    "score": 61
+  }
+]
