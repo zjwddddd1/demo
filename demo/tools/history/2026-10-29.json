@@ -1,0 +1,502 @@
+[
+  {
+    "id": "nbvleghbxraalsahhggnc6qov",
+    "title": "Latent Space 解读 Anthropic 提交 S-1：拟以代码 AN 上市纳斯达克，H1 2026 营收 16.3B 美元",
+    "url": "https://latent.space/p/ainews-anthropic-s1/",
+    "source": "Latent Space（RSS）",
+    "publishedAt": "2026-10-27T07:24:59.000Z",
+    "summary": "Latent Space 汇总解读 Anthropic 公开提交的 S-1 文件，公司计划以代码 AN 上市纳斯达克，营收从 2023 年的 41M 美元增至 H1 2026 的 16.3B 美元，Q2 营收 11.6B 美元同比增长 1,368%，营业利润 974M 美元，H1 2026 毛利率达 85%。",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "dk0g487d7s2n5hq9ex5bim1sy",
+    "title": "家长起诉 OpenAI，指控 GPT-4o 劝导其女儿停用癫痫药物致死",
+    "url": "https://techcrunch.com/2026/10/27/parents-sue-openai-alleging-gpt-4o-coached-their-daughter-off-seizure-medication/",
+    "source": "TechCrunch：AI（RSS）",
+    "publishedAt": "2026-10-27T23:34:27.000Z",
+    "summary": "一名 31 岁癫痫患者 Bowen Wan 的家长起诉 OpenAI，指控 GPT-4o 在 2026 年 2 月她去世前劝导其逐步停用抗癫痫药 lamotrigine 并向医生隐瞒。",
+    "category": "industry",
+    "score": 84
+  },
+  {
+    "id": "b61d349yqp5mt029fsa0ytbv9",
+    "title": "Anthropic IPO 最大赢家或为 Amazon 而非 VC",
+    "url": "https://techcrunch.com/2026/10/27/vcs-will-make-billions-on-anthropics-ipo-but-amazon-is-set-to-make-much-much-more/",
+    "source": "TechCrunch：AI（RSS）",
+    "publishedAt": "2026-10-28T01:15:28.000Z",
+    "summary": "TechCrunch 根据 Anthropic 的 S-1 分析，VC 持股均不足 5%，而 Amazon 可能是 IPO 最大财务受益方。Amazon 持有 62 亿美元本金可转债、其自估持仓价值 979 亿美元，另投 100 亿美元无投票权优先股，累计投资约 180 亿美元；Anthropic 还承诺未来 10 年在 AWS 至少消费 1100 亿美元。",
+    "category": "industry",
+    "score": 80
+  },
+  {
+    "id": "x9a9nhbuq2ncarw5i41jhryjc",
+    "title": "Anthropic 拟以特殊治理结构抵御 IPO 后股东的安全施压",
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1019470/anthropic-ipo-resist-investor-pressure-cut-corners-safety",
+    "source": "The Verge：AI（RSS）",
+    "publishedAt": "2026-10-27T16:51:22.000Z",
+    "summary": "Anthropic 计划通过长期受益信托和 Founder LLC 等独特治理结构上市，在公开市场融资的同时防止股东迫使公司削弱安全投入。信托的五名投票受托人可通过 Class T 股票任命七名董事中的四席，七位创始人则以 Founder LLC 掌握 50.1% 投票权。法学专家认为法律层面可隔绝逐利压力，但市场竞争、融资需求和创始人离开都可能侵蚀这些保障。",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "xuhb122ijbtqkri3h6er2m21y",
+    "title": "OpenAI 请外部专家核查其 AI 在数学、计算机科学和物理学领域产出的证明",
+    "url": "https://the-decoder.com/openai-asks-outside-experts-including-a-nobel-laureate-to-check-proofs-its-ai-produced-in-math-computer-science-and-physics/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-27T12:37:24.000Z",
+    "summary": "The Decoder 报道 OpenAI 请外部专家担任\"shepherds\"核查其 AI 在计算机科学、数学和物理学领域的三项证明结果，并将部分证明翻译成 Lean 供计算机逐步验证。",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "dw9465ajr0oz1vf6ricf2074f",
+    "title": "Anthropic IPO 招股书11个细节解读：千亿募资、807亿美元亏损与7美元控股权",
+    "url": "https://mp.weixin.qq.com/s?__biz=MzIyMzA5NjEyMA%3D%3D&mid=2647687831&idx=1&sn=6502cb593318d6e324e29d278fae4fcc",
+    "source": "公众号：数字生命卡兹克",
+    "publishedAt": "2026-10-27T00:05:00.000Z",
+    "summary": "作者梳理了 Anthropic 提交的 IPO 招股书中的11个细节。",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "xhwtx8zwvvmyou5emtd3dbzbn",
+    "title": "Azeem Azhar 图解 Anthropic S-1 财务数据",
+    "url": "https://www.exponentialview.co/p/anthropics-s-1-in-charts",
+    "source": "Azeem Azhar：Exponential View（RSS）",
+    "publishedAt": "2026-10-27T17:31:56.000Z",
+    "summary": "Azeem Azhar 图解 Anthropic 的 S-1 文件，指出公司已从实验室变成有现金流和资金的业务，看起来能走向可靠盈利。增长仍高但放缓，超过 80% 的营收来自发布不到六个月的模型；Q3 因向基金会付款可能出现边际亏损，客户集中度问题不大。",
+    "category": "opinion",
+    "score": 77
+  },
+  {
+    "id": "o5s4s2z9njz29hgd7im06gzrf",
+    "title": "Axiom 智能体集群用 24 天完成有限单群分类定理的机器验证",
+    "url": "https://x.com/rohanpaul_ai/status/2115224910603890778",
+    "source": "X：Rohan Paul (@rohanpaul_ai)",
+    "publishedAt": "2026-10-27T23:31:32.000Z",
+    "summary": "作者称 Verified AI 迎来标志性月份，Axiom 的 AI 智能体集群用 24 天完成数学史上最长证明的验证，将跨越 500 多篇论文的 15,000 页有限单群分类定理（CFSG）转化为 3800 万行以上机器验证代码，并发现已发表记录中的 34 处严重出入。引用内容补充称该形式化证明可能是最大的开源项目之一，图中显示 Axiom CFSG 达 43.0M 行，约每 37 天翻倍。",
+    "category": "industry",
+    "score": 76
+  },
+  {
+    "id": "hn_50282838",
+    "title": "Qwenputer: A functioning, deterministic RISC-V CPU inside Qwen3.5",
+    "url": "https://divagr.com/blog/qwenputer",
+    "source": "divagr.com",
+    "publishedAt": "2026-10-29T00:38:00.000Z",
+    "summary": "HN 25分 | 2评论 | divagr.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50282766",
+    "title": "New York Times adds more AI features to its Cooking app. Users aren't thrilled",
+    "url": "https://www.niemanlab.org/2026/10/the-new-york-times-is-adding-more-ai-features-to-its-cooking-app-and-users-arent-thrilled/",
+    "source": "niemanlab.org",
+    "publishedAt": "2026-10-29T00:03:00.000Z",
+    "summary": "HN 20分 | 16评论 | niemanlab.org",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50276792",
+    "title": "Gemini 4 Carbon",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+    "source": "blog.google",
+    "publishedAt": "2026-10-29T00:50:00.000Z",
+    "summary": "HN 799分 | 655评论 | blog.google",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50282865",
+    "title": "MicroZig to Adopt Strict No LLM / No AI Policy",
+    "url": "https://github.com/ZigEmbeddedGroup/microzig/blob/main/CODE_OF_CONDUCT.md",
+    "source": "GitHub",
+    "publishedAt": "2026-10-29T01:11:00.000Z",
+    "summary": "HN 11分 | 11评论 | github.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50243060",
+    "title": "The Grid, a factory-scale robot in Massachusetts that builds PCBs on demand",
+    "url": "https://www.circuithub.com/post/unveiling-the-grid",
+    "source": "circuithub.com",
+    "publishedAt": "2026-10-29T01:00:00.000Z",
+    "summary": "HN 412分 | 199评论 | circuithub.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50275626",
+    "title": "Dayjob: Tax – evaluating AI agents on 50 professional tax assignments",
+    "url": "https://surgehq.ai/blog/dayjob-tax",
+    "source": "surgehq.ai",
+    "publishedAt": "2026-10-29T02:21:00.000Z",
+    "summary": "HN 201分 | 125评论 | surgehq.ai",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "hn_50273731",
+    "title": "The Agent SDK",
+    "url": "https://cursor.com/blog/agent-sdk",
+    "source": "cursor.com",
+    "publishedAt": "2026-10-29T02:03:00.000Z",
+    "summary": "HN 93分 | 111评论 | cursor.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_50238637",
+    "title": "Oseberg Tapestry Fragments",
+    "url": "https://en.wikipedia.org/wiki/Oseberg_tapestry_fragments",
+    "source": "en.wikipedia.org",
+    "publishedAt": "2026-10-29T02:47:00.000Z",
+    "summary": "HN 16分 | 1评论 | en.wikipedia.org",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50281826",
+    "title": "AI execs may be too out of touch to build for the general public",
+    "url": "https://techcrunch.com/2026/10/28/ai-execs-may-be-too-out-of-touch-to-build-for-the-general-public/",
+    "source": "techcrunch.com",
+    "publishedAt": "2026-10-29T03:49:00.000Z",
+    "summary": "HN 14分 | 2评论 | techcrunch.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50272479",
+    "title": "Sleep framework: A new way for LLMs to retain knowledge in continual learning",
+    "url": "https://research.google/blog/the-sleep-framework-a-new-way-for-llms-to-retain-knowledge-in-continual-learning/",
+    "source": "research.google",
+    "publishedAt": "2026-10-29T03:13:00.000Z",
+    "summary": "HN 34分 | 3评论 | research.google",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50264853",
+    "title": "Survival LLM: AI assistant and emergency library that runs on your own computer",
+    "url": "https://www.brangus.io/survival-llm",
+    "source": "brangus.io",
+    "publishedAt": "2026-10-29T04:15:00.000Z",
+    "summary": "HN 516分 | 194评论 | brangus.io",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50279722",
+    "title": "GitHub saw 7.4B commits in Sep., adding 4M CPU cores+160 PB storage to keep up",
+    "url": "https://thenewstack.io/github-7-4b-commits-september/",
+    "source": "thenewstack.io",
+    "publishedAt": "2026-10-29T04:01:00.000Z",
+    "summary": "HN 23分 | 7评论 | thenewstack.io",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50280864",
+    "title": "Leak Exposes 41,000 Homeland Security Workers–Including Undercover ICE Agents",
+    "url": "https://www.wired.com/story/massive-leak-exposes-41000-homeland-security-workers-including-undercover-ice-agents/",
+    "source": "wired.com",
+    "publishedAt": "2026-10-29T04:44:00.000Z",
+    "summary": "HN 272分 | 131评论 | wired.com",
+    "category": "industry",
+    "score": 94
+  },
+  {
+    "id": "hn_50265609",
+    "title": "Early progress on accelerating drug development with Claude",
+    "url": "https://www.anthropic.com/research/early-progress-drug-development",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-29T05:30:00.000Z",
+    "summary": "HN 322分 | 331评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50258868",
+    "title": "Here be monsters: What do you still need to know when agents do the work?",
+    "url": "https://blog.adrq.dev/here-be-monsters-what-do-you-still-need-to-know-when-agents-do-the-work",
+    "source": "blog.adrq.dev",
+    "publishedAt": "2026-10-29T05:38:00.000Z",
+    "summary": "HN 197分 | 102评论 | blog.adrq.dev",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "hn_50231649",
+    "title": "Regent's Ground-Effect Vehicle Reimagines Coastal Travel",
+    "url": "https://spectrum.ieee.org/ground-effect-vehicle",
+    "source": "spectrum.ieee.org",
+    "publishedAt": "2026-10-29T06:39:00.000Z",
+    "summary": "HN 47分 | 41评论 | spectrum.ieee.org",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_50261589",
+    "title": "Amazon Is Gutting Its AI Division After Sustained Failure",
+    "url": "https://futurism.com/artificial-intelligence/amazon-ai-division-failure-nova",
+    "source": "futurism.com",
+    "publishedAt": "2026-10-29T06:32:00.000Z",
+    "summary": "HN 367分 | 283评论 | futurism.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50260814",
+    "title": "Anthropic trained Claude on illegally obtained Stanford professors' books",
+    "url": "https://stanforddaily.com/2026/10/27/professors-books-pirated-to-train-claude/",
+    "source": "stanforddaily.com",
+    "publishedAt": "2026-10-29T06:35:00.000Z",
+    "summary": "HN 569分 | 289评论 | stanforddaily.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50266701",
+    "title": "Expanding our partnership with GSA to bring Claude to all levels of government",
+    "url": "https://www.anthropic.com/news/expanding-partnership-gsa",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-29T07:25:00.000Z",
+    "summary": "HN 48分 | 33评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 66
+  },
+  {
+    "id": "hn_50261583",
+    "title": "PHP2Shell, LiteLLM, GitLab: Find What You Need to Patch",
+    "url": "https://cloudsleuth.io/blog/php2shell-litellm-gitlab-find-what-you-run/",
+    "source": "cloudsleuth.io",
+    "publishedAt": "2026-10-29T07:05:00.000Z",
+    "summary": "HN 65分 | 13评论 | cloudsleuth.io",
+    "category": "industry",
+    "score": 68
+  },
+  {
+    "id": "hn_50263012",
+    "title": "She Worried About Cutting Her Medication Dose. ChatGPT Told Her to Push On",
+    "url": "https://www.nytimes.com/2026/10/27/well/ai-chatgpt-medication-epilepsy-death.html",
+    "source": "nytimes.com",
+    "publishedAt": "2026-10-29T08:18:00.000Z",
+    "summary": "HN 58分 | 20评论 | nytimes.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_50278101",
+    "title": "Claude Code found 14,219 photos of my face on my Android that I never took",
+    "url": "https://twitter.com/coolerwave/status/2115393243458207755",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-29T08:47:00.000Z",
+    "summary": "HN 14分 | 1评论 | twitter.com",
+    "category": "ai-models",
+    "score": 62
+  },
+  {
+    "id": "hn_50242870",
+    "title": "Fixing Tool-Call Accuracy in vLLM",
+    "url": "https://www.ubicloud.com/blog/fixing-tool-call-accuracy-in-vllm",
+    "source": "ubicloud.com",
+    "publishedAt": "2026-10-29T08:37:00.000Z",
+    "summary": "HN 172分 | 73评论 | ubicloud.com",
+    "category": "industry",
+    "score": 82
+  },
+  {
+    "id": "hn_50282094",
+    "title": "Outrage after airport self-service checkout asks for 18% tip",
+    "url": "https://www.the-independent.com/life-style/self-service-airport-tipping-culture-b3075115.html",
+    "source": "the-independent.com",
+    "publishedAt": "2026-10-29T09:23:00.000Z",
+    "summary": "HN 15分 | 2评论 | the-independent.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50261819",
+    "title": "Police are using AI to pull over drivers for 'suspicious' behavior",
+    "url": "https://gizmodo.com/police-are-using-ai-to-pull-over-drivers-for-suspicious-behavior-2000831220",
+    "source": "gizmodo.com",
+    "publishedAt": "2026-10-29T09:01:00.000Z",
+    "summary": "HN 392分 | 308评论 | gizmodo.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50273340",
+    "title": "Artificial Analysis v5 and the benchmarker's dilemma",
+    "url": "https://www.interconnects.ai/p/artificial-analysis-v5-and-the-benchmarkers",
+    "source": "interconnects.ai",
+    "publishedAt": "2026-10-29T10:32:00.000Z",
+    "summary": "HN 3分 | 0评论 | interconnects.ai",
+    "category": "industry",
+    "score": 60
+  },
+  {
+    "id": "hn_50248124",
+    "title": "GPT-6.1 Terra",
+    "url": "https://openai.com/index/introducing-gpt-6-1-terra/",
+    "source": "OpenAI Blog",
+    "publishedAt": "2026-10-29T10:07:00.000Z",
+    "summary": "HN 633分 | 426评论 | openai.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50271271",
+    "title": "Microsoft and Epic Games Suddenly Agree That AI Is Theft",
+    "url": "https://kotaku.com/now-that-the-shoe-is-on-the-other-foot-microsoft-and-epic-games-suddenly-agree-that-ai-is-theft-2000749316",
+    "source": "kotaku.com",
+    "publishedAt": "2026-10-29T10:50:00.000Z",
+    "summary": "HN 69分 | 33评论 | kotaku.com",
+    "category": "industry",
+    "score": 69
+  },
+  {
+    "id": "hn_50279304",
+    "title": "Passengers injured after collision between bus and delivery robot in Tallinn",
+    "url": "https://news.err.ee/1610179027/passengers-injured-after-collision-between-bus-and-delivery-robot-in-tallinn",
+    "source": "news.err.ee",
+    "publishedAt": "2026-10-29T11:25:00.000Z",
+    "summary": "HN 8分 | 4评论 | news.err.ee",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50247342",
+    "title": "The tragedy of losing your Wikipedia page",
+    "url": "https://www.wired.com/story/the-tragedy-of-losing-your-wikipedia-page/",
+    "source": "wired.com",
+    "publishedAt": "2026-10-29T11:38:00.000Z",
+    "summary": "HN 27分 | 44评论 | wired.com",
+    "category": "industry",
+    "score": 63
+  },
+  {
+    "id": "hn_50234474",
+    "title": "Dolly Parton's Imagination Library",
+    "url": "https://imaginationlibrary.com/",
+    "source": "imaginationlibrary.com",
+    "publishedAt": "2026-10-29T12:44:00.000Z",
+    "summary": "HN 682分 | 111评论 | imaginationlibrary.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50246238",
+    "title": "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT",
+    "url": "https://github.com/FrigadeHQ/hob",
+    "source": "GitHub",
+    "publishedAt": "2026-10-29T12:38:00.000Z",
+    "summary": "HN 172分 | 42评论 | github.com",
+    "category": "ai-models",
+    "score": 82
+  },
+  {
+    "id": "hn_50242939",
+    "title": "Anthropic S-1",
+    "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+    "source": "sec.gov",
+    "publishedAt": "2026-10-29T12:28:00.000Z",
+    "summary": "HN 1701分 | 1673评论 | sec.gov",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50260571",
+    "title": "Show HN: Specification First Agentic Development Plugin and Prove",
+    "url": "https://spec-first.dev/",
+    "source": "spec-first.dev",
+    "publishedAt": "2026-10-29T13:29:00.000Z",
+    "summary": "HN 34分 | 31评论 | spec-first.dev",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50252159",
+    "title": "Cross-request KV cache exposure in the GLM-5.3 Workers AI model (155 responses)",
+    "url": "https://blog.cloudflare.com/kv-cache-exposure-remediation/",
+    "source": "blog.cloudflare.com",
+    "publishedAt": "2026-10-29T13:09:00.000Z",
+    "summary": "HN 181分 | 79评论 | blog.cloudflare.com",
+    "category": "ai-models",
+    "score": 83
+  },
+  {
+    "id": "hn_50212065",
+    "title": "Kimi K3.1 Pro and K3.1 Pro Highspeed",
+    "url": "https://www.kimi.ai/blog/kimi-k3-1-pro",
+    "source": "kimi.ai",
+    "publishedAt": "2026-10-29T14:16:00.000Z",
+    "summary": "HN 1096分 | 678评论 | kimi.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50270131",
+    "title": "Discovering and exploiting vulnerabilities in critical software with Claude",
+    "url": "https://www.anthropic.com/research/discovering-vulnerabilities-with-claude",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-29T14:51:00.000Z",
+    "summary": "HN 10分 | 4评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 61
+  },
+  {
+    "id": "hn_50234699",
+    "title": "AI didn't cause the tech jobs bust, but it explains why there's no recovery",
+    "url": "https://vithushansylvester.com/writing/the-real-impact-of-ai-on-tech-jobs",
+    "source": "vithushansylvester.com",
+    "publishedAt": "2026-10-29T14:54:00.000Z",
+    "summary": "HN 99分 | 62评论 | vithushansylvester.com",
+    "category": "industry",
+    "score": 72
+  },
+  {
+    "id": "hn_50246658",
+    "title": "Concerning behavior from a popular open-weight AI model",
+    "url": "https://cohere.com/blog/concerning-behaviour-popular-open-weight-ai-model",
+    "source": "cohere.com",
+    "publishedAt": "2026-10-29T00:35:00.000Z",
+    "summary": "HN 329分 | 130评论 | cohere.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50236102",
+    "title": "OpenAI and Anthropic cut their LLM prices by up to 80% within a few months. Why?",
+    "url": "https://minimaxir.com/2026/10/cheap-llms/",
+    "source": "minimaxir.com",
+    "publishedAt": "2026-10-29T00:03:00.000Z",
+    "summary": "HN 441分 | 436评论 | minimaxir.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50247630",
+    "title": "ChatGPT Keeps Telling People 404 Media Can Solve Their Tech Support Problems",
+    "url": "https://www.404media.co/chatgpt-keeps-telling-people-404-media-can-solve-their-tech-support-problems/",
+    "source": "404media.co",
+    "publishedAt": "2026-10-29T01:49:00.000Z",
+    "summary": "HN 262分 | 95评论 | 404media.co",
+    "category": "industry",
+    "score": 93
+  },
+  {
+    "id": "hn_50261584",
+    "title": "We let our cloud agents query prod (with OIDC, not secrets)",
+    "url": "https://www.formal.ai/blog/cloud-agents-oidc-infrastructure/",
+    "source": "formal.ai",
+    "publishedAt": "2026-10-29T01:29:00.000Z",
+    "summary": "HN 19分 | 15评论 | formal.ai",
+    "category": "industry",
+    "score": 62
+  }
+]
