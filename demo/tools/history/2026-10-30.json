@@ -1,0 +1,502 @@
+[
+  {
+    "id": "vidjbhx5bf45wdl488kst1wv8",
+    "title": "Anthropic IPO 文件披露现金及短期投资达 131.7B 美元，超过 Amazon 和 Microsoft",
+    "url": "https://x.com/rohanpaul_ai/status/2115491649543635378",
+    "source": "X：Rohan Paul (@rohanpaul_ai)",
+    "publishedAt": "2026-10-28T17:11:27.000Z",
+    "summary": "Anthropic 的 IPO 文件显示其现金及短期投资达 $131.7B，超过 Amazon 和 Microsoft，在美国非银行公司中仅次于 Berkshire Hathaway 和 Alphabet。",
+    "category": "industry",
+    "score": 85
+  },
+  {
+    "id": "jpt1eeuj2p1mgrxbufuv3ntdn",
+    "title": "Anthropic 报告：Claude 研究模型在 Chrome、Safari、Android、Windows、Linux 发现漏洞并串联 5 条攻击链",
+    "url": "https://www.ithome.com/1/019/268.htm",
+    "source": "IT之家·人工智能",
+    "publishedAt": "2026-10-28T22:35:25.040Z",
+    "summary": "Anthropic 于 10 月 27 日发布研究报告，称一个未公开的内部 Claude 研究模型在 Chrome、Safari、Android、Windows 和 Linux 中发现漏洞，串联出 5 条可实际运行的攻击链，相关漏洞已按协调披露流程报告并修复。",
+    "category": "paper",
+    "score": 81
+  },
+  {
+    "id": "x2h1bp5shee6v508nw7pjtvas",
+    "title": "Ed Zitron 长文解析 Anthropic S-1：称其把散户当作退出流动性",
+    "url": "https://www.wheresyoured.at/exit-liquidity/",
+    "source": "Ed Zitron 长文 / Where’s Your Ed At（RSS）",
+    "publishedAt": "2026-10-28T17:51:00.000Z",
+    "summary": "Ed Zitron 撰文批评 Anthropic 的 S-1 招股书，指其仅披露 Q2 盈利数据、省略 Q3 现金状况和付款明细，是在公司基本面变化前误导投资者。",
+    "category": "opinion",
+    "score": 80
+  },
+  {
+    "id": "m5st8pvirbas7phreshbzkrc9",
+    "title": "Alphabet Q3 财报：年化收入达 5000 亿美元，Google Cloud 增长 103%",
+    "url": "https://x.com/sundarpichai/status/2115535455156642066",
+    "source": "X：Sundar Pichai (@sundarpichai)",
+    "publishedAt": "2026-10-28T20:05:31.000Z",
+    "summary": "Sundar Pichai 发布 Alphabet Q3 业绩：年化收入 run rate 达 5000 亿美元，总收入同比增长 25%。Google Cloud 收入增长 103%，1P 模型 API 每分钟处理近 32B tokens（环比增 40%）；Search 查询同比增速为五年来最高，并提到 Argon、Carbon 领跑前沿及最新世界模型 Genie 4。",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "s3m3uzabqoxxed9ae50b73qvc",
+    "title": "GitHub Octoverse 2026：开发活动创新高，超 40% 的 PR 由智能体起草",
+    "url": "https://github.blog/news-insights/octoverse/octoverse-commits-pushes-reach-new-highs-in-2026-as-developers-build-with-agents/",
+    "source": "GitHub Blog",
+    "publishedAt": "2026-10-28T16:07:40.000Z",
+    "summary": "GitHub 发布 2026 年度 Octoverse 报告：过去 12 个月开发者推送代码 179 亿次，超过 2024 和 2025 年之和，合并 PR 达 13 亿次。",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "gxwqce1swocfo9bp3dgqy3dnj",
+    "title": "Anthropic S-1 显示 90% 增量毛利，SemiAnalysis 播客详解其中数字",
+    "url": "https://x.com/SaitoWu/status/2115376256929948006",
+    "source": "X：Saito 硬地骇客 (@SaitoWu)",
+    "publishedAt": "2026-10-28T09:32:56.000Z",
+    "summary": "Saito 转述 SemiAnalysis 播客对 Anthropic S-1 的解读：招股书口径为增量毛利 90%、推理毛利 85%、连续两个季度盈利，Q1 净收入留存达 500%，收入同比涨 1368% 而算力费用只涨 300%。",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "nbvleghbxraalsahhggnc6qov",
+    "title": "Latent Space 解读 Anthropic 提交 S-1：拟以代码 AN 上市纳斯达克，H1 2026 营收 16.3B 美元",
+    "url": "https://latent.space/p/ainews-anthropic-s1/",
+    "source": "Latent Space（RSS）",
+    "publishedAt": "2026-10-27T07:24:59.000Z",
+    "summary": "Latent Space 汇总解读 Anthropic 公开提交的 S-1 文件，公司计划以代码 AN 上市纳斯达克，营收从 2023 年的 41M 美元增至 H1 2026 的 16.3B 美元，Q2 营收 11.6B 美元同比增长 1,368%，营业利润 974M 美元，H1 2026 毛利率达 85%。",
+    "category": "industry",
+    "score": 88
+  },
+  {
+    "id": "klkmnzle2z7p5y6cl477ce7sg",
+    "title": "Cathedral 用 AI 智能体侵入 Anthropic 内部系统，双方对事件范围说法不一",
+    "url": "https://the-decoder.com/ai-agents-hacked-anthropic-maker-of-arguably-the-most-capable-ai-models-for-cyberdefense/",
+    "source": "The Decoder：AI News（RSS）",
+    "publishedAt": "2026-10-28T10:56:24.000Z",
+    "summary": "网络安全初创公司 Cathedral 通过第三方业务软件渗入 Anthropic 内部系统，称其 AI 智能体在不到十二小时内接触到会议记录、薪资数据和 Slack 消息，并借漏洞赏金计划披露问题。",
+    "category": "industry",
+    "score": 77
+  },
+  {
+    "id": "hn_50289418",
+    "title": "We're releasing the weights of Mistral Large 4",
+    "url": "https://mistral.ai/news/mistral-large-4-oss/",
+    "source": "mistral.ai",
+    "publishedAt": "2026-10-30T00:29:00.000Z",
+    "summary": "HN 1188分 | 338评论 | mistral.ai",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50296486",
+    "title": "We ran AI agent swarms in Minecraft and Mindustry",
+    "url": "https://labs.ycombinator.com/projects/games/index.html",
+    "source": "labs.ycombinator.com",
+    "publishedAt": "2026-10-30T00:53:00.000Z",
+    "summary": "HN 148分 | 56评论 | labs.ycombinator.com",
+    "category": "industry",
+    "score": 79
+  },
+  {
+    "id": "hn_50297089",
+    "title": "A Pig, the State, and War: Porco Rosso (Kurenai No Buta) (2014)",
+    "url": "https://journal.animationstudies.org/article/id/66/",
+    "source": "journal.animationstudies.",
+    "publishedAt": "2026-10-30T00:01:00.000Z",
+    "summary": "HN 41分 | 5评论 | journal.animationstudies.org",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_50291054",
+    "title": "H.264 Is Magic (2016)",
+    "url": "https://sidbala.com/h-264-is-magic/",
+    "source": "sidbala.com",
+    "publishedAt": "2026-10-30T01:03:00.000Z",
+    "summary": "HN 326分 | 124评论 | sidbala.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50290177",
+    "title": "LLM Voice",
+    "url": "https://martinfowler.com/bliki/LLM-Voice.html",
+    "source": "martinfowler.com",
+    "publishedAt": "2026-10-30T01:35:00.000Z",
+    "summary": "HN 337分 | 178评论 | martinfowler.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50294486",
+    "title": "IgE disruptor for food allergy with Claude-enabled antibody design [pdf]",
+    "url": "https://divergencelabs.com/publications/ige-preprint.pdf",
+    "source": "divergencelabs.com",
+    "publishedAt": "2026-10-30T02:38:00.000Z",
+    "summary": "HN 38分 | 27评论 | divergencelabs.com",
+    "category": "ai-models",
+    "score": 65
+  },
+  {
+    "id": "hn_50291116",
+    "title": "Launch HN: Simantic (YC F26) – Firmware Simulation for AI Agents",
+    "url": "https://news.ycombinator.com/item?id=50291116",
+    "source": "Hacker News",
+    "publishedAt": "2026-10-30T02:23:00.000Z",
+    "summary": "HN 50分 | 14评论 | Hacker News",
+    "category": "industry",
+    "score": 66
+  },
+  {
+    "id": "hn_50290283",
+    "title": "Zombie stats: Where the numbers AI quotes come from",
+    "url": "https://trakkr.ai/trakkr-research/zombie-stats",
+    "source": "trakkr.ai",
+    "publishedAt": "2026-10-30T02:47:00.000Z",
+    "summary": "HN 141分 | 61评论 | trakkr.ai",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "hn_50292727",
+    "title": "Claude Duet is the first personal-assistant-type harness that feels useful",
+    "url": "https://fig.blue/posts/duet-is-the-future/",
+    "source": "fig.blue",
+    "publishedAt": "2026-10-30T03:15:00.000Z",
+    "summary": "HN 102分 | 84评论 | fig.blue",
+    "category": "ai-models",
+    "score": 73
+  },
+  {
+    "id": "hn_50247342",
+    "title": "The tragedy of losing your Wikipedia page",
+    "url": "https://www.wired.com/story/the-tragedy-of-losing-your-wikipedia-page/",
+    "source": "wired.com",
+    "publishedAt": "2026-10-30T03:32:00.000Z",
+    "summary": "HN 53分 | 83评论 | wired.com",
+    "category": "industry",
+    "score": 67
+  },
+  {
+    "id": "hn_50297159",
+    "title": "Open-weight AI models can exploit the patch gap",
+    "url": "https://epoch.ai/publications/open-weight-models-patch-gap",
+    "source": "epoch.ai",
+    "publishedAt": "2026-10-30T04:12:00.000Z",
+    "summary": "HN 10分 | 8评论 | epoch.ai",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50297037",
+    "title": "Google value plunges by $500B as AI fears rattle Wall Street",
+    "url": "https://www.bbc.com/news/articles/cm9qzdqpxy48o",
+    "source": "bbc.com",
+    "publishedAt": "2026-10-30T04:37:00.000Z",
+    "summary": "HN 31分 | 8评论 | bbc.com",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50282838",
+    "title": "Qwenputer: A functioning, deterministic RISC-V CPU inside Qwen3.5",
+    "url": "https://divagr.com/blog/qwenputer",
+    "source": "divagr.com",
+    "publishedAt": "2026-10-30T04:13:00.000Z",
+    "summary": "HN 679分 | 144评论 | divagr.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50280864",
+    "title": "Leak Exposes 41,000 Homeland Security Workers–Including Undercover ICE Agents",
+    "url": "https://www.wired.com/story/massive-leak-exposes-41000-homeland-security-workers-including-undercover-ice-agents/",
+    "source": "wired.com",
+    "publishedAt": "2026-10-30T05:37:00.000Z",
+    "summary": "HN 411分 | 257评论 | wired.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50287001",
+    "title": "The US added a record 20.2 GWh of battery storage in just 3 months",
+    "url": "https://electrek.co/2026/08/31/the-us-added-a-record-20-2-gwh-of-battery-storage-in-just-3-months/",
+    "source": "electrek.co",
+    "publishedAt": "2026-10-30T05:19:00.000Z",
+    "summary": "HN 265分 | 190评论 | electrek.co",
+    "category": "industry",
+    "score": 93
+  },
+  {
+    "id": "hn_50288019",
+    "title": "Gemini 4 Carbon is the new #1 on the Artificial Analysis Intelligence Index v5",
+    "url": "https://artificialanalysis.ai/articles/gemini-4-carbon-new-number-1",
+    "source": "artificialanalysis.ai",
+    "publishedAt": "2026-10-30T06:05:00.000Z",
+    "summary": "HN 328分 | 240评论 | artificialanalysis.ai",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50276792",
+    "title": "Gemini 4 Carbon",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+    "source": "blog.google",
+    "publishedAt": "2026-10-30T06:21:00.000Z",
+    "summary": "HN 1001分 | 796评论 | blog.google",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50293025",
+    "title": "AI Contributions to GHC",
+    "url": "https://serokell.io/blog/ai-contributions-to-ghc",
+    "source": "serokell.io",
+    "publishedAt": "2026-10-30T06:33:00.000Z",
+    "summary": "HN 15分 | 7评论 | serokell.io",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50275626",
+    "title": "Dayjob: Tax – evaluating AI agents on 50 professional tax assignments",
+    "url": "https://surgehq.ai/blog/dayjob-tax",
+    "source": "surgehq.ai",
+    "publishedAt": "2026-10-30T07:49:00.000Z",
+    "summary": "HN 253分 | 172评论 | surgehq.ai",
+    "category": "industry",
+    "score": 92
+  },
+  {
+    "id": "hn_50284255",
+    "title": "Claude Code regularly sends each background agent’s transcript to its model",
+    "url": "https://gist.github.com/flamerix-ai/c3905705cc4205e5de3011fa2e74efce",
+    "source": "GitHub",
+    "publishedAt": "2026-10-30T07:42:00.000Z",
+    "summary": "HN 560分 | 225评论 | gist.github.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50293361",
+    "title": "Show HN: phpClaw – AI agent runtime for PHP with tools, memory and guards",
+    "url": "https://github.com/phpclaw-php/phpclaw-monorepo",
+    "source": "GitHub",
+    "publishedAt": "2026-10-30T08:32:00.000Z",
+    "summary": "HN 11分 | 4评论 | github.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50243060",
+    "title": "The Grid, a factory-scale robot in Massachusetts that builds PCBs on demand",
+    "url": "https://www.circuithub.com/post/unveiling-the-grid",
+    "source": "circuithub.com",
+    "publishedAt": "2026-10-30T08:22:00.000Z",
+    "summary": "HN 559分 | 258评论 | circuithub.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50286738",
+    "title": "I Used AI to Fake a Scientific Paper. Here's What Happened",
+    "url": "https://spectrum.ieee.org/ai-generated-scientific-papers",
+    "source": "spectrum.ieee.org",
+    "publishedAt": "2026-10-30T08:06:00.000Z",
+    "summary": "HN 47分 | 26评论 | spectrum.ieee.org",
+    "category": "paper",
+    "score": 66
+  },
+  {
+    "id": "hn_50289162",
+    "title": "Why are good developers so wary of agentic development?",
+    "url": "https://martinfowler.com/rachels-ramblings/good-devs-wary.html",
+    "source": "martinfowler.com",
+    "publishedAt": "2026-10-30T09:12:00.000Z",
+    "summary": "HN 85分 | 128评论 | martinfowler.com",
+    "category": "industry",
+    "score": 71
+  },
+  {
+    "id": "hn_50293979",
+    "title": "A Defense Contractor Gave Their AI Agent Access to a Secure Pentagon System",
+    "url": "https://www.wired.com/story/a-defense-contractor-gave-their-personal-ai-agent-access-to-a-secure-pentagon-system/",
+    "source": "wired.com",
+    "publishedAt": "2026-10-30T09:39:00.000Z",
+    "summary": "HN 19分 | 6评论 | wired.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50273731",
+    "title": "The Agent SDK",
+    "url": "https://cursor.com/blog/agent-sdk",
+    "source": "cursor.com",
+    "publishedAt": "2026-10-30T10:54:00.000Z",
+    "summary": "HN 141分 | 132评论 | cursor.com",
+    "category": "industry",
+    "score": 78
+  },
+  {
+    "id": "hn_50295248",
+    "title": "AI Made Me Homeless",
+    "url": "https://medium.com/effortless-programming/ai-made-me-homeless-a7266d716e59",
+    "source": "medium.com",
+    "publishedAt": "2026-10-30T10:36:00.000Z",
+    "summary": "HN 13分 | 8评论 | medium.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50295755",
+    "title": "Apple bullied flash memory suppliers, and why AI datacenters changed the game",
+    "url": "https://www.msn.com/en-us/news/other/the-beleaguered-chip-sellers-getting-their-revenge-on-apple/ar-AA2ghTPi",
+    "source": "msn.com",
+    "publishedAt": "2026-10-30T10:09:00.000Z",
+    "summary": "HN 12分 | 0评论 | msn.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50272479",
+    "title": "Sleep framework: A new way for LLMs to retain knowledge in continual learning",
+    "url": "https://research.google/blog/the-sleep-framework-a-new-way-for-llms-to-retain-knowledge-in-continual-learning/",
+    "source": "research.google",
+    "publishedAt": "2026-10-30T11:41:00.000Z",
+    "summary": "HN 78分 | 6评论 | research.google",
+    "category": "industry",
+    "score": 70
+  },
+  {
+    "id": "hn_50296234",
+    "title": "Binance hot wallet drained of about $2.5B in tokens on Ethereum",
+    "url": "https://etherscan.io/address/0x5227f603c1ee34ce3c06efe6477003bdfccb2f8c",
+    "source": "etherscan.io",
+    "publishedAt": "2026-10-30T11:45:00.000Z",
+    "summary": "HN 19分 | 6评论 | etherscan.io",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50290324",
+    "title": "MIT professor says AI is taking over your brain",
+    "url": "https://www.bostonglobe.com/2026/10/23/opinion/ai-impact-cognitive-ability-eric-so/",
+    "source": "bostonglobe.com",
+    "publishedAt": "2026-10-30T12:35:00.000Z",
+    "summary": "HN 41分 | 23评论 | bostonglobe.com",
+    "category": "industry",
+    "score": 65
+  },
+  {
+    "id": "hn_50264853",
+    "title": "Survival LLM: AI assistant and emergency library that runs on your own computer",
+    "url": "https://www.brangus.io/survival-llm",
+    "source": "brangus.io",
+    "publishedAt": "2026-10-30T12:10:00.000Z",
+    "summary": "HN 538分 | 202评论 | brangus.io",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50289646",
+    "title": "US computer science enrollment drops 18% in two years",
+    "url": "https://nscresearchcenter.org/prelim-fall-enrollment-trends/",
+    "source": "nscresearchcenter.org",
+    "publishedAt": "2026-10-30T12:38:00.000Z",
+    "summary": "HN 10分 | 8评论 | nscresearchcenter.org",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50294500",
+    "title": "Until – You approve the plan, a separate agent checks the code against it",
+    "url": "https://until.dev",
+    "source": "until.dev",
+    "publishedAt": "2026-10-30T13:33:00.000Z",
+    "summary": "HN 4分 | 2评论 | until.dev",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50251200",
+    "title": "OpenAI's agents talked to each other through the CPU Cache",
+    "url": "https://the-decoder.com/openais-isolated-ai-agents-found-ways-to-talk-to-each-other-through-cpu-cache/",
+    "source": "the-decoder.com",
+    "publishedAt": "2026-10-30T13:35:00.000Z",
+    "summary": "HN 355分 | 248评论 | the-decoder.com",
+    "category": "industry",
+    "score": 95
+  },
+  {
+    "id": "hn_50292524",
+    "title": "OpenAI: We are doubling all usage limits for all Pro 100/200/500 tiers",
+    "url": "https://twitter.com/thsottiaux/status/2115850175868727621",
+    "source": "twitter.com",
+    "publishedAt": "2026-10-30T14:04:00.000Z",
+    "summary": "HN 14分 | 1评论 | twitter.com",
+    "category": "industry",
+    "score": 62
+  },
+  {
+    "id": "hn_50238637",
+    "title": "Oseberg Tapestry Fragments",
+    "url": "https://en.wikipedia.org/wiki/Oseberg_tapestry_fragments",
+    "source": "en.wikipedia.org",
+    "publishedAt": "2026-10-30T14:37:00.000Z",
+    "summary": "HN 29分 | 6评论 | en.wikipedia.org",
+    "category": "industry",
+    "score": 64
+  },
+  {
+    "id": "hn_50258868",
+    "title": "Here be monsters: What do you still need to know when agents do the work?",
+    "url": "https://blog.adrq.dev/here-be-monsters-what-do-you-still-need-to-know-when-agents-do-the-work",
+    "source": "blog.adrq.dev",
+    "publishedAt": "2026-10-30T14:01:00.000Z",
+    "summary": "HN 209分 | 107评论 | blog.adrq.dev",
+    "category": "industry",
+    "score": 86
+  },
+  {
+    "id": "hn_50265609",
+    "title": "Early progress on accelerating drug development with Claude",
+    "url": "https://www.anthropic.com/research/early-progress-drug-development",
+    "source": "Anthropic Blog",
+    "publishedAt": "2026-10-30T00:14:00.000Z",
+    "summary": "HN 328分 | 343评论 | anthropic.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50260814",
+    "title": "Anthropic trained Claude on illegally obtained Stanford professors' books",
+    "url": "https://stanforddaily.com/2026/10/27/professors-books-pirated-to-train-claude/",
+    "source": "stanforddaily.com",
+    "publishedAt": "2026-10-30T00:17:00.000Z",
+    "summary": "HN 597分 | 295评论 | stanforddaily.com",
+    "category": "ai-models",
+    "score": 95
+  },
+  {
+    "id": "hn_50297194",
+    "title": "Dartmouth provost resigns following accusations he used AI for writing",
+    "url": "https://apnews.com/article/dartmouth-provost-ai-a9f71dc5e9e10461c7c2390febcd1b5a",
+    "source": "apnews.com",
+    "publishedAt": "2026-10-30T01:54:00.000Z",
+    "summary": "HN 6分 | 1评论 | apnews.com",
+    "category": "industry",
+    "score": 61
+  },
+  {
+    "id": "hn_50286818",
+    "title": "AI Article Reviews Dominate Human Peer Reviews at Their Best [pdf]",
+    "url": "https://gking.harvard.edu/files/peerless.pdf",
+    "source": "gking.harvard.edu",
+    "publishedAt": "2026-10-30T01:04:00.000Z",
+    "summary": "HN 4分 | 2评论 | gking.harvard.edu",
+    "category": "industry",
+    "score": 61
+  }
+]
