@@ -1,8 +1,8 @@
 name: Daily AI News Update
 
+# 每日自动更新已于 2026-11-08 关闭（不再重置工作台样式）
+# 如需手动更新数据，在 Actions 页面手动触发本 workflow
 on:
-  schedule:
-    - cron: '0 22 * * *'
   workflow_dispatch:
 
 permissions:
